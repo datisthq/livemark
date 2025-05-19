@@ -1,0 +1,5 @@
+dangerouslyAllowAllBuilds: true
+packages:
+  - livemark
+  - starlight
+  - docusaurus
