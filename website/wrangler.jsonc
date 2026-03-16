@@ -1,0 +1,14 @@
+{
+  "name": "termway",
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "compatibility_date": "2025-08-15",
+  "assets": {
+    "directory": "./build",
+  },
+  "routes": [
+    {
+      "pattern": "termway.dev",
+      "custom_domain": true,
+    },
+  ],
+}
