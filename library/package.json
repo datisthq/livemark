@@ -1,19 +1,19 @@
 {
   "name": "livemark",
-  "type": "module",
   "version": "0.0.0-dev",
-  "exports": "./build/index.js",
-  "sideEffects": false,
-  "files": [
-    "build"
-  ],
-  "license": "MIT",
-  "author": "Evgeny Karev",
-  "repository": "https://github.com/datisthq/livemark",
   "description": "Livemark description",
   "keywords": [
     "livemark"
   ],
+  "license": "MIT",
+  "author": "Evgeny Karev",
+  "repository": "https://github.com/datisthq/livemark",
+  "files": [
+    "build"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": "./build/index.js",
   "scripts": {
     "build": "tsgo",
     "type": "tsgo --noEmit"
