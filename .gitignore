@@ -59,7 +59,6 @@ build/
 compile/
 dist/
 .astro/
-.cursor/
 .serena/
 .env.local
 messages.js
