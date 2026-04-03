@@ -1,10 +1,16 @@
 {
-  "name": "project",
+  "name": "livemark",
   "version": "0.0.0-dev",
-  "private": true,
+  "description": "Livemark description",
   "type": "module",
+  "license": "MIT",
+  "author": "Evgeny Karev",
+  "repository": "https://github.com/datisthq/livemark",
+  "files": ["build"],
+  "sideEffects": false,
+  "exports": "./build/index.js",
   "scripts": {
-    "build": "pnpm -F !website build",
+    "build": "tsgo",
     "bump": "ncu -ws -u",
     "clean": "rm -rf pnpm-local.yaml node_modules **/node_modules **/build",
     "format": "vp fmt",
@@ -15,7 +21,7 @@
     "unit": "vp test",
     "start": "pnpm -F website start",
     "test": "pnpm lint && pnpm type && pnpm unit",
-    "type": "pnpm -r type"
+    "type": "tsgo --noEmit"
   },
   "devDependencies": {
     "@semantic-release/exec": "7.1.0",
