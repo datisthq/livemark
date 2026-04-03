@@ -1,5 +1,5 @@
 // biome-ignore-all lint: shadcn
-import { cn } from "#helpers/style.ts"
+import { cn } from "../helpers/style.ts"
 
 function Label({ className, ...props }: React.ComponentProps<"label">) {
   return (

@@ -8,9 +8,9 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "#elements/drawer.tsx"
-import * as icons from "#icons.ts"
-import * as settings from "#settings.ts"
+} from "../elements/drawer.tsx"
+import * as icons from "../icons.ts"
+import * as settings from "../settings.ts"
 
 export function Layout(props: { children?: React.ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false)

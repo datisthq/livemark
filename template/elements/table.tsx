@@ -1,4 +1,4 @@
-import { cn } from "#helpers/style.ts"
+import { cn } from "../helpers/style.ts"
 
 function Table({ className, ...props }: React.ComponentProps<"table">) {
   return (

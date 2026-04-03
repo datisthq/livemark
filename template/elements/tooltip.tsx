@@ -1,5 +1,5 @@
 import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip"
-import { cn } from "#helpers/style.ts"
+import { cn } from "../helpers/style.ts"
 
 function TooltipProvider({
   delay = 0,

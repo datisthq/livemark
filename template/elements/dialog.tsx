@@ -1,6 +1,6 @@
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
 import { XIcon } from "lucide-react"
-import { cn } from "#helpers/style.ts"
+import { cn } from "../helpers/style.ts"
 import { Button } from "./button.tsx"
 
 function Dialog({ ...props }: DialogPrimitive.Root.Props) {

@@ -1,4 +1,4 @@
-import * as settings from "#settings.ts"
+import * as settings from "../settings.ts"
 
 export function Footer() {
   return (

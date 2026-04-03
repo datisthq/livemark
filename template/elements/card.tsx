@@ -1,5 +1,5 @@
 import type * as React from "react"
-import { cn } from "#helpers/style.ts"
+import { cn } from "../helpers/style.ts"
 
 function Card({
   className,

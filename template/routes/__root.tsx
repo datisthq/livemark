@@ -8,12 +8,12 @@ import {
 } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import type * as React from "react"
-import { Layout } from "#components/Layout.tsx"
-import { DefaultCatchBoundary } from "#components/DefaultCatchBoundary.tsx"
-import { NotFound } from "#components/NotFound.tsx"
-import { Toaster } from "#elements/sonner.tsx"
-import * as settings from "#settings.ts"
-import generalCss from "#styles/general.css?url"
+import { Layout } from "../components/Layout.tsx"
+import { DefaultCatchBoundary } from "../components/DefaultCatchBoundary.tsx"
+import { NotFound } from "../components/NotFound.tsx"
+import { Toaster } from "../elements/sonner.tsx"
+import * as settings from "../settings.ts"
+import generalCss from "../styles/general.css?url"
 
 export const Route = createRootRoute({
   head: () => ({

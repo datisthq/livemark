@@ -1,4 +1,4 @@
-import { cn } from "#helpers/style.ts"
+import { cn } from "../helpers/style.ts"
 
 export function SectionHeader(props: {
   label?: string

@@ -1,5 +1,5 @@
 import { Drawer as DrawerPrimitive } from "vaul"
-import { cn } from "#helpers/style.ts"
+import { cn } from "../helpers/style.ts"
 
 function Drawer({
   ...props

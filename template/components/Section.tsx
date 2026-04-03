@@ -1,5 +1,5 @@
-import { cn } from "#helpers/style.ts"
-import { useInView } from "#hooks/in-view.ts"
+import { cn } from "../helpers/style.ts"
+import { useInView } from "../hooks/in-view.ts"
 
 export function Section(props: {
   children: React.ReactNode
