@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { Content } from "#components/layout/Content.tsx"
-import { Footer } from "#components/layout/Footer.tsx"
-import { Section } from "#components/shared/Section.tsx"
-import { SectionHeader } from "#components/shared/SectionHeader.tsx"
+import { Content } from "#components/Content.tsx"
+import { Footer } from "#components/Footer.tsx"
+import { Section } from "#components/Section.tsx"
+import { SectionHeader } from "#components/SectionHeader.tsx"
 
 export const Route = createFileRoute("/")({
   component: Component,
