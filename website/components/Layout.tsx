@@ -18,7 +18,10 @@ export function Layout(props: { children?: React.ReactNode }) {
     <div className="min-h-screen flex flex-col">
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b">
         <div className="w-full max-w-7xl mx-auto px-4 md:px-10 flex h-16 items-center justify-between">
-          <Link to="/" className="font-sans text-xl font-semibold tracking-tight">
+          <Link
+            to="/"
+            className="font-sans text-xl font-semibold tracking-tight"
+          >
             My Project
           </Link>
 

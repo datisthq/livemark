@@ -5,9 +5,7 @@ export function NotFound({ children }: { children?: any }) {
     <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4">
       <h1 className="font-sans text-6xl font-semibold mb-4">404</h1>
       <div className="text-muted-foreground mb-6">
-        {children || (
-          <p>The page you're looking for doesn't exist.</p>
-        )}
+        {children || <p>The page you're looking for doesn't exist.</p>}
       </div>
       <div className="flex items-center gap-4">
         <button
