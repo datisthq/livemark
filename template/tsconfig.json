@@ -2,23 +2,17 @@
   "$schema": "https://json.schemastore.org/tsconfig",
 
   "include": ["${configDir}/**/*.ts", "${configDir}/**/*.tsx"],
-  "exclude": [
-    "${configDir}/**/build/",
-    "${configDir}/**/compile/",
-    "${configDir}/**/website/",
-    "${configDir}/**/template/",
-    "${configDir}/**/fixtures/",
-    "${configDir}/**/examples/"
-  ],
+  "exclude": ["${configDir}/**/build/"],
 
   "compilerOptions": {
     "target": "ES2022",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "rootDir": "${configDir}",
     "outDir": "${configDir}/build",
 
-    "lib": ["ESNext"],
-    "types": ["node"],
+    "lib": ["ESNext", "DOM"],
+    "types": ["node", "vite/client"],
     "jsx": "react-jsx",
 
     "strict": true,
@@ -34,7 +28,11 @@
     "inlineSources": true,
     "skipLibCheck": true,
 
-    "declaration": true,
-    "rewriteRelativeImportExtensions": true
+    "declaration": false,
+    "allowImportingTsExtensions": true,
+
+    "paths": {
+      "#*": ["./*"]
+    }
   }
 }

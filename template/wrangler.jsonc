@@ -1,0 +1,9 @@
+{
+  "name": "my-project",
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": "@tanstack/react-start/server-entry",
+  "compatibility_date": "2025-08-15",
+  "compatibility_flags": ["nodejs_compat"],
+  "upload_source_maps": true,
+  "workers_dev": true,
+}

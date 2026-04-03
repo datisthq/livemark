@@ -65,3 +65,5 @@ messages.js
 .user/
 tmuxp.yaml
 /.claude/settings.local.json
+.tanstack/
+routeTree.gen.ts
