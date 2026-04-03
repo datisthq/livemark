@@ -12,17 +12,18 @@ import { Layout } from "../components/Layout.tsx"
 import { DefaultCatchBoundary } from "../components/DefaultCatchBoundary.tsx"
 import { NotFound } from "../components/NotFound.tsx"
 import { Toaster } from "../elements/sonner.tsx"
+import * as settings from "../settings.ts"
 import generalCss from "../styles/general.css?url"
 
 export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { title: "My Project" },
-      { name: "description", content: "My project description" },
-      { property: "og:title", content: "My Project" },
-      { property: "og:description", content: "My project description" },
-      { property: "og:site_name", content: "My Project" },
+      { title: settings.TITLE },
+      { name: "description", content: settings.DESCRIPTION },
+      { property: "og:title", content: settings.TITLE },
+      { property: "og:description", content: settings.DESCRIPTION },
+      { property: "og:site_name", content: settings.TITLE },
       { property: "og:type", content: "website" },
       {
         name: "viewport",
@@ -31,6 +32,7 @@ export const Route = createRootRoute({
     ],
     links: [
       { rel: "stylesheet", href: generalCss },
+      { rel: "canonical", href: settings.HOST },
     ],
   }),
   notFoundComponent: () => <NotFound />,
