@@ -9,8 +9,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "../elements/drawer.tsx"
-import * as icons from "../icons.ts"
-import * as settings from "../settings.ts"
+import { Menu, X } from "lucide-react"
 
 export function Layout(props: { children?: React.ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -20,7 +19,7 @@ export function Layout(props: { children?: React.ReactNode }) {
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b">
         <div className="w-full max-w-7xl mx-auto px-4 md:px-10 flex h-16 items-center justify-between">
           <Link to="/" className="font-sans text-xl font-semibold tracking-tight">
-            {settings.TITLE}
+            My Project
           </Link>
 
           <nav className="hidden md:flex items-center gap-5">
@@ -35,10 +34,7 @@ export function Layout(props: { children?: React.ReactNode }) {
 
           <Drawer direction="right" open={menuOpen} onOpenChange={setMenuOpen}>
             <DrawerTrigger className="md:hidden p-2 text-foreground">
-              <icons.Menu
-                className="size-5"
-                strokeWidth={settings.ICON_STROKE_WIDTH}
-              />
+              <Menu className="size-5" strokeWidth={1.5} />
               <span className="sr-only">Menu</span>
             </DrawerTrigger>
             <DrawerContent>
@@ -47,10 +43,7 @@ export function Layout(props: { children?: React.ReactNode }) {
                   Menu
                 </DrawerTitle>
                 <DrawerClose className="p-1">
-                  <icons.X
-                    className="size-5"
-                    strokeWidth={settings.ICON_STROKE_WIDTH}
-                  />
+                  <X className="size-5" strokeWidth={1.5} />
                 </DrawerClose>
               </DrawerHeader>
               <DrawerDescription className="sr-only">
