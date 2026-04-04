@@ -133,28 +133,15 @@
 }
 
 @layer components {
-  .prose pre {
-    @apply border border-border rounded-lg p-4 overflow-x-auto text-sm leading-relaxed;
-    background: oklch(0.98 0 0);
-  }
-
-  .dark .prose pre {
-    background: oklch(0.18 0 0);
-  }
-
-  .prose pre code {
-    @apply bg-transparent p-0 border-0 rounded-none text-sm;
+  .prose pre code .line {
+    @apply px-4;
   }
 
   .prose :not(pre) > code {
     @apply bg-muted/70 border border-border rounded-md px-1.5 py-0.5 text-sm font-mono;
   }
 
-  .prose pre .line {
-    @apply inline-block w-full;
-  }
-
-  .dark .prose pre code span {
+  .dark .shiki span {
     color: var(--shiki-dark) !important;
   }
 }

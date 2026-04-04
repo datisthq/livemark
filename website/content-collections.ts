@@ -7,6 +7,7 @@ import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
 import { z } from "zod"
 import { loadConfig } from "../actions/config/load.ts"
+import { transformerIcon } from "./helpers/shiki-icon.ts"
 
 const config = await loadConfig()
 
@@ -30,7 +31,11 @@ const articles = defineCollection({
       rehypePlugins: [
         [
           rehypeShiki,
-          { themes: { light: "github-light", dark: "github-dark" } },
+          {
+            themes: { light: "catppuccin-latte", dark: "catppuccin-mocha" },
+            transformers: [transformerIcon()],
+            parseMetaString: (meta: string) => ({ "data-meta": meta }),
+          },
         ],
         rehypeKatex,
       ],
