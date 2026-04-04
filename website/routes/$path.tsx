@@ -1,9 +1,6 @@
 import { MDXContent } from "@content-collections/mdx/react"
 import { createFileRoute, notFound } from "@tanstack/react-router"
 import { allArticles } from "content-collections"
-import { Content } from "../components/Content.tsx"
-import { Footer } from "../components/Footer.tsx"
-import { Section } from "../components/Section.tsx"
 
 export const Route = createFileRoute("/$path")({
   loader: ({ params }) => {
@@ -26,14 +23,16 @@ function Component() {
   const article = Route.useLoaderData()
 
   return (
-    <>
-      <Section>
-        <Content>
-          <h1>{article.title}</h1>
+    <div className="flex-1 p-6 md:p-10">
+      <div className="mx-auto max-w-3xl">
+        <h1 className="text-3xl font-bold mb-2">{article.title}</h1>
+        {article.description && (
+          <p className="text-muted-foreground mb-8">{article.description}</p>
+        )}
+        <div className="prose dark:prose-invert max-w-none">
           <MDXContent code={article.mdx} />
-        </Content>
-      </Section>
-      <Footer />
-    </>
+        </div>
+      </div>
+    </div>
   )
 }

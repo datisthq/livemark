@@ -1,72 +1,101 @@
-import { Link } from "@tanstack/react-router"
-import { useState } from "react"
+import { Link, useMatches } from "@tanstack/react-router"
+import { allArticles } from "content-collections"
+import { BookOpen, FileText } from "lucide-react"
+import { Separator } from "../elements/separator.tsx"
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "../elements/drawer.tsx"
-import { Menu, X } from "lucide-react"
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarRail,
+  SidebarTrigger,
+} from "../elements/sidebar.tsx"
 
 export function Layout(props: { children?: React.ReactNode }) {
-  const [menuOpen, setMenuOpen] = useState(false)
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+          <SidebarTrigger className="-ml-1" />
+          <Separator orientation="vertical" className="mr-2 h-4" />
+          <Breadcrumbs />
+        </header>
+        <main className="flex-1">{props.children}</main>
+      </SidebarInset>
+    </SidebarProvider>
+  )
+}
+
+function AppSidebar() {
+  return (
+    <Sidebar>
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton size="lg" render={<Link to="/" />}>
+              <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                <BookOpen className="size-4" />
+              </div>
+              <div className="flex flex-col gap-0.5 leading-none">
+                <span className="font-semibold">Livemark</span>
+                <span className="text-xs">Documentation</span>
+              </div>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Articles</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {allArticles.map(article => (
+                <SidebarMenuItem key={article._meta.path}>
+                  <SidebarMenuButton
+                    render={
+                      <Link to="/$path" params={{ path: article._meta.path }} />
+                    }
+                  >
+                    <FileText className="size-4" />
+                    <span>{article.title}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+      <SidebarRail />
+    </Sidebar>
+  )
+}
+
+function Breadcrumbs() {
+  const matches = useMatches()
+  const last = matches[matches.length - 1]
+  const loaderData = last?.loaderData as { title?: string } | undefined
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b">
-        <div className="w-full max-w-7xl mx-auto px-4 md:px-10 flex h-16 items-center justify-between">
-          <Link
-            to="/"
-            className="font-sans text-xl font-semibold tracking-tight"
-          >
-            My Project
-          </Link>
-
-          <nav className="hidden md:flex items-center gap-5">
-            <Link
-              to="/"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-              activeProps={{ className: "text-foreground" }}
-            >
-              Home
-            </Link>
-          </nav>
-
-          <Drawer direction="right" open={menuOpen} onOpenChange={setMenuOpen}>
-            <DrawerTrigger className="md:hidden p-2 text-foreground">
-              <Menu className="size-5" strokeWidth={1.5} />
-              <span className="sr-only">Menu</span>
-            </DrawerTrigger>
-            <DrawerContent>
-              <DrawerHeader className="flex-row items-center justify-between border-b">
-                <DrawerTitle className="text-lg font-semibold">
-                  Menu
-                </DrawerTitle>
-                <DrawerClose className="p-1">
-                  <X className="size-5" strokeWidth={1.5} />
-                </DrawerClose>
-              </DrawerHeader>
-              <DrawerDescription className="sr-only">
-                Navigation menu
-              </DrawerDescription>
-              <nav className="flex-1 overflow-y-auto flex flex-col p-3">
-                <Link
-                  to="/"
-                  className="py-2 px-2 text-foreground hover:bg-card transition-colors"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  Home
-                </Link>
-              </nav>
-            </DrawerContent>
-          </Drawer>
-        </div>
-      </header>
-
-      <main className="flex-1">{props.children}</main>
-    </div>
+    <nav className="flex items-center gap-1.5 text-sm text-muted-foreground">
+      <Link to="/" className="hover:text-foreground transition-colors">
+        Docs
+      </Link>
+      {loaderData?.title && (
+        <>
+          <span>/</span>
+          <span className="text-foreground font-medium">
+            {loaderData.title}
+          </span>
+        </>
+      )}
+    </nav>
   )
 }
