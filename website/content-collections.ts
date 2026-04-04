@@ -15,6 +15,7 @@ import { remarkCallout } from "./helpers/remark-callout.ts"
 import { remarkGithubCallout } from "./helpers/remark-github-callout.ts"
 import { remarkImage } from "./helpers/remark-image.ts"
 import { remarkNpm } from "./helpers/remark-npm.ts"
+import { remarkSteps } from "./helpers/remark-steps.ts"
 import { transformerLineHighlight } from "./helpers/shiki-line-highlight.ts"
 import { transformerIcon } from "./helpers/shiki-icon.ts"
 import { extractToc } from "./helpers/toc.ts"
@@ -67,6 +68,7 @@ const articles = defineCollection({
           },
         ],
         remarkNpm,
+        remarkSteps,
         remarkCustomHeadingId,
       ],
       rehypePlugins: [

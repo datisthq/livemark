@@ -57,6 +57,26 @@ Use h2–h4 for content structure. The h1 is reserved for the page title.
 
 Deeper headings (h5, h6) are supported but won't appear in the table of contents.
 
+### TOC Control
+
+Control whether headings appear in the table of contents using annotations.
+
+Hide a heading from the TOC while keeping it visible in the rendered output:
+
+```md
+## Visible Heading [!toc]
+```
+
+The heading renders normally on the page but is excluded from the table of contents.
+
+Create a TOC-only heading that appears in the table of contents but not in the rendered output:
+
+```md
+## Hidden Heading [toc]
+```
+
+The heading appears in the TOC for navigation but is removed from the page content.
+
 ### Anchor Links on Hover
 
 Headings with IDs show a link icon on hover. Click to copy the anchor URL for sharing.
@@ -266,6 +286,43 @@ Critical warning!
 Additional context.
 :::
 
+### Accordions
+
+Collapsible content sections using native HTML `<details>` and `<summary>`:
+
+```md
+<details>
+<summary>Click to expand</summary>
+
+Hidden content here with **markdown** support.
+
+</details>
+```
+
+Renders as:
+
+<details>
+<summary>Click to expand</summary>
+
+Hidden content here with **markdown** support.
+
+</details>
+
+You can nest any markdown inside, including code blocks, lists, and callouts:
+
+<details>
+<summary>Configuration example</summary>
+
+```typescript title="livemark.config.ts"
+import { defineConfig } from "livemark"
+
+export default defineConfig({
+  articles: { include: "docs/*.md" },
+})
+```
+
+</details>
+
 ## Code Blocks
 
 Fenced code blocks are syntax-highlighted with Shiki using catppuccin themes.
@@ -312,6 +369,60 @@ const e = 5
 const f = 6
 ```
 
+### Word Highlighting
+
+Highlight all occurrences of a word with `{word:TERM}` syntax:
+
+````md
+```typescript {word:config}
+const config = loadConfig()
+export default config
+```
+````
+
+Renders as:
+
+```typescript {word:config}
+const config = loadConfig()
+export default config
+```
+
+### Line Numbers
+
+Display line numbers alongside code with `lineNumbers`:
+
+````md
+```typescript lineNumbers
+const a = 1
+const b = 2
+```
+````
+
+Renders as:
+
+```typescript lineNumbers
+const a = 1
+const b = 2
+const c = 3
+```
+
+Start numbering from a specific line with `lineNumbers=N`:
+
+````md
+```typescript lineNumbers=5
+const a = 1
+const b = 2
+```
+````
+
+Renders as:
+
+```typescript lineNumbers=5
+const a = 1
+const b = 2
+const c = 3
+```
+
 ### Language Icons
 
 Code blocks automatically display a language icon in the title bar when a title is present. Supported languages include TypeScript, JavaScript, React, Python, Rust, and shell.
@@ -331,6 +442,38 @@ Renders as:
 ```npm
 npm install livemark
 ```
+
+## Steps
+
+Add `[step]` to headings to create numbered step-by-step guides:
+
+```md
+### Install Dependencies [step]
+
+Run `npm install` to add all required packages.
+
+### Configure Project [step]
+
+Create a config file in the project root.
+
+### Deploy [step]
+
+Push to production.
+```
+
+Renders as:
+
+### Install Dependencies [step]
+
+Run `npm install` to add all required packages.
+
+### Configure Project [step]
+
+Create a config file in the project root.
+
+### Deploy [step]
+
+Push to production.
 
 ## Special Syntax
 
@@ -356,12 +499,9 @@ TBD
 The following features are planned but not yet supported.
 :::
 
-- **Line Numbers** — display line numbering in code blocks
 - **Shiki Transformers** — comment-based highlighting, diffs, and focus effects
 - **Code Tab Groups** — group code blocks into tabs via meta strings
-- **Steps** — step-by-step guide annotations on headings
 - **Cards** — card grid components for related pages
 - **Tabs** — generic tabbed content panels
-- **Accordions** — collapsible content sections
 - **Image Zoom** — click-to-zoom image viewing
 - **Include** — reference content from other markdown files

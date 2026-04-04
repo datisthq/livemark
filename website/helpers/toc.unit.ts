@@ -45,4 +45,37 @@ describe("extractToc", () => {
     const toc = extractToc(content)
     expect(toc).toEqual([{ url: "#section", title: "Section", depth: 2 }])
   })
+
+  it("should strip [step] from heading titles", () => {
+    const content =
+      "### Install Dependencies [step]\n\n### Configure Project [step]"
+    const toc = extractToc(content)
+    expect(toc).toEqual([
+      {
+        url: "#install-dependencies",
+        title: "Install Dependencies",
+        depth: 3,
+      },
+      { url: "#configure-project", title: "Configure Project", depth: 3 },
+    ])
+  })
+
+  it("should skip headings with [!toc] annotation", () => {
+    const content = "## Visible\n\n## Hidden From TOC [!toc]\n\n## Also Visible"
+    const toc = extractToc(content)
+    expect(toc).toEqual([
+      { url: "#visible", title: "Visible", depth: 2 },
+      { url: "#also-visible", title: "Also Visible", depth: 2 },
+    ])
+  })
+
+  it("should include [toc] headings with annotation stripped from title", () => {
+    const content = "## Regular\n\n## TOC Only [toc]\n\n## Another"
+    const toc = extractToc(content)
+    expect(toc).toEqual([
+      { url: "#regular", title: "Regular", depth: 2 },
+      { url: "#toc-only", title: "TOC Only", depth: 2 },
+      { url: "#another", title: "Another", depth: 2 },
+    ])
+  })
 })

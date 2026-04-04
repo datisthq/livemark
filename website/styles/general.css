@@ -175,6 +175,21 @@
     @apply bg-primary/10;
   }
 
+  .prose pre code [data-word-highlighted] {
+    @apply bg-primary/20 rounded px-0.5 py-0.5;
+  }
+
+  .prose pre code .line[data-line-number]::before {
+    content: attr(data-line-number);
+    display: inline-block;
+    width: 2rem;
+    margin-right: 1rem;
+    text-align: right;
+    color: var(--color-muted-foreground);
+    opacity: 0.5;
+    user-select: none;
+  }
+
   .prose :not(pre) > code {
     @apply bg-muted/70 border border-border rounded-md px-1.5 py-0.5 text-sm font-mono;
   }
@@ -194,5 +209,61 @@
 
   .katex {
     @apply overflow-x-auto overflow-y-hidden;
+  }
+
+  .prose details {
+    @apply border border-border rounded-xl p-4 my-4;
+  }
+
+  .prose details summary {
+    @apply cursor-pointer font-medium list-none;
+  }
+
+  .prose details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .prose details summary::before {
+    content: "";
+    display: inline-block;
+    width: 0.4em;
+    height: 0.4em;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(-45deg);
+    margin-right: 0.5em;
+    vertical-align: middle;
+    transition: transform 0.2s;
+  }
+
+  .prose details[open] summary::before {
+    transform: rotate(45deg);
+  }
+
+  .prose details[open] summary {
+    @apply mb-3;
+  }
+
+  .prose {
+    counter-reset: step;
+  }
+
+  .prose [data-step] {
+    counter-increment: step;
+  }
+
+  .prose [data-step]::before {
+    content: counter(step);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 9999px;
+    background: var(--color-primary);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-right: 0.5rem;
   }
 }

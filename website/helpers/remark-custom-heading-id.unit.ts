@@ -1,6 +1,9 @@
 import type { Heading, Root, Text } from "mdast"
 import { describe, expect, it } from "vite-plus/test"
-import { transformCustomHeadingIds } from "./remark-custom-heading-id.ts"
+import {
+  transformCustomHeadingIds,
+  transformHeadingAnnotations,
+} from "./remark-custom-heading-id.ts"
 
 function makeHeading(depth: 1 | 2 | 3 | 4 | 5 | 6, text: string): Heading {
   return { type: "heading", depth, children: [{ type: "text", value: text }] }
@@ -34,9 +37,9 @@ function headingText(heading: Heading): string {
     .join("")
 }
 
-describe("transformCustomHeadingIds", () => {
+describe("transformHeadingAnnotations", () => {
   function process(tree: Root) {
-    transformCustomHeadingIds(tree)
+    transformHeadingAnnotations(tree)
     return tree
   }
 
@@ -88,5 +91,41 @@ describe("transformCustomHeadingIds", () => {
     expect(heading.data?.hProperties).toEqual({ id: "bold-heading" })
     expect(heading.children.some(c => c.type === "strong")).toBe(true)
     expect(headingText(heading)).toBe(" heading")
+  })
+
+  it("should add data-toc-hidden for [!toc] headings", () => {
+    const tree = process(makeTree(makeHeading(2, "Hidden Heading [!toc]")))
+    const heading = findHeading(tree, 0)
+    expect(heading.data?.hProperties).toEqual({ "data-toc-hidden": true })
+    expect(headingText(heading)).toBe("Hidden Heading")
+  })
+
+  it("should remove [toc] headings from the tree", () => {
+    const tree = process(
+      makeTree(
+        makeHeading(2, "Visible Heading"),
+        makeHeading(2, "TOC Only Heading [toc]"),
+        makeHeading(3, "Another Visible"),
+      ),
+    )
+    expect(tree.children).toHaveLength(2)
+    expect(headingText(findHeading(tree, 0))).toBe("Visible Heading")
+    expect(headingText(findHeading(tree, 1))).toBe("Another Visible")
+  })
+
+  it("should remove consecutive [toc] headings correctly", () => {
+    const tree = process(
+      makeTree(
+        makeHeading(2, "First [toc]"),
+        makeHeading(2, "Second [toc]"),
+        makeHeading(2, "Kept"),
+      ),
+    )
+    expect(tree.children).toHaveLength(1)
+    expect(headingText(findHeading(tree, 0))).toBe("Kept")
+  })
+
+  it("should be available as transformCustomHeadingIds for backward compatibility", () => {
+    expect(transformCustomHeadingIds).toBe(transformHeadingAnnotations)
   })
 })

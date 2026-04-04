@@ -1,5 +1,12 @@
+interface HastText {
+  type: "text"
+  value: string
+}
+
 interface HastElement {
+  type: "element"
   properties: Record<string, unknown>
+  children: (HastElement | HastText)[]
 }
 
 interface ShikiTransformer {
@@ -9,6 +16,7 @@ interface ShikiTransformer {
     code: string,
   ) => void
   line: (line: HastElement, lineNumber: number) => HastElement | void
+  span: (span: HastElement) => HastElement | void
 }
 
 function parseLineRanges(meta: string): Set<number> {
@@ -37,21 +45,57 @@ function parseLineRanges(meta: string): Set<number> {
   return lines
 }
 
-/** Shiki transformer that highlights specific lines based on the code block meta string. */
+function parseLineNumbers(meta: string): { enabled: boolean; start: number } {
+  const match = meta.match(/\blineNumbers(?:=(\d+))?\b/)
+  if (!match) return { enabled: false, start: 1 }
+  const start = match[1] ? Number(match[1]) : 1
+  return { enabled: true, start }
+}
+
+function parseWordHighlight(meta: string): string | undefined {
+  const match = meta.match(/\{word:([^}]+)\}/)
+  return match ? match[1] : undefined
+}
+
+function spanContainsWord(span: HastElement, word: string): boolean {
+  for (const child of span.children) {
+    if (child.type === "text" && child.value.includes(word)) {
+      return true
+    }
+  }
+  return false
+}
+
+/** Shiki transformer that highlights specific lines and words based on the code block meta string. */
 export function transformerLineHighlight(): ShikiTransformer {
   let highlightedLines = new Set<number>()
+  let lineNumbers = { enabled: false, start: 1 }
+  let highlightedWord: string | undefined
 
   return {
     name: "livemark:line-highlight",
     preprocess() {
       const raw = this.options.meta?.__raw ?? ""
       highlightedLines = parseLineRanges(raw)
+      lineNumbers = parseLineNumbers(raw)
+      highlightedWord = parseWordHighlight(raw)
     },
     line(line, lineNumber) {
       if (highlightedLines.has(lineNumber)) {
         line.properties["data-highlighted"] = ""
       }
+      if (lineNumbers.enabled) {
+        line.properties["data-line-number"] = String(
+          lineNumber - 1 + lineNumbers.start,
+        )
+      }
       return line
+    },
+    span(span) {
+      if (highlightedWord && spanContainsWord(span, highlightedWord)) {
+        span.properties["data-word-highlighted"] = ""
+      }
+      return span
     },
   }
 }

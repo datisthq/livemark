@@ -73,7 +73,7 @@ function AppSidebar() {
               />
               <div className="flex flex-col gap-0.5 leading-none">
                 <span className="font-semibold">Livemark</span>
-                <span className="text-xs">Site generator</span>
+                <span className="text-xs">Quick site generator</span>
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
