@@ -8,4 +8,4 @@ process.on("warning", warning => {
   console.warn(warning)
 })
 
-await import("../main.ts")
+await import("./livemark.ts")

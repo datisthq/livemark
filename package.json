@@ -6,7 +6,8 @@
   "author": "Evgeny Karev",
   "repository": "https://github.com/datisthq/livemark",
   "bin": {
-    "livemark": "./entrypoints/run.ts"
+    "livemark": "./entrypoints/run.ts",
+    "lm": "./entrypoints/run.ts"
   },
   "files": [
     "build"

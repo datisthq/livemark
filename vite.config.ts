@@ -1,7 +1,7 @@
 import { basename, dirname, join } from "node:path"
 import { coverageConfigDefaults, defineConfig } from "vite-plus"
 
-const ignorePatterns = ["**/generated/**", "**/template/**"]
+const ignorePatterns = ["**/generated/**", "**.gen.**"]
 
 export default defineConfig({
   fmt: {

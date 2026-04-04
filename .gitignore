@@ -67,4 +67,3 @@ tmuxp.yaml
 /.claude/settings.local.json
 .content-collections/
 .tanstack/
-routeTree.gen.ts
