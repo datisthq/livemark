@@ -1,3 +1,4 @@
+import contentCollections from "@content-collections/vite"
 import tailwind from "@tailwindcss/vite"
 import { devtools } from "@tanstack/devtools-vite"
 import { tanstackStart } from "@tanstack/react-start/plugin/vite"
@@ -10,6 +11,7 @@ export default defineConfig({
   plugins: [
     devtools(),
     tailwind(),
+    contentCollections(),
     tanstackStart({
       srcDirectory: ".",
       prerender: { enabled: true, crawlLinks: true },
