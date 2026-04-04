@@ -1,7 +1,8 @@
+import { join } from "node:path"
 import { Command } from "commander"
 import { createServer } from "vite"
-import { loadConfig } from "../actions/config/load.ts"
-import { toViteConfig } from "../actions/config/toVite.ts"
+
+const root = join(import.meta.dirname, "../website")
 
 /**
  * Start a development server.
@@ -9,9 +10,8 @@ import { toViteConfig } from "../actions/config/toVite.ts"
 export const serve = new Command("serve")
   .description("Start a development server")
   .action(async () => {
-    const config = await loadConfig()
     const server = await createServer({
-      ...toViteConfig(config),
+      root,
       server: { port: 8000, host: true },
     })
     await server.listen()

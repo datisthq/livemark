@@ -1,3 +1,4 @@
+import { relative, resolve } from "node:path"
 import { defineCollection, defineConfig } from "@content-collections/core"
 import { compileMDX } from "@content-collections/mdx"
 import rehypeShiki from "@shikijs/rehype"
@@ -8,11 +9,12 @@ import remarkMath from "remark-math"
 import { z } from "zod"
 import { loadConfig } from "../actions/config/load.ts"
 
+const baseDir = resolve(import.meta.dirname, "../..")
 const config = await loadConfig()
 
 const articles = defineCollection({
   name: "articles",
-  directory: "..",
+  directory: relative(baseDir, config.root) || ".",
   include: config.docs.include,
   exclude: config.docs.exclude,
   schema: z.object({

@@ -1,7 +1,8 @@
+import { join } from "node:path"
 import { Command } from "commander"
 import { build as viteBuild } from "vite"
-import { loadConfig } from "../actions/config/load.ts"
-import { toViteConfig } from "../actions/config/toVite.ts"
+
+const root = join(import.meta.dirname, "../website")
 
 /**
  * Build the site for production.
@@ -9,6 +10,5 @@ import { toViteConfig } from "../actions/config/toVite.ts"
 export const build = new Command("build")
   .description("Build the site for production")
   .action(async () => {
-    const config = await loadConfig()
-    await viteBuild(toViteConfig(config))
+    await viteBuild({ root })
   })
