@@ -387,22 +387,37 @@ Push to production.
 
 ### Cards
 
-Use `Card` and `Cards` components for content cards with optional links:
+Create content cards using the `:::card` directive. Consecutive cards are automatically grouped into a grid.
 
-<Cards>
-  <Card title="Getting Started" href="/docs%2Fgetting-started/">
-    Learn how to set up your first project.
-  </Card>
-  <Card title="Configuration" href="/docs%2Fconfiguration/">
-    Configure your Livemark project.
-  </Card>
-  <Card title="GitHub" href="https://github.com/datisthq/livemark">
-    View the source code on GitHub.
-  </Card>
-  <Card title="Markdown">
-    This page documents all markdown features.
-  </Card>
-</Cards>
+```md
+:::card{title="Getting Started" href="/getting-started" icon="rocket"}
+Learn how to set up your first project.
+:::
+```
+
+```md
+:::card{title="Configuration" href="/configuration" icon="layers"}
+Configure your Livemark project.
+:::
+```
+
+Renders as:
+
+:::card{title="Getting Started" href="/docs%2Fgetting-started" icon="rocket"}
+Learn how to set up your first project.
+:::
+
+:::card{title="Configuration" href="/docs%2Fconfiguration" icon="layers"}
+Configure your Livemark project.
+:::
+
+:::card{title="GitHub" href="https://github.com/datisthq/livemark" icon="github"}
+View the source code on GitHub.
+:::
+
+:::card{title="Markdown" icon="file-code"}
+This page documents all markdown features.
+:::
 
 ## Code Blocks
 

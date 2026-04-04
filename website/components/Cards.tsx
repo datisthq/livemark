@@ -1,10 +1,18 @@
 import { Link } from "@tanstack/react-router"
+import { icons } from "lucide-react"
 import {
   Card as CardElement,
   CardContent,
   CardHeader,
   CardTitle,
 } from "../elements/card.tsx"
+
+function toPascalCase(name: string) {
+  return name
+    .split("-")
+    .map(s => s.charAt(0).toUpperCase() + s.slice(1))
+    .join("")
+}
 
 /** Grid container for card components */
 export function Cards(props: { children: React.ReactNode }) {
@@ -19,18 +27,24 @@ export function Cards(props: { children: React.ReactNode }) {
 export function Card(props: {
   title: string
   href?: string
-  icon?: React.ReactNode
+  icon?: string
   children?: React.ReactNode
 }) {
+  const Icon = props.icon
+    ? icons[toPascalCase(props.icon) as keyof typeof icons]
+    : undefined
+
   const card = (
     <CardElement size="sm" className="transition-colors hover:bg-accent">
       <CardHeader>
-        {props.icon && <div className="text-primary">{props.icon}</div>}
-        <CardTitle>{props.title}</CardTitle>
+        <CardTitle className="flex items-center gap-2">
+          {Icon && <Icon className="size-5 text-primary" />}
+          {props.title}
+        </CardTitle>
       </CardHeader>
       {props.children && (
         <CardContent>
-          <p className="text-muted-foreground">{props.children}</p>
+          <div className="text-muted-foreground text-sm">{props.children}</div>
         </CardContent>
       )}
     </CardElement>
