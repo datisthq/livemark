@@ -1,6 +1,6 @@
 ---
 icon: file-code
-order: 2
+order: 3
 ---
 
 # Markdown
@@ -20,6 +20,14 @@ icon: rocket
 ```
 
 All the fields are optional.
+
+### Article Metadata
+
+TBD
+
+### Sidebar Settings
+
+TBD
 
 ## Headings
 

@@ -179,6 +179,11 @@
     @apply bg-muted/70 border border-border rounded-md px-1.5 py-0.5 text-sm font-mono;
   }
 
+  .prose :not(pre) > code::before,
+  .prose :not(pre) > code::after {
+    content: none !important;
+  }
+
   .dark .shiki span {
     color: var(--shiki-dark) !important;
   }
