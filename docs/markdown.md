@@ -629,7 +629,25 @@ $$
 
 ### Mermaid Diagrams
 
-TBD
+Render diagrams using Mermaid syntax. Diagrams automatically adapt to light and dark themes.
+
+````md
+```mermaid
+graph LR
+    A[Markdown] --> B[Remark]
+    B --> C[Rehype]
+    C --> D[HTML]
+```
+````
+
+Renders as:
+
+```mermaid
+graph LR
+    A[Markdown] --> B[Remark]
+    B --> C[Rehype]
+    C --> D[HTML]
+```
 
 ### Included Documents
 

@@ -6,6 +6,7 @@ import { Card, Cards } from "../components/Cards.tsx"
 import { CodeBlock } from "../components/CodeBlock.tsx"
 import { headingComponents } from "../components/Heading.tsx"
 import { CodeTabs } from "../components/CodeTabs.tsx"
+import { Mermaid } from "../components/Mermaid.tsx"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../elements/tabs.tsx"
 import { PackageTabs } from "../components/PackageTabs.tsx"
 import { Toc } from "../components/Toc.tsx"
@@ -44,6 +45,7 @@ function Component() {
               Card,
               Cards,
               CodeTabs,
+              Mermaid,
               PackageTabs,
               Tabs,
               TabsList,

@@ -15,6 +15,7 @@ import { remarkCallout } from "./helpers/remark-callout.ts"
 import { remarkCodeTabs } from "./helpers/remark-code-tabs.ts"
 import { remarkGithubCallout } from "./helpers/remark-github-callout.ts"
 import { remarkImage } from "./helpers/remark-image.ts"
+import { remarkMermaid } from "./helpers/remark-mermaid.ts"
 import { remarkNpm } from "./helpers/remark-npm.ts"
 import { remarkSteps } from "./helpers/remark-steps.ts"
 import {
@@ -76,6 +77,7 @@ const articles = defineCollection({
               root: config.root,
             },
           ],
+          remarkMermaid,
           remarkNpm,
           remarkCodeTabs,
           remarkSteps,
