@@ -17,7 +17,10 @@ import { remarkGithubCallout } from "./helpers/remark-github-callout.ts"
 import { remarkImage } from "./helpers/remark-image.ts"
 import { remarkNpm } from "./helpers/remark-npm.ts"
 import { remarkSteps } from "./helpers/remark-steps.ts"
-import { transformerLineHighlight } from "./helpers/shiki-line-highlight.ts"
+import {
+  transformerLineHighlight,
+  transformerNotations,
+} from "./helpers/shiki-line-highlight.ts"
 import { transformerIcon } from "./helpers/shiki-icon.ts"
 import { extractToc } from "./helpers/toc.ts"
 
@@ -78,7 +81,11 @@ const articles = defineCollection({
           rehypeShiki,
           {
             themes: { light: "catppuccin-latte", dark: "catppuccin-mocha" },
-            transformers: [transformerIcon(), transformerLineHighlight()],
+            transformers: [
+              transformerIcon(),
+              transformerNotations(),
+              transformerLineHighlight(),
+            ],
             parseMetaString: (meta: string) => ({ "data-meta": meta }),
           },
         ],

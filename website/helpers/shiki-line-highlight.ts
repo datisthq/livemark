@@ -11,12 +11,13 @@ interface HastElement {
 
 interface ShikiTransformer {
   name: string
-  preprocess: (
+  preprocess?: (
     this: { options: { meta?: { __raw?: string } } },
     code: string,
   ) => void
-  line: (line: HastElement, lineNumber: number) => HastElement | void
-  span: (span: HastElement) => HastElement | void
+  pre?: (pre: HastElement) => HastElement | void
+  line?: (line: HastElement, lineNumber: number) => HastElement | void
+  span?: (span: HastElement) => HastElement | void
 }
 
 function parseLineRanges(meta: string): Set<number> {
@@ -64,6 +65,71 @@ function spanContainsWord(span: HastElement, word: string): boolean {
     }
   }
   return false
+}
+
+const NOTATION_RE = /\/\/\s*\[!code\s+(highlight|focus|\+\+|--)\]\s*$/
+const NOTATION_BLOCK_RE =
+  /\/\*\s*\[!code\s+(highlight|focus|\+\+|--)\]\s*\*\/\s*$/
+
+function stripNotationFromLine(line: HastElement): string | undefined {
+  for (const child of line.children) {
+    if (child.type === "element") {
+      const result = stripNotationFromLine(child)
+      if (result !== undefined) return result
+    }
+    if (child.type === "text") {
+      const match =
+        child.value.match(NOTATION_RE) ?? child.value.match(NOTATION_BLOCK_RE)
+      if (match) {
+        child.value = child.value.slice(0, match.index).trimEnd()
+        return match[1]!
+      }
+    }
+  }
+  return undefined
+}
+
+/** Shiki transformer that handles comment-based code annotations for highlighting, diffs, and focus effects. */
+export function transformerNotations(): ShikiTransformer {
+  let hasFocus = false
+  let preElement: HastElement | undefined
+
+  return {
+    name: "livemark:notations",
+    preprocess() {
+      hasFocus = false
+      preElement = undefined
+    },
+    line(line) {
+      const notation = stripNotationFromLine(line)
+      if (!notation) return line
+
+      switch (notation) {
+        case "highlight":
+          line.properties["data-highlighted"] = ""
+          break
+        case "++":
+          line.properties["data-diff"] = "add"
+          break
+        case "--":
+          line.properties["data-diff"] = "remove"
+          break
+        case "focus":
+          line.properties["data-focus"] = ""
+          hasFocus = true
+          break
+      }
+
+      return line
+    },
+    pre(pre) {
+      preElement = pre
+      if (hasFocus && preElement) {
+        preElement.properties["data-has-focus"] = ""
+      }
+      return pre
+    },
+  }
 }
 
 /** Shiki transformer that highlights specific lines and words based on the code block meta string. */

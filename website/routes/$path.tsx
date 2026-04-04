@@ -9,6 +9,7 @@ import { CodeTabs } from "../components/CodeTabs.tsx"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../elements/tabs.tsx"
 import { PackageTabs } from "../components/PackageTabs.tsx"
 import { Toc } from "../components/Toc.tsx"
+import { ZoomImage } from "../components/ZoomImage.tsx"
 
 export const Route = createFileRoute("/$path")({
   loader: ({ params }) => {
@@ -37,6 +38,7 @@ function Component() {
           <MDXContent
             code={article.mdx}
             components={{
+              img: ZoomImage,
               pre: CodeBlock,
               Callout,
               Card,

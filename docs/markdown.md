@@ -125,6 +125,10 @@ Renders as: https://github.com/datisthq/livemark
 
 ## Images
 
+### Image Zooming
+
+All images in articles are zoomable — click any image to expand it to full size. This works with internal, external, and base64 images.
+
 ### Internal Images
 
 Reference images from your docs directory:
@@ -349,7 +353,9 @@ export default defineConfig({
 
 ### Line Highlighting
 
-Highlight specific lines with `{line,range}` syntax:
+Highlight specific lines with `{line,range}` syntax in the meta string or `// [!code highlight]` comments inside the code block.
+
+Using meta syntax:
 
 ````md
 ```typescript {2,4-6}
@@ -368,6 +374,24 @@ const d = 4
 const e = 5
 const f = 6
 ```
+
+Using comment syntax (`// [!code highlight]`):
+
+````md
+```typescript
+const greeting = "hello"
+const target = "world" // [!code highlight]
+```
+````
+
+Renders as:
+
+```typescript
+const greeting = "hello"
+const target = "world" // [!code highlight]
+```
+
+Comment annotations are removed from the rendered output. Block comment syntax `/* [!code highlight] */` is also supported.
 
 ### Word Highlighting
 
@@ -420,6 +444,44 @@ Renders as:
 ```typescript lineNumbers=5
 const a = 1
 const b = 2
+const c = 3
+```
+
+### Diff Lines
+
+Mark lines as added or removed using `// [!code ++]` and `// [!code --]`:
+
+````md
+```typescript
+const old = "removed" // [!code --]
+const next = "added" // [!code ++]
+```
+````
+
+Renders as:
+
+```typescript
+const old = "removed" // [!code --]
+const next = "added" // [!code ++]
+```
+
+### Focus Lines
+
+Dim all other lines except the focused ones with `// [!code focus]`:
+
+````md
+```typescript
+const a = 1
+const b = 2 // [!code focus]
+const c = 3
+```
+````
+
+Renders as:
+
+```typescript
+const a = 1
+const b = 2 // [!code focus]
 const c = 3
 ```
 
@@ -575,6 +637,4 @@ TBD
 The following features are planned but not yet supported.
 :::
 
-- **Shiki Transformers** — comment-based highlighting, diffs, and focus effects
-- **Image Zoom** — click-to-zoom image viewing
 - **Include** — reference content from other markdown files

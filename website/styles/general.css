@@ -175,6 +175,32 @@
     @apply bg-primary/10;
   }
 
+  .prose pre code .line[data-diff="add"] {
+    @apply bg-green-500/15;
+  }
+
+  .prose pre code .line[data-diff="remove"] {
+    @apply bg-red-500/15;
+  }
+
+  .prose pre code .line[data-diff="add"]::before {
+    content: "+";
+    @apply text-green-600 absolute left-1;
+  }
+
+  .prose pre code .line[data-diff="remove"]::before {
+    content: "-";
+    @apply text-red-600 absolute left-1;
+  }
+
+  .prose pre[data-has-focus] code .line:not([data-focus]) {
+    @apply opacity-30;
+  }
+
+  .prose pre[data-has-focus] code .line[data-focus] {
+    @apply opacity-100;
+  }
+
   .prose pre code [data-word-highlighted] {
     @apply bg-primary/20 rounded px-0.5 py-0.5;
   }
