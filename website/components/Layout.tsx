@@ -1,6 +1,7 @@
 import { Link, useMatches } from "@tanstack/react-router"
 import { allArticles } from "content-collections"
 import { BookOpen, FileText } from "lucide-react"
+import { articleIcons } from "../helpers/article-icon.ts"
 import {
   Sidebar,
   SidebarContent,
@@ -57,18 +58,24 @@ function AppSidebar() {
           <SidebarGroupLabel>Articles</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {allArticles.map(article => (
-                <SidebarMenuItem key={article._meta.path}>
-                  <SidebarMenuButton
-                    render={
-                      <Link to="/$path" params={{ path: article._meta.path }} />
-                    }
-                  >
-                    <FileText className="size-4" />
-                    <span>{article.title}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {allArticles.map(article => {
+                const Icon = articleIcons[article.icon] ?? FileText
+                return (
+                  <SidebarMenuItem key={article._meta.path}>
+                    <SidebarMenuButton
+                      render={
+                        <Link
+                          to="/$path"
+                          params={{ path: article._meta.path }}
+                        />
+                      }
+                    >
+                      <Icon className="size-4" />
+                      <span>{article.title}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                )
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

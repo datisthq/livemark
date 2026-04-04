@@ -7,6 +7,7 @@ import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
 import { z } from "zod"
 import { loadConfig } from "../actions/config/load.ts"
+import { pickDefaultIcon } from "./helpers/article-icon.ts"
 import { transformerIcon } from "./helpers/shiki-icon.ts"
 
 const config = await loadConfig()
@@ -24,8 +25,10 @@ const articles = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
+    icon: z.string().optional(),
   }),
   transform: async (document, context) => {
+    const icon = document.icon ?? pickDefaultIcon(document._meta.path)
     const mdx = await compileMDX(context, document, {
       remarkPlugins: [remarkGfm, remarkMath],
       rehypePlugins: [
@@ -40,7 +43,7 @@ const articles = defineCollection({
         rehypeKatex,
       ],
     })
-    return { ...document, mdx }
+    return { ...document, icon, mdx }
   },
 })
 
