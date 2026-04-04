@@ -22,6 +22,7 @@ import {
   transformerNotations,
 } from "./helpers/shiki-line-highlight.ts"
 import { transformerIcon } from "./helpers/shiki-icon.ts"
+import { resolveIncludes } from "./helpers/resolve-includes.ts"
 import { extractToc } from "./helpers/toc.ts"
 
 const config = await loadConfig()
@@ -54,46 +55,51 @@ const articles = defineCollection({
     order: z.number().optional(),
   }),
   transform: async (document, context) => {
-    const title =
-      document.title ?? extractTitle(document.content, document._meta.path)
+    const filePath = resolve(config.root, document._meta.filePath)
+    const content = resolveIncludes(document.content, filePath)
+    const title = document.title ?? extractTitle(content, document._meta.path)
     const icon = document.icon ?? pickDefaultIcon(document._meta.path)
-    const mdx = await compileMDX(context, document, {
-      remarkPlugins: [
-        remarkGfm,
-        remarkMath,
-        remarkDirective,
-        remarkCallout,
-        remarkGithubCallout,
-        [
-          remarkImage,
-          {
-            filePath: resolve(config.root, document._meta.filePath),
-            root: config.root,
-          },
+    const mdx = await compileMDX(
+      context,
+      { ...document, content },
+      {
+        remarkPlugins: [
+          remarkGfm,
+          remarkMath,
+          remarkDirective,
+          remarkCallout,
+          remarkGithubCallout,
+          [
+            remarkImage,
+            {
+              filePath: resolve(config.root, document._meta.filePath),
+              root: config.root,
+            },
+          ],
+          remarkNpm,
+          remarkCodeTabs,
+          remarkSteps,
+          remarkCustomHeadingId,
         ],
-        remarkNpm,
-        remarkCodeTabs,
-        remarkSteps,
-        remarkCustomHeadingId,
-      ],
-      rehypePlugins: [
-        [
-          rehypeShiki,
-          {
-            themes: { light: "catppuccin-latte", dark: "catppuccin-mocha" },
-            transformers: [
-              transformerIcon(),
-              transformerNotations(),
-              transformerLineHighlight(),
-            ],
-            parseMetaString: (meta: string) => ({ "data-meta": meta }),
-          },
+        rehypePlugins: [
+          [
+            rehypeShiki,
+            {
+              themes: { light: "catppuccin-latte", dark: "catppuccin-mocha" },
+              transformers: [
+                transformerIcon(),
+                transformerNotations(),
+                transformerLineHighlight(),
+              ],
+              parseMetaString: (meta: string) => ({ "data-meta": meta }),
+            },
+          ],
+          rehypeSlug,
+          rehypeKatex,
         ],
-        rehypeSlug,
-        rehypeKatex,
-      ],
-    })
-    const toc = extractToc(document.content)
+      },
+    )
+    const toc = extractToc(content)
     return { ...document, title, icon, toc, mdx }
   },
 })

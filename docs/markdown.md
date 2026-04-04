@@ -631,10 +631,16 @@ $$
 
 TBD
 
-## Planned Features
+### Included Documents
 
-:::info
-The following features are planned but not yet supported.
-:::
+Reference content from other markdown files using the `::include` directive. Frontmatter in included files is automatically stripped.
 
-- **Include** — reference content from other markdown files
+```md
+::include{file="./includes/disclaimer.md"}
+```
+
+Renders as:
+
+::include{file="./includes/disclaimer.md"}
+
+Paths are resolved relative to the current file. Nested includes are supported up to 5 levels deep.
