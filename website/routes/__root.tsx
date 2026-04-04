@@ -30,7 +30,7 @@ export const Route = createRootRoute({
       },
     ],
     links: [
-      { rel: "icon", href: "/favicon.png", type: "image/png" },
+      { rel: "icon", href: "/logo.svg", type: "image/svg+xml" },
       { rel: "stylesheet", href: generalCss },
       // TODO: recover
       // { rel: "canonical", href: settings.HOST },

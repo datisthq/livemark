@@ -14,6 +14,7 @@ const websiteRelative = relative(config.root, websiteDir)
 
 export default defineConfig({
   root: config.root,
+  publicDir: join(websiteDir, "public"),
   build: { outDir: ".livemark/build" },
   plugins: [
     devtools(),

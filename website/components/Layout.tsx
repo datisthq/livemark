@@ -1,6 +1,6 @@
 import { Link, useMatchRoute } from "@tanstack/react-router"
 import { allArticles } from "content-collections"
-import { BookOpen, ExternalLink, FileText } from "lucide-react"
+import { ExternalLink, FileText } from "lucide-react"
 import { articleIcons } from "../helpers/article-icon.ts"
 import {
   Sidebar,
@@ -66,9 +66,11 @@ function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" render={<Link to="/" />}>
-              <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                <BookOpen className="size-4" />
-              </div>
+              <img
+                src="/logo.svg"
+                alt="Livemark"
+                className="size-8 rounded-lg"
+              />
               <div className="flex flex-col gap-0.5 leading-none">
                 <span className="font-semibold">Livemark</span>
                 <span className="text-xs">Site generator</span>
