@@ -1,6 +1,6 @@
 import { Link, useMatchRoute } from "@tanstack/react-router"
 import { sortedArticles } from "../helpers/articles.ts"
-import { ExternalLink, FileText } from "lucide-react"
+import { ExternalLink, FileText, Search as SearchIcon } from "lucide-react"
 import { articleIcons } from "../helpers/article-icon.ts"
 import {
   Sidebar,
@@ -114,10 +114,26 @@ function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="p-4">
+      <SidebarFooter className="p-4 space-y-2">
+        <Search />
         <Theme />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
+  )
+}
+
+function Search() {
+  return (
+    <button
+      type="button"
+      className="flex w-full items-center gap-2 rounded-xl border border-border bg-background px-3 py-2 text-sm text-muted-foreground hover:bg-accent transition-colors cursor-pointer"
+    >
+      <SearchIcon className="size-4" />
+      <span className="flex-1 text-left">Search...</span>
+      <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] font-mono">
+        /
+      </kbd>
+    </button>
   )
 }

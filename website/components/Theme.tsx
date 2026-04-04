@@ -16,15 +16,21 @@ export function Theme() {
       onClick={handleToggle}
       title="Change Theme"
       aria-label="Toggle color scheme"
-      className="w-full rounded-xl cursor-pointer text-xs"
+      className="w-full rounded-xl cursor-pointer text-xs font-normal justify-start text-muted-foreground"
     >
-      <div className="flex gap-2 items-center dark:hidden">
+      <div className="flex flex-1 gap-2 items-center dark:hidden">
         <Sun className="size-4" />
-        <span>Light Mode</span>
+        <span className="flex-1 text-left">Light Theme</span>
+        <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] font-mono">
+          T
+        </kbd>
       </div>
-      <div className="gap-2 items-center hidden dark:flex">
+      <div className="flex-1 gap-2 items-center hidden dark:flex">
         <Moon className="size-4" />
-        <span>Dark Mode</span>
+        <span className="flex-1 text-left">Dark Theme</span>
+        <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] font-mono">
+          T
+        </kbd>
       </div>
     </Button>
   )
