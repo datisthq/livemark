@@ -2,21 +2,35 @@ import { describe, expect, it } from "vite-plus/test"
 import { defineConfig } from "./define.ts"
 
 describe("defineConfig", () => {
-  it("should accept valid config with docs folders", () => {
-    const config = defineConfig({ docs: { folders: ["docs"] } })
-    expect(config.docs.folders).toEqual(["docs"])
+  it("should accept include as a string", () => {
+    const config = defineConfig({ docs: { include: "docs/**/*.mdx" } })
+    expect(config.docs.include).toBe("docs/**/*.mdx")
   })
 
-  it("should accept multiple folders", () => {
-    const config = defineConfig({ docs: { folders: ["docs", "guides"] } })
-    expect(config.docs.folders).toEqual(["docs", "guides"])
+  it("should accept include as an array", () => {
+    const config = defineConfig({
+      docs: { include: ["docs/**/*.mdx", "guides/**/*.mdx"] },
+    })
+    expect(config.docs.include).toEqual(["docs/**/*.mdx", "guides/**/*.mdx"])
+  })
+
+  it("should accept optional exclude", () => {
+    const config = defineConfig({
+      docs: { include: "**/*.mdx", exclude: "drafts/**" },
+    })
+    expect(config.docs.exclude).toBe("drafts/**")
+  })
+
+  it("should allow omitting exclude", () => {
+    const config = defineConfig({ docs: { include: "**/*.mdx" } })
+    expect(config.docs.exclude).toBeUndefined()
   })
 
   it("should reject missing docs", () => {
     expect(() => defineConfig({} as any)).toThrow()
   })
 
-  it("should reject invalid folders type", () => {
-    expect(() => defineConfig({ docs: { folders: "docs" } } as any)).toThrow()
+  it("should reject missing include", () => {
+    expect(() => defineConfig({ docs: {} } as any)).toThrow()
   })
 })

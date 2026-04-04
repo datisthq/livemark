@@ -14,10 +14,11 @@ describe("loadConfig", () => {
       const configPath = join(tmpDir, "livemark.config.ts")
       fs.writeFileSync(
         configPath,
-        'export default { docs: { folders: ["docs"] } }\n',
+        'export default { docs: { include: "docs/**/*.mdx" } }\n',
       )
       const config = await loadConfig(configPath)
-      expect(config.docs.folders).toEqual(["docs"])
+      expect(config.docs.include).toBe("docs/**/*.mdx")
+      expect(config.root).toBe(tmpDir)
     }))
 
   it("should validate loaded config", () =>

@@ -6,11 +6,15 @@ import rehypeSanitize from "rehype-sanitize"
 import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
 import { z } from "zod"
+import { loadConfig } from "../actions/config/load.ts"
 
-const docs = defineCollection({
-  name: "docs",
-  directory: "docs",
-  include: "**/*.mdx",
+const config = await loadConfig()
+
+const articles = defineCollection({
+  name: "articles",
+  directory: "..",
+  include: config.docs.include,
+  exclude: config.docs.exclude,
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
@@ -32,5 +36,5 @@ const docs = defineCollection({
 })
 
 export default defineConfig({
-  content: [docs],
+  content: [articles],
 })
