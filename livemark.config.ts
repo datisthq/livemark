@@ -1,5 +1,5 @@
 import { defineConfig } from "./index.ts"
 
 export default defineConfig({
-  articles: { include: "docs/*.mdx" },
+  articles: { include: "docs/*.md" },
 })
