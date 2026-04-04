@@ -1,6 +1,6 @@
 import { MDXContent } from "@content-collections/mdx/react"
 import { createFileRoute, notFound } from "@tanstack/react-router"
-import { allArticles } from "content-collections"
+import { sortedArticles } from "../helpers/articles.ts"
 import { Callout } from "../components/Callout.tsx"
 import { CodeBlock } from "../components/CodeBlock.tsx"
 import { headingComponents } from "../components/Heading.tsx"
@@ -9,7 +9,7 @@ import { Toc } from "../components/Toc.tsx"
 
 export const Route = createFileRoute("/$path")({
   loader: ({ params }) => {
-    const article = allArticles.find(a => a._meta.path === params.path)
+    const article = sortedArticles.find(a => a._meta.path === params.path)
     if (!article) throw notFound()
     return article
   },

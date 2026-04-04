@@ -45,6 +45,7 @@ const articles = defineCollection({
     title: z.string().optional(),
     description: z.string().optional(),
     icon: z.string().optional(),
+    order: z.number().optional(),
   }),
   transform: async (document, context) => {
     const title =

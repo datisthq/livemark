@@ -1,5 +1,5 @@
 import { Link, useMatchRoute } from "@tanstack/react-router"
-import { allArticles } from "content-collections"
+import { sortedArticles } from "../helpers/articles.ts"
 import { ExternalLink, FileText } from "lucide-react"
 import { articleIcons } from "../helpers/article-icon.ts"
 import {
@@ -86,7 +86,7 @@ function AppSidebar() {
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {allArticles.map(article => {
+              {sortedArticles.map(article => {
                 const Icon = articleIcons[article.icon] ?? FileText
                 const active = !!matchRoute({
                   to: "/$path",
