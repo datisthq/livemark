@@ -25,10 +25,6 @@ function Component() {
   return (
     <div className="flex-1 p-6 md:p-10">
       <div className="mx-auto max-w-3xl">
-        <h1 className="text-3xl font-bold mb-2">{article.title}</h1>
-        {article.description && (
-          <p className="text-muted-foreground mb-8">{article.description}</p>
-        )}
         <div className="prose dark:prose-invert max-w-none">
           <MDXContent code={article.mdx} />
         </div>
