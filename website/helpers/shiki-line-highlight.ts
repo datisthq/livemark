@@ -4,7 +4,10 @@ interface HastElement {
 
 interface ShikiTransformer {
   name: string
-  pre: (pre: HastElement) => HastElement | void
+  preprocess: (
+    this: { options: { meta?: { __raw?: string } } },
+    code: string,
+  ) => void
   line: (line: HastElement, lineNumber: number) => HastElement | void
 }
 
@@ -40,10 +43,9 @@ export function transformerLineHighlight(): ShikiTransformer {
 
   return {
     name: "livemark:line-highlight",
-    pre(pre) {
-      const meta = String(pre.properties["data-meta"] ?? "")
-      highlightedLines = parseLineRanges(meta)
-      return pre
+    preprocess() {
+      const raw = this.options.meta?.__raw ?? ""
+      highlightedLines = parseLineRanges(raw)
     },
     line(line, lineNumber) {
       if (highlightedLines.has(lineNumber)) {

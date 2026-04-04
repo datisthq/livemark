@@ -138,10 +138,10 @@ Renders as:
 ### Bold and Italic
 
 ```md
-**bold text** and *italic text* and ***bold italic***
+**bold text** and _italic text_ and **_bold italic_**
 ```
 
-Renders as: **bold text** and *italic text* and ***bold italic***
+Renders as: **bold text** and _italic text_ and **_bold italic_**
 
 ### Strikethrough
 
@@ -223,18 +223,18 @@ Callouts highlight important information. Available types: note, tip, info, warn
 
 Directive syntax:
 
-````md
+```md
 :::note
 This is a note.
 :::
-````
+```
 
 GitHub syntax:
 
-````md
+```md
 > [!TIP]
 > GitHub syntax also works.
-````
+```
 
 Renders as:
 
