@@ -1,4 +1,4 @@
-import { Link, useMatches } from "@tanstack/react-router"
+import { Link, useMatchRoute, useMatches } from "@tanstack/react-router"
 import { allArticles } from "content-collections"
 import { BookOpen, ExternalLink, FileText } from "lucide-react"
 import { articleIcons } from "../helpers/article-icon.ts"
@@ -29,7 +29,7 @@ export function Layout(props: { children?: React.ReactNode }) {
           <div className="flex items-center self-stretch pl-4 pr-0 border-b">
             <SidebarTrigger />
           </div>
-          <div className="flex flex-1 items-center gap-8 self-stretch border-b px-6">
+          <div className="flex flex-1 items-center gap-8 self-stretch border-b px-6 text-sm">
             <Link
               to="/"
               className="text-foreground font-medium underline underline-offset-4"
@@ -50,9 +50,6 @@ export function Layout(props: { children?: React.ReactNode }) {
             >
               GitHub <ExternalLink className="inline size-3 -mt-0.5" />
             </a>
-            <div className="ml-auto">
-              <Breadcrumbs />
-            </div>
           </div>
         </header>
         <main className="flex-1">{props.children}</main>
@@ -62,6 +59,7 @@ export function Layout(props: { children?: React.ReactNode }) {
 }
 
 function AppSidebar() {
+  const matchRoute = useMatchRoute()
   return (
     <Sidebar>
       <SidebarHeader>
@@ -73,7 +71,7 @@ function AppSidebar() {
               </div>
               <div className="flex flex-col gap-0.5 leading-none">
                 <span className="font-semibold">Livemark</span>
-                <span className="text-xs">Documentation</span>
+                <span className="text-xs">Site generator</span>
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -86,9 +84,14 @@ function AppSidebar() {
             <SidebarMenu>
               {allArticles.map(article => {
                 const Icon = articleIcons[article.icon] ?? FileText
+                const active = !!matchRoute({
+                  to: "/$path",
+                  params: { path: article._meta.path },
+                })
                 return (
                   <SidebarMenuItem key={article._meta.path}>
                     <SidebarMenuButton
+                      isActive={active}
                       render={
                         <Link
                           to="/$path"

@@ -3,12 +3,14 @@ import { defineCollection, defineConfig } from "@content-collections/core"
 import { compileMDX } from "@content-collections/mdx"
 import rehypeShiki from "@shikijs/rehype"
 import rehypeKatex from "rehype-katex"
+import rehypeSlug from "rehype-slug"
 import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
 import { z } from "zod"
 import { loadConfig } from "../actions/config/load.ts"
 import { pickDefaultIcon } from "./helpers/article-icon.ts"
 import { transformerIcon } from "./helpers/shiki-icon.ts"
+import { extractToc } from "./helpers/toc.ts"
 
 const config = await loadConfig()
 
@@ -40,13 +42,16 @@ const articles = defineCollection({
             parseMetaString: (meta: string) => ({ "data-meta": meta }),
           },
         ],
+        rehypeSlug,
         rehypeKatex,
       ],
     })
-    return { ...document, icon, mdx }
+    const toc = extractToc(document.content)
+    return { ...document, icon, toc, mdx }
   },
 })
 
 export default defineConfig({
+  // @ts-expect-error tsgo picks wrong overload when rehype-slug augments unified types
   content: [articles],
 })
