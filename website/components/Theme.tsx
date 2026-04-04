@@ -12,11 +12,11 @@ export function Theme() {
   return (
     <Button
       variant="outline"
-      size="default"
+      size="sm"
       onClick={handleToggle}
       title="Change Theme"
       aria-label="Toggle color scheme"
-      className="w-full rounded-xl cursor-pointer"
+      className="w-full rounded-xl cursor-pointer text-xs"
     >
       <div className="flex gap-2 items-center dark:hidden">
         <Sun className="size-4" />

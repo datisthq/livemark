@@ -81,7 +81,9 @@ function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Articles</SidebarGroupLabel>
+          <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
+            Articles
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {allArticles.map(article => {
@@ -94,6 +96,7 @@ function AppSidebar() {
                   <SidebarMenuItem key={article._meta.path}>
                     <SidebarMenuButton
                       isActive={active}
+                      className={active ? "" : "opacity-75"}
                       render={
                         <Link
                           to="/$path"
