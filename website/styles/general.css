@@ -123,6 +123,7 @@
   }
 
   html {
+    scroll-behavior: smooth;
     scrollbar-color: #ddd transparent;
   }
 
