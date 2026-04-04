@@ -1,7 +1,3 @@
----
-title: Contributing
-sidebar:
-  order: 2
----
+# Contributing
 
 Under construction
