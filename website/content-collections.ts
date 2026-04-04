@@ -9,12 +9,16 @@ import remarkMath from "remark-math"
 import { z } from "zod"
 import { loadConfig } from "../actions/config/load.ts"
 
-const baseDir = resolve(import.meta.dirname, "../..")
 const config = await loadConfig()
+
+// content-collections compiles this file to .content-collections/cache/;
+// going up 2 levels reconstructs the baseDirectory it uses for path resolution
+const baseDir = resolve(import.meta.dirname, "../..")
+const directory = relative(baseDir, config.root) || "."
 
 const articles = defineCollection({
   name: "articles",
-  directory: relative(baseDir, config.root) || ".",
+  directory,
   include: config.docs.include,
   exclude: config.docs.exclude,
   schema: z.object({
