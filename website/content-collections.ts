@@ -25,17 +25,30 @@ const config = await loadConfig()
 const baseDir = resolve(import.meta.dirname, "../..")
 const directory = relative(baseDir, config.root) || "."
 
+function extractTitle(content: string, path: string) {
+  const match = /^#\s+(.+)$/m.exec(content)
+  if (match) return match[1]!
+  return (
+    path
+      .split("/")
+      .pop()
+      ?.replace(/\.\w+$/, "") ?? path
+  )
+}
+
 const articles = defineCollection({
   name: "articles",
   directory,
   include: config.articles.include,
   exclude: config.articles.exclude,
   schema: z.object({
-    title: z.string(),
+    title: z.string().optional(),
     description: z.string().optional(),
     icon: z.string().optional(),
   }),
   transform: async (document, context) => {
+    const title =
+      document.title ?? extractTitle(document.content, document._meta.path)
     const icon = document.icon ?? pickDefaultIcon(document._meta.path)
     const mdx = await compileMDX(context, document, {
       remarkPlugins: [
@@ -61,7 +74,7 @@ const articles = defineCollection({
       ],
     })
     const toc = extractToc(document.content)
-    return { ...document, icon, toc, mdx }
+    return { ...document, title, icon, toc, mdx }
   },
 })
 

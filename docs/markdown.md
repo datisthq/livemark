@@ -1,8 +1,3 @@
----
-title: Markdown
-description: Writing documents with Livemark's markdown features.
----
-
 # Markdown
 
 Livemark uses MDX under the hood, combining standard Markdown with JSX capabilities. You can use all standard Markdown features plus the extensions documented below.
@@ -19,7 +14,7 @@ icon: rocket
 ---
 ```
 
-The `title` property is required. The `icon` and `description` fields are optional.
+All the fields are optional.
 
 ## Headings
 
