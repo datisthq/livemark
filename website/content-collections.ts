@@ -12,6 +12,7 @@ import { loadConfig } from "../actions/config/load.ts"
 import { pickDefaultIcon } from "./helpers/article-icon.ts"
 import remarkCustomHeadingId from "./helpers/remark-custom-heading-id.ts"
 import { remarkCallout } from "./helpers/remark-callout.ts"
+import { remarkCodeTabs } from "./helpers/remark-code-tabs.ts"
 import { remarkGithubCallout } from "./helpers/remark-github-callout.ts"
 import { remarkImage } from "./helpers/remark-image.ts"
 import { remarkNpm } from "./helpers/remark-npm.ts"
@@ -68,6 +69,7 @@ const articles = defineCollection({
           },
         ],
         remarkNpm,
+        remarkCodeTabs,
         remarkSteps,
         remarkCustomHeadingId,
       ],

@@ -2,8 +2,11 @@ import { MDXContent } from "@content-collections/mdx/react"
 import { createFileRoute, notFound } from "@tanstack/react-router"
 import { sortedArticles } from "../helpers/articles.ts"
 import { Callout } from "../components/Callout.tsx"
+import { Card, Cards } from "../components/Cards.tsx"
 import { CodeBlock } from "../components/CodeBlock.tsx"
 import { headingComponents } from "../components/Heading.tsx"
+import { CodeTabs } from "../components/CodeTabs.tsx"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../elements/tabs.tsx"
 import { PackageTabs } from "../components/PackageTabs.tsx"
 import { Toc } from "../components/Toc.tsx"
 
@@ -36,7 +39,14 @@ function Component() {
             components={{
               pre: CodeBlock,
               Callout,
+              Card,
+              Cards,
+              CodeTabs,
               PackageTabs,
+              Tabs,
+              TabsList,
+              TabsTrigger,
+              TabsContent,
               ...headingComponents,
             }}
           />
