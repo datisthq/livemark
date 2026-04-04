@@ -8,7 +8,7 @@ export function Toc(props: { items: TocItem[] }) {
 
   return (
     <nav className="hidden xl:block w-56 shrink-0">
-      <div className="sticky top-20 max-h-[calc(100vh-5rem)] overflow-auto">
+      <div className="sticky top-20 max-h-[calc(100vh-5rem)] overflow-auto [scrollbar-width:none]">
         <p className="text-sm font-medium mb-3">On this page</p>
         <ul className="text-sm border-l border-border">
           {props.items.map(item => (

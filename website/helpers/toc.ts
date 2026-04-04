@@ -6,21 +6,37 @@ export interface TocItem {
   depth: number
 }
 
+const CUSTOM_ID_PATTERN = /\s*\[#([^\]]+)\]\s*$/
+
 /** Extract TOC headings from raw markdown content */
 export function extractToc(content: string): TocItem[] {
   const slugger = new GithubSlugger()
   const items: TocItem[] = []
-  const regex = /^(#{2,4})\s+(.+)$/gm
+  const headingRegex = /^(#{2,4})\s+(.+)$/
+  const lines = content.split("\n")
+  let inCodeBlock = false
 
-  let match = regex.exec(content)
-  while (match) {
+  for (const line of lines) {
+    if (line.startsWith("```") || line.startsWith("````")) {
+      inCodeBlock = !inCodeBlock
+      continue
+    }
+    if (inCodeBlock) continue
+
+    const match = headingRegex.exec(line)
+    if (!match) continue
+
     const depth = match[1]!.length
-    const title = match[2]!
+    const rawTitle = match[2]!
+
+    const idMatch = CUSTOM_ID_PATTERN.exec(rawTitle)
+    const title = rawTitle
+      .replace(CUSTOM_ID_PATTERN, "")
       .replace(/\*\*(.+?)\*\*/g, "$1")
       .replace(/`(.+?)`/g, "$1")
-    const slug = slugger.slug(title)
+    const slug = idMatch?.[1] ?? slugger.slug(title)
+
     items.push({ url: `#${slug}`, title, depth })
-    match = regex.exec(content)
   }
 
   return items

@@ -1,7 +1,10 @@
 import { MDXContent } from "@content-collections/mdx/react"
 import { createFileRoute, notFound } from "@tanstack/react-router"
 import { allArticles } from "content-collections"
+import { Callout } from "../components/Callout.tsx"
 import { CodeBlock } from "../components/CodeBlock.tsx"
+import { headingComponents } from "../components/Heading.tsx"
+import { PackageTabs } from "../components/PackageTabs.tsx"
 import { Toc } from "../components/Toc.tsx"
 
 export const Route = createFileRoute("/$path")({
@@ -28,7 +31,15 @@ function Component() {
     <div className="flex flex-1 gap-10 p-6 md:p-10">
       <div className="flex-1 min-w-0 mx-auto max-w-3xl">
         <div className="prose dark:prose-invert max-w-none">
-          <MDXContent code={article.mdx} components={{ pre: CodeBlock }} />
+          <MDXContent
+            code={article.mdx}
+            components={{
+              pre: CodeBlock,
+              Callout,
+              PackageTabs,
+              ...headingComponents,
+            }}
+          />
         </div>
       </div>
       <Toc items={article.toc} />

@@ -7,17 +7,9 @@ description: Learn how to set up your first Livemark project.
 
 Welcome to **Livemark**. This is a sample document that exercises the MDX pipeline.
 
-## Installation
+## Installation [#install]
 
-### Using pnpm
-
-```bash
-pnpm add livemark
-```
-
-### Using npm
-
-```bash
+```npm
 npm install livemark
 ```
 

@@ -4,11 +4,17 @@ import { compileMDX } from "@content-collections/mdx"
 import rehypeShiki from "@shikijs/rehype"
 import rehypeKatex from "rehype-katex"
 import rehypeSlug from "rehype-slug"
+import remarkDirective from "remark-directive"
 import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
 import { z } from "zod"
 import { loadConfig } from "../actions/config/load.ts"
 import { pickDefaultIcon } from "./helpers/article-icon.ts"
+import remarkCustomHeadingId from "./helpers/remark-custom-heading-id.ts"
+import { remarkCallout } from "./helpers/remark-callout.ts"
+import { remarkGithubCallout } from "./helpers/remark-github-callout.ts"
+import { remarkNpm } from "./helpers/remark-npm.ts"
+import { transformerLineHighlight } from "./helpers/shiki-line-highlight.ts"
 import { transformerIcon } from "./helpers/shiki-icon.ts"
 import { extractToc } from "./helpers/toc.ts"
 
@@ -32,13 +38,21 @@ const articles = defineCollection({
   transform: async (document, context) => {
     const icon = document.icon ?? pickDefaultIcon(document._meta.path)
     const mdx = await compileMDX(context, document, {
-      remarkPlugins: [remarkGfm, remarkMath],
+      remarkPlugins: [
+        remarkGfm,
+        remarkMath,
+        remarkDirective,
+        remarkCallout,
+        remarkGithubCallout,
+        remarkNpm,
+        remarkCustomHeadingId,
+      ],
       rehypePlugins: [
         [
           rehypeShiki,
           {
             themes: { light: "catppuccin-latte", dark: "catppuccin-mocha" },
-            transformers: [transformerIcon()],
+            transformers: [transformerIcon(), transformerLineHighlight()],
             parseMetaString: (meta: string) => ({ "data-meta": meta }),
           },
         ],

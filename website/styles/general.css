@@ -135,8 +135,44 @@
 }
 
 @layer components {
+  .prose :is(h1, h2, h3, h4, h5, h6) {
+    @apply scroll-mt-20;
+  }
+
+  .prose :is(h1, h2, h3, h4, h5, h6)[id] {
+    position: relative;
+  }
+
+  .prose :is(h1, h2, h3, h4, h5, h6)[id]::after {
+    content: "";
+    display: inline-block;
+    width: 0.6em;
+    height: 0.6em;
+    margin-left: 0.4em;
+    vertical-align: middle;
+    opacity: 0;
+    transition: opacity 0.15s;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71'/%3E%3Cpath d='M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  .prose :is(h1, h2, h3, h4, h5, h6)[id]:hover::after {
+    opacity: 0.5;
+  }
+
+  .prose :is(h1, h2, h3, h4, h5, h6)[id] a,
+  .prose :is(h1, h2, h3, h4, h5, h6)[id] a:hover {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+
   .prose pre code .line {
     @apply px-4;
+  }
+
+  .prose pre code .line[data-highlighted] {
+    @apply bg-primary/10;
   }
 
   .prose :not(pre) > code {
