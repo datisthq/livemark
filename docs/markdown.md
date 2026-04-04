@@ -41,6 +41,74 @@ Override the auto-generated ID with `[#custom-id]` syntax:
 
 This generates `<h2 id="custom-id">My Heading</h2>`. Link to it with `#custom-id`. This heading itself uses `[#custom-ids]`.
 
+## Links
+
+### Internal Links
+
+Link to other pages in your documentation:
+
+```md
+[Getting Started](/docs%2Fgetting-started/)
+```
+
+Renders as: [Getting Started](/docs%2Fgetting-started/)
+
+### External Links
+
+Link to external resources:
+
+```md
+[GitHub](https://github.com)
+```
+
+Renders as: [GitHub](https://github.com)
+
+### Anchor Links
+
+Link to a specific heading on the current page:
+
+```md
+[See Custom Heading IDs](#custom-ids)
+```
+
+Renders as: [See Custom Heading IDs](#custom-ids)
+
+### Auto Links
+
+URLs are automatically converted to links:
+
+```md
+https://github.com/datisthq/livemark
+```
+
+Renders as: https://github.com/datisthq/livemark
+
+## Images
+
+### Internal Images
+
+Reference images from your docs directory:
+
+```md
+![Example image](./images/example.jpg)
+```
+
+Renders as:
+
+![Example image](./images/example.jpg)
+
+### External Images
+
+Reference images from external URLs:
+
+```md
+![Placeholder](https://picsum.photos/seed/livemark/800/300)
+```
+
+Renders as:
+
+![Placeholder](https://picsum.photos/seed/livemark/800/300)
+
 ## GFM Features
 
 GitHub Flavored Markdown is fully supported:

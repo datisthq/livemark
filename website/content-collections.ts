@@ -13,6 +13,7 @@ import { pickDefaultIcon } from "./helpers/article-icon.ts"
 import remarkCustomHeadingId from "./helpers/remark-custom-heading-id.ts"
 import { remarkCallout } from "./helpers/remark-callout.ts"
 import { remarkGithubCallout } from "./helpers/remark-github-callout.ts"
+import { remarkImage } from "./helpers/remark-image.ts"
 import { remarkNpm } from "./helpers/remark-npm.ts"
 import { transformerLineHighlight } from "./helpers/shiki-line-highlight.ts"
 import { transformerIcon } from "./helpers/shiki-icon.ts"
@@ -58,6 +59,13 @@ const articles = defineCollection({
         remarkDirective,
         remarkCallout,
         remarkGithubCallout,
+        [
+          remarkImage,
+          {
+            filePath: resolve(config.root, document._meta.filePath),
+            root: config.root,
+          },
+        ],
         remarkNpm,
         remarkCustomHeadingId,
       ],
