@@ -19,7 +19,10 @@ const docs = defineCollection({
     const mdx = await compileMDX(context, document, {
       remarkPlugins: [remarkGfm, remarkMath],
       rehypePlugins: [
-        [rehypeShiki, { themes: { light: "github-light", dark: "github-dark" } }],
+        [
+          rehypeShiki,
+          { themes: { light: "github-light", dark: "github-dark" } },
+        ],
         rehypeKatex,
         rehypeSanitize,
       ],
