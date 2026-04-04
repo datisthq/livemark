@@ -127,7 +127,7 @@ function Search() {
   return (
     <button
       type="button"
-      className="flex w-full items-center gap-2 rounded-xl border border-border bg-background px-3 py-2 text-sm text-muted-foreground hover:bg-accent transition-colors cursor-pointer"
+      className="flex w-full items-center gap-2 rounded-xl border border-border bg-sidebar-accent/70 px-3 py-2 text-sm text-muted-foreground shadow-xs hover:bg-background transition-colors cursor-pointer"
     >
       <SearchIcon className="size-4" />
       <span className="flex-1 text-left">Search...</span>
