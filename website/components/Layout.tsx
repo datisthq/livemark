@@ -4,6 +4,7 @@ import { BookOpen, FileText } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -16,6 +17,7 @@ import {
   SidebarRail,
   SidebarTrigger,
 } from "../elements/sidebar.tsx"
+import { Theme } from "./Theme.tsx"
 
 export function Layout(props: { children?: React.ReactNode }) {
   return (
@@ -71,6 +73,9 @@ function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter className="p-4">
+        <Theme />
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   )
