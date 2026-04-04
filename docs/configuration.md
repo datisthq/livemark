@@ -1,6 +1,8 @@
 ---
 title: Configuration
 description: How to configure your Livemark project.
+icon: layers
+order: 3
 ---
 
 # Configuration

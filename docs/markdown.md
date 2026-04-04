@@ -1,3 +1,8 @@
+---
+icon: file-code
+order: 2
+---
+
 # Markdown
 
 Livemark uses MDX under the hood, combining standard Markdown with JSX capabilities. You can use all standard Markdown features plus the extensions documented below.
