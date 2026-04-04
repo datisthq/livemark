@@ -10,13 +10,13 @@ export function Toc(props: { items: TocItem[] }) {
     <nav className="hidden xl:block w-56 shrink-0">
       <div className="sticky top-20 max-h-[calc(100vh-5rem)] overflow-auto">
         <p className="text-sm font-medium mb-3">On this page</p>
-        <ul className="border-l border-border text-sm">
+        <ul className="text-sm border-l border-border">
           {props.items.map(item => (
             <li key={item.url}>
               <a
                 href={item.url}
                 data-active={activeId === item.url.slice(1) || undefined}
-                className={`block py-1.5 text-muted-foreground transition-colors hover:text-foreground data-[active]:text-primary data-[active]:font-medium ${item.depth <= 2 ? "ps-3" : item.depth === 3 ? "ps-6" : "ps-8"}`}
+                className={`-ms-px block py-1.5 border-l border-transparent text-muted-foreground transition-colors hover:text-foreground data-[active]:border-primary data-[active]:text-primary data-[active]:font-medium ${item.depth <= 2 ? "ps-3" : item.depth === 3 ? "ps-6" : "ps-8"}`}
               >
                 {item.title}
               </a>
