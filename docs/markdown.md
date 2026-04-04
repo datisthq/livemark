@@ -23,13 +23,15 @@ All the fields are optional.
 
 ## Headings
 
-Headings automatically generate anchor IDs for linking:
+Headings automatically generate anchor IDs for linking.
+
+### Auto-generated IDs
 
 ```md
 ## My Heading
 ```
 
-Renders as `<h2 id="my-heading">My Heading</h2>`.
+Renders as `<h2 id="my-heading">My Heading</h2>`. IDs are generated using GitHub-compatible slugging.
 
 ### Custom Heading IDs [#custom-ids]
 
@@ -40,6 +42,16 @@ Override the auto-generated ID with `[#custom-id]` syntax:
 ```
 
 This generates `<h2 id="custom-id">My Heading</h2>`. Link to it with `#custom-id`. This heading itself uses `[#custom-ids]`.
+
+### Heading Levels
+
+Use h2–h4 for content structure. The h1 is reserved for the page title.
+
+Deeper headings (h5, h6) are supported but won't appear in the table of contents.
+
+### Anchor Links on Hover
+
+Headings with IDs show a link icon on hover. Click to copy the anchor URL for sharing.
 
 ## Links
 
@@ -109,9 +121,73 @@ Renders as:
 
 ![Placeholder](https://picsum.photos/seed/livemark/800/300)
 
-## GFM Features
+## Text Formatting
 
-GitHub Flavored Markdown is fully supported:
+### Bold and Italic
+
+```md
+**bold text** and *italic text* and ***bold italic***
+```
+
+Renders as: **bold text** and *italic text* and ***bold italic***
+
+### Strikethrough
+
+```md
+~~deleted text~~
+```
+
+Renders as: ~~deleted text~~
+
+### Inline Code
+
+```md
+Use `const x = 1` for inline code.
+```
+
+Renders as: Use `const x = 1` for inline code.
+
+### Blockquotes
+
+```md
+> This is a blockquote.
+```
+
+Renders as:
+
+> This is a blockquote.
+
+### Lists
+
+Unordered and ordered lists:
+
+- First item
+- Second item
+  - Nested item
+
+1. Step one
+2. Step two
+3. Step three
+
+### Task Lists
+
+```md
+- [x] Completed task
+- [ ] Pending task
+```
+
+Renders as:
+
+- [x] Completed task
+- [ ] Pending task
+
+### Horizontal Rules
+
+```md
+---
+```
+
+---
 
 ### Tables
 
@@ -129,37 +205,24 @@ Renders as:
 | Tables     | Supported |
 | Task lists | Supported |
 
-### Task Lists
+### Callouts
 
-```md
-- [x] Completed task
-- [ ] Pending task
-```
+Callouts highlight important information. Available types: note, tip, info, warning, danger.
 
-Renders as:
+Directive syntax:
 
-- [x] Completed task
-- [ ] Pending task
-
-### Strikethrough
-
-```md
-~~deleted text~~
-```
-
-Renders as: ~~deleted text~~
-
-## Callouts
-
-Callouts highlight important information. Two syntaxes are supported:
-
-### Directive Syntax
-
-```md
+````md
 :::note
 This is a note.
 :::
-```
+````
+
+GitHub syntax:
+
+````md
+> [!TIP]
+> GitHub syntax also works.
+````
 
 Renders as:
 
@@ -182,30 +245,6 @@ Critical warning!
 :::info
 Additional context.
 :::
-
-### GitHub Syntax
-
-```md
-> [!NOTE]
-> This is a note.
-```
-
-Renders as:
-
-> [!NOTE]
-> GitHub-style callouts work too.
-
-> [!TIP]
-> Helpful advice using GitHub syntax.
-
-> [!WARNING]
-> Be careful with this.
-
-> [!CAUTION]
-> Critical warning!
-
-> [!IMPORTANT]
-> Key information.
 
 ## Code Blocks
 
@@ -257,7 +296,7 @@ const f = 6
 
 Code blocks automatically display a language icon in the title bar when a title is present. Supported languages include TypeScript, JavaScript, React, Python, Rust, and shell.
 
-## NPM Commands
+### NPM Commands
 
 Write npm commands and get automatic tabs for all package managers:
 
@@ -273,7 +312,9 @@ Renders as:
 npm install livemark
 ```
 
-## Math
+## Special Syntax
+
+### Math Expressions
 
 LaTeX math expressions are supported via KaTeX.
 
@@ -284,6 +325,10 @@ Display math uses double dollar signs:
 $$
 E = mc^2
 $$
+
+### Mermaid Diagrams
+
+TBD
 
 ## Planned Features
 
