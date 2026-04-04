@@ -1,6 +1,6 @@
 import { Link, useMatches } from "@tanstack/react-router"
 import { allArticles } from "content-collections"
-import { BookOpen, FileText } from "lucide-react"
+import { BookOpen, ExternalLink, FileText } from "lucide-react"
 import { articleIcons } from "../helpers/article-icon.ts"
 import {
   Sidebar,
@@ -25,9 +25,35 @@ export function Layout(props: { children?: React.ReactNode }) {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-          <SidebarTrigger className="-ml-1" />
-          <Breadcrumbs />
+        <header className="sticky top-0 z-20 flex h-16 shrink-0 items-center bg-sidebar shadow-xs">
+          <div className="flex items-center self-stretch pl-4 pr-0 border-b">
+            <SidebarTrigger />
+          </div>
+          <div className="flex flex-1 items-center gap-8 self-stretch border-b px-6">
+            <Link
+              to="/"
+              className="text-foreground font-medium underline underline-offset-4"
+            >
+              Docs
+            </Link>
+            <a
+              href="/blog"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Blog
+            </a>
+            <a
+              href="https://github.com/datisthq/livemark"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              GitHub <ExternalLink className="inline size-3 -mt-0.5" />
+            </a>
+            <div className="ml-auto">
+              <Breadcrumbs />
+            </div>
+          </div>
         </header>
         <main className="flex-1">{props.children}</main>
       </SidebarInset>
@@ -98,13 +124,9 @@ function Breadcrumbs() {
       <Link to="/" className="hover:text-foreground transition-colors">
         Docs
       </Link>
+      <span>/</span>
       {loaderData?.title && (
-        <>
-          <span>/</span>
-          <span className="text-foreground font-medium">
-            {loaderData.title}
-          </span>
-        </>
+        <span className="text-foreground font-medium">{loaderData.title}</span>
       )}
     </nav>
   )
