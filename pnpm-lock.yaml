@@ -86,6 +86,9 @@ importers:
       input-otp:
         specifier: 1.4.2
         version: 1.4.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      katex:
+        specifier: ^0.16.44
+        version: 0.16.44
       lucide-react:
         specifier: 0.577.0
         version: 0.577.0(react@19.2.4)

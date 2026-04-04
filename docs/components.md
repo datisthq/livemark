@@ -30,7 +30,11 @@ Centers content with a max-width container:
 
 ## Code Blocks
 
-Fenced code blocks are automatically syntax-highlighted with Shiki:
+Fenced code blocks are automatically syntax-highlighted with Shiki.
+
+### Syntax Highlighting
+
+Languages are detected automatically from the info string:
 
 ```python
 def fibonacci(n):

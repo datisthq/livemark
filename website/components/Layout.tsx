@@ -25,7 +25,7 @@ export function Layout(props: { children?: React.ReactNode }) {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="sticky top-0 z-20 flex h-16 shrink-0 items-center bg-sidebar shadow-xs">
+        <header className="sticky top-0 z-20 flex h-16 shrink-0 items-center bg-background">
           <div className="flex items-center self-stretch pl-4 pr-0 border-b">
             <SidebarTrigger />
           </div>

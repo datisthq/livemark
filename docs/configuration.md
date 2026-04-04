@@ -30,6 +30,27 @@ export default defineConfig({
 })
 ```
 
+### Glob Syntax
+
+Livemark uses standard glob patterns:
+
+- `*` matches any file in the current directory
+- `**` matches files in any subdirectory
+- `{a,b}` matches either `a` or `b`
+
+### Excluding Drafts
+
+Prefix files with `_` or place them in a `drafts/` folder, then exclude them:
+
+```typescript
+export default defineConfig({
+  docs: {
+    include: "docs/**/*.md",
+    exclude: ["docs/drafts/**", "docs/_*"],
+  },
+})
+```
+
 ## Options
 
 | Option    | Type                 | Description                     |

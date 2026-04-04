@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "katex/dist/katex.min.css";
 @plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
@@ -144,5 +145,13 @@
 
   .dark .shiki span {
     color: var(--shiki-dark) !important;
+  }
+
+  .katex-display {
+    @apply overflow-x-auto overflow-y-hidden;
+  }
+
+  .katex {
+    @apply overflow-x-auto overflow-y-hidden;
   }
 }

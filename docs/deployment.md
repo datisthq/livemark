@@ -24,6 +24,37 @@ Livemark generates a standard static site that works with any hosting provider:
 - **GitHub Pages** — free hosting for public repos
 - **Cloudflare Pages** — edge-deployed globally
 
+### Vercel Setup
+
+Create a `vercel.json` in your project root:
+
+```json
+{
+  "buildCommand": "livemark build",
+  "outputDirectory": ".livemark/build"
+}
+```
+
+### GitHub Pages
+
+Add a workflow file at `.github/workflows/deploy.yml`:
+
+```yaml
+name: Deploy
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npx livemark build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .livemark/build
+```
+
 ## Environment Variables
 
 You can use environment variables in your content by referencing them in custom components:
