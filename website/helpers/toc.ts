@@ -33,6 +33,7 @@ export function extractToc(content: string): TocItem[] {
     const rawTitle = match[2]!
 
     if (TOC_HIDDEN_PATTERN.test(rawTitle)) continue
+    if (STEP_PATTERN.test(rawTitle)) continue
 
     const idMatch = CUSTOM_ID_PATTERN.exec(rawTitle)
     const title = rawTitle

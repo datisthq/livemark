@@ -233,6 +233,8 @@ Renders as:
 
 ---
 
+## Rich Elements
+
 ### Tables
 
 ```md
@@ -326,6 +328,81 @@ export default defineConfig({
 ```
 
 </details>
+
+### Tabs
+
+Group consecutive code blocks into tabs using `tab="name"` meta:
+
+````md
+```js tab="JavaScript"
+console.log("hello")
+```
+
+```python tab="Python"
+print("hello")
+```
+````
+
+Renders as:
+
+```js tab="JavaScript"
+console.log("hello")
+```
+
+```python tab="Python"
+print("hello")
+```
+
+### Steps
+
+Add `[step]` to headings to create numbered step-by-step guides:
+
+```md
+### Install Dependencies [step]
+
+Run `npm install` to add all required packages.
+
+### Configure Project [step]
+
+Create a config file in the project root.
+
+### Deploy [step]
+
+Push to production.
+```
+
+Renders as:
+
+### Install Dependencies [step]
+
+Run `npm install` to add all required packages.
+
+### Configure Project [step]
+
+Create a config file in the project root.
+
+### Deploy [step]
+
+Push to production.
+
+### Cards
+
+Use `Card` and `Cards` components for content cards with optional links:
+
+<Cards>
+  <Card title="Getting Started" href="/docs%2Fgetting-started/">
+    Learn how to set up your first project.
+  </Card>
+  <Card title="Configuration" href="/docs%2Fconfiguration/">
+    Configure your Livemark project.
+  </Card>
+  <Card title="GitHub" href="https://github.com/datisthq/livemark">
+    View the source code on GitHub.
+  </Card>
+  <Card title="Markdown">
+    This page documents all markdown features.
+  </Card>
+</Cards>
 
 ## Code Blocks
 
@@ -489,6 +566,18 @@ const c = 3
 
 Code blocks automatically display a language icon in the title bar when a title is present. Supported languages include TypeScript, JavaScript, React, Python, Rust, and shell.
 
+```typescript title="example.ts"
+const greeting = "hello"
+```
+
+```python title="example.py"
+greeting = "hello"
+```
+
+```rust title="example.rs"
+let greeting = "hello";
+```
+
 ### NPM Commands
 
 Write npm commands and get automatic tabs for all package managers:
@@ -504,114 +593,6 @@ Renders as:
 ```npm
 npm install livemark
 ```
-
-## Tabs
-
-### Code Block Tabs
-
-Group consecutive code blocks into tabs using `tab="name"` meta:
-
-````md
-```js tab="JavaScript"
-console.log("hello")
-```
-
-```python tab="Python"
-print("hello")
-```
-````
-
-Renders as:
-
-```js tab="JavaScript"
-console.log("hello")
-```
-
-```python tab="Python"
-print("hello")
-```
-
-### Generic Tabs
-
-Use `Tabs` components directly in MDX for any tabbed content:
-
-<Tabs defaultValue="react">
-  <TabsList>
-    <TabsTrigger value="react">React</TabsTrigger>
-    <TabsTrigger value="vue">Vue</TabsTrigger>
-  </TabsList>
-  <TabsContent value="react">
-
-React uses JSX for templating and hooks for state management.
-
-  </TabsContent>
-  <TabsContent value="vue">
-
-Vue uses single-file components with template, script, and style sections.
-
-  </TabsContent>
-</Tabs>
-
-## Steps
-
-Add `[step]` to headings to create numbered step-by-step guides:
-
-```md
-### Install Dependencies [step]
-
-Run `npm install` to add all required packages.
-
-### Configure Project [step]
-
-Create a config file in the project root.
-
-### Deploy [step]
-
-Push to production.
-```
-
-Renders as:
-
-### Install Dependencies [step]
-
-Run `npm install` to add all required packages.
-
-### Configure Project [step]
-
-Create a config file in the project root.
-
-### Deploy [step]
-
-Push to production.
-
-## Cards
-
-### Single Card
-
-Use the `Card` component for standalone content cards:
-
-<Card title="Livemark">
-  A fast, modern site generator built on TanStack Start and MDX.
-</Card>
-
-### Multiple Cards
-
-Use `Cards` with `href` to create navigable card grids:
-
-<Cards>
-  <Card title="Getting Started" href="/docs%2Fgetting-started/">
-    Learn how to set up your first project.
-  </Card>
-  <Card title="Configuration" href="/docs%2Fconfiguration/">
-    Configure your Livemark project.
-  </Card>
-  <Card title="GitHub" href="https://github.com/datisthq/livemark">
-    View the source code on GitHub.
-  </Card>
-  <Card title="Markdown">
-    This page documents all markdown features.
-  </Card>
-</Cards>
 
 ## Special Syntax
 
