@@ -5,7 +5,7 @@ import { z } from "zod"
  */
 export type UserConfig = z.infer<typeof UserConfig>
 export const UserConfig = z.object({
-  docs: z.object({
+  articles: z.object({
     include: z.union([z.string(), z.array(z.string())]),
     exclude: z.union([z.string(), z.array(z.string())]).optional(),
   }),

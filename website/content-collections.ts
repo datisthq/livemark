@@ -18,8 +18,8 @@ const directory = relative(baseDir, config.root) || "."
 const articles = defineCollection({
   name: "articles",
   directory,
-  include: config.docs.include,
-  exclude: config.docs.exclude,
+  include: config.articles.include,
+  exclude: config.articles.exclude,
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
