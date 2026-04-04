@@ -12,7 +12,12 @@ export const remarkImage: Plugin<
 
   return tree => {
     visit(tree, "image", (node: Image) => {
-      if (node.url.startsWith("http") || node.url.startsWith("/")) return
+      if (
+        node.url.startsWith("http") ||
+        node.url.startsWith("/") ||
+        node.url.startsWith("data:")
+      )
+        return
       const absolute = resolve(fileDir, node.url)
       node.url = "/" + relative(root, absolute)
     })
