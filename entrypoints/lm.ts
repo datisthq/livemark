@@ -8,4 +8,5 @@ process.on("warning", warning => {
   console.warn(warning)
 })
 
-await import("./livemark.ts")
+const { serve } = await import("../commands/serve.ts")
+serve.parse(process.argv)
