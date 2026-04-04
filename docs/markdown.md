@@ -609,7 +609,33 @@ Renders as:
 npm install livemark
 ```
 
-## Special Syntax
+## Advanced Syntax
+
+### HTML Blocks
+
+Standard HTML tags are supported directly in markdown files. Common examples include `<kbd>` for keyboard shortcuts, `<sup>`/`<sub>` for superscripts and subscripts, and `<details>`/`<summary>` for accordions.
+
+```md
+Press <kbd>Ctrl</kbd> + <kbd>C</kbd> to copy. Water is H<sub>2</sub>O.
+```
+
+Renders as:
+
+Press <kbd>Ctrl</kbd> + <kbd>C</kbd> to copy. Water is H<sub>2</sub>O.
+
+Note that since Livemark uses MDX, HTML attributes follow JSX conventions: use `className` instead of `class`, and `style` takes an object instead of a string.
+
+### MDX Rendering
+
+Livemark uses MDX under the hood, so JSX expressions and components can be used directly in markdown files when needed:
+
+```md
+<div className="flex gap-2">
+  {"Computed: " + (2 + 2)}
+</div>
+```
+
+This is an escape hatch for advanced use cases. Prefer standard markdown and directive syntax when possible.
 
 ### LaTeX Expressions
 
