@@ -6,6 +6,7 @@ import { helpConfiguration } from "./helpers/program.ts"
 export const program = new Command()
   .name("livemark")
   .description("Livemark static site generator")
+  .option("-c, --config <path>", "path to config file")
   .configureHelp(helpConfiguration)
   .addCommand(serve)
   .addCommand(build)

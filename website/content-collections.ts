@@ -1,36 +1,57 @@
+import { relative, resolve } from "node:path"
 import { defineCollection, defineConfig } from "@content-collections/core"
 import { compileMDX } from "@content-collections/mdx"
 import rehypeShiki from "@shikijs/rehype"
 import rehypeKatex from "rehype-katex"
-import rehypeSanitize from "rehype-sanitize"
+import rehypeSlug from "rehype-slug"
 import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
 import { z } from "zod"
+import { loadConfig } from "../actions/config/load.ts"
+import { pickDefaultIcon } from "./helpers/article-icon.ts"
+import { transformerIcon } from "./helpers/shiki-icon.ts"
+import { extractToc } from "./helpers/toc.ts"
 
-const docs = defineCollection({
-  name: "docs",
-  directory: "docs",
-  include: "**/*.mdx",
+const config = await loadConfig()
+
+// content-collections compiles this file to .content-collections/cache/;
+// going up 2 levels reconstructs the baseDirectory it uses for path resolution
+const baseDir = resolve(import.meta.dirname, "../..")
+const directory = relative(baseDir, config.root) || "."
+
+const articles = defineCollection({
+  name: "articles",
+  directory,
+  include: config.articles.include,
+  exclude: config.articles.exclude,
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
+    icon: z.string().optional(),
   }),
   transform: async (document, context) => {
+    const icon = document.icon ?? pickDefaultIcon(document._meta.path)
     const mdx = await compileMDX(context, document, {
       remarkPlugins: [remarkGfm, remarkMath],
       rehypePlugins: [
         [
           rehypeShiki,
-          { themes: { light: "github-light", dark: "github-dark" } },
+          {
+            themes: { light: "catppuccin-latte", dark: "catppuccin-mocha" },
+            transformers: [transformerIcon()],
+            parseMetaString: (meta: string) => ({ "data-meta": meta }),
+          },
         ],
+        rehypeSlug,
         rehypeKatex,
-        rehypeSanitize,
       ],
     })
-    return { ...document, mdx }
+    const toc = extractToc(document.content)
+    return { ...document, icon, toc, mdx }
   },
 })
 
 export default defineConfig({
-  content: [docs],
+  // @ts-expect-error tsgo picks wrong overload when rehype-slug augments unified types
+  content: [articles],
 })

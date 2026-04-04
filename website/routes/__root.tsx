@@ -30,6 +30,7 @@ export const Route = createRootRoute({
       },
     ],
     links: [
+      { rel: "icon", href: "/logo.svg", type: "image/svg+xml" },
       { rel: "stylesheet", href: generalCss },
       // TODO: recover
       // { rel: "canonical", href: settings.HOST },
@@ -54,7 +55,7 @@ export const Route = createRootRoute({
 
 function Document(props: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <head>
         <HeadContent />
       </head>

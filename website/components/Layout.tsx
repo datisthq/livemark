@@ -1,72 +1,123 @@
-import { Link } from "@tanstack/react-router"
-import { useState } from "react"
+import { Link, useMatchRoute } from "@tanstack/react-router"
+import { allArticles } from "content-collections"
+import { ExternalLink, FileText } from "lucide-react"
+import { articleIcons } from "../helpers/article-icon.ts"
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "../elements/drawer.tsx"
-import { Menu, X } from "lucide-react"
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarRail,
+  SidebarTrigger,
+} from "../elements/sidebar.tsx"
+import { Theme } from "./Theme.tsx"
 
 export function Layout(props: { children?: React.ReactNode }) {
-  const [menuOpen, setMenuOpen] = useState(false)
-
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b">
-        <div className="w-full max-w-7xl mx-auto px-4 md:px-10 flex h-16 items-center justify-between">
-          <Link
-            to="/"
-            className="font-sans text-xl font-semibold tracking-tight"
-          >
-            My Project
-          </Link>
-
-          <nav className="hidden md:flex items-center gap-5">
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <header className="sticky top-0 z-20 flex h-16 shrink-0 items-center bg-background">
+          <div className="flex items-center self-stretch pl-4 pr-0 border-b">
+            <SidebarTrigger />
+          </div>
+          <div className="flex flex-1 items-center gap-8 self-stretch border-b px-6 text-sm">
             <Link
               to="/"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-              activeProps={{ className: "text-foreground" }}
+              className="text-foreground font-medium underline underline-offset-4"
             >
-              Home
+              Docs
             </Link>
-          </nav>
+            <a
+              href="/blog"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Blog
+            </a>
+            <a
+              href="https://github.com/datisthq/livemark"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              GitHub <ExternalLink className="inline size-3 -mt-0.5" />
+            </a>
+          </div>
+        </header>
+        <main className="flex-1">{props.children}</main>
+      </SidebarInset>
+    </SidebarProvider>
+  )
+}
 
-          <Drawer direction="right" open={menuOpen} onOpenChange={setMenuOpen}>
-            <DrawerTrigger className="md:hidden p-2 text-foreground">
-              <Menu className="size-5" strokeWidth={1.5} />
-              <span className="sr-only">Menu</span>
-            </DrawerTrigger>
-            <DrawerContent>
-              <DrawerHeader className="flex-row items-center justify-between border-b">
-                <DrawerTitle className="text-lg font-semibold">
-                  Menu
-                </DrawerTitle>
-                <DrawerClose className="p-1">
-                  <X className="size-5" strokeWidth={1.5} />
-                </DrawerClose>
-              </DrawerHeader>
-              <DrawerDescription className="sr-only">
-                Navigation menu
-              </DrawerDescription>
-              <nav className="flex-1 overflow-y-auto flex flex-col p-3">
-                <Link
-                  to="/"
-                  className="py-2 px-2 text-foreground hover:bg-card transition-colors"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  Home
-                </Link>
-              </nav>
-            </DrawerContent>
-          </Drawer>
-        </div>
-      </header>
-
-      <main className="flex-1">{props.children}</main>
-    </div>
+function AppSidebar() {
+  const matchRoute = useMatchRoute()
+  return (
+    <Sidebar>
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton size="lg" render={<Link to="/" />}>
+              <img
+                src="/logo.svg"
+                alt="Livemark"
+                className="size-8 rounded-lg"
+              />
+              <div className="flex flex-col gap-0.5 leading-none">
+                <span className="font-semibold">Livemark</span>
+                <span className="text-xs">Site generator</span>
+              </div>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
+            Articles
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {allArticles.map(article => {
+                const Icon = articleIcons[article.icon] ?? FileText
+                const active = !!matchRoute({
+                  to: "/$path",
+                  params: { path: article._meta.path },
+                })
+                return (
+                  <SidebarMenuItem key={article._meta.path}>
+                    <SidebarMenuButton
+                      isActive={active}
+                      className={active ? "" : "opacity-75"}
+                      render={
+                        <Link
+                          to="/$path"
+                          params={{ path: article._meta.path }}
+                        />
+                      }
+                    >
+                      <Icon className="size-4" />
+                      <span>{article.title}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                )
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+      <SidebarFooter className="p-4">
+        <Theme />
+      </SidebarFooter>
+      <SidebarRail />
+    </Sidebar>
   )
 }

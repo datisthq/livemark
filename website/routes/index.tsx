@@ -1,26 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router"
-import { Content } from "../components/Content.tsx"
-import { Footer } from "../components/Footer.tsx"
-import { Section } from "../components/Section.tsx"
-import { SectionHeader } from "../components/SectionHeader.tsx"
+import { createFileRoute, notFound, redirect } from "@tanstack/react-router"
+import { allArticles } from "content-collections"
 
 export const Route = createFileRoute("/")({
-  component: Component,
+  beforeLoad: () => {
+    console.log(allArticles)
+    const first = allArticles[0]
+    if (!first) throw notFound()
+    throw redirect({ to: "/$path", params: { path: first._meta.path } })
+  },
 })
-
-function Component() {
-  return (
-    <>
-      <Section>
-        <Content>
-          <SectionHeader
-            label="Welcome"
-            title="My Project"
-            subtitle="Get started by editing this page"
-          />
-        </Content>
-      </Section>
-      <Footer />
-    </>
-  )
-}
