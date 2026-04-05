@@ -1,8 +1,10 @@
 import { useTocItems } from "../helpers/toc-context.ts"
 
 /** Renders the page's table of contents inline within the content */
-export function InlineToc() {
-  const items = useTocItems()
+export function InlineToc(props: { maxLevel?: string }) {
+  const allItems = useTocItems()
+  const maxDepth = props.maxLevel ? Number(props.maxLevel) : 4
+  const items = allItems.filter(item => item.depth <= maxDepth)
 
   if (items.length === 0) return null
 

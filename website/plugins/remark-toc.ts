@@ -8,10 +8,20 @@ export function transformTocDirectives(tree: Root) {
   visit(tree, "leafDirective", (node: LeafDirective, index, parent) => {
     if (node.name !== "toc" || index === undefined || !parent) return
 
+    const maxLevel = node.attributes?.maxLevel
+
     const jsxNode = {
       type: "mdxJsxFlowElement" as const,
       name: "InlineToc",
-      attributes: [],
+      attributes: maxLevel
+        ? [
+            {
+              type: "mdxJsxAttribute" as const,
+              name: "maxLevel",
+              value: maxLevel,
+            },
+          ]
+        : [],
       children: [],
       data: { _mdxExplicitJsx: true },
     }

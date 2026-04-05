@@ -81,6 +81,24 @@ The heading appears in the TOC for navigation but is removed from the page conte
 
 Headings with IDs show a link icon on hover. Click to copy the anchor URL for sharing.
 
+### Inline Table of Contents
+
+Insert a table of contents anywhere in your content using the `::toc` directive:
+
+```md
+::toc
+```
+
+Limit the depth with `maxLevel`:
+
+```md
+::toc{maxLevel=2}
+```
+
+Renders as:
+
+::toc{maxLevel=2}
+
 ## Links
 
 ### Internal Links
@@ -1034,16 +1052,6 @@ Renders as:
 <div className="rounded-lg border border-border bg-card p-4 text-sm text-muted-foreground">
   A styled container using Tailwind utilities.
 </div>
-
-### Inline Table of Contents
-
-Insert a table of contents anywhere in your content using the `::toc` directive. It renders a navigable list of headings at the position where the directive appears.
-
-```md
-::toc
-```
-
-This is useful for long pages where you want to give readers an overview at the top of the content, or at any specific section. The inline TOC automatically includes all h2-h4 headings on the page and links to their anchors.
 
 ### MDX Rendering
 
