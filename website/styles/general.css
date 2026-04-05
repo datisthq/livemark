@@ -237,6 +237,22 @@
     @apply overflow-x-auto overflow-y-hidden;
   }
 
+  .prose [data-footnotes] {
+    @apply mt-8 border-t border-border pt-4 text-sm text-muted-foreground;
+  }
+
+  .prose [data-footnotes] ol {
+    @apply list-decimal pl-6;
+  }
+
+  .prose sup a[data-footnote-ref] {
+    @apply text-primary no-underline font-medium;
+  }
+
+  .prose [data-footnotes] a[data-footnote-backref] {
+    @apply text-primary no-underline;
+  }
+
   .prose {
     counter-reset: step;
   }

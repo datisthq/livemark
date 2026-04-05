@@ -165,6 +165,30 @@ Renders as:
 
 ![banner](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAABQCAIAAADTD63nAAABU0lEQVR4nO3csU3DUBRAUUCIGVJlHLcwAVV2YIbsQJUJUmccJCRmoKKgthOR3IDNOe138WxdveZLvn0c3m/g0u5+ewCWSVgkhEVCWCSERUJYJIRFQlgkhEXifvr47eP1OnMwR+vVZuzIxiJxZGN9e3p+qedgXva77fQDNhYJYZEQFglhkRAWCWGREBYJYZEQFglhkRAWCWGROOkSeswwPFxqjr/jcPgcO1rk+06b+BrTbCwSwiIhLBLCIiEsEsIiISwSwiIhLBLCIiEsEsIiISwSwiIhLBLCIiEsEsIiISwSwiIhLBLCIiEsEsIiISwSwiIhLBLCIiEsEsIicdZvjH78j5uZ+m/vew4bi4SwSAiLhLBICIuEsEgIi4SwSAiLhLBICIuEsEicdAm9323rOVgYG4vEkY21Xm2uMwcLY2OREBYJYZEQFglhkRAWCWGREBaJL1tnFXf+b+eSAAAAAElFTkSuQmCC)
 
+### Video Blocks
+
+Embed videos using the `::video` directive with a `type` attribute:
+
+```md
+::video{type="youtube" id="dQw4w9WgXcQ"}
+```
+
+Renders as:
+
+::video{type="youtube" id="dQw4w9WgXcQ"}
+
+### Audio Blocks
+
+Embed audio using the `::audio` directive with a `type` attribute:
+
+```md
+::audio{type="soundcloud" url="https://soundcloud.com/flume/never-be-like-you-feat-kai"}
+```
+
+Renders as:
+
+::audio{type="soundcloud" url="https://soundcloud.com/flume/never-be-like-you-feat-kai"}
+
 ## Text Formatting
 
 ### Bold and Italic
@@ -232,6 +256,26 @@ Renders as:
 ```
 
 ---
+
+### Footnotes
+
+Add footnotes using `[^id]` references and definitions:
+
+```md
+Here is a sentence with a footnote[^1] and another[^note].
+
+[^1]: This is a numbered footnote.
+
+[^note]: Footnotes can use descriptive identifiers too.
+```
+
+Renders as:
+
+Here is a sentence with a footnote[^1] and another[^note].
+
+[^1]: This is a numbered footnote.
+
+[^note]: Footnotes can use descriptive identifiers too.
 
 ## Rich Elements
 
@@ -422,6 +466,75 @@ View the source code on GitHub.
 
 :::card{title="Markdown" icon="file-code"}
 This page documents all markdown features.
+:::
+
+### Badges
+
+Inline status badges using the `:badge` directive:
+
+```md
+:badge[Beta] :badge[Deprecated]{variant="destructive"} :badge[New]{variant="secondary"}
+```
+
+Renders as:
+
+:badge[Beta] :badge[Deprecated]{variant="destructive"} :badge[New]{variant="secondary"}
+
+### Icons
+
+Inline icons from the Lucide library using the `:icon` directive:
+
+```md
+:icon{name="rocket"} Launch :icon{name="check"} Done :icon{name="heart"} Love
+```
+
+Renders as:
+
+:icon{name="rocket"} Launch :icon{name="check"} Done :icon{name="heart"} Love
+
+With Tailwind colors:
+
+```md
+:icon{name="check" className="text-green-500"} Pass :icon{name="x" className="text-red-500"} Fail :icon{name="star" className="text-yellow-500"} Star
+```
+
+Renders as:
+
+:icon{name="check" className="text-green-500"} Pass :icon{name="x" className="text-red-500"} Fail :icon{name="star" className="text-yellow-500"} Star
+
+### File Tree
+
+Display file and directory structures using the `:::filetree` directive. Directories are indicated with a trailing `/`:
+
+```md
+:::filetree
+
+- src/
+  - components/
+    - Button.tsx
+    - Card.tsx
+  - helpers/
+    - style.ts
+  - index.ts
+- package.json
+- tsconfig.json
+  :::
+```
+
+Renders as:
+
+:::filetree
+
+- src/
+  - components/
+    - Button.tsx
+    - Card.tsx
+  - helpers/
+    - style.ts
+  - index.ts
+- package.json
+- tsconfig.json
+
 :::
 
 ## Code Blocks
@@ -628,16 +741,38 @@ Renders as:
 
 Press <kbd>Ctrl</kbd> + <kbd>C</kbd> to copy. Water is H<sub>2</sub>O.
 
-Note that since Livemark uses MDX, HTML attributes follow JSX conventions: use `className` instead of `class`, and `style` takes an object instead of a string.
+Since Livemark uses MDX, HTML attributes follow JSX conventions: use `className` instead of `class`, and `style` takes an object instead of a string.
+
+Tailwind CSS 4 utility classes are available in HTML blocks via `className`:
+
+```md
+<div className="rounded-lg border border-border bg-card p-4 text-sm text-muted-foreground">
+  A styled container using Tailwind utilities.
+</div>
+```
+
+Renders as:
+
+<div className="rounded-lg border border-border bg-card p-4 text-sm text-muted-foreground">
+  A styled container using Tailwind utilities.
+</div>
 
 ### MDX Rendering
 
 Livemark uses MDX under the hood, so JSX expressions and components can be used directly in markdown files when needed:
 
 ```md
-<div className="flex gap-2">
-  {"Computed: " + (2 + 2)}
-</div>
+export const version = "2.0.0"
+
+The current version is **{version}**.
+```
+
+You can also import modules:
+
+```md
+import { authors } from "./data.ts"
+
+{authors.map(a => <span key={a.name}>{a.name}</span>)}
 ```
 
 This is an escape hatch for advanced use cases. Prefer standard markdown and directive syntax when possible.
@@ -646,12 +781,22 @@ This is an escape hatch for advanced use cases. Prefer standard markdown and dir
 
 LaTeX math expressions are supported via KaTeX.
 
-Inline: `$x^2$` renders as $x^2$.
+Inline math uses single dollar signs: `$E = mc^2$` renders as $E = mc^2$. Use it for variables like $x$, $\alpha$, or expressions like $\sum_{i=1}^{n} i$.
 
-Display math uses double dollar signs:
+Display math uses double dollar signs for centered, block-level equations:
 
 $$
-E = mc^2
+\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+$$
+
+$$
+f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+$$
+
+Matrices and aligned equations:
+
+$$
+\begin{bmatrix} a & b \\ c & d \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = \begin{bmatrix} ax + by \\ cx + dy \end{bmatrix}
 $$
 
 ### Mermaid Diagrams
@@ -674,6 +819,28 @@ graph LR
     A[Markdown] --> B[Remark]
     B --> C[Rehype]
     C --> D[HTML]
+```
+
+````md
+```mermaid
+graph TD
+    A[Start] --> B{Decision}
+    B -- Yes --> C[Action]
+    B -- No --> D[Skip]
+    C --> E[End]
+    D --> E
+```
+````
+
+Renders as:
+
+```mermaid
+graph TD
+    A[Start] --> B{Decision}
+    B -- Yes --> C[Action]
+    B -- No --> D[Skip]
+    C --> E[End]
+    D --> E
 ```
 
 ### Included Documents

@@ -7,8 +7,13 @@ import { CodeBlock } from "../components/CodeBlock.tsx"
 import { headingComponents } from "../components/Heading.tsx"
 import { CodeTabs } from "../components/CodeTabs.tsx"
 import { Details } from "../components/Details.tsx"
+import { FileTree } from "../components/FileTree.tsx"
+import { InlineIcon } from "../components/InlineIcon.tsx"
+import { InlineBadge } from "../components/InlineBadge.tsx"
 import { Mermaid } from "../components/Mermaid.tsx"
 import { PackageTabs } from "../components/PackageTabs.tsx"
+import { SoundCloud } from "../components/SoundCloud.tsx"
+import { YouTube } from "../components/YouTube.tsx"
 import { Toc } from "../components/Toc.tsx"
 import { ZoomImage } from "../components/ZoomImage.tsx"
 
@@ -46,8 +51,13 @@ function Component() {
               Cards,
               CodeTabs,
               Details,
+              FileTree,
+              InlineBadge,
+              InlineIcon,
               Mermaid,
               PackageTabs,
+              SoundCloud,
+              YouTube,
               ...headingComponents,
             }}
           />
