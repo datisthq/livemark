@@ -29,6 +29,8 @@ export default defineConfig({
     tanstackStart({
       srcDirectory: websiteRelative,
       prerender: { enabled: true, crawlLinks: true },
+      // TODO: provide host?
+      sitemap: { enabled: true },
     }),
     react(),
     svgr(),
