@@ -1,9 +1,16 @@
+/** Footer shown below article content */
 export function Footer() {
   return (
-    <footer className="border-t bg-card">
-      <div className="w-full max-w-7xl mx-auto px-4 md:px-10 py-4 flex items-center justify-center text-xs text-muted-foreground">
-        <span>&copy; {new Date().getFullYear()} My Project</span>
-      </div>
-    </footer>
+    <p className="mt-12 text-center text-sm text-muted-foreground">
+      Created with <span className="text-red-500">❤</span> and{" "}
+      <a
+        href="https://github.com/datisthq/livemark"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-medium hover:text-foreground transition-colors"
+      >
+        Livemark
+      </a>
+    </p>
   )
 }

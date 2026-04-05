@@ -29,6 +29,7 @@ import { SoundCloud } from "../components/SoundCloud.tsx"
 import { YouTube } from "../components/YouTube.tsx"
 import { InlineToc } from "../components/InlineToc.tsx"
 import { PageToolbar } from "../components/PageToolbar.tsx"
+import { Footer } from "../components/Footer.tsx"
 import { PrevNext } from "../components/PrevNext.tsx"
 import { Toc } from "../components/Toc.tsx"
 import { ZoomImage } from "../components/ZoomImage.tsx"
@@ -130,6 +131,7 @@ function Component() {
             />
           </div>
           <PrevNext pathname={article.pathname} />
+          <Footer />
         </div>
         <Toc items={article.toc}>
           <PageToolbar filePath={article.filePath} content={article.content} />
