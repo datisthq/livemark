@@ -89,18 +89,18 @@ function AppSidebar() {
               {sortedArticles.map(article => {
                 const Icon = articleIcons[article.icon] ?? FileText
                 const active = !!matchRoute({
-                  to: "/$path",
-                  params: { path: article._meta.path },
+                  to: "/$pathname",
+                  params: { pathname: article.pathname },
                 })
                 return (
-                  <SidebarMenuItem key={article._meta.path}>
+                  <SidebarMenuItem key={article.pathname}>
                     <SidebarMenuButton
                       isActive={active}
                       className={active ? "" : "opacity-75"}
                       render={
                         <Link
-                          to="/$path"
-                          params={{ path: article._meta.path }}
+                          to="/$pathname"
+                          params={{ pathname: article.pathname }}
                         />
                       }
                     >

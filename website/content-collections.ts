@@ -13,6 +13,7 @@ import remarkMath from "remark-math"
 import { z } from "zod"
 import { loadConfig } from "../actions/config/load.ts"
 import { pickDefaultIcon } from "./helpers/article-icon.ts"
+import { toPathname } from "./models/article.ts"
 import remarkCustomHeadingId from "./plugins/remark-custom-heading-id.ts"
 import { remarkCallout } from "./plugins/remark-callout.ts"
 import { remarkCard } from "./plugins/remark-card.ts"
@@ -71,12 +72,14 @@ const articles = defineCollection({
     description: z.string().optional(),
     icon: z.string().optional(),
     order: z.number().optional(),
+    pathname: z.string().optional(),
   }),
   transform: async (document, context) => {
     const filePath = resolve(config.root, document._meta.filePath)
     const content = resolveIncludes(document.content, filePath)
     const title = document.title ?? extractTitle(content, document._meta.path)
     const icon = document.icon ?? pickDefaultIcon(document._meta.path)
+    const pathname = document.pathname ?? toPathname(document._meta.filePath)
     const mdx = await compileMDX(
       context,
       { ...document, content },
@@ -136,7 +139,7 @@ const articles = defineCollection({
       },
     )
     const toc = extractToc(content)
-    return { ...document, title, icon, toc, mdx }
+    return { ...document, title, icon, pathname, toc, mdx }
   },
 })
 

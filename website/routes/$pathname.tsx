@@ -42,7 +42,7 @@ import {
 
 export const Route = createFileRoute("/$pathname")({
   loader: ({ params }) => {
-    const article = sortedArticles.find(a => a._meta.path === params.pathname)
+    const article = sortedArticles.find(a => a.pathname === params.pathname)
     if (!article) throw notFound()
     return article
   },
