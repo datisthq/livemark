@@ -695,6 +695,26 @@ const b = 2 // [!code focus]
 const c = 3
 ```
 
+### Error and Warning Lines
+
+Mark lines as errors or warnings with `// [!code error]` and `// [!code warning]`:
+
+````md
+```typescript
+const valid = "ok"
+const invalid = null! // [!code error]
+const risky = getValue() // [!code warning]
+```
+````
+
+Renders as:
+
+```typescript
+const valid = "ok"
+const invalid = null! // [!code error]
+const risky = getValue() // [!code warning]
+```
+
 ### Language Icons
 
 Code blocks automatically display a language icon in the title bar when a title is present. Supported languages include TypeScript, JavaScript, React, Python, Rust, and shell.

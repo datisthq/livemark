@@ -67,9 +67,10 @@ function spanContainsWord(span: HastElement, word: string): boolean {
   return false
 }
 
-const NOTATION_RE = /\/\/\s*\[!code\s+(highlight|focus|\+\+|--)\]\s*$/
+const NOTATION_RE =
+  /\/\/\s*\[!code\s+(highlight|focus|\+\+|--|error|warning)\]\s*$/
 const NOTATION_BLOCK_RE =
-  /\/\*\s*\[!code\s+(highlight|focus|\+\+|--)\]\s*\*\/\s*$/
+  /\/\*\s*\[!code\s+(highlight|focus|\+\+|--|error|warning)\]\s*\*\/\s*$/
 
 function stripNotationFromLine(line: HastElement): string | undefined {
   for (const child of line.children) {
@@ -117,6 +118,12 @@ export function transformerNotations(): ShikiTransformer {
         case "focus":
           line.properties["data-focus"] = ""
           hasFocus = true
+          break
+        case "error":
+          line.properties["data-line-status"] = "error"
+          break
+        case "warning":
+          line.properties["data-line-status"] = "warning"
           break
       }
 

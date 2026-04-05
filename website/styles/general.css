@@ -193,6 +193,14 @@
     @apply text-red-600 absolute left-1;
   }
 
+  .prose pre code .line[data-line-status="error"] {
+    @apply bg-red-500/15;
+  }
+
+  .prose pre code .line[data-line-status="warning"] {
+    @apply bg-yellow-500/15;
+  }
+
   .prose pre[data-has-focus] code .line:not([data-focus]) {
     @apply opacity-30;
   }
