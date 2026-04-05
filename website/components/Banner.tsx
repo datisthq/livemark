@@ -1,0 +1,33 @@
+import { Info, Star, MessageCircle } from "lucide-react"
+
+/** Technical preview banner displayed in the header */
+export function Banner() {
+  return (
+    <div className="flex flex-1 items-center justify-end">
+      <div className="flex items-center gap-2 rounded-xl border border-primary/30 bg-primary/10 px-3 py-1.5 text-sm font-medium text-primary">
+        <span>
+          This project is in technical preview.{" "}
+          <a
+            href="https://github.com/datisthq/livemark"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold underline underline-offset-2"
+          >
+            <Star className="inline size-3.5 align-[-0.125em]" />
+            {" "}Star on GitHub
+          </a>
+          {" "}and{" "}
+          <a
+            href="https://github.com/datisthq/livemark/discussions"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold underline underline-offset-2"
+          >
+            <MessageCircle className="inline size-3.5 align-[-0.125em]" />
+            {" "}share feedback!
+          </a>
+        </span>
+      </div>
+    </div>
+  )
+}

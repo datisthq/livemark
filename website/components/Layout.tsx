@@ -35,6 +35,7 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "../elements/sidebar.tsx"
+import { Banner } from "./Banner.tsx"
 import { SearchDialog } from "./SearchDialog.tsx"
 import { Theme } from "./Theme.tsx"
 
@@ -75,6 +76,7 @@ export function Layout(props: { children?: React.ReactNode }) {
             >
               GitHub <ExternalLink className="inline size-3 -mt-0.5" />
             </a>
+            <Banner />
           </div>
         </header>
         <main className="flex-1">{props.children}</main>
