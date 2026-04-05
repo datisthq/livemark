@@ -1,5 +1,10 @@
 import { Check, ChevronDown, Clipboard, WrapText } from "lucide-react"
 import { useRef, useState } from "react"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "../elements/tooltip.tsx"
 
 export function CodeBlock(props: React.ComponentProps<"pre">) {
   const [copied, setCopied] = useState(false)
@@ -41,49 +46,53 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
             />
           )}
           <span className="flex-1 truncate text-xs font-medium">{title}</span>
-          <button
-            type="button"
-            onClick={handleWrapToggle}
-            className={`-me-2 p-1 rounded-md hover:text-foreground transition-colors ${wrap ? "text-foreground" : ""}`}
-            aria-label="Toggle word wrap"
-          >
-            <WrapText className="size-3.5" />
-          </button>
-          <button
-            type="button"
-            onClick={handleCopy}
-            className="-me-2 p-1 rounded-md hover:text-foreground transition-colors"
-            aria-label="Copy code"
-          >
-            {copied ? (
-              <Check className="size-3.5" />
-            ) : (
-              <Clipboard className="size-3.5" />
-            )}
-          </button>
+          <Tooltip>
+            <TooltipTrigger
+              onClick={handleWrapToggle}
+              className={`-me-2 p-1 rounded-md hover:text-foreground transition-colors ${wrap ? "text-foreground" : ""}`}
+            >
+              <WrapText className="size-3.5" />
+            </TooltipTrigger>
+            <TooltipContent>{wrap ? "Disable wrap" : "Enable wrap"}</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger
+              onClick={handleCopy}
+              className="-me-2 p-1 rounded-md hover:text-foreground transition-colors"
+            >
+              {copied ? (
+                <Check className="size-3.5" />
+              ) : (
+                <Clipboard className="size-3.5" />
+              )}
+            </TooltipTrigger>
+            <TooltipContent>{copied ? "Copied!" : "Copy code"}</TooltipContent>
+          </Tooltip>
         </div>
       ) : (
         <div className="empty:hidden absolute top-2 right-2 z-10 backdrop-blur-lg rounded-lg text-muted-foreground">
-          <button
-            type="button"
-            onClick={handleWrapToggle}
-            className={`p-1 rounded-md hover:text-foreground transition-colors ${wrap ? "text-foreground" : ""}`}
-            aria-label="Toggle word wrap"
-          >
-            <WrapText className="size-3.5" />
-          </button>
-          <button
-            type="button"
-            onClick={handleCopy}
-            className="p-1 rounded-md hover:text-foreground transition-colors"
-            aria-label="Copy code"
-          >
-            {copied ? (
-              <Check className="size-3.5" />
-            ) : (
-              <Clipboard className="size-3.5" />
-            )}
-          </button>
+          <Tooltip>
+            <TooltipTrigger
+              onClick={handleWrapToggle}
+              className={`p-1 rounded-md hover:text-foreground transition-colors ${wrap ? "text-foreground" : ""}`}
+            >
+              <WrapText className="size-3.5" />
+            </TooltipTrigger>
+            <TooltipContent>{wrap ? "Disable wrap" : "Enable wrap"}</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger
+              onClick={handleCopy}
+              className="p-1 rounded-md hover:text-foreground transition-colors"
+            >
+              {copied ? (
+                <Check className="size-3.5" />
+              ) : (
+                <Clipboard className="size-3.5" />
+              )}
+            </TooltipTrigger>
+            <TooltipContent>{copied ? "Copied!" : "Copy code"}</TooltipContent>
+          </Tooltip>
         </div>
       )}
       <div
