@@ -1,17 +1,25 @@
-import { useState, useRef, useCallback } from "react"
+import { useState, useRef, useCallback, useMemo } from "react"
 import { useNavigate } from "@tanstack/react-router"
+import { FileText } from "lucide-react"
 import { create, insertMultiple, search } from "@orama/orama"
 import { sortedArticles } from "../helpers/articles.ts"
+import { articleIcons } from "../helpers/article-icon.ts"
 import {
-  Command,
   CommandDialog,
   CommandEmpty,
+  CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
 } from "../elements/command.tsx"
 
-type SearchResult = { title: string; pathname: string; description: string }
+interface SearchResult {
+  title: string
+  pathname: string
+  icon: string
+  snippet: string
+  group: string
+}
 
 /** Full-text search dialog powered by Orama */
 export function SearchDialog(props: {
@@ -19,6 +27,7 @@ export function SearchDialog(props: {
   onOpenChange: (open: boolean) => void
 }) {
   const [results, setResults] = useState<SearchResult[]>([])
+  const [query, setQuery] = useState("")
   const dbRef = useRef<Awaited<ReturnType<typeof create>> | null>(null)
   const navigate = useNavigate()
 
@@ -43,16 +52,24 @@ export function SearchDialog(props: {
     return db
   }, [])
 
+  const toResult = useCallback(
+    (article: (typeof sortedArticles)[number], term: string): SearchResult => ({
+      title: article.title,
+      pathname: article.pathname,
+      icon: article.icon,
+      snippet: term
+        ? extractSnippet(article.searchText, term)
+        : (article.description ?? ""),
+      group: groupFor(article.pathname),
+    }),
+    [],
+  )
+
   const handleSearch = useCallback(
     async (term: string) => {
+      setQuery(term)
       if (!term.trim()) {
-        setResults(
-          sortedArticles.map(a => ({
-            title: a.title,
-            pathname: a.pathname,
-            description: a.description ?? "",
-          })),
-        )
+        setResults(sortedArticles.map(a => toResult(a, "")))
         return
       }
       const db = await ensureIndex()
@@ -67,20 +84,30 @@ export function SearchDialog(props: {
           const article = sortedArticles.find(
             a => a.title === hit.document.title,
           )
-          return {
-            title: hit.document.title,
-            pathname: article?.pathname ?? "",
-            description: hit.document.description,
-          }
+          if (!article)
+            return toResult(
+              {
+                ...sortedArticles[0],
+                title: hit.document.title,
+                pathname: "",
+                searchText: hit.document.description,
+                description: hit.document.description,
+                icon: "",
+              },
+              term,
+            )
+          return toResult(article, term)
         }),
       )
     },
-    [ensureIndex],
+    [ensureIndex, toResult],
   )
 
   const handleSelect = useCallback(
     (pathname: string) => {
       props.onOpenChange(false)
+      setQuery("")
+      setResults([])
       navigate({
         to: "/$",
         params: { _splat: pathname.replace(/^\/|\/$/g, "") },
@@ -89,38 +116,123 @@ export function SearchDialog(props: {
     [navigate, props.onOpenChange],
   )
 
+  const grouped = useMemo(() => {
+    const groups = new Map<string, SearchResult[]>()
+    for (const r of results) {
+      const list = groups.get(r.group) ?? []
+      list.push(r)
+      groups.set(r.group, list)
+    }
+    return groups
+  }, [results])
+
   return (
     <CommandDialog
       title="Search"
       description="Search documentation"
       open={props.open}
       onOpenChange={props.onOpenChange}
+      shouldFilter={false}
+      loop
     >
-      <Command shouldFilter={false}>
-        <CommandInput
-          placeholder="Search docs..."
-          onValueChange={handleSearch}
-        />
-        <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
-          {results.map(result => (
-            <CommandItem
-              key={result.pathname}
-              value={result.pathname}
-              onSelect={() => handleSelect(result.pathname)}
-            >
-              <div className="flex flex-col gap-0.5">
-                <span className="font-medium">{result.title}</span>
-                {result.description && (
-                  <span className="text-xs text-muted-foreground line-clamp-1">
-                    {result.description}
-                  </span>
-                )}
-              </div>
-            </CommandItem>
-          ))}
-        </CommandList>
-      </Command>
+      <CommandInput
+        placeholder="Search docs..."
+        value={query}
+        onValueChange={handleSearch}
+      />
+      <CommandList className="max-h-80">
+        <CommandEmpty>No results found.</CommandEmpty>
+        {[...grouped.entries()].map(([group, items]) => (
+          <CommandGroup key={group} heading={group}>
+            {items.map(result => {
+              const Icon = articleIcons[result.icon] ?? FileText
+              return (
+                <CommandItem
+                  key={result.pathname}
+                  value={result.pathname}
+                  onSelect={() => handleSelect(result.pathname)}
+                  className="py-2.5"
+                >
+                  <Icon className="size-4 shrink-0 mt-0.5 self-start opacity-60" />
+                  <div className="flex flex-col gap-0.5 min-w-0">
+                    <span className="font-medium">{result.title}</span>
+                    {result.snippet && (
+                      <span className="text-xs text-muted-foreground line-clamp-1">
+                        <HighlightedText text={result.snippet} term={query} />
+                      </span>
+                    )}
+                  </div>
+                </CommandItem>
+              )
+            })}
+          </CommandGroup>
+        ))}
+      </CommandList>
+      <div className="flex items-center gap-3 border-t px-3 py-2 text-xs text-muted-foreground">
+        <span className="flex items-center gap-1">
+          <kbd className="rounded border border-border bg-muted px-1 py-0.5 text-[10px] font-mono">
+            ↑↓
+          </kbd>
+          navigate
+        </span>
+        <span className="flex items-center gap-1">
+          <kbd className="rounded border border-border bg-muted px-1 py-0.5 text-[10px] font-mono">
+            ↵
+          </kbd>
+          select
+        </span>
+        <span className="flex items-center gap-1">
+          <kbd className="rounded border border-border bg-muted px-1 py-0.5 text-[10px] font-mono">
+            esc
+          </kbd>
+          close
+        </span>
+      </div>
     </CommandDialog>
+  )
+}
+
+function groupFor(pathname: string) {
+  const segments = pathname.replace(/^\/|\/$/g, "").split("/")
+  if (segments.length <= 2) return "Pages"
+  return segments
+    .slice(1, -1)
+    .map(s =>
+      s
+        .split("-")
+        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" "),
+    )
+    .join(" › ")
+}
+
+function extractSnippet(text: string, term: string) {
+  const lower = text.toLowerCase()
+  const idx = lower.indexOf(term.toLowerCase())
+  if (idx === -1) return text.slice(0, 120)
+  const start = Math.max(0, idx - 40)
+  const end = Math.min(text.length, idx + term.length + 80)
+  const prefix = start > 0 ? "…" : ""
+  const suffix = end < text.length ? "…" : ""
+  return `${prefix}${text.slice(start, end)}${suffix}`
+}
+
+function HighlightedText(props: { text: string; term: string }) {
+  if (!props.term.trim()) return <>{props.text}</>
+  const escaped = props.term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+  const regex = new RegExp(`(${escaped})`, "gi")
+  const parts = props.text.split(regex)
+  return (
+    <>
+      {parts.map((part, i) =>
+        regex.test(part) ? (
+          <span key={i} className="text-foreground font-medium">
+            {part}
+          </span>
+        ) : (
+          part
+        ),
+      )}
+    </>
   )
 }
