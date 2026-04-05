@@ -13,18 +13,17 @@ export function Banner() {
             rel="noopener noreferrer"
             className="font-semibold hover:underline underline-offset-2"
           >
-            <Star className="inline size-3.5 align-[-0.125em]" />
-            {" "}Star on GitHub
-          </a>
-          {" "}and{" "}
+            <Star className="inline size-3.5 align-[-0.125em]" /> Star on GitHub
+          </a>{" "}
+          and{" "}
           <a
             href="https://github.com/datisthq/livemark/discussions"
             target="_blank"
             rel="noopener noreferrer"
             className="font-semibold hover:underline underline-offset-2"
           >
-            <MessageCircle className="inline size-3.5 align-[-0.125em]" />
-            {" "}share feedback!
+            <MessageCircle className="inline size-3.5 align-[-0.125em]" /> share
+            feedback!
           </a>
         </span>
       </div>
