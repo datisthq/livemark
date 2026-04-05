@@ -7,10 +7,6 @@ pathname: /docs/markdown/media/
 
 # Media
 
-## Image Zooming
-
-All images in articles are zoomable — click any image to expand it to full size. This works with internal, external, and base64 images.
-
 ## Internal Images
 
 Reference images from your docs directory:
@@ -62,6 +58,10 @@ Renders as (toggle theme to see the switch):
 ![Dark theme](https://picsum.photos/seed/dark/800/200#dark)
 
 The `#light` image is hidden in dark mode, and the `#dark` image is hidden in light mode. Use both together for seamless theme switching.
+
+## Image Zooming
+
+All images in articles are zoomable — click any image to expand it to full size. This works with internal, external, and base64 images.
 
 ## Video Blocks
 

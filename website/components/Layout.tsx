@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Link, useLocation } from "@tanstack/react-router"
 import { useHotkey } from "@tanstack/react-hotkeys"
 import {
@@ -39,44 +39,12 @@ import { SearchDialog } from "./SearchDialog.tsx"
 import { Theme } from "./Theme.tsx"
 
 export function Layout(props: { children?: React.ReactNode }) {
-  useEffect(() => {
-    const speed = 12
-    let raf = 0
-    const held = new Set<string>()
-
-    const scroll = () => {
-      if (held.has("j")) window.scrollBy(0, speed)
-      if (held.has("k")) window.scrollBy(0, -speed)
-      if (held.size > 0) raf = requestAnimationFrame(scroll)
-    }
-
-    const isInput = () => {
-      const tag = document.activeElement?.tagName
-      return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT"
-    }
-
-    const onDown = (e: KeyboardEvent) => {
-      if (isInput() || e.repeat) return
-      const key = e.key.toLowerCase()
-      if (key === "j" || key === "k") {
-        held.add(key)
-        if (held.size === 1) raf = requestAnimationFrame(scroll)
-      }
-    }
-
-    const onUp = (e: KeyboardEvent) => {
-      held.delete(e.key.toLowerCase())
-      if (held.size === 0) cancelAnimationFrame(raf)
-    }
-
-    document.addEventListener("keydown", onDown)
-    document.addEventListener("keyup", onUp)
-    return () => {
-      document.removeEventListener("keydown", onDown)
-      document.removeEventListener("keyup", onUp)
-      cancelAnimationFrame(raf)
-    }
-  }, [])
+  useHotkey("J", () =>
+    window.scrollBy({ top: window.innerHeight * 0.8, behavior: "smooth" }),
+  )
+  useHotkey("K", () =>
+    window.scrollBy({ top: -window.innerHeight * 0.8, behavior: "smooth" }),
+  )
 
   return (
     <SidebarProvider>
