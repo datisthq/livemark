@@ -2,6 +2,7 @@ import type { Code, Root } from "mdast"
 import type { Plugin } from "unified"
 
 const TAB_PATTERN = /\btab="([^"]+)"/
+const SYNC_PATTERN = /\bsync="([^"]+)"/
 
 /** Remark plugin that groups consecutive code blocks with tab="name" meta into a CodeTabs component */
 export const remarkCodeTabs: Plugin<[], Root> = () => {
@@ -41,20 +42,40 @@ export const remarkCodeTabs: Plugin<[], Root> = () => {
         continue
       }
 
+      const firstMeta = group[0]!.code.meta!
+      const syncMatch = SYNC_PATTERN.exec(firstMeta)
+
       for (const item of group) {
-        item.code.meta = item.code.meta!.replace(TAB_PATTERN, "").trim() || null
+        item.code.meta =
+          item.code
+            .meta!.replace(TAB_PATTERN, "")
+            .replace(SYNC_PATTERN, "")
+            .trim() || null
+      }
+
+      const codeTabsAttrs: {
+        type: "mdxJsxAttribute"
+        name: string
+        value: string
+      }[] = [
+        {
+          type: "mdxJsxAttribute",
+          name: "tabs",
+          value: JSON.stringify(group.map(g => g.name)),
+        },
+      ]
+      if (syncMatch) {
+        codeTabsAttrs.push({
+          type: "mdxJsxAttribute",
+          name: "sync",
+          value: syncMatch[1]!,
+        })
       }
 
       const jsxNode = {
         type: "mdxJsxFlowElement",
         name: "CodeTabs",
-        attributes: [
-          {
-            type: "mdxJsxAttribute",
-            name: "tabs",
-            value: JSON.stringify(group.map(g => g.name)),
-          },
-        ],
+        attributes: codeTabsAttrs,
         children: group.map(g => g.code),
       }
 

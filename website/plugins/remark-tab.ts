@@ -12,13 +12,22 @@ export function transformTabDirectives(tree: Root) {
       if (node.name !== "tab" || index === undefined || !parent) return
 
       const title = node.attributes?.title ?? ""
+      const sync = node.attributes?.sync
+
+      const attrs: { type: "mdxJsxAttribute"; name: string; value: string }[] =
+        [{ type: "mdxJsxAttribute" as const, name: "title", value: title }]
+      if (sync) {
+        attrs.push({
+          type: "mdxJsxAttribute" as const,
+          name: "sync",
+          value: sync,
+        })
+      }
 
       const jsxNode = {
         type: "mdxJsxFlowElement" as const,
         name: "ContentTab",
-        attributes: [
-          { type: "mdxJsxAttribute" as const, name: "title", value: title },
-        ],
+        attributes: attrs,
         children: node.children,
         data: { _mdxExplicitJsx: true },
       }
@@ -49,10 +58,30 @@ export function transformTabDirectives(tree: Root) {
     }
 
     const group = children.slice(i, j)
+
+    const firstChild = group[0]
+    // @ts-expect-error accessing mdxJsx attributes on untyped node
+    const syncAttr = firstChild?.attributes?.find(
+      (a: { name: string }) => a.name === "sync",
+    )
+    const wrapperAttrs: {
+      type: "mdxJsxAttribute"
+      name: string
+      value: string
+    }[] = syncAttr
+      ? [
+          {
+            type: "mdxJsxAttribute" as const,
+            name: "sync",
+            value: syncAttr.value,
+          },
+        ]
+      : []
+
     const wrapper = {
       type: "mdxJsxFlowElement" as const,
       name: "ContentTabs",
-      attributes: [],
+      attributes: wrapperAttrs,
       children: group,
       data: { _mdxExplicitJsx: true },
     }

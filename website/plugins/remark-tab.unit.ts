@@ -128,4 +128,54 @@ describe("transformTabDirectives", () => {
       name: "ContentTabs",
     })
   })
+
+  it("should pass sync attribute to ContentTab when present", () => {
+    const directive = makeContainerDirective("tab", {
+      title: "npm",
+      sync: "pm",
+    })
+    const tree = process(makeTree(directive))
+
+    const wrapper = tree.children[0]
+    // @ts-expect-error mdxJsxFlowElement is not in mdast types
+    const tab = wrapper.children[0]
+    expect(tab).toMatchObject({
+      type: "mdxJsxFlowElement",
+      name: "ContentTab",
+      attributes: [
+        { type: "mdxJsxAttribute", name: "title", value: "npm" },
+        { type: "mdxJsxAttribute", name: "sync", value: "pm" },
+      ],
+    })
+  })
+
+  it("should propagate sync attribute to ContentTabs wrapper", () => {
+    const tab1 = makeContainerDirective("tab", {
+      title: "npm",
+      sync: "pm",
+    })
+    const tab2 = makeContainerDirective("tab", {
+      title: "pnpm",
+      sync: "pm",
+    })
+    const tree = process(makeTree(tab1, tab2))
+
+    expect(tree.children[0]).toMatchObject({
+      type: "mdxJsxFlowElement",
+      name: "ContentTabs",
+      attributes: [{ type: "mdxJsxAttribute", name: "sync", value: "pm" }],
+    })
+  })
+
+  it("should not add sync attribute when not present", () => {
+    const tab1 = makeContainerDirective("tab", { title: "A" })
+    const tab2 = makeContainerDirective("tab", { title: "B" })
+    const tree = process(makeTree(tab1, tab2))
+
+    expect(tree.children[0]).toMatchObject({
+      type: "mdxJsxFlowElement",
+      name: "ContentTabs",
+      attributes: [],
+    })
+  })
 })

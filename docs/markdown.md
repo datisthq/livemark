@@ -215,6 +215,18 @@ Use `const x = 1` for inline code.
 
 Renders as: Use `const x = 1` for inline code.
 
+### Inline Code Highlighting
+
+Add language-specific syntax highlighting to inline code with a `{:lang}` prefix:
+
+```md
+Use `{:ts}const x = 1` for inline TypeScript or `{:py}print("hello")` for Python.
+```
+
+Renders as:
+
+Use `{:ts}const x = 1` for inline TypeScript or `{:py}print("hello")` for Python.
+
 ### Blockquotes
 
 ```md
@@ -316,6 +328,20 @@ The :abbr[HTML]{title="HyperText Markup Language"} standard is maintained by :ab
 Renders as:
 
 The :abbr[HTML]{title="HyperText Markup Language"} standard is maintained by :abbr[W3C]{title="World Wide Web Consortium"}.
+
+### Emoji
+
+Use GitHub-style emoji shortcodes:
+
+```md
+:rocket: Launch :tada: Celebrate :heart: Love :warning: Careful :white_check_mark: Done
+```
+
+Renders as:
+
+:rocket: Launch :tada: Celebrate :heart: Love :warning: Careful :white_check_mark: Done
+
+See the [full emoji list](https://github.com/ikatyang/emoji-cheat-sheet) for available shortcodes.
 
 ## Rich Elements
 
@@ -442,9 +468,35 @@ console.log("hello")
 print("hello")
 ```
 
+Add `sync="key"` to keep multiple code tab groups in sync across the page. Selecting a tab in one group updates all others with the same key:
+
+````md
+```js tab="JavaScript" sync="lang"
+console.log("hello")
+```
+
+```python tab="Python" sync="lang"
+print("hello")
+```
+````
+
 ### Content Tabs
 
-Group arbitrary content into tabs using the `:::tab` directive. Consecutive tabs are automatically grouped:
+Group arbitrary content into tabs using the `:::tab` directive. Consecutive tabs are automatically grouped.
+
+Add a `sync` attribute to synchronize tab selection across multiple tab groups on the same page. When a user selects a tab in one group, all other groups with the same `sync` key switch to the matching tab. The selection is persisted in localStorage.
+
+```md
+:::tab{title="npm" sync="pm"}
+npm install livemark
+:::
+
+:::tab{title="pnpm" sync="pm"}
+pnpm add livemark
+:::
+```
+
+Here is an example without sync:
 
 ```md
 :::tab{title="React"}

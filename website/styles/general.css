@@ -265,6 +265,14 @@
     content: none !important;
   }
 
+  .prose code.shiki-inline {
+    @apply bg-muted/70 border border-border rounded-md px-1.5 py-0.5 text-sm font-mono;
+  }
+
+  .prose code.shiki-inline .line {
+    display: inline;
+  }
+
   .dark .shiki span {
     color: var(--shiki-dark) !important;
   }

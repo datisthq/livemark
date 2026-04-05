@@ -7,6 +7,7 @@ import rehypeKatex from "rehype-katex"
 import rehypeSlug from "rehype-slug"
 import remarkDefinitionList from "remark-definition-list"
 import remarkDirective from "remark-directive"
+import remarkGemoji from "remark-gemoji"
 import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
 import { z } from "zod"
@@ -33,6 +34,7 @@ import {
   transformerLineHighlight,
   transformerNotations,
 } from "./plugins/shiki-line-highlight.ts"
+import { rehypeInlineCode } from "./plugins/rehype-inline-code.ts"
 import { transformerIcon } from "./plugins/shiki-icon.ts"
 import { resolveIncludes } from "./helpers/resolve-includes.ts"
 import { extractToc } from "./helpers/toc.ts"
@@ -77,6 +79,7 @@ const articles = defineCollection({
       {
         remarkPlugins: [
           remarkGfm,
+          remarkGemoji,
           remarkDefinitionList,
           remarkMath,
           remarkDirective,
@@ -118,6 +121,7 @@ const articles = defineCollection({
               parseMetaString: (meta: string) => ({ "data-meta": meta }),
             },
           ],
+          rehypeInlineCode,
           rehypeSlug,
           rehypeKatex,
         ],
