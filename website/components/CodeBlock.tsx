@@ -1,15 +1,20 @@
-import { Check, Clipboard, WrapText } from "lucide-react"
+import { Check, ChevronDown, Clipboard, WrapText } from "lucide-react"
 import { useRef, useState } from "react"
 
 export function CodeBlock(props: React.ComponentProps<"pre">) {
   const [copied, setCopied] = useState(false)
   const [wrap, setWrap] = useState(false)
+  const [expanded, setExpanded] = useState(false)
   const preRef = useRef<HTMLPreElement>(null)
   const extra = props as Record<string, unknown>
   const meta = extra["data-meta"] as string | undefined
   const title = meta?.match(/title="([^"]+)"/)?.[1]
+  const maxLines = meta?.match(/maxLines=(\d+)/)?.[1]
   const icon = extra.icon as string | undefined
   const style = props.style as Record<string, string> | undefined
+  const collapsedHeight = maxLines
+    ? `${Number(maxLines) * 1.5 + 1.75}rem`
+    : undefined
 
   const handleCopy = () => {
     const text = preRef.current?.textContent ?? ""
@@ -81,7 +86,12 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
           </button>
         </div>
       )}
-      <div className="text-[0.8125rem] py-3.5 overflow-auto max-h-[600px]">
+      <div
+        className="text-[0.8125rem] py-3.5 overflow-auto transition-[max-height] duration-300"
+        style={{
+          maxHeight: collapsedHeight && !expanded ? collapsedHeight : "600px",
+        }}
+      >
         <pre
           {...props}
           ref={preRef}
@@ -93,6 +103,16 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
           }
         />
       </div>
+      {collapsedHeight && !expanded && (
+        <button
+          type="button"
+          onClick={() => setExpanded(true)}
+          className="flex items-center justify-center gap-1 w-full py-1.5 text-xs text-muted-foreground hover:text-foreground border-t cursor-pointer transition-colors"
+        >
+          <ChevronDown className="size-3.5" />
+          Expand
+        </button>
+      )}
     </figure>
   )
 }

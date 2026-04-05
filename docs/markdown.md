@@ -876,6 +876,32 @@ const invalid = null! // [!code error]
 const risky = getValue() // [!code warning]
 ```
 
+### Collapsible Code
+
+Limit the visible height of long code blocks with `maxLines=N`. An "Expand" button reveals the full code:
+
+````md
+```typescript maxLines=3
+const a = 1
+const b = 2
+const c = 3
+const d = 4
+const e = 5
+const f = 6
+```
+````
+
+Renders as:
+
+```typescript maxLines=3
+const a = 1
+const b = 2
+const c = 3
+const d = 4
+const e = 5
+const f = 6
+```
+
 ### Language Icons
 
 Code blocks automatically display a language icon in the title bar when a title is present. Supported languages include TypeScript, JavaScript, React, Python, Rust, and shell.
