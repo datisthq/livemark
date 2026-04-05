@@ -1,4 +1,5 @@
 import { Moon, Sun } from "lucide-react"
+import { useHotkey } from "@tanstack/react-hotkeys"
 import { Button } from "../elements/button.tsx"
 import { getCurrentTheme, setTheme } from "../helpers/theme.ts"
 
@@ -8,6 +9,8 @@ export function Theme() {
     const newTheme = oldTheme === "light" ? "dark" : "light"
     setTheme(newTheme)
   }
+
+  useHotkey("T", handleToggle)
 
   return (
     <Button

@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Link, useLocation } from "@tanstack/react-router"
+import { useHotkey } from "@tanstack/react-hotkeys"
 import {
   ChevronRight,
   ExternalLink,
@@ -32,6 +33,7 @@ import {
   SidebarProvider,
   SidebarRail,
   SidebarTrigger,
+  useSidebar,
 } from "../elements/sidebar.tsx"
 import { SearchDialog } from "./SearchDialog.tsx"
 import { Theme } from "./Theme.tsx"
@@ -76,6 +78,10 @@ export function Layout(props: { children?: React.ReactNode }) {
 
 function AppSidebar() {
   const pathname = useLocation({ select: l => l.pathname })
+  const { toggleSidebar } = useSidebar()
+
+  useHotkey("S", toggleSidebar)
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -191,16 +197,7 @@ function NavNode(props: { node: ArticleNode; currentPath: string }) {
 function Search() {
   const [open, setOpen] = useState(false)
 
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === "/" && !isInputFocused()) {
-        e.preventDefault()
-        setOpen(true)
-      }
-    }
-    document.addEventListener("keydown", handler)
-    return () => document.removeEventListener("keydown", handler)
-  }, [])
+  useHotkey("/", () => setOpen(true))
 
   return (
     <>
@@ -218,9 +215,4 @@ function Search() {
       <SearchDialog open={open} onOpenChange={setOpen} />
     </>
   )
-}
-
-function isInputFocused() {
-  const tag = document.activeElement?.tagName
-  return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT"
 }

@@ -102,23 +102,23 @@ export function SearchDialog(props: {
           onValueChange={handleSearch}
         />
         <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
-        {results.map(result => (
-          <CommandItem
-            key={result.pathname}
-            value={result.pathname}
-            onSelect={() => handleSelect(result.pathname)}
-          >
-            <div className="flex flex-col gap-0.5">
-              <span className="font-medium">{result.title}</span>
-              {result.description && (
-                <span className="text-xs text-muted-foreground line-clamp-1">
-                  {result.description}
-                </span>
-              )}
-            </div>
-          </CommandItem>
-        ))}
+          <CommandEmpty>No results found.</CommandEmpty>
+          {results.map(result => (
+            <CommandItem
+              key={result.pathname}
+              value={result.pathname}
+              onSelect={() => handleSelect(result.pathname)}
+            >
+              <div className="flex flex-col gap-0.5">
+                <span className="font-medium">{result.title}</span>
+                {result.description && (
+                  <span className="text-xs text-muted-foreground line-clamp-1">
+                    {result.description}
+                  </span>
+                )}
+              </div>
+            </CommandItem>
+          ))}
         </CommandList>
       </Command>
     </CommandDialog>
