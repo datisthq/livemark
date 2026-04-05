@@ -863,12 +863,36 @@ pie title Languages
 
 ### Included Documents
 
-Reference content from other markdown files using the `::include` directive. Frontmatter in included files is automatically stripped.
+Reference content from other files using the `::include` directive. Markdown files are inlined with frontmatter stripped. Code files are automatically wrapped in a fenced code block with the language detected from the file extension.
 
-For example, `::include{file="./includes/disclaimer.md"}`
+Including a markdown file:
+
+```md
+::include{file="./includes/disclaimer.md"}
+```
 
 Renders as:
 
 ::include{file="./includes/disclaimer.md"}
+
+Including a code file:
+
+```md
+::include{file="./includes/example.ts"}
+```
+
+Renders as:
+
+::include{file="./includes/example.ts"}
+
+Code file meta (title, line highlighting, etc.) can be passed via the `meta` attribute:
+
+```md
+::include{file="./includes/example.ts" meta="{2} lineNumbers"}
+```
+
+Renders as:
+
+::include{file="./includes/example.ts" meta="{2} lineNumbers"}
 
 Paths are resolved relative to the current file. Nested includes are supported up to 5 levels deep.

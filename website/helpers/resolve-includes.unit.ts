@@ -89,4 +89,36 @@ describe("resolveIncludes", () => {
     )
     expect(result).toBe("Alpha\n\nBeta")
   })
+
+  it("should wrap code files in fenced blocks", () => {
+    const dir = temporaryDirectory()
+    writeFileSync(join(dir, "example.ts"), 'const x = 1\nconst y = "hello"')
+    const result = resolveIncludes(
+      '::include{file="example.ts"}',
+      join(dir, "main.md"),
+    )
+    expect(result).toBe('```typescript\nconst x = 1\nconst y = "hello"\n```')
+  })
+
+  it("should pass meta to code fence", () => {
+    const dir = temporaryDirectory()
+    writeFileSync(join(dir, "app.tsx"), "export default function App() {}")
+    const result = resolveIncludes(
+      '::include{file="app.tsx" meta="{1} lineNumbers"}',
+      join(dir, "main.md"),
+    )
+    expect(result).toBe(
+      "```tsx {1} lineNumbers\nexport default function App() {}\n```",
+    )
+  })
+
+  it("should treat unknown extensions as markdown", () => {
+    const dir = temporaryDirectory()
+    writeFileSync(join(dir, "notes.txt"), "Plain text")
+    const result = resolveIncludes(
+      '::include{file="notes.txt"}',
+      join(dir, "main.md"),
+    )
+    expect(result).toBe("Plain text")
+  })
 })

@@ -21,6 +21,8 @@
     "build": "tsgo && rm -rf build/website && cp -r website build",
     "bump": "ncu -u",
     "clean": "rm -rf pnpm-lock.yaml node_modules **/node_modules **/build",
+    "docs:build": "node entrypoints/docs.ts build",
+    "docs:serve": "node entrypoints/docs.ts serve",
     "format": "vp fmt",
     "lint": "vp fmt --check && vp lint",
     "prepare": "is-ci || lefthook install",
