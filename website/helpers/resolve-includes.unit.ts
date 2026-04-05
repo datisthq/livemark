@@ -97,7 +97,9 @@ describe("resolveIncludes", () => {
       '::include{file="example.ts"}',
       join(dir, "main.md"),
     )
-    expect(result).toBe('```typescript\nconst x = 1\nconst y = "hello"\n```')
+    expect(result).toBe(
+      '```typescript title="example.ts"\nconst x = 1\nconst y = "hello"\n```',
+    )
   })
 
   it("should pass meta to code fence", () => {
@@ -108,7 +110,7 @@ describe("resolveIncludes", () => {
       join(dir, "main.md"),
     )
     expect(result).toBe(
-      "```tsx {1} lineNumbers\nexport default function App() {}\n```",
+      '```tsx title="app.tsx" {1} lineNumbers\nexport default function App() {}\n```',
     )
   })
 
