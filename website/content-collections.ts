@@ -19,6 +19,7 @@ import { remarkCard } from "./plugins/remark-card.ts"
 import { remarkColumns } from "./plugins/remark-columns.ts"
 import { remarkTab } from "./plugins/remark-tab.ts"
 import { remarkBadge } from "./plugins/remark-badge.ts"
+import { remarkButton } from "./plugins/remark-button.ts"
 import { remarkAbbr } from "./plugins/remark-abbr.ts"
 import { remarkDetails } from "./plugins/remark-details.ts"
 import { remarkFiletree } from "./plugins/remark-filetree.ts"
@@ -27,7 +28,9 @@ import { remarkCodeTabs } from "./plugins/remark-code-tabs.ts"
 import { remarkGithubCallout } from "./plugins/remark-github-callout.ts"
 import { remarkImage } from "./plugins/remark-image.ts"
 import { remarkMedia } from "./plugins/remark-media.ts"
+import { remarkAnsi } from "./plugins/remark-ansi.ts"
 import { remarkMermaid } from "./plugins/remark-mermaid.ts"
+import { remarkToc } from "./plugins/remark-toc.ts"
 import { remarkNpm } from "./plugins/remark-npm.ts"
 import { remarkSteps } from "./plugins/remark-steps.ts"
 import {
@@ -91,6 +94,7 @@ const articles = defineCollection({
           remarkFiletree,
           remarkIcon,
           remarkBadge,
+          remarkButton,
           remarkAbbr,
           remarkGithubCallout,
           [
@@ -100,8 +104,10 @@ const articles = defineCollection({
               root: config.root,
             },
           ],
+          remarkAnsi,
           remarkMermaid,
           remarkMedia,
+          remarkToc,
           remarkNpm,
           remarkCodeTabs,
           remarkSteps,

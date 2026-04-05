@@ -13,13 +13,17 @@ import { Details } from "../components/Details.tsx"
 import { FileTree } from "../components/FileTree.tsx"
 import { InlineIcon } from "../components/InlineIcon.tsx"
 import { Abbr } from "../components/Abbr.tsx"
+import { AnsiCode } from "../components/AnsiCode.tsx"
 import { InlineBadge } from "../components/InlineBadge.tsx"
+import { LinkButton } from "../components/LinkButton.tsx"
 import { Mermaid } from "../components/Mermaid.tsx"
 import { PackageTabs } from "../components/PackageTabs.tsx"
 import { SoundCloud } from "../components/SoundCloud.tsx"
 import { YouTube } from "../components/YouTube.tsx"
+import { InlineToc } from "../components/InlineToc.tsx"
 import { Toc } from "../components/Toc.tsx"
 import { ZoomImage } from "../components/ZoomImage.tsx"
+import { TocContext } from "../helpers/toc-context.ts"
 
 export const Route = createFileRoute("/$pathname")({
   loader: ({ params }) => {
@@ -42,37 +46,42 @@ function Component() {
   const article = Route.useLoaderData()
 
   return (
-    <div className="flex flex-1 gap-10 p-6 md:p-10">
-      <div className="flex-1 min-w-0 mx-auto max-w-3xl">
-        <div className="prose dark:prose-invert max-w-none">
-          <MDXContent
-            code={article.mdx}
-            components={{
-              img: ZoomImage,
-              pre: CodeBlock,
-              Abbr,
-              Callout,
-              Card,
-              Cards,
-              Column,
-              Columns,
-              CodeTabs,
-              ContentTab,
-              ContentTabs,
-              Details,
-              FileTree,
-              InlineBadge,
-              InlineIcon,
-              Mermaid,
-              PackageTabs,
-              SoundCloud,
-              YouTube,
-              ...headingComponents,
-            }}
-          />
+    <TocContext.Provider value={article.toc}>
+      <div className="flex flex-1 gap-10 p-6 md:p-10">
+        <div className="flex-1 min-w-0 mx-auto max-w-3xl">
+          <div className="prose dark:prose-invert max-w-none">
+            <MDXContent
+              code={article.mdx}
+              components={{
+                img: ZoomImage,
+                pre: CodeBlock,
+                Abbr,
+                AnsiCode,
+                Callout,
+                Card,
+                Cards,
+                Column,
+                Columns,
+                CodeTabs,
+                ContentTab,
+                ContentTabs,
+                Details,
+                FileTree,
+                InlineBadge,
+                InlineIcon,
+                InlineToc,
+                LinkButton,
+                Mermaid,
+                PackageTabs,
+                SoundCloud,
+                YouTube,
+                ...headingComponents,
+              }}
+            />
+          </div>
         </div>
+        <Toc items={article.toc} />
       </div>
-      <Toc items={article.toc} />
-    </div>
+    </TocContext.Provider>
   )
 }

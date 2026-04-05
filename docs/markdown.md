@@ -626,6 +626,36 @@ Renders as:
 
 :badge[Beta] :badge[Deprecated]{variant="destructive"} :badge[New]{variant="secondary"}
 
+### Buttons
+
+Call-to-action link buttons using the `::button` leaf directive:
+
+```md
+::button[Get Started]{href="/getting-started"}
+```
+
+With variant and size options:
+
+```md
+::button[Get Started]{href="/getting-started" variant="default" size="lg"}
+::button[Configuration]{href="/docs/configuration" variant="outline"}
+::button[View Source]{href="/github" variant="secondary" size="sm"}
+```
+
+You can also use the `label` attribute:
+
+```md
+::button{href="/getting-started" label="Get Started"}
+```
+
+Renders as:
+
+::button[Get Started]{href="/docs%2Fgetting-started" variant="default" size="lg"}
+::button[Configuration]{href="/docs%2Fconfiguration" variant="outline"}
+::button[View Source]{href="https://github.com/datisthq/livemark" variant="secondary" size="sm"}
+
+Available variants: `default`, `outline`, `secondary`, `ghost`, `destructive`, `link`. Available sizes: `default`, `sm`, `lg`.
+
 ### Icons
 
 Inline icons from the Lucide library using the `:icon` directive:
@@ -1004,6 +1034,16 @@ Renders as:
 <div className="rounded-lg border border-border bg-card p-4 text-sm text-muted-foreground">
   A styled container using Tailwind utilities.
 </div>
+
+### Inline Table of Contents
+
+Insert a table of contents anywhere in your content using the `::toc` directive. It renders a navigable list of headings at the position where the directive appears.
+
+```md
+::toc
+```
+
+This is useful for long pages where you want to give readers an overview at the top of the content, or at any specific section. The inline TOC automatically includes all h2-h4 headings on the page and links to their anchors.
 
 ### MDX Rendering
 
