@@ -17,9 +17,9 @@ import { YouTube } from "../components/YouTube.tsx"
 import { Toc } from "../components/Toc.tsx"
 import { ZoomImage } from "../components/ZoomImage.tsx"
 
-export const Route = createFileRoute("/$path")({
+export const Route = createFileRoute("/$pathname")({
   loader: ({ params }) => {
-    const article = sortedArticles.find(a => a._meta.path === params.path)
+    const article = sortedArticles.find(a => a._meta.path === params.pathname)
     if (!article) throw notFound()
     return article
   },

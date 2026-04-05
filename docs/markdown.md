@@ -845,9 +845,7 @@ pie title Languages
 
 Reference content from other markdown files using the `::include` directive. Frontmatter in included files is automatically stripped.
 
-```md
-::include{file="./includes/disclaimer.md"}
-```
+For example, `::include{file="./includes/disclaimer.md"}`
 
 Renders as:
 
