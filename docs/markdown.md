@@ -277,6 +277,46 @@ Here is a sentence with a footnote[^1] and another[^note].
 
 [^note]: Footnotes can use descriptive identifiers too.
 
+### Definition Lists
+
+Define terms with their descriptions:
+
+```md
+Remark
+: A markdown processor powered by plugins
+
+Rehype
+: An HTML processor powered by plugins
+
+Unified
+: An interface for processing content with syntax trees
+: The foundation for both remark and rehype
+```
+
+Renders as:
+
+Remark
+: A markdown processor powered by plugins
+
+Rehype
+: An HTML processor powered by plugins
+
+Unified
+: An interface for processing content with syntax trees
+: The foundation for both remark and rehype
+
+### Abbreviations
+
+Add tooltips to abbreviations using the `:abbr` directive:
+
+```md
+The :abbr[HTML]{title="HyperText Markup Language"} standard is maintained by :abbr[W3C]{title="World Wide Web Consortium"}.
+```
+
+Renders as:
+
+The :abbr[HTML]{title="HyperText Markup Language"} standard is maintained by :abbr[W3C]{title="World Wide Web Consortium"}.
+
 ## Rich Elements
 
 ### Tables
@@ -575,9 +615,40 @@ Renders as:
 
 :::
 
+### Columns
+
+Arrange content side by side using consecutive `:::column` directives. They are automatically grouped into a grid:
+
+```md
+:::column
+**Left column** with markdown content.
+:::
+
+:::column
+**Right column** with more content.
+:::
+```
+
+Renders as:
+
+:::column
+**Left column** with markdown content, including lists:
+
+- Item one
+- Item two
+
+:::
+
+:::column
+**Right column** with more content:
+
+> A blockquote works here too.
+
+:::
+
 ## Code Blocks
 
-Fenced code blocks are syntax-highlighted with Shiki using catppuccin themes.
+Fenced code blocks are syntax-highlighted with Shiki using catppuccin themes. Each code block includes a word wrap toggle button that switches between horizontal scrolling and wrapped lines.
 
 ### Titles
 

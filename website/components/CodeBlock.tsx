@@ -1,8 +1,9 @@
-import { Check, Clipboard } from "lucide-react"
+import { Check, Clipboard, WrapText } from "lucide-react"
 import { useRef, useState } from "react"
 
 export function CodeBlock(props: React.ComponentProps<"pre">) {
   const [copied, setCopied] = useState(false)
+  const [wrap, setWrap] = useState(false)
   const preRef = useRef<HTMLPreElement>(null)
   const extra = props as Record<string, unknown>
   const meta = extra["data-meta"] as string | undefined
@@ -15,6 +16,10 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
     navigator.clipboard.writeText(text)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
+  }
+
+  const handleWrapToggle = () => {
+    setWrap(prev => !prev)
   }
 
   return (
@@ -33,6 +38,14 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
           <span className="flex-1 truncate text-xs font-medium">{title}</span>
           <button
             type="button"
+            onClick={handleWrapToggle}
+            className={`-me-2 p-1 rounded-md hover:text-foreground transition-colors ${wrap ? "text-foreground" : ""}`}
+            aria-label="Toggle word wrap"
+          >
+            <WrapText className="size-3.5" />
+          </button>
+          <button
+            type="button"
             onClick={handleCopy}
             className="-me-2 p-1 rounded-md hover:text-foreground transition-colors"
             aria-label="Copy code"
@@ -46,6 +59,14 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
         </div>
       ) : (
         <div className="empty:hidden absolute top-2 right-2 z-10 backdrop-blur-lg rounded-lg text-muted-foreground">
+          <button
+            type="button"
+            onClick={handleWrapToggle}
+            className={`p-1 rounded-md hover:text-foreground transition-colors ${wrap ? "text-foreground" : ""}`}
+            aria-label="Toggle word wrap"
+          >
+            <WrapText className="size-3.5" />
+          </button>
           <button
             type="button"
             onClick={handleCopy}
@@ -65,7 +86,11 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
           {...props}
           ref={preRef}
           style={undefined}
-          className="min-w-full w-max [&>code]:flex [&>code]:flex-col"
+          className={
+            wrap
+              ? "min-w-full whitespace-pre-wrap break-words [&>code]:flex [&>code]:flex-col"
+              : "min-w-full w-max [&>code]:flex [&>code]:flex-col"
+          }
         />
       </div>
     </figure>

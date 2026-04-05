@@ -293,6 +293,18 @@
     @apply text-primary no-underline;
   }
 
+  .prose dl {
+    @apply my-4;
+  }
+
+  .prose dt {
+    @apply font-semibold mt-4 first:mt-0;
+  }
+
+  .prose dd {
+    @apply ml-6 mt-1 text-muted-foreground;
+  }
+
   .prose {
     counter-reset: step;
   }

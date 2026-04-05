@@ -2,6 +2,7 @@ import { MDXContent } from "@content-collections/mdx/react"
 import { createFileRoute, notFound } from "@tanstack/react-router"
 import { sortedArticles } from "../helpers/articles.ts"
 import { Callout } from "../components/Callout.tsx"
+import { Columns, Column } from "../components/Columns.tsx"
 import { Card, Cards } from "../components/Cards.tsx"
 import { CodeBlock } from "../components/CodeBlock.tsx"
 import { headingComponents } from "../components/Heading.tsx"
@@ -11,6 +12,7 @@ import { ContentTabs } from "../components/ContentTabs.tsx"
 import { Details } from "../components/Details.tsx"
 import { FileTree } from "../components/FileTree.tsx"
 import { InlineIcon } from "../components/InlineIcon.tsx"
+import { Abbr } from "../components/Abbr.tsx"
 import { InlineBadge } from "../components/InlineBadge.tsx"
 import { Mermaid } from "../components/Mermaid.tsx"
 import { PackageTabs } from "../components/PackageTabs.tsx"
@@ -48,9 +50,12 @@ function Component() {
             components={{
               img: ZoomImage,
               pre: CodeBlock,
+              Abbr,
               Callout,
               Card,
               Cards,
+              Column,
+              Columns,
               CodeTabs,
               ContentTab,
               ContentTabs,

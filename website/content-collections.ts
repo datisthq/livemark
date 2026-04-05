@@ -5,6 +5,7 @@ import rehypeShiki from "@shikijs/rehype"
 import { transformerTwoslash } from "@shikijs/twoslash"
 import rehypeKatex from "rehype-katex"
 import rehypeSlug from "rehype-slug"
+import remarkDefinitionList from "remark-definition-list"
 import remarkDirective from "remark-directive"
 import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
@@ -14,8 +15,10 @@ import { pickDefaultIcon } from "./helpers/article-icon.ts"
 import remarkCustomHeadingId from "./plugins/remark-custom-heading-id.ts"
 import { remarkCallout } from "./plugins/remark-callout.ts"
 import { remarkCard } from "./plugins/remark-card.ts"
+import { remarkColumns } from "./plugins/remark-columns.ts"
 import { remarkTab } from "./plugins/remark-tab.ts"
 import { remarkBadge } from "./plugins/remark-badge.ts"
+import { remarkAbbr } from "./plugins/remark-abbr.ts"
 import { remarkDetails } from "./plugins/remark-details.ts"
 import { remarkFiletree } from "./plugins/remark-filetree.ts"
 import { remarkIcon } from "./plugins/remark-icon.ts"
@@ -74,15 +77,18 @@ const articles = defineCollection({
       {
         remarkPlugins: [
           remarkGfm,
+          remarkDefinitionList,
           remarkMath,
           remarkDirective,
           remarkCallout,
           remarkCard,
+          remarkColumns,
           remarkTab,
           remarkDetails,
           remarkFiletree,
           remarkIcon,
           remarkBadge,
+          remarkAbbr,
           remarkGithubCallout,
           [
             remarkImage,

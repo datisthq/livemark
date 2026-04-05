@@ -4,7 +4,7 @@ import { SKIP, visit } from "unist-util-visit"
 
 declare module "mdast" {
   interface HeadingData {
-    hProperties?: Record<string, unknown>
+    hProperties?: Record<string, string | number | boolean | null | undefined>
   }
 }
 
