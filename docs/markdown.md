@@ -165,6 +165,22 @@ Renders as:
 
 ![banner](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAABQCAIAAADTD63nAAABU0lEQVR4nO3csU3DUBRAUUCIGVJlHLcwAVV2YIbsQJUJUmccJCRmoKKgthOR3IDNOe138WxdveZLvn0c3m/g0u5+ewCWSVgkhEVCWCSERUJYJIRFQlgkhEXifvr47eP1OnMwR+vVZuzIxiJxZGN9e3p+qedgXva77fQDNhYJYZEQFglhkRAWCWGREBYJYZEQFglhkRAWCWGROOkSeswwPFxqjr/jcPgcO1rk+06b+BrTbCwSwiIhLBLCIiEsEsIiISwSwiIhLBLCIiEsEsIiISwSwiIhLBLCIiEsEsIiISwSwiIhLBLCIiEsEsIiISwSwiIhLBLCIiEsEsIicdZvjH78j5uZ+m/vew4bi4SwSAiLhLBICIuEsEgIi4SwSAiLhLBICIuEsEicdAm9323rOVgYG4vEkY21Xm2uMwcLY2OREBYJYZEQFglhkRAWCWGREBaJL1tnFXf+b+eSAAAAAElFTkSuQmCC)
 
+### Themed Images
+
+Show different images for light and dark mode using `#light` and `#dark` hash suffixes:
+
+```md
+![Light theme](https://picsum.photos/seed/sunshine/800/200#light)
+![Dark theme](https://picsum.photos/seed/dark/800/200#dark)
+```
+
+Renders as (toggle theme to see the switch):
+
+![Light theme](https://picsum.photos/seed/sunshine/800/200#light)
+![Dark theme](https://picsum.photos/seed/dark/800/200#dark)
+
+The `#light` image is hidden in dark mode, and the `#dark` image is hidden in light mode. Use both together for seamless theme switching.
+
 ### Video Blocks
 
 Embed videos using the `::video` directive with a `type` attribute:
