@@ -9,17 +9,17 @@ export function InlineToc(props: { maxLevel?: string }) {
   if (items.length === 0) return null
 
   return (
-    <nav className="not-prose my-6 rounded-lg border border-border bg-card p-4">
-      <p className="text-sm font-medium mb-2">On this page</p>
-      <ul className="text-sm space-y-1">
+    <nav className="not-prose my-8 rounded-xl border border-border bg-card p-6">
+      <p className="text-base font-semibold mb-4">Table of Contents</p>
+      <ul className="text-base space-y-2.5">
         {items.map(item => (
           <li
             key={item.url}
-            style={{ paddingLeft: `${(item.depth - 2) * 1}rem` }}
+            style={{ paddingLeft: `${(item.depth - 2) * 1.25}rem` }}
           >
             <a
               href={item.url}
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-muted-foreground hover:text-primary transition-colors"
             >
               {item.title}
             </a>
