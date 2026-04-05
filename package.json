@@ -39,6 +39,7 @@
     "@content-collections/core": "0.14.3",
     "@content-collections/mdx": "0.2.2",
     "@content-collections/vite": "0.2.9",
+    "@orama/orama": "^3.1.18",
     "@shikijs/rehype": "4.0.2",
     "@shikijs/twoslash": "^4.0.2",
     "@sindresorhus/slugify": "^3.0.0",

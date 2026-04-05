@@ -42,4 +42,3 @@ Syntax highlighting, line numbers, diffs, annotations, and twoslash.
 :::card{title="Advanced Syntax" href="/docs/markdown/advanced-syntax/" icon="puzzle"}
 HTML blocks, MDX components, LaTeX math, Mermaid diagrams, and file includes.
 :::
-

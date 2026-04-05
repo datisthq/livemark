@@ -42,6 +42,7 @@ import {
 import { rehypeInlineCode } from "./plugins/rehype-inline-code.ts"
 import { transformerIcon } from "./plugins/shiki-icon.ts"
 import { resolveIncludes } from "./helpers/resolve-includes.ts"
+import { extractSearchText } from "./helpers/search-text.ts"
 import { extractToc } from "./helpers/toc.ts"
 
 const config = await loadConfig()
@@ -145,7 +146,8 @@ const articles = defineCollection({
       },
     )
     const toc = extractToc(content)
-    return { ...document, title, icon, pathname, toc, mdx }
+    const searchText = extractSearchText(content)
+    return { ...document, title, icon, pathname, toc, searchText, mdx }
   },
 })
 
