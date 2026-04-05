@@ -823,24 +823,22 @@ graph LR
 
 ````md
 ```mermaid
-graph TD
-    A[Start] --> B{Decision}
-    B -- Yes --> C[Action]
-    B -- No --> D[Skip]
-    C --> E[End]
-    D --> E
+pie title Languages
+    "TypeScript" : 45
+    "Python" : 30
+    "Rust" : 15
+    "Other" : 10
 ```
 ````
 
 Renders as:
 
 ```mermaid
-graph TD
-    A[Start] --> B{Decision}
-    B -- Yes --> C[Action]
-    B -- No --> D[Skip]
-    C --> E[End]
-    D --> E
+pie title Languages
+    "TypeScript" : 45
+    "Python" : 30
+    "Rust" : 15
+    "Other" : 10
 ```
 
 ### Included Documents

@@ -4,7 +4,7 @@ import mermaid from "mermaid"
 mermaid.initialize({ startOnLoad: false })
 
 /** Renders a Mermaid diagram from a chart definition string */
-export function Mermaid(props: { chart: string }) {
+export function Mermaid(props: { children: string }) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export function Mermaid(props: { chart: string }) {
         startOnLoad: false,
         theme: isDark ? "dark" : "default",
       })
-      el.textContent = props.chart
+      el.textContent = props.children
       el.removeAttribute("data-processed")
       mermaid.run({ nodes: [el] })
     }
@@ -31,7 +31,7 @@ export function Mermaid(props: { chart: string }) {
     })
 
     return () => observer.disconnect()
-  }, [props.chart])
+  }, [props.children])
 
   return <div ref={ref} className="not-prose mermaid flex justify-center" />
 }

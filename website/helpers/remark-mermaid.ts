@@ -12,14 +12,8 @@ export const remarkMermaid: Plugin<[], Root> = () => {
       const jsxNode = {
         type: "mdxJsxFlowElement" as const,
         name: "Mermaid",
-        attributes: [
-          {
-            type: "mdxJsxAttribute" as const,
-            name: "chart",
-            value: node.value,
-          },
-        ],
-        children: [],
+        attributes: [],
+        children: [{ type: "text" as const, value: node.value }],
       }
 
       // @ts-expect-error mdxJsxFlowElement is not in mdast types
