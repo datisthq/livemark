@@ -6,6 +6,8 @@ import { Card, Cards } from "../components/Cards.tsx"
 import { CodeBlock } from "../components/CodeBlock.tsx"
 import { headingComponents } from "../components/Heading.tsx"
 import { CodeTabs } from "../components/CodeTabs.tsx"
+import { ContentTab } from "../components/ContentTab.tsx"
+import { ContentTabs } from "../components/ContentTabs.tsx"
 import { Details } from "../components/Details.tsx"
 import { FileTree } from "../components/FileTree.tsx"
 import { InlineIcon } from "../components/InlineIcon.tsx"
@@ -50,6 +52,8 @@ function Component() {
               Card,
               Cards,
               CodeTabs,
+              ContentTab,
+              ContentTabs,
               Details,
               FileTree,
               InlineBadge,

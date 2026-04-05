@@ -378,7 +378,7 @@ export default defineConfig({
 
 :::
 
-### Tabs
+### Code Tabs
 
 Group consecutive code blocks into tabs using `tab="name"` meta:
 
@@ -401,6 +401,44 @@ console.log("hello")
 ```python tab="Python"
 print("hello")
 ```
+
+### Content Tabs
+
+Group arbitrary content into tabs using the `:::tab` directive. Consecutive tabs are automatically grouped:
+
+```md
+:::tab{title="React"}
+React uses JSX for templating and hooks for state management.
+:::
+
+:::tab{title="Vue"}
+Vue uses single-file components with template, script, and style sections.
+:::
+```
+
+Renders as:
+
+:::tab{title="React"}
+React uses **JSX** for templating and hooks for state management.
+
+```jsx
+function App() {
+  return <h1>Hello</h1>
+}
+```
+
+:::
+
+:::tab{title="Vue"}
+Vue uses **single-file components** with template, script, and style sections.
+
+```vue
+<template>
+  <h1>Hello</h1>
+</template>
+```
+
+:::
 
 ### Steps
 
@@ -695,7 +733,7 @@ const b = 2 // [!code focus]
 const c = 3
 ```
 
-### Error and Warning Lines
+### Error and Warning
 
 Mark lines as errors or warnings with `// [!code error]` and `// [!code warning]`:
 
@@ -729,6 +767,31 @@ greeting = "hello"
 
 ```rust title="example.rs"
 let greeting = "hello";
+```
+
+### TypeScript Support
+
+Add `twoslash` to a TypeScript code block to enable inline type information. Hover over highlighted identifiers to see their types:
+
+````md
+```typescript twoslash
+const greeting = "hello"
+//    ^?
+```
+````
+
+Renders as:
+
+```typescript twoslash
+const greeting = "hello"
+//    ^?
+```
+
+Use `// @errors: 2304` to showcase expected errors:
+
+```typescript twoslash
+// @errors: 2304
+const x = unknown_var
 ```
 
 ### NPM Commands

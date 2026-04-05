@@ -224,6 +224,38 @@
     user-select: none;
   }
 
+  .prose pre code .twoslash-popup-container {
+    @apply absolute z-10 translate-y-1 rounded-md border border-border bg-popover px-3 py-1.5 text-xs shadow-md;
+  }
+
+  .prose pre code .twoslash-popup-type {
+    @apply font-mono text-muted-foreground;
+  }
+
+  .prose pre code .twoslash-error-line {
+    @apply bg-red-500/10;
+  }
+
+  .prose pre code .twoslash-tag-line {
+    @apply opacity-50;
+  }
+
+  .prose pre code .twoslash-completion-list {
+    @apply absolute z-10 translate-y-1 rounded-md border border-border bg-popover p-1 text-xs shadow-md;
+  }
+
+  .prose pre code .twoslash-completion-list .twoslash-completion-item {
+    @apply px-2 py-0.5;
+  }
+
+  .prose pre code .twoslash-hover .twoslash-popup-container {
+    @apply hidden;
+  }
+
+  .prose pre code .twoslash-hover:hover .twoslash-popup-container {
+    @apply block;
+  }
+
   .prose :not(pre) > code {
     @apply bg-muted/70 border border-border rounded-md px-1.5 py-0.5 text-sm font-mono;
   }

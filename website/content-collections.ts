@@ -2,6 +2,7 @@ import { relative, resolve } from "node:path"
 import { defineCollection, defineConfig } from "@content-collections/core"
 import { compileMDX } from "@content-collections/mdx"
 import rehypeShiki from "@shikijs/rehype"
+import { transformerTwoslash } from "@shikijs/twoslash"
 import rehypeKatex from "rehype-katex"
 import rehypeSlug from "rehype-slug"
 import remarkDirective from "remark-directive"
@@ -13,6 +14,7 @@ import { pickDefaultIcon } from "./helpers/article-icon.ts"
 import remarkCustomHeadingId from "./plugins/remark-custom-heading-id.ts"
 import { remarkCallout } from "./plugins/remark-callout.ts"
 import { remarkCard } from "./plugins/remark-card.ts"
+import { remarkTab } from "./plugins/remark-tab.ts"
 import { remarkBadge } from "./plugins/remark-badge.ts"
 import { remarkDetails } from "./plugins/remark-details.ts"
 import { remarkFiletree } from "./plugins/remark-filetree.ts"
@@ -76,6 +78,7 @@ const articles = defineCollection({
           remarkDirective,
           remarkCallout,
           remarkCard,
+          remarkTab,
           remarkDetails,
           remarkFiletree,
           remarkIcon,
@@ -101,6 +104,7 @@ const articles = defineCollection({
             {
               themes: { light: "catppuccin-latte", dark: "catppuccin-mocha" },
               transformers: [
+                transformerTwoslash({ explicitTrigger: true }),
                 transformerIcon(),
                 transformerNotations(),
                 transformerLineHighlight(),
