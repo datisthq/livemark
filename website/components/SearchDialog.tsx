@@ -69,7 +69,7 @@ export function SearchDialog(props: {
     async (term: string) => {
       setQuery(term)
       if (!term.trim()) {
-        setResults(sortedArticles.map(a => toResult(a, "")))
+        setResults([])
         return
       }
       const db = await ensureIndex()
@@ -139,9 +139,14 @@ export function SearchDialog(props: {
         placeholder="Search docs..."
         value={query}
         onValueChange={handleSearch}
+        onClear={() => handleSearch("")}
       />
       <CommandList className="max-h-80">
-        <CommandEmpty>No results found.</CommandEmpty>
+        <CommandEmpty>
+          {query.trim()
+            ? "No results found."
+            : "Type to search across all documentation."}
+        </CommandEmpty>
         {[...grouped.entries()].map(([group, items]) => (
           <CommandGroup key={group} heading={group}>
             {items.map(result => {
@@ -153,11 +158,11 @@ export function SearchDialog(props: {
                   onSelect={() => handleSelect(result.pathname)}
                   className="py-2.5"
                 >
-                  <Icon className="size-4 shrink-0 mt-0.5 self-start opacity-60" />
+                  <Icon className="size-5 shrink-0 mt-0.5 self-start opacity-60" />
                   <div className="flex flex-col gap-0.5 min-w-0">
-                    <span className="font-medium">{result.title}</span>
+                    <span className="text-base font-medium">{result.title}</span>
                     {result.snippet && (
-                      <span className="text-xs text-muted-foreground line-clamp-1">
+                      <span className="text-sm text-muted-foreground line-clamp-1">
                         <HighlightedText text={result.snippet} term={query} />
                       </span>
                     )}
@@ -168,21 +173,21 @@ export function SearchDialog(props: {
           </CommandGroup>
         ))}
       </CommandList>
-      <div className="flex items-center gap-3 border-t px-3 py-2 text-xs text-muted-foreground">
-        <span className="flex items-center gap-1">
-          <kbd className="rounded border border-border bg-muted px-1 py-0.5 text-[10px] font-mono">
+      <div className="flex items-center gap-4 border-t mt-2 px-4 py-2.5 text-sm text-muted-foreground">
+        <span className="flex items-center gap-1.5">
+          <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 text-xs font-mono">
             ↑↓
           </kbd>
           navigate
         </span>
-        <span className="flex items-center gap-1">
-          <kbd className="rounded border border-border bg-muted px-1 py-0.5 text-[10px] font-mono">
+        <span className="flex items-center gap-1.5">
+          <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 text-xs font-mono">
             ↵
           </kbd>
           select
         </span>
-        <span className="flex items-center gap-1">
-          <kbd className="rounded border border-border bg-muted px-1 py-0.5 text-[10px] font-mono">
+        <span className="flex items-center gap-1.5">
+          <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 text-xs font-mono">
             esc
           </kbd>
           close
