@@ -1,20 +1,19 @@
 import { join } from "node:path"
 import { Command } from "commander"
-import { createServer } from "vite"
+import { preview as vitePreview } from "vite"
 
 const configFile = join(import.meta.dirname, "..", "website", "vite.config.ts")
 
 /**
- * Start a development server.
+ * Preview the production build locally.
  */
-export const serve = new Command("serve")
-  .description("Start a development server")
+export const preview = new Command("preview")
+  .description("Preview the production build locally")
   .action(async () => {
-    const server = await createServer({
+    const server = await vitePreview({
       configFile,
-      server: { port: 8000, host: true },
+      preview: { port: 8000, host: true },
     })
-    await server.listen()
     server.printUrls()
     server.bindCLIShortcuts({ print: true })
   })

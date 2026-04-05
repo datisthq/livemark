@@ -1,6 +1,7 @@
 import { Command } from "commander"
 import { build } from "./commands/build.ts"
-import { serve } from "./commands/serve.ts"
+import { preview } from "./commands/preview.ts"
+import { start } from "./commands/start.ts"
 import { helpConfiguration } from "./helpers/program.ts"
 
 export const program = new Command()
@@ -8,5 +9,6 @@ export const program = new Command()
   .description("Livemark static site generator")
   .option("-c, --config <path>", "path to config file")
   .configureHelp(helpConfiguration)
-  .addCommand(serve)
+  .addCommand(start)
   .addCommand(build)
+  .addCommand(preview)
