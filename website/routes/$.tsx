@@ -40,9 +40,10 @@ import {
   TableCell,
 } from "../components/SortableTable.tsx"
 
-export const Route = createFileRoute("/$pathname")({
+export const Route = createFileRoute("/$")({
   loader: ({ params }) => {
-    const article = sortedArticles.find(a => a.pathname === params.pathname)
+    const splat = `/${params._splat}/`
+    const article = sortedArticles.find(a => a.pathname === splat)
     if (!article) throw notFound()
     return article
   },

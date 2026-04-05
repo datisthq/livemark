@@ -3,6 +3,7 @@ title: Getting Started
 description: Learn how to set up your first Livemark project.
 icon: rocket
 order: 1
+pathname: /docs/getting-started/
 ---
 
 # Getting Started

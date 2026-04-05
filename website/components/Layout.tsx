@@ -1,7 +1,18 @@
-import { Link, useMatchRoute } from "@tanstack/react-router"
-import { sortedArticles } from "../helpers/articles.ts"
-import { ExternalLink, FileText, Search as SearchIcon } from "lucide-react"
+import { Link, useLocation } from "@tanstack/react-router"
+import {
+  ChevronRight,
+  ExternalLink,
+  FileText,
+  Search as SearchIcon,
+} from "lucide-react"
+import { articleTree } from "../helpers/articles.ts"
 import { articleIcons } from "../helpers/article-icon.ts"
+import type { ArticleNode } from "../models/article.ts"
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "../elements/collapsible.tsx"
 import {
   Sidebar,
   SidebarContent,
@@ -14,6 +25,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
   SidebarProvider,
   SidebarRail,
   SidebarTrigger,
@@ -59,7 +73,7 @@ export function Layout(props: { children?: React.ReactNode }) {
 }
 
 function AppSidebar() {
-  const matchRoute = useMatchRoute()
+  const pathname = useLocation({ select: l => l.pathname })
   return (
     <Sidebar>
       <SidebarHeader>
@@ -86,30 +100,13 @@ function AppSidebar() {
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {sortedArticles.map(article => {
-                const Icon = articleIcons[article.icon] ?? FileText
-                const active = !!matchRoute({
-                  to: "/$pathname",
-                  params: { pathname: article.pathname },
-                })
-                return (
-                  <SidebarMenuItem key={article.pathname}>
-                    <SidebarMenuButton
-                      isActive={active}
-                      className={active ? "" : "opacity-75"}
-                      render={
-                        <Link
-                          to="/$pathname"
-                          params={{ pathname: article.pathname }}
-                        />
-                      }
-                    >
-                      <Icon className="size-4" />
-                      <span>{article.title}</span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                )
-              })}
+              {articleTree.map(node => (
+                <NavNode
+                  key={node.pathname}
+                  node={node}
+                  currentPath={pathname}
+                />
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -120,6 +117,72 @@ function AppSidebar() {
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
+  )
+}
+
+function splatFor(pathname: string) {
+  return { _splat: pathname.replace(/^\/|\/$/g, "") }
+}
+
+function isActive(articlePathname: string, currentPath: string) {
+  const normalized = `/${currentPath.replace(/^\/|\/$/g, "")}/`
+  return articlePathname === normalized
+}
+
+function NavNode(props: { node: ArticleNode; currentPath: string }) {
+  const { node, currentPath } = props
+  const Icon = articleIcons[node.icon] ?? FileText
+  const active = isActive(node.pathname, currentPath)
+
+  if (node.children.length === 0) {
+    return (
+      <SidebarMenuItem>
+        <SidebarMenuButton
+          isActive={active}
+          className={active ? "" : "opacity-75"}
+          render={<Link to="/$" params={splatFor(node.pathname)} />}
+        >
+          <Icon className="size-4" />
+          <span>{node.title}</span>
+        </SidebarMenuButton>
+      </SidebarMenuItem>
+    )
+  }
+
+  return (
+    <Collapsible defaultOpen className="group/collapsible">
+      <SidebarMenuItem>
+        <SidebarMenuButton
+          isActive={active}
+          className={active ? "" : "opacity-75"}
+          render={<Link to="/$" params={splatFor(node.pathname)} />}
+        >
+          <Icon className="size-4" />
+          <span>{node.title}</span>
+        </SidebarMenuButton>
+        <CollapsibleTrigger className="absolute right-1 top-1.5 p-1 rounded-md hover:bg-sidebar-accent">
+          <ChevronRight className="size-3.5 transition-transform group-data-[open]/collapsible:rotate-90" />
+        </CollapsibleTrigger>
+      </SidebarMenuItem>
+      <CollapsibleContent>
+        <SidebarMenuSub>
+          {node.children.map(child => {
+            const childIsActive = isActive(child.pathname, currentPath)
+            return (
+              <SidebarMenuSubItem key={child.pathname}>
+                <SidebarMenuSubButton
+                  isActive={childIsActive}
+                  className={childIsActive ? "" : "opacity-75"}
+                  render={<Link to="/$" params={splatFor(child.pathname)} />}
+                >
+                  <span>{child.title}</span>
+                </SidebarMenuSubButton>
+              </SidebarMenuSubItem>
+            )
+          })}
+        </SidebarMenuSub>
+      </CollapsibleContent>
+    </Collapsible>
   )
 }
 

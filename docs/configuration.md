@@ -3,6 +3,7 @@ title: Configuration
 description: How to configure your Livemark project.
 icon: layers
 order: 2
+pathname: /docs/configuration/
 ---
 
 # Configuration

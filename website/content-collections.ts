@@ -1,4 +1,4 @@
-import { relative, resolve } from "node:path"
+import { basename, relative, resolve } from "node:path"
 import { defineCollection, defineConfig } from "@content-collections/core"
 import { compileMDX } from "@content-collections/mdx"
 import rehypeShiki from "@shikijs/rehype"
@@ -13,7 +13,7 @@ import remarkMath from "remark-math"
 import { z } from "zod"
 import { loadConfig } from "../actions/config/load.ts"
 import { pickDefaultIcon } from "./helpers/article-icon.ts"
-import { toPathname } from "./models/article.ts"
+import slugify from "@sindresorhus/slugify"
 import remarkCustomHeadingId from "./plugins/remark-custom-heading-id.ts"
 import { remarkCallout } from "./plugins/remark-callout.ts"
 import { remarkCard } from "./plugins/remark-card.ts"
@@ -51,6 +51,11 @@ const config = await loadConfig()
 const baseDir = resolve(import.meta.dirname, "../..")
 const directory = relative(baseDir, config.root) || "."
 
+function toPathname(filePath: string) {
+  const name = basename(filePath).replace(/\.\w+$/, "")
+  return slugify(name)
+}
+
 function extractTitle(content: string, path: string) {
   const match = /^#\s+(.+)$/m.exec(content)
   if (match) return match[1]!
@@ -68,6 +73,7 @@ const articles = defineCollection({
   include: config.articles.include,
   exclude: config.articles.exclude,
   schema: z.object({
+    content: z.string(),
     title: z.string().optional(),
     description: z.string().optional(),
     icon: z.string().optional(),

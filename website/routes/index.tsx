@@ -5,6 +5,9 @@ export const Route = createFileRoute("/")({
   beforeLoad: () => {
     const first = sortedArticles[0]
     if (!first) throw notFound()
-    throw redirect({ to: "/$pathname", params: { pathname: first.pathname } })
+    throw redirect({
+      to: "/$",
+      params: { _splat: first.pathname.replace(/^\/|\/$/g, "") },
+    })
   },
 })

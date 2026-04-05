@@ -1,4 +1,5 @@
 import { allArticles } from "content-collections"
+import { buildArticleTree } from "../models/article.ts"
 
 /** Articles sorted by frontmatter order (unordered articles come last) */
 export const sortedArticles = [...allArticles].sort((a, b) => {
@@ -6,3 +7,6 @@ export const sortedArticles = [...allArticles].sort((a, b) => {
   const bo = b.order ?? Number.MAX_SAFE_INTEGER
   return ao - bo
 })
+
+/** Articles organized as a tree based on pathname hierarchy */
+export const articleTree = buildArticleTree(sortedArticles)
