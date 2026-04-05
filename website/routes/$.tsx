@@ -6,6 +6,7 @@ import { Columns, Column } from "../components/Columns.tsx"
 import { Card, Cards } from "../components/Cards.tsx"
 import { CodeBlock } from "../components/CodeBlock.tsx"
 import { headingComponents } from "../components/Heading.tsx"
+import { Calendar } from "lucide-react"
 import { CodeTabs } from "../components/CodeTabs.tsx"
 import { ContentTab } from "../components/ContentTab.tsx"
 import { ContentTabs } from "../components/ContentTabs.tsx"
@@ -27,6 +28,8 @@ import { PackageTabs } from "../components/PackageTabs.tsx"
 import { SoundCloud } from "../components/SoundCloud.tsx"
 import { YouTube } from "../components/YouTube.tsx"
 import { InlineToc } from "../components/InlineToc.tsx"
+import { PageToolbar } from "../components/PageToolbar.tsx"
+import { PrevNext } from "../components/PrevNext.tsx"
 import { Toc } from "../components/Toc.tsx"
 import { ZoomImage } from "../components/ZoomImage.tsx"
 import { Separator } from "../elements/separator.tsx"
@@ -60,6 +63,25 @@ export const Route = createFileRoute("/$")({
 
 function Component() {
   const article = Route.useLoaderData()
+  const lastUpdated = formatDate(article.lastUpdated)
+
+  const H1 = (props: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <>
+      <h1 {...props}>
+        {props.id ? (
+          <a href={`#${props.id}`}>{props.children}</a>
+        ) : (
+          props.children
+        )}
+      </h1>
+      {lastUpdated && (
+        <p className="flex items-center gap-1.5 text-sm text-muted-foreground !-mt-4 !mb-6">
+          <Calendar className="size-3.5" />
+          Last updated {lastUpdated}
+        </p>
+      )}
+    </>
+  )
 
   return (
     <TocContext.Provider value={article.toc}>
@@ -103,12 +125,25 @@ function Component() {
                 SoundCloud,
                 YouTube,
                 ...headingComponents,
+                h1: H1,
               }}
             />
           </div>
+          <PrevNext pathname={article.pathname} />
         </div>
-        <Toc items={article.toc} />
+        <Toc items={article.toc}>
+          <PageToolbar filePath={article.filePath} content={article.content} />
+        </Toc>
       </div>
     </TocContext.Provider>
   )
+}
+
+function formatDate(iso?: string) {
+  if (!iso) return undefined
+  return new Date(iso).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  })
 }

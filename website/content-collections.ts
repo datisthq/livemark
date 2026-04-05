@@ -1,3 +1,4 @@
+import { execSync } from "node:child_process"
 import { basename, relative, resolve } from "node:path"
 import { defineCollection, defineConfig } from "@content-collections/core"
 import { compileMDX } from "@content-collections/mdx"
@@ -55,6 +56,18 @@ const directory = relative(baseDir, config.root) || "."
 function toPathname(filePath: string) {
   const name = basename(filePath).replace(/\.\w+$/, "")
   return slugify(name)
+}
+
+function getLastUpdated(filePath: string) {
+  try {
+    const timestamp = execSync(`git log -1 --format=%cI -- "${filePath}"`, {
+      cwd: config.root,
+      encoding: "utf-8",
+    }).trim()
+    return timestamp || undefined
+  } catch {
+    return undefined
+  }
 }
 
 function extractTitle(content: string, path: string) {
@@ -147,7 +160,18 @@ const articles = defineCollection({
     )
     const toc = extractToc(content)
     const searchText = extractSearchText(content)
-    return { ...document, title, icon, pathname, toc, searchText, mdx }
+    const lastUpdated = getLastUpdated(document._meta.filePath)
+    return {
+      ...document,
+      filePath: document._meta.filePath,
+      lastUpdated,
+      title,
+      icon,
+      pathname,
+      toc,
+      searchText,
+      mdx,
+    }
   },
 })
 
