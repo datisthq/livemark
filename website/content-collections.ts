@@ -13,6 +13,7 @@ import { pickDefaultIcon } from "./helpers/article-icon.ts"
 import remarkCustomHeadingId from "./helpers/remark-custom-heading-id.ts"
 import { remarkCallout } from "./helpers/remark-callout.ts"
 import { remarkCard } from "./helpers/remark-card.ts"
+import { remarkDetails } from "./helpers/remark-details.ts"
 import { remarkCodeTabs } from "./helpers/remark-code-tabs.ts"
 import { remarkGithubCallout } from "./helpers/remark-github-callout.ts"
 import { remarkImage } from "./helpers/remark-image.ts"
@@ -71,6 +72,7 @@ const articles = defineCollection({
           remarkDirective,
           remarkCallout,
           remarkCard,
+          remarkDetails,
           remarkGithubCallout,
           [
             remarkImage,

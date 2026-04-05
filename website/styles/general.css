@@ -237,39 +237,6 @@
     @apply overflow-x-auto overflow-y-hidden;
   }
 
-  .prose details {
-    @apply border border-border rounded-xl p-4 my-4;
-  }
-
-  .prose details summary {
-    @apply cursor-pointer font-medium list-none;
-  }
-
-  .prose details summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .prose details summary::before {
-    content: "";
-    display: inline-block;
-    width: 0.4em;
-    height: 0.4em;
-    border-right: 2px solid currentColor;
-    border-bottom: 2px solid currentColor;
-    transform: rotate(-45deg);
-    margin-right: 0.5em;
-    vertical-align: middle;
-    transition: transform 0.2s;
-  }
-
-  .prose details[open] summary::before {
-    transform: rotate(45deg);
-  }
-
-  .prose details[open] summary {
-    @apply mb-3;
-  }
-
   .prose {
     counter-reset: step;
   }

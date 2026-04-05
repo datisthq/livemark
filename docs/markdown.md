@@ -123,7 +123,7 @@ https://github.com/datisthq/livemark
 
 Renders as: https://github.com/datisthq/livemark
 
-## Images
+## Media
 
 ### Image Zooming
 
@@ -255,6 +255,13 @@ Renders as:
 
 Callouts highlight important information. Available types: note, tip, info, warning, danger.
 
+GitHub syntax:
+
+```md
+> [!TIP]
+> GitHub syntax also works.
+```
+
 Directive syntax:
 
 ```md
@@ -263,11 +270,12 @@ This is a note.
 :::
 ```
 
-GitHub syntax:
+Custom title:
 
 ```md
-> [!TIP]
-> GitHub syntax also works.
+:::warning[Breaking Change]
+This API has been removed in v2.
+:::
 ```
 
 Renders as:
@@ -292,32 +300,29 @@ Critical warning!
 Additional context.
 :::
 
-### Accordions
+:::warning[Breaking Change]
+This API has been removed in v2.
+:::
 
-Collapsible content sections using native HTML `<details>` and `<summary>`:
+### Expandable
+
+Create expandable content using the `:::details` directive:
 
 ```md
-<details>
-<summary>Click to expand</summary>
-
+:::details[Click to expand]
 Hidden content here with **markdown** support.
-
-</details>
+:::
 ```
 
 Renders as:
 
-<details>
-<summary>Click to expand</summary>
-
+:::details[Click to expand]
 Hidden content here with **markdown** support.
-
-</details>
+:::
 
 You can nest any markdown inside, including code blocks, lists, and callouts:
 
-<details>
-<summary>Configuration example</summary>
+:::details[Configuration example]
 
 ```typescript title="livemark.config.ts"
 import { defineConfig } from "livemark"
@@ -327,7 +332,7 @@ export default defineConfig({
 })
 ```
 
-</details>
+:::
 
 ### Tabs
 
