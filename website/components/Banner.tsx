@@ -1,4 +1,4 @@
-import { Info, Star, MessageCircle } from "lucide-react"
+import { Star, MessageCircle } from "lucide-react"
 
 /** Technical preview banner displayed in the header */
 export function Banner() {

@@ -16,6 +16,10 @@ export default defineConfig({
   root: config.root,
   publicDir: join(websiteDir, "public"),
   build: { outDir: ".livemark/build" },
+  define: {
+    "import.meta.env.SITE_TITLE": JSON.stringify(config.title),
+    "import.meta.env.SITE_DESCRIPTION": JSON.stringify(config.description),
+  },
   plugins: [
     devtools(),
     tailwind(),

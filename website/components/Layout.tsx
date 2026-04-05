@@ -37,6 +37,7 @@ import {
 } from "../elements/sidebar.tsx"
 import { Banner } from "./Banner.tsx"
 import { SearchDialog } from "./SearchDialog.tsx"
+import { SiteTitle } from "./SiteTitle.tsx"
 import { Theme } from "./Theme.tsx"
 
 export function Layout(props: { children?: React.ReactNode }) {
@@ -97,15 +98,7 @@ function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" render={<Link to="/" />}>
-              <img
-                src="/logo.svg"
-                alt="Livemark"
-                className="size-8 rounded-lg"
-              />
-              <div className="flex flex-col gap-0.5 leading-none">
-                <span className="font-semibold">Livemark</span>
-                <span className="text-xs">Markdown site generator</span>
-              </div>
+              <SiteTitle />
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
