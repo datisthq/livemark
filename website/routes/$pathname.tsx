@@ -13,6 +13,12 @@ import { Details } from "../components/Details.tsx"
 import { FileTree } from "../components/FileTree.tsx"
 import { InlineIcon } from "../components/InlineIcon.tsx"
 import { Abbr } from "../components/Abbr.tsx"
+import { FootnoteRef } from "../components/FootnoteRef.tsx"
+import {
+  DefinitionList,
+  DefinitionTerm,
+  DefinitionDetail,
+} from "../components/DefinitionList.tsx"
 import { AnsiCode } from "../components/AnsiCode.tsx"
 import { InlineBadge } from "../components/InlineBadge.tsx"
 import { LinkButton } from "../components/LinkButton.tsx"
@@ -23,7 +29,16 @@ import { YouTube } from "../components/YouTube.tsx"
 import { InlineToc } from "../components/InlineToc.tsx"
 import { Toc } from "../components/Toc.tsx"
 import { ZoomImage } from "../components/ZoomImage.tsx"
+import { Separator } from "../elements/separator.tsx"
 import { TocContext } from "../helpers/toc-context.ts"
+import {
+  SortableTable,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from "../components/SortableTable.tsx"
 
 export const Route = createFileRoute("/$pathname")({
   loader: ({ params }) => {
@@ -53,8 +68,16 @@ function Component() {
             <MDXContent
               code={article.mdx}
               components={{
+                hr: Separator,
                 img: ZoomImage,
                 pre: CodeBlock,
+                table: SortableTable,
+                thead: TableHeader,
+                tbody: TableBody,
+                tr: TableRow,
+                th: TableHead,
+                td: TableCell,
+                a: FootnoteRef,
                 Abbr,
                 AnsiCode,
                 Callout,
@@ -65,6 +88,9 @@ function Component() {
                 CodeTabs,
                 ContentTab,
                 ContentTabs,
+                DefinitionDetail,
+                DefinitionList,
+                DefinitionTerm,
                 Details,
                 FileTree,
                 InlineBadge,

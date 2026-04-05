@@ -381,19 +381,25 @@ See the [full emoji list](https://github.com/ikatyang/emoji-cheat-sheet) for ava
 
 ### Tables
 
+Standard GFM tables with sortable columns — click any header to sort:
+
 ```md
-| Feature    | Status    |
-| ---------- | --------- |
-| Tables     | Supported |
-| Task lists | Supported |
+| Language   | Year | Typing  |
+| ---------- | ---- | ------- |
+| TypeScript | 2012 | Static  |
+| Python     | 1991 | Dynamic |
+| Rust       | 2010 | Static  |
+| JavaScript | 1995 | Dynamic |
 ```
 
 Renders as:
 
-| Feature    | Status    |
-| ---------- | --------- |
-| Tables     | Supported |
-| Task lists | Supported |
+| Language   | Year | Typing  |
+| ---------- | ---- | ------- |
+| TypeScript | 2012 | Static  |
+| Python     | 1991 | Dynamic |
+| Rust       | 2010 | Static  |
+| JavaScript | 1995 | Dynamic |
 
 ### Callouts
 

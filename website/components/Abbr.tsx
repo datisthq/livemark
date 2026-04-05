@@ -1,11 +1,17 @@
-/** Renders an abbreviation with a tooltip showing its full form */
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "../elements/tooltip.tsx"
+
+/** Renders an abbreviation with a shadcn tooltip showing its full form */
 export function Abbr(props: { text: string; title: string }) {
   return (
-    <abbr
-      title={props.title}
-      className="no-underline border-b border-dotted border-muted-foreground cursor-help"
-    >
-      {props.text}
-    </abbr>
+    <Tooltip>
+      <TooltipTrigger className="border-b border-dotted border-muted-foreground cursor-help">
+        {props.text}
+      </TooltipTrigger>
+      <TooltipContent>{props.title}</TooltipContent>
+    </Tooltip>
   )
 }

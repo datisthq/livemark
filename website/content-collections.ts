@@ -21,6 +21,7 @@ import { remarkTab } from "./plugins/remark-tab.ts"
 import { remarkBadge } from "./plugins/remark-badge.ts"
 import { remarkButton } from "./plugins/remark-button.ts"
 import { remarkAbbr } from "./plugins/remark-abbr.ts"
+import { remarkDeflist } from "./plugins/remark-deflist.ts"
 import { remarkDetails } from "./plugins/remark-details.ts"
 import { remarkFiletree } from "./plugins/remark-filetree.ts"
 import { remarkIcon } from "./plugins/remark-icon.ts"
@@ -84,6 +85,7 @@ const articles = defineCollection({
           remarkGfm,
           remarkGemoji,
           remarkDefinitionList,
+          remarkDeflist,
           remarkMath,
           remarkDirective,
           remarkCallout,

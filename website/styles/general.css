@@ -285,6 +285,15 @@
     @apply overflow-x-auto overflow-y-hidden;
   }
 
+  .prose ul:has(> li > input[type="checkbox"]) {
+    padding-inline-start: 0.5em;
+  }
+
+  .prose ul > li:has(> input[type="checkbox"]) {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
   .prose [data-footnotes] {
     @apply mt-8 border-t border-border pt-4 text-sm text-muted-foreground;
   }
@@ -294,7 +303,7 @@
   }
 
   .prose sup a[data-footnote-ref] {
-    @apply text-primary no-underline font-medium;
+    @apply ml-0.5 px-0.5 text-primary text-xs no-underline font-medium;
   }
 
   .prose [data-footnotes] a[data-footnote-backref] {
