@@ -7,7 +7,7 @@ import {
   FileText,
   Search as SearchIcon,
 } from "lucide-react"
-import { articleTree } from "../content/article.ts"
+import { articleGroups } from "../content/article.ts"
 import { articleIcons } from "../helpers/article-icon.ts"
 import type { ArticleNode } from "../models/article.ts"
 import {
@@ -104,22 +104,26 @@ function AppSidebar() {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
-            Articles
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {articleTree.map(node => (
-                <NavNode
-                  key={node.pathname}
-                  node={node}
-                  currentPath={pathname}
-                />
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {articleGroups.map((group, index) => (
+          <SidebarGroup key={group.name ?? `__unnamed-${index}`}>
+            {group.name && (
+              <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
+                {group.name}
+              </SidebarGroupLabel>
+            )}
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {group.nodes.map(node => (
+                  <NavNode
+                    key={node.pathname}
+                    node={node}
+                    currentPath={pathname}
+                  />
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ))}
       </SidebarContent>
       <SidebarFooter className="p-4 space-y-2">
         <Search />

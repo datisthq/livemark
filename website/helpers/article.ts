@@ -1,4 +1,4 @@
-import type { ArticleNode } from "../models/article.ts"
+import type { ArticleGroup, ArticleNode } from "../models/article.ts"
 
 /** Build a tree from a flat sorted list of articles based on pathname hierarchy */
 export function buildArticleTree(
@@ -33,6 +33,44 @@ export function buildArticleTree(
   }
 
   return roots
+}
+
+/**
+ * Partition root nodes into sidebar sections.
+ *
+ * Walks root nodes in sort order. A root whose article has a `group` field
+ * opens a new section; subsequent roots without `group` append to the current
+ * section. Roots before the first `group` field land in a single leading
+ * section with `name: undefined` (rendered without a label).
+ *
+ * `group` on non-root articles is ignored — only roots gate section boundaries.
+ */
+export function groupArticleTree(
+  tree: ArticleNode[],
+  articles: { pathname: string; group?: string }[],
+): ArticleGroup[] {
+  const groupByPathname = new Map<string, string | undefined>()
+  for (const article of articles) {
+    groupByPathname.set(article.pathname, article.group)
+  }
+
+  const sections: ArticleGroup[] = []
+  let current: ArticleGroup | undefined
+
+  for (const node of tree) {
+    const group = groupByPathname.get(node.pathname)
+    if (group) {
+      current = { name: group, nodes: [node] }
+      sections.push(current)
+    } else if (current) {
+      current.nodes.push(node)
+    } else {
+      current = { name: undefined, nodes: [node] }
+      sections.push(current)
+    }
+  }
+
+  return sections
 }
 
 /** Depth-first flatten of an article tree into a list of pathnames */

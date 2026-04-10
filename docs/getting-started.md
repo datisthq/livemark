@@ -4,6 +4,7 @@ description: Learn how to set up your first Livemark project.
 icon: rocket
 order: 1
 pathname: /getting-started/
+group: Articles
 ---
 
 # Getting Started

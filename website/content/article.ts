@@ -1,5 +1,9 @@
 import { allArticles } from "content-collections"
-import { buildArticleTree, flattenArticleTree } from "../helpers/article.ts"
+import {
+  buildArticleTree,
+  flattenArticleTree,
+  groupArticleTree,
+} from "../helpers/article.ts"
 
 /**
  * Articles sorted by frontmatter `order`:
@@ -10,11 +14,16 @@ export const sortedArticles = [...allArticles].sort(
   (a, b) => orderKey(a.order) - orderKey(b.order),
 )
 
-/** Articles organized as a tree based on pathname hierarchy */
-export const articleTree = buildArticleTree(sortedArticles)
+/** Sidebar sections derived from the pathname tree, partitioned by `group` */
+export const articleGroups = groupArticleTree(
+  buildArticleTree(sortedArticles),
+  sortedArticles,
+)
 
-/** Articles in depth-first tree order (matches sidebar navigation) */
-export const flatArticles = flattenArticleTree(articleTree)
+/** Articles in depth-first order across all sections (matches sidebar walk) */
+export const flatArticles = articleGroups.flatMap(group =>
+  flattenArticleTree(group.nodes),
+)
 
 function orderKey(order?: number) {
   if (order === undefined) return Number.MAX_SAFE_INTEGER / 2

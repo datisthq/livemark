@@ -9,6 +9,7 @@ export const Article = z.object({
   icon: z.string().optional(),
   order: z.number().optional(),
   pathname: z.string().optional(),
+  group: z.string().optional(),
 })
 
 export interface ArticleNode {
@@ -16,4 +17,13 @@ export interface ArticleNode {
   title: string
   icon: string
   children: ArticleNode[]
+}
+
+/**
+ * A contiguous section of root articles sharing the same `group` label.
+ * `name: undefined` represents the leading ungrouped section (at most one).
+ */
+export interface ArticleGroup {
+  name?: string
+  nodes: ArticleNode[]
 }
