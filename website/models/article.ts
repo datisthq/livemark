@@ -1,17 +1,18 @@
 import { z } from "zod"
+import { nonEmptyString } from "../helpers/model.ts"
 import type { TocItem } from "./toc.ts"
 
 /** Frontmatter schema for a markdown article. */
 export type Article = z.infer<typeof Article>
 export const Article = z.object({
   content: z.string(),
-  title: z.string().optional(),
-  label: z.string().optional(),
-  description: z.string().optional(),
-  icon: z.string().optional(),
+  title: nonEmptyString.optional(),
+  label: nonEmptyString.optional(),
+  description: nonEmptyString.optional(),
+  icon: nonEmptyString.optional(),
   order: z.number().optional(),
-  pathname: z.string().optional(),
-  group: z.string().optional(),
+  pathname: nonEmptyString.optional(),
+  group: nonEmptyString.optional(),
 })
 
 /** Processed article ready for page rendering (result of content-collections transform). */
