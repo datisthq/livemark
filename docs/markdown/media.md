@@ -2,7 +2,7 @@
 title: Media
 icon: image
 order: 4
-pathname: /docs/markdown/media/
+pathname: /markdown/media/
 ---
 
 # Media

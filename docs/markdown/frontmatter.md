@@ -2,7 +2,7 @@
 title: Frontmatter
 icon: file-text
 order: 1
-pathname: /docs/markdown/frontmatter/
+pathname: /markdown/frontmatter/
 ---
 
 # Frontmatter

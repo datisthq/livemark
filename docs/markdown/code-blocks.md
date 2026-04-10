@@ -2,7 +2,7 @@
 title: Code Blocks
 icon: code
 order: 7
-pathname: /docs/markdown/code-blocks/
+pathname: /markdown/code-blocks/
 ---
 
 # Code Blocks

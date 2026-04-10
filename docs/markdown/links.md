@@ -2,7 +2,7 @@
 title: Links
 icon: link
 order: 3
-pathname: /docs/markdown/links/
+pathname: /markdown/links/
 ---
 
 # Links
@@ -12,10 +12,10 @@ pathname: /docs/markdown/links/
 Link to other pages in your documentation:
 
 ```md
-[Getting Started](/docs/getting-started/)
+[Getting Started](/getting-started/)
 ```
 
-Renders as: [Getting Started](/docs/getting-started/)
+Renders as: [Getting Started](/getting-started/)
 
 ## External Links
 

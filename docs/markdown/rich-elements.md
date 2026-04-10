@@ -2,7 +2,7 @@
 title: Rich Elements
 icon: layout-grid
 order: 6
-pathname: /docs/markdown/rich-elements/
+pathname: /markdown/rich-elements/
 ---
 
 # Rich Elements
@@ -290,7 +290,7 @@ With variant and size options:
 
 ```md
 ::button[Get Started]{href="/getting-started" variant="default" size="lg"}
-::button[Configuration]{href="/docs/configuration" variant="outline"}
+::button[Configuration]{href="/configuration" variant="outline"}
 ::button[View Source]{href="/github" variant="secondary" size="sm"}
 ```
 
