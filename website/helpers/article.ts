@@ -2,7 +2,12 @@ import type { ArticleGroup, ArticleNode } from "../models/article.ts"
 
 /** Build a tree from a flat sorted list of articles based on pathname hierarchy */
 export function buildArticleTree(
-  articles: { pathname: string; title: string; icon: string }[],
+  articles: {
+    pathname: string
+    title: string
+    label?: string
+    icon: string
+  }[],
 ) {
   const nodeMap = new Map<string, ArticleNode>()
 
@@ -10,6 +15,7 @@ export function buildArticleTree(
     nodeMap.set(article.pathname, {
       pathname: article.pathname,
       title: article.title,
+      label: article.label,
       icon: article.icon,
       children: [],
     })

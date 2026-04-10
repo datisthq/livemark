@@ -151,7 +151,7 @@ function NavNode(props: { node: ArticleNode; currentPath: string }) {
           render={<Link to="/$" params={splatFor(node.pathname)} />}
         >
           <Icon className="size-4" />
-          <span>{node.title}</span>
+          <span>{node.label ?? node.title}</span>
         </SidebarMenuButton>
       </SidebarMenuItem>
     )
@@ -166,7 +166,7 @@ function NavNode(props: { node: ArticleNode; currentPath: string }) {
           render={<Link to="/$" params={splatFor(node.pathname)} />}
         >
           <Icon className="size-4" />
-          <span>{node.title}</span>
+          <span>{node.label ?? node.title}</span>
         </SidebarMenuButton>
         <CollapsibleTrigger className="absolute right-1 top-1.5 p-1 rounded-md hover:bg-sidebar-accent">
           <ChevronRight className="size-3.5 transition-transform group-data-[open]/collapsible:rotate-90" />
@@ -183,7 +183,7 @@ function NavNode(props: { node: ArticleNode; currentPath: string }) {
                   className={childIsActive ? "" : "opacity-75"}
                   render={<Link to="/$" params={splatFor(child.pathname)} />}
                 >
-                  <span>{child.title}</span>
+                  <span>{child.label ?? child.title}</span>
                 </SidebarMenuSubButton>
               </SidebarMenuSubItem>
             )
