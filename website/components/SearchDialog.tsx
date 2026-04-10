@@ -2,7 +2,7 @@ import { useState, useRef, useCallback, useMemo } from "react"
 import { useNavigate } from "@tanstack/react-router"
 import { FileText } from "lucide-react"
 import { create, insertMultiple, search } from "@orama/orama"
-import { sortedArticles } from "../helpers/articles.ts"
+import { sortedArticles } from "../content/article.ts"
 import { articleIcons } from "../helpers/article-icon.ts"
 import {
   CommandDialog,

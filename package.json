@@ -8,7 +8,9 @@
   "bin": {
     "livemark": "./entrypoints/main.ts"
   },
-  "files": ["build"],
+  "files": [
+    "build"
+  ],
   "type": "module",
   "sideEffects": false,
   "imports": {

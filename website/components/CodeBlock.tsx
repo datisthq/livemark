@@ -53,7 +53,9 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
             >
               <WrapText className="size-3.5" />
             </TooltipTrigger>
-            <TooltipContent>{wrap ? "Disable wrap" : "Enable wrap"}</TooltipContent>
+            <TooltipContent>
+              {wrap ? "Disable wrap" : "Enable wrap"}
+            </TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger
@@ -78,7 +80,9 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
             >
               <WrapText className="size-3.5" />
             </TooltipTrigger>
-            <TooltipContent>{wrap ? "Disable wrap" : "Enable wrap"}</TooltipContent>
+            <TooltipContent>
+              {wrap ? "Disable wrap" : "Enable wrap"}
+            </TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger

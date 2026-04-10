@@ -7,7 +7,7 @@ import {
   FileText,
   Search as SearchIcon,
 } from "lucide-react"
-import { articleTree } from "../helpers/articles.ts"
+import { articleTree } from "../content/article.ts"
 import { articleIcons } from "../helpers/article-icon.ts"
 import type { ArticleNode } from "../models/article.ts"
 import {

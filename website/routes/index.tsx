@@ -1,5 +1,5 @@
 import { createFileRoute, notFound, redirect } from "@tanstack/react-router"
-import { sortedArticles } from "../helpers/articles.ts"
+import { sortedArticles } from "../content/article.ts"
 
 export const Route = createFileRoute("/")({
   beforeLoad: () => {

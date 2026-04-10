@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { sortedArticles, flatArticles } from "../helpers/articles.ts"
+import { sortedArticles, flatArticles } from "../content/article.ts"
 
 /** Previous/next article navigation shown at the bottom of each article page */
 export function PrevNext(props: { pathname: string }) {

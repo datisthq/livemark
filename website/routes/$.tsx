@@ -1,6 +1,6 @@
 import { MDXContent } from "@content-collections/mdx/react"
 import { createFileRoute, notFound } from "@tanstack/react-router"
-import { sortedArticles } from "../helpers/articles.ts"
+import { sortedArticles } from "../content/article.ts"
 import { Callout } from "../components/Callout.tsx"
 import { Columns, Column } from "../components/Columns.tsx"
 import { Card, Cards } from "../components/Cards.tsx"
