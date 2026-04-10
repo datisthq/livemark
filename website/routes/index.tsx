@@ -1,13 +1,32 @@
 import { createFileRoute, notFound, redirect } from "@tanstack/react-router"
-import { sortedArticles } from "../content/article.ts"
+import { firstArticle, homeArticle } from "../content/article.ts"
+import { Article } from "../components/Article.tsx"
 
 export const Route = createFileRoute("/")({
   beforeLoad: () => {
-    const first = sortedArticles[0]
-    if (!first) throw notFound()
+    if (homeArticle) return
+    if (!firstArticle) throw notFound()
     throw redirect({
       to: "/$",
-      params: { _splat: first.pathname.replace(/^\/|\/$/g, "") },
+      params: { _splat: firstArticle.pathname.replace(/^\/|\/$/g, "") },
     })
   },
+  loader: () => {
+    if (!homeArticle) throw notFound()
+    return homeArticle
+  },
+  head: ({ loaderData }) => ({
+    meta: [
+      ...(loaderData ? [{ title: loaderData.title }] : []),
+      ...(loaderData?.description
+        ? [{ name: "description", content: loaderData.description }]
+        : []),
+    ],
+  }),
+  component: Component,
 })
+
+function Component() {
+  const article = Route.useLoaderData()
+  return <Article article={article} />
+}

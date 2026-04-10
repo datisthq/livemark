@@ -172,6 +172,7 @@ function applyParams(state: AnsiState, params: ReadonlyArray<number>) {
 
 /** Convert a string containing ANSI escape sequences into HTML with inline styles */
 export function ansiToHtml(input: string): string {
+  // oxlint-disable-next-line no-control-regex -- ANSI escape sequences start with U+001B
   const sgr = /\u001b\[([0-9;]*)m/g
   const state = makeDefaultState()
   const parts: string[] = []

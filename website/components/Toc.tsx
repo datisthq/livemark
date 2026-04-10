@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from "react"
-import type { TocItem } from "../helpers/toc.ts"
+import type { TocItem } from "../models/toc.ts"
 
 export function Toc(props: { items: TocItem[]; children?: ReactNode }) {
   const activeId = useActiveHeading(props.items)

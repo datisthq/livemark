@@ -1,4 +1,5 @@
 import { z } from "zod"
+import type { TocItem } from "./toc.ts"
 
 /** Frontmatter schema for a markdown article. */
 export type Article = z.infer<typeof Article>
@@ -11,6 +12,16 @@ export const Article = z.object({
   pathname: z.string().optional(),
   group: z.string().optional(),
 })
+
+/** Processed article ready for page rendering (result of content-collections transform). */
+export interface ArticleView {
+  pathname: string
+  content: string
+  filePath: string
+  mdx: string
+  toc: TocItem[]
+  lastUpdated?: string
+}
 
 export interface ArticleNode {
   pathname: string

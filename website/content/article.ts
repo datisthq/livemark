@@ -14,6 +14,12 @@ export const sortedArticles = [...allArticles].sort(
   (a, b) => orderKey(a.order) - orderKey(b.order),
 )
 
+/** The first article in sort order, used as the default landing page */
+export const firstArticle = sortedArticles[0]
+
+/** The article whose pathname is `/`, if any (rendered in place at the root) */
+export const homeArticle = sortedArticles.find(a => a.pathname === "/")
+
 /** Sidebar sections derived from the pathname tree, partitioned by `group` */
 export const articleGroups = groupArticleTree(
   buildArticleTree(sortedArticles),

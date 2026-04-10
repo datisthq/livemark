@@ -1,10 +1,5 @@
 import GithubSlugger from "github-slugger"
-
-export interface TocItem {
-  url: string
-  title: string
-  depth: number
-}
+import type { TocItem } from "../models/toc.ts"
 
 const CUSTOM_ID_PATTERN = /\s*\[#([^\]]+)\]\s*$/
 const TOC_HIDDEN_PATTERN = /\s*\[!toc\]\s*$/
