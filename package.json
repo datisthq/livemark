@@ -27,6 +27,7 @@
     "prepare": "is-ci || lefthook install",
     "release": "pnpm -r publish --access public --ignore-scripts --no-git-checks",
     "setversion": "pnpm -r exec pnpm version --no-git-tag-version",
+    "start": "node entrypoints/main.ts start",
     "unit": "vp test",
     "test": "pnpm lint && pnpm type && pnpm unit",
     "type": "tsgo --noEmit"
