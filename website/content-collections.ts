@@ -11,8 +11,8 @@ import remarkDirective from "remark-directive"
 import remarkGemoji from "remark-gemoji"
 import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
-import { z } from "zod"
 import { loadConfig } from "../actions/config/load.ts"
+import { Article } from "./models/article.ts"
 import { pickDefaultIcon } from "./helpers/article-icon.ts"
 import slugify from "@sindresorhus/slugify"
 import remarkCustomHeadingId from "./plugins/remark-custom-heading-id.ts"
@@ -86,14 +86,7 @@ const articles = defineCollection({
   directory,
   include: config.articles.include,
   exclude: config.articles.exclude,
-  schema: z.object({
-    content: z.string(),
-    title: z.string().optional(),
-    description: z.string().optional(),
-    icon: z.string().optional(),
-    order: z.number().optional(),
-    pathname: z.string().optional(),
-  }),
+  schema: Article,
   transform: async (document, context) => {
     const filePath = resolve(config.root, document._meta.filePath)
     const content = resolveIncludes(document.content, filePath)
