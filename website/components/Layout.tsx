@@ -64,12 +64,6 @@ export function Layout(props: { children?: React.ReactNode }) {
               Docs
             </Link>
             <a
-              href="/blog"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Blog
-            </a>
-            <a
               href="https://github.com/datisthq/livemark"
               target="_blank"
               rel="noopener noreferrer"

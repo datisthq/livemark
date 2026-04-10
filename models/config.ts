@@ -7,6 +7,7 @@ export type UserConfig = z.infer<typeof UserConfig>
 export const UserConfig = z.object({
   title: z.string().default("Livemark"),
   description: z.string().default("Markdown site generator"),
+  url: z.string().optional(),
   articles: z.object({
     include: z.union([z.string(), z.array(z.string())]),
     exclude: z.union([z.string(), z.array(z.string())]).optional(),
