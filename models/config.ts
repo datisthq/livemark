@@ -13,6 +13,15 @@ export const UserConfig = z.object({
   exclude: z.union([z.string(), z.array(z.string())]).optional(),
   codeThemeLight: CodeThemeLight.default("catppuccin-latte"),
   codeThemeDark: CodeThemeDark.default("catppuccin-mocha"),
+  sidebarLinks: z
+    .array(
+      z.object({
+        url: z.string(),
+        title: z.string(),
+        icon: z.string().optional(),
+      }),
+    )
+    .optional(),
 })
 
 /**

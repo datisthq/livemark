@@ -1,6 +1,6 @@
 import { Link, useLocation } from "@tanstack/react-router"
 import { useHotkey } from "@tanstack/react-hotkeys"
-import { ChevronRight, FileText } from "lucide-react"
+import { ChevronRight, ExternalLink, FileText, icons } from "lucide-react"
 import { articleGroups } from "../content/article.ts"
 import { articleIcons } from "../helpers/article-icon.ts"
 import type { ArticleNode } from "../models/article.ts"
@@ -69,6 +69,47 @@ export function Sidebar() {
             </SidebarGroupContent>
           </SidebarGroup>
         ))}
+        {import.meta.env.CONFIG.sidebarLinks?.length && (
+          <SidebarGroup>
+            <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
+              Links
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {import.meta.env.CONFIG.sidebarLinks.map(link => {
+                  const Icon = link.icon
+                    ? icons[
+                        link.icon
+                          .split("-")
+                          .map(s => s.charAt(0).toUpperCase() + s.slice(1))
+                          .join("") as keyof typeof icons
+                      ]
+                    : undefined
+                  return (
+                    <SidebarMenuItem key={link.url}>
+                      <SidebarMenuButton
+                        className="opacity-75"
+                        render={
+                          <a
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          />
+                        }
+                      >
+                        {Icon && <Icon className="size-4" />}
+                        <span>
+                          {link.title}{" "}
+                          <ExternalLink className="inline -mt-0.5 opacity-50" style={{ width: 12, height: 12 }} />
+                        </span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  )
+                })}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
       </SidebarContent>
       <SidebarFooter className="p-4 space-y-2">
         <Search />
