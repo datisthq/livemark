@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router"
 import { useHotkey } from "@tanstack/react-hotkeys"
-import { ExternalLink } from "lucide-react"
+import { ExternalLink, icons } from "lucide-react"
 import {
   SidebarInset,
   SidebarProvider,
@@ -41,14 +41,29 @@ export function Layout(props: {
         >
           Docs
         </Link>
-        <a
-          href="https://github.com/datisthq/livemark"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-muted-foreground hover:text-foreground transition-colors"
-        >
-          GitHub <ExternalLink className="inline size-3 -mt-0.5" />
-        </a>
+        {import.meta.env.CONFIG.headerLinks?.map(link => {
+          const Icon = link.icon
+            ? icons[
+                link.icon
+                  .split("-")
+                  .map(s => s.charAt(0).toUpperCase() + s.slice(1))
+                  .join("") as keyof typeof icons
+              ]
+            : undefined
+          return (
+            <a
+              key={link.url}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {Icon && <Icon className="inline size-3.5 align-[-0.125em]" />}{" "}
+              {link.title}{" "}
+              <ExternalLink className="inline size-3 align-[-0.125em]" />
+            </a>
+          )
+        })}
         <Banner />
       </div>
     </header>

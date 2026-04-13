@@ -88,7 +88,7 @@ export function Sidebar() {
                   return (
                     <SidebarMenuItem key={link.url}>
                       <SidebarMenuButton
-                        className="opacity-75"
+                        className="text-muted-foreground"
                         render={
                           <a
                             href={link.url}
@@ -100,7 +100,10 @@ export function Sidebar() {
                         {Icon && <Icon className="size-4" />}
                         <span>
                           {link.title}{" "}
-                          <ExternalLink className="inline -mt-0.5 opacity-50" style={{ width: 12, height: 12 }} />
+                          <ExternalLink
+                            className="inline -mt-0.5 opacity-75"
+                            style={{ width: 12, height: 12 }}
+                          />
                         </span>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
