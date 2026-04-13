@@ -7,7 +7,6 @@ import {
   SidebarTrigger,
 } from "../elements/sidebar.tsx"
 import { Banner } from "./Banner.tsx"
-import { Footer } from "./Footer.tsx"
 import { Sidebar } from "./Sidebar.tsx"
 import { SiteTitle } from "./SiteTitle.tsx"
 
@@ -60,7 +59,6 @@ export function Layout(props: {
       <div className="flex min-h-screen flex-col">
         {header}
         <main className="flex-1">{props.children}</main>
-        <Footer />
       </div>
     )
   }
@@ -71,7 +69,6 @@ export function Layout(props: {
       <SidebarInset>
         {header}
         <main className="flex-1">{props.children}</main>
-        <Footer />
       </SidebarInset>
     </SidebarProvider>
   )
