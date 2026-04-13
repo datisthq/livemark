@@ -1,45 +1,14 @@
-import { useState } from "react"
-import { Link, useLocation } from "@tanstack/react-router"
+import { Link } from "@tanstack/react-router"
 import { useHotkey } from "@tanstack/react-hotkeys"
+import { ExternalLink } from "lucide-react"
 import {
-  ChevronRight,
-  ExternalLink,
-  FileText,
-  Search as SearchIcon,
-} from "lucide-react"
-import { articleGroups } from "../content/article.ts"
-import { articleIcons } from "../helpers/article-icon.ts"
-import type { ArticleNode } from "../models/article.ts"
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "../elements/collapsible.tsx"
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
   SidebarInset,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarProvider,
-  SidebarRail,
   SidebarTrigger,
-  useSidebar,
 } from "../elements/sidebar.tsx"
+import { Sidebar } from "./Sidebar.tsx"
 import { Banner } from "./Banner.tsx"
 import { Footer } from "./Footer.tsx"
-import { SearchDialog } from "./SearchDialog.tsx"
-import { SiteTitle } from "./SiteTitle.tsx"
-import { Theme } from "./Theme.tsx"
 
 export function Layout(props: { children?: React.ReactNode }) {
   useHotkey("J", () =>
@@ -51,7 +20,7 @@ export function Layout(props: { children?: React.ReactNode }) {
 
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <Sidebar />
       <SidebarInset>
         <header className="sticky top-0 z-20 flex h-16 shrink-0 items-center bg-background">
           <div className="flex items-center self-stretch pl-4 pr-0 border-b">
@@ -79,142 +48,5 @@ export function Layout(props: { children?: React.ReactNode }) {
         <Footer />
       </SidebarInset>
     </SidebarProvider>
-  )
-}
-
-function AppSidebar() {
-  const pathname = useLocation({ select: l => l.pathname })
-  const { toggleSidebar } = useSidebar()
-
-  useHotkey("S", toggleSidebar)
-
-  return (
-    <Sidebar>
-      <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" render={<Link to="/" />}>
-              <SiteTitle />
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarHeader>
-      <SidebarContent>
-        {articleGroups.map((group, index) => (
-          <SidebarGroup key={group.name ?? `__unnamed-${index}`}>
-            {group.name && (
-              <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
-                {group.name}
-              </SidebarGroupLabel>
-            )}
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {group.nodes.map(node => (
-                  <NavNode
-                    key={node.pathname}
-                    node={node}
-                    currentPath={pathname}
-                  />
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
-      </SidebarContent>
-      <SidebarFooter className="p-4 space-y-2">
-        <Search />
-        <Theme />
-      </SidebarFooter>
-      <SidebarRail />
-    </Sidebar>
-  )
-}
-
-function splatFor(pathname: string) {
-  return { _splat: pathname.replace(/^\/|\/$/g, "") }
-}
-
-function isActive(articlePathname: string, currentPath: string) {
-  const normalized = `/${currentPath.replace(/^\/|\/$/g, "")}/`
-  return articlePathname === normalized
-}
-
-function NavNode(props: { node: ArticleNode; currentPath: string }) {
-  const { node, currentPath } = props
-  const Icon = articleIcons[node.icon] ?? FileText
-  const active = isActive(node.pathname, currentPath)
-
-  if (node.children.length === 0) {
-    return (
-      <SidebarMenuItem>
-        <SidebarMenuButton
-          isActive={active}
-          className={active ? "" : "opacity-75"}
-          render={<Link to="/$" params={splatFor(node.pathname)} />}
-        >
-          <Icon className="size-4" />
-          <span>{node.label ?? node.title}</span>
-        </SidebarMenuButton>
-      </SidebarMenuItem>
-    )
-  }
-
-  return (
-    <Collapsible defaultOpen className="group/collapsible">
-      <SidebarMenuItem>
-        <SidebarMenuButton
-          isActive={active}
-          className={active ? "" : "opacity-75"}
-          render={<Link to="/$" params={splatFor(node.pathname)} />}
-        >
-          <Icon className="size-4" />
-          <span>{node.label ?? node.title}</span>
-        </SidebarMenuButton>
-        <CollapsibleTrigger className="absolute right-1 top-1.5 p-1 rounded-md hover:bg-sidebar-accent">
-          <ChevronRight className="size-3.5 transition-transform group-data-[open]/collapsible:rotate-90" />
-        </CollapsibleTrigger>
-      </SidebarMenuItem>
-      <CollapsibleContent>
-        <SidebarMenuSub>
-          {node.children.map(child => {
-            const childIsActive = isActive(child.pathname, currentPath)
-            return (
-              <SidebarMenuSubItem key={child.pathname}>
-                <SidebarMenuSubButton
-                  isActive={childIsActive}
-                  className={childIsActive ? "" : "opacity-75"}
-                  render={<Link to="/$" params={splatFor(child.pathname)} />}
-                >
-                  <span>{child.label ?? child.title}</span>
-                </SidebarMenuSubButton>
-              </SidebarMenuSubItem>
-            )
-          })}
-        </SidebarMenuSub>
-      </CollapsibleContent>
-    </Collapsible>
-  )
-}
-
-function Search() {
-  const [open, setOpen] = useState(false)
-
-  useHotkey("/", () => setOpen(true))
-
-  return (
-    <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="flex w-full items-center gap-2 rounded-xl border border-border bg-sidebar-accent/70 px-3 py-2 text-sm text-muted-foreground shadow-xs hover:bg-background transition-colors cursor-pointer"
-      >
-        <SearchIcon className="size-4" />
-        <span className="flex-1 text-left">Search...</span>
-        <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] font-mono">
-          /
-        </kbd>
-      </button>
-      <SearchDialog open={open} onOpenChange={setOpen} />
-    </>
   )
 }

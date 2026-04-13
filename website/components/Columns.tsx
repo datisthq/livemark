@@ -10,8 +10,3 @@ export function Columns(props: { cols?: string; children: React.ReactNode }) {
     </div>
   )
 }
-
-/** Single column within a Columns grid */
-export function Column(props: { children: React.ReactNode }) {
-  return <div className="max-w-none">{props.children}</div>
-}

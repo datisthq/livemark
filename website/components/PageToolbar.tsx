@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react"
 import { Pencil, Copy, Check, ExternalLink } from "lucide-react"
 
-/** Toolbar with action buttons displayed below the article content */
+/** Toolbar with action buttons displayed for the article content */
 export function PageToolbar(props: { filePath: string; content: string }) {
   const [copied, setCopied] = useState(false)
 
