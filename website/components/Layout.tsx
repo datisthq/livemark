@@ -24,7 +24,7 @@ export function Layout(props: {
   const header = (
     <header className="sticky top-0 z-20 flex h-16 shrink-0 items-center bg-background">
       <div
-        className={`flex items-center self-stretch pl-4 border-b ${props.withSidebar ? "pr-0" : "pr-5"}`}
+        className={`flex items-center self-stretch pl-4 border-b ${props.withSidebar ? "pr-0" : "md:pr-20"}`}
       >
         {props.withSidebar ? (
           <SidebarTrigger />

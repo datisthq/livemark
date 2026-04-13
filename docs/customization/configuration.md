@@ -4,7 +4,6 @@ description: How to configure your Livemark project.
 icon: layers
 order: 1
 pathname: /customization/configuration/
-sidebar: false
 ---
 
 # Configuration

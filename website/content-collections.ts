@@ -151,7 +151,7 @@ const articles = defineCollection({
         ],
       },
     )
-    const toc = extractToc(content)
+    const tocItems = extractToc(content)
     const searchText = extractSearchText(content)
     const lastUpdated = getLastUpdated(document._meta.filePath)
     return {
@@ -161,7 +161,7 @@ const articles = defineCollection({
       title,
       icon,
       pathname,
-      toc,
+      tocItems,
       searchText,
       mdx,
     }

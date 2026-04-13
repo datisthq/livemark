@@ -69,7 +69,7 @@ export function Article(props: { article: ArticleView }) {
   )
 
   return (
-    <TocContext.Provider value={article.toc}>
+    <TocContext.Provider value={article.tocItems}>
       <div className="flex flex-1 gap-10 p-6 md:p-10">
         <div className="flex-1 min-w-0 mx-auto max-w-3xl">
           <div className="prose dark:prose-invert max-w-none">
@@ -117,9 +117,14 @@ export function Article(props: { article: ArticleView }) {
           <PrevNext pathname={article.pathname} />
           <Footer />
         </div>
-        <Toc items={article.toc}>
-          <PageToolbar filePath={article.filePath} content={article.content} />
-        </Toc>
+        {article.toc !== false && (
+          <Toc items={article.tocItems}>
+            <PageToolbar
+              filePath={article.filePath}
+              content={article.content}
+            />
+          </Toc>
+        )}
       </div>
     </TocContext.Provider>
   )

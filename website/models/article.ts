@@ -14,6 +14,7 @@ export const Article = z.object({
   pathname: nonEmptyString.optional(),
   group: nonEmptyString.optional(),
   sidebar: z.boolean().default(true),
+  toc: z.boolean().default(true),
 })
 
 /** Processed article ready for page rendering (result of content-collections transform). */
@@ -22,7 +23,8 @@ export interface ArticleView {
   content: string
   filePath: string
   mdx: string
-  toc: TocItem[]
+  tocItems: TocItem[]
+  toc?: boolean
   lastUpdated?: string
   sidebar?: boolean
 }
