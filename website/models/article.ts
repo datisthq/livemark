@@ -15,6 +15,9 @@ export const Article = z.object({
   group: nonEmptyString.optional(),
   sidebar: z.boolean().default(true),
   toc: z.boolean().default(true),
+  image: nonEmptyString.optional(),
+  author: z.union([nonEmptyString, z.array(nonEmptyString)]).optional(),
+  date: nonEmptyString.optional(),
 })
 
 /** Processed article ready for page rendering (result of content-collections transform). */
@@ -27,6 +30,9 @@ export interface ArticleView {
   toc?: boolean
   lastUpdated?: string
   sidebar?: boolean
+  image?: string
+  author?: string | string[]
+  date?: string
 }
 
 export interface ArticleNode {

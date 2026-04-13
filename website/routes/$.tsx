@@ -27,6 +27,22 @@ export const Route = createFileRoute("/$")({
       ...(loaderData?.description
         ? [{ name: "description", content: loaderData.description }]
         : []),
+      ...(loaderData?.image
+        ? [{ property: "og:image", content: loaderData.image }]
+        : []),
+      ...(loaderData?.author
+        ? [
+            {
+              name: "author",
+              content: Array.isArray(loaderData.author)
+                ? loaderData.author.join(", ")
+                : loaderData.author,
+            },
+          ]
+        : []),
+      ...(loaderData?.date
+        ? [{ property: "article:published_time", content: loaderData.date }]
+        : []),
     ],
   }),
   component: Component,

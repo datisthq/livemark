@@ -42,6 +42,7 @@ import {
 } from "./plugins/shiki-line-highlight.ts"
 import { rehypeInlineCode } from "./plugins/rehype-inline-code.ts"
 import { transformerIcon } from "./plugins/shiki-icon.ts"
+import { resolveAssetPath } from "./helpers/resolve-asset-path.ts"
 import { resolveIncludes } from "./helpers/resolve-includes.ts"
 import { extractSearchText } from "./helpers/search-text.ts"
 import { extractToc } from "./helpers/toc.ts"
@@ -154,10 +155,14 @@ const articles = defineCollection({
     const tocItems = extractToc(content)
     const searchText = extractSearchText(content)
     const lastUpdated = getLastUpdated(document._meta.filePath)
+    const image = document.image
+      ? resolveAssetPath(document.image, filePath, config.root)
+      : undefined
     return {
       ...document,
       filePath: document._meta.filePath,
       lastUpdated,
+      image,
       title,
       icon,
       pathname,

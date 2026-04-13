@@ -1,5 +1,5 @@
 import { MDXContent } from "@content-collections/mdx/react"
-import { Calendar } from "lucide-react"
+import { Calendar, History, User } from "lucide-react"
 import type { ArticleView } from "../models/article.ts"
 import { TocContext } from "../helpers/toc-context.ts"
 import { Abbr } from "./Abbr.tsx"
@@ -49,6 +49,13 @@ import { Separator } from "../elements/separator.tsx"
 export function Article(props: { article: ArticleView }) {
   const { article } = props
   const lastUpdated = formatDate(article.lastUpdated)
+  const publishedDate = formatDate(article.date)
+  const authors = article.author
+    ? Array.isArray(article.author)
+      ? article.author
+      : [article.author]
+    : []
+  const hasMeta = publishedDate || authors.length > 0 || lastUpdated
 
   const H1 = (headingProps: React.HTMLAttributes<HTMLHeadingElement>) => (
     <>
@@ -59,11 +66,34 @@ export function Article(props: { article: ArticleView }) {
           headingProps.children
         )}
       </h1>
-      {lastUpdated && (
-        <p className="flex items-center gap-1.5 text-sm text-muted-foreground !-mt-4 !mb-6">
-          <Calendar className="size-3.5" />
-          Last updated {lastUpdated}
+      {hasMeta && (
+        <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground !-mt-4 !mb-6">
+          {authors.length > 0 && (
+            <span className="flex items-center gap-1.5">
+              <User className="size-3.5" />
+              {authors.join(", ")}
+            </span>
+          )}
+          {publishedDate && (
+            <span className="flex items-center gap-1.5">
+              <Calendar className="size-3.5" />
+              Published {publishedDate}
+            </span>
+          )}
+          {lastUpdated && (
+            <span className="flex items-center gap-1.5">
+              <History className="size-3.5" />
+              Updated {lastUpdated}
+            </span>
+          )}
         </p>
+      )}
+      {article.image && (
+        <img
+          src={article.image}
+          alt=""
+          className="!mt-0 !mb-6 w-full rounded-xl border shadow-sm"
+        />
       )}
     </>
   )

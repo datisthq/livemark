@@ -4,6 +4,9 @@ description: How to configure your Livemark project.
 icon: layers
 order: 1
 pathname: /customization/configuration/
+image: ./images/cover.png
+author: Livemark Team
+date: 2026-04-01
 ---
 
 # Configuration
