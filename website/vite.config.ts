@@ -7,6 +7,7 @@ import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 import svgr from "vite-plugin-svgr"
 import { loadConfig } from "../actions/config/load.ts"
+import { WebsiteConfig } from "./models/config.ts"
 
 const config = await loadConfig()
 const websiteDir = import.meta.dirname
@@ -17,8 +18,7 @@ export default defineConfig({
   publicDir: join(websiteDir, "public"),
   build: { outDir: ".livemark/build" },
   define: {
-    "import.meta.env.SITE_TITLE": JSON.stringify(config.title),
-    "import.meta.env.SITE_DESCRIPTION": JSON.stringify(config.description),
+    "import.meta.env.CONFIG": JSON.stringify(WebsiteConfig.parse(config)),
   },
   plugins: [
     devtools(),
