@@ -12,6 +12,16 @@ export const UserConfig = z.object({
     include: z.union([z.string(), z.array(z.string())]),
     exclude: z.union([z.string(), z.array(z.string())]).optional(),
   }),
+  code: z
+    .object({
+      theme: z
+        .object({
+          light: z.string().optional(),
+          dark: z.string().optional(),
+        })
+        .optional(),
+    })
+    .optional(),
 })
 
 /**

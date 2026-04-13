@@ -136,7 +136,10 @@ const articles = defineCollection({
           [
             rehypeShiki,
             {
-              themes: { light: "catppuccin-latte", dark: "catppuccin-mocha" },
+              themes: {
+                light: config.code?.theme?.light ?? "catppuccin-latte",
+                dark: config.code?.theme?.dark ?? "catppuccin-mocha",
+              },
               transformers: [
                 transformerTwoslash({ explicitTrigger: true }),
                 transformerIcon(),
