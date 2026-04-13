@@ -13,6 +13,7 @@ export const Article = z.object({
   order: z.number().optional(),
   pathname: nonEmptyString.optional(),
   group: nonEmptyString.optional(),
+  sidebar: z.boolean().default(true),
 })
 
 /** Processed article ready for page rendering (result of content-collections transform). */
@@ -23,6 +24,7 @@ export interface ArticleView {
   mdx: string
   toc: TocItem[]
   lastUpdated?: string
+  sidebar?: boolean
 }
 
 export interface ArticleNode {

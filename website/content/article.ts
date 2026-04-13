@@ -14,9 +14,6 @@ export const sortedArticles = [...allArticles].sort(
   (a, b) => orderKey(a.order) - orderKey(b.order),
 )
 
-/** The first article in sort order, used as the default landing page */
-export const firstArticle = sortedArticles[0]
-
 /** The article whose pathname is `/`, if any (rendered in place at the root) */
 export const homeArticle = sortedArticles.find(a => a.pathname === "/")
 
@@ -29,6 +26,11 @@ export const articleGroups = groupArticleTree(
 /** Articles in depth-first order across all sections (matches sidebar walk) */
 export const flatArticles = articleGroups.flatMap(group =>
   flattenArticleTree(group.nodes),
+)
+
+/** The first article in sidebar order, used as the default landing page */
+export const firstArticle = sortedArticles.find(
+  a => a.pathname === flatArticles[0],
 )
 
 function orderKey(order?: number) {

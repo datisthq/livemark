@@ -1,9 +1,21 @@
-import { createFileRoute, notFound } from "@tanstack/react-router"
-import { sortedArticles } from "../content/article.ts"
+import { createFileRoute, notFound, redirect } from "@tanstack/react-router"
+import {
+  firstArticle,
+  homeArticle,
+  sortedArticles,
+} from "../content/article.ts"
 import { Article } from "../components/Article.tsx"
 
 export const Route = createFileRoute("/$")({
   loader: ({ params }) => {
+    if (!params._splat) {
+      if (homeArticle) return homeArticle
+      if (!firstArticle) throw notFound()
+      throw redirect({
+        to: "/$",
+        params: { _splat: firstArticle.pathname.replace(/^\/|\/$/g, "") },
+      })
+    }
     const splat = `/${params._splat}/`
     const article = sortedArticles.find(a => a.pathname === splat)
     if (!article) throw notFound()

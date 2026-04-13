@@ -5,6 +5,7 @@ import {
   HeadContent,
   Outlet,
   Scripts,
+  useMatch,
 } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import type * as React from "react"
@@ -54,13 +55,16 @@ export const Route = createRootRoute({
 })
 
 function Document(props: { children: React.ReactNode }) {
+  const articleRoute = useMatch({ from: "/$", shouldThrow: false })
+  const withSidebar = articleRoute?.loaderData?.sidebar
+
   return (
     <html lang="en">
       <head>
         <HeadContent />
       </head>
       <body>
-        <Layout>{props.children}</Layout>
+        <Layout withSidebar={withSidebar}>{props.children}</Layout>
         <Toaster position="top-center" />
         <TanStackDevtools
           config={{ hideUntilHover: true }}
