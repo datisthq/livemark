@@ -30,8 +30,8 @@ export default defineConfig({
       srcDirectory: websiteRelative,
       pages: [{ path: "/" }],
       prerender: { enabled: true, crawlLinks: true },
-      sitemap: config.url
-        ? { enabled: true, host: config.url }
+      sitemap: config.site
+        ? { enabled: true, host: config.site }
         : { enabled: false },
     }),
     react(),

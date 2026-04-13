@@ -19,11 +19,14 @@ export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { title: "Title" },
-      { name: "description", content: "Description" },
-      { property: "og:title", content: "Title" },
-      { property: "og:description", content: "Description" },
-      { property: "og:site_name", content: "Title" },
+      { title: import.meta.env.CONFIG.title },
+      { name: "description", content: import.meta.env.CONFIG.description },
+      { property: "og:title", content: import.meta.env.CONFIG.title },
+      {
+        property: "og:description",
+        content: import.meta.env.CONFIG.description,
+      },
+      { property: "og:site_name", content: import.meta.env.CONFIG.title },
       { property: "og:type", content: "website" },
       {
         name: "viewport",
@@ -33,8 +36,6 @@ export const Route = createRootRoute({
     links: [
       { rel: "icon", href: "/logo.svg", type: "image/svg+xml" },
       { rel: "stylesheet", href: generalCss },
-      // TODO: recover
-      // { rel: "canonical", href: settings.HOST },
     ],
   }),
   notFoundComponent: () => <NotFound />,

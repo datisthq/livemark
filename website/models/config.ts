@@ -5,5 +5,5 @@ export type WebsiteConfig = z.infer<typeof WebsiteConfig>
 export const WebsiteConfig = z.object({
   title: z.string(),
   description: z.string(),
-  url: z.string().optional(),
+  site: z.string().optional(),
 })
