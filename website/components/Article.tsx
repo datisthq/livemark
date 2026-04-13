@@ -18,7 +18,6 @@ import {
 } from "./DefinitionList.tsx"
 import { Details } from "./Details.tsx"
 import { FileTree } from "./FileTree.tsx"
-import { Footer } from "./Footer.tsx"
 import { FootnoteRef } from "./FootnoteRef.tsx"
 import { headingComponents } from "./Heading.tsx"
 import { InlineBadge } from "./InlineBadge.tsx"
@@ -113,7 +112,6 @@ export function Article(props: { article: ArticleView }) {
             />
           </div>
           <PrevNext pathname={article.pathname} />
-          <Footer />
         </div>
         <Toc items={article.toc}>
           <PageToolbar filePath={article.filePath} content={article.content} />

@@ -36,6 +36,7 @@ import {
   useSidebar,
 } from "../elements/sidebar.tsx"
 import { Banner } from "./Banner.tsx"
+import { Footer } from "./Footer.tsx"
 import { SearchDialog } from "./SearchDialog.tsx"
 import { SiteTitle } from "./SiteTitle.tsx"
 import { Theme } from "./Theme.tsx"
@@ -75,6 +76,7 @@ export function Layout(props: { children?: React.ReactNode }) {
           </div>
         </header>
         <main className="flex-1">{props.children}</main>
+        <Footer />
       </SidebarInset>
     </SidebarProvider>
   )
