@@ -14,10 +14,10 @@ describe("loadConfig", () => {
       const configPath = join(tmpDir, "livemark.config.ts")
       fs.writeFileSync(
         configPath,
-        'export default { articles: { include: "articles/**/*.mdx" } }\n',
+        'export default { include: "articles/**/*.mdx" }\n',
       )
       const config = await loadConfig(configPath)
-      expect(config.articles.include).toBe("articles/**/*.mdx")
+      expect(config.include).toBe("articles/**/*.mdx")
       expect(config.root).toBe(tmpDir)
     }))
 

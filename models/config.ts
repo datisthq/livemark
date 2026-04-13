@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { CodeThemeDark, CodeThemeLight } from "./theme.ts"
 
 /**
  * User-provided configuration for Livemark.
@@ -8,20 +9,10 @@ export const UserConfig = z.object({
   site: z.string().optional(),
   title: z.string().default("Livemark"),
   description: z.string().default("Markdown site generator"),
-  articles: z.object({
-    include: z.union([z.string(), z.array(z.string())]),
-    exclude: z.union([z.string(), z.array(z.string())]).optional(),
-  }),
-  code: z
-    .object({
-      theme: z
-        .object({
-          light: z.string().optional(),
-          dark: z.string().optional(),
-        })
-        .optional(),
-    })
-    .optional(),
+  include: z.union([z.string(), z.array(z.string())]),
+  exclude: z.union([z.string(), z.array(z.string())]).optional(),
+  codeThemeLight: CodeThemeLight.default("catppuccin-latte"),
+  codeThemeDark: CodeThemeDark.default("catppuccin-mocha"),
 })
 
 /**

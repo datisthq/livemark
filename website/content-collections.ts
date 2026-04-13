@@ -85,8 +85,8 @@ function extractTitle(content: string, path: string) {
 const articles = defineCollection({
   name: "articles",
   directory,
-  include: config.articles.include,
-  exclude: config.articles.exclude,
+  include: config.include,
+  exclude: config.exclude,
   schema: Article,
   transform: async (document, context) => {
     const filePath = resolve(config.root, document._meta.filePath)
@@ -137,8 +137,8 @@ const articles = defineCollection({
             rehypeShiki,
             {
               themes: {
-                light: config.code?.theme?.light ?? "catppuccin-latte",
-                dark: config.code?.theme?.dark ?? "catppuccin-mocha",
+                light: config.codeThemeLight,
+                dark: config.codeThemeDark,
               },
               transformers: [
                 transformerTwoslash({ explicitTrigger: true }),
