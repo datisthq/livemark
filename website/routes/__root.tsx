@@ -19,7 +19,10 @@ import generalCss from "../styles/general.css?url"
 
 export const Route = createRootRoute({
   head: () => {
-    const favicon = import.meta.env.CONFIG.favicon ?? defaultFavicon
+    const favicon =
+      import.meta.env.CONFIG.favicon ??
+      import.meta.env.CONFIG.logo ??
+      defaultFavicon
     return {
       meta: [
         { charSet: "utf-8" },

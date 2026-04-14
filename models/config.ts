@@ -8,6 +8,7 @@ export type UserConfig = z.infer<typeof UserConfig>
 export const UserConfig = z.object({
   site: z.string().optional(),
   favicon: z.string().optional(),
+  logo: z.string().optional(),
   title: z.string().default("Livemark"),
   description: z.string().default("Markdown site generator"),
   include: z.union([z.string(), z.array(z.string())]),
@@ -41,6 +42,7 @@ export const WebsiteConfig = UserConfig.pick({
   description: true,
   site: true,
   favicon: true,
+  logo: true,
   headerLinks: true,
   sidebarLinks: true,
 })
