@@ -1,9 +1,11 @@
+import logo from "../assets/logo.svg"
+
 /** Renders the site title and description in the sidebar header */
 export function SiteTitle() {
   return (
     <>
       <img
-        src="/logo.svg"
+        src={logo}
         alt={import.meta.env.CONFIG.title}
         className="size-8 rounded-lg"
       />

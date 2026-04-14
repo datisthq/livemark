@@ -13,31 +13,36 @@ import { Layout } from "../components/Layout.tsx"
 import { DefaultCatchBoundary } from "../components/DefaultCatchBoundary.tsx"
 import { NotFound } from "../components/NotFound.tsx"
 import { Toaster } from "../elements/sonner.tsx"
+import { faviconType } from "../helpers/favicon.ts"
+import defaultFavicon from "../assets/logo.svg"
 import generalCss from "../styles/general.css?url"
 
 export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { title: import.meta.env.CONFIG.title },
-      { name: "description", content: import.meta.env.CONFIG.description },
-      { property: "og:title", content: import.meta.env.CONFIG.title },
-      {
-        property: "og:description",
-        content: import.meta.env.CONFIG.description,
-      },
-      { property: "og:site_name", content: import.meta.env.CONFIG.title },
-      { property: "og:type", content: "website" },
-      {
-        name: "viewport",
-        content: "width=device-width, initial-scale=1",
-      },
-    ],
-    links: [
-      { rel: "icon", href: "/logo.svg", type: "image/svg+xml" },
-      { rel: "stylesheet", href: generalCss },
-    ],
-  }),
+  head: () => {
+    const favicon = import.meta.env.CONFIG.favicon ?? defaultFavicon
+    return {
+      meta: [
+        { charSet: "utf-8" },
+        { title: import.meta.env.CONFIG.title },
+        { name: "description", content: import.meta.env.CONFIG.description },
+        { property: "og:title", content: import.meta.env.CONFIG.title },
+        {
+          property: "og:description",
+          content: import.meta.env.CONFIG.description,
+        },
+        { property: "og:site_name", content: import.meta.env.CONFIG.title },
+        { property: "og:type", content: "website" },
+        {
+          name: "viewport",
+          content: "width=device-width, initial-scale=1",
+        },
+      ],
+      links: [
+        { rel: "icon", href: favicon, type: faviconType(favicon) },
+        { rel: "stylesheet", href: generalCss },
+      ],
+    }
+  },
   notFoundComponent: () => <NotFound />,
   errorComponent: props => {
     return (

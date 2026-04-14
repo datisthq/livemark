@@ -1,5 +1,5 @@
 interface ImportMetaEnv {
-  readonly CONFIG: import("./models/config.ts").WebsiteConfig
+  readonly CONFIG: import("../models/config.ts").WebsiteConfig
 }
 
 declare module "content-collections" {

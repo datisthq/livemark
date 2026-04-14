@@ -7,6 +7,7 @@ import { CodeThemeDark, CodeThemeLight } from "./theme.ts"
 export type UserConfig = z.infer<typeof UserConfig>
 export const UserConfig = z.object({
   site: z.string().optional(),
+  favicon: z.string().optional(),
   title: z.string().default("Livemark"),
   description: z.string().default("Markdown site generator"),
   include: z.union([z.string(), z.array(z.string())]),
@@ -31,6 +32,17 @@ export const UserConfig = z.object({
       }),
     )
     .optional(),
+})
+
+/** Website configuration injected at build time via Vite define */
+export type WebsiteConfig = z.infer<typeof WebsiteConfig>
+export const WebsiteConfig = UserConfig.pick({
+  title: true,
+  description: true,
+  site: true,
+  favicon: true,
+  headerLinks: true,
+  sidebarLinks: true,
 })
 
 /**

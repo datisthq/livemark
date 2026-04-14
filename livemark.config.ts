@@ -12,6 +12,6 @@ export default defineConfig({
     },
   ],
   sidebarLinks: [
-    { url: "https://datist.io/", title: "Datist", icon: "heart-handshake" },
+    { url: "https://datist.io", title: "Datist", icon: "heart-handshake" },
   ],
 })
