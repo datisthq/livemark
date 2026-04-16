@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   data-v-0dd9719b=""
-   version="1.0"
    viewBox="0 0 200 200"
-   preserveAspectRatio="xMidYMid"
-   color-interpolation-filters="sRGB"
-   id="svg14"
-   sodipodi:docname="fairspec-logo.svg"
-   inkscape:version="1.4.2 (1:1.4.2+202505120737+ebf0e940d0)"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="logo.svg"
+   inkscape:version="1.4.3 (1:1.4.3+202512261035+0d15f75042)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs5" />
   <sodipodi:namedview
-     id="namedview14"
+     id="namedview5"
      pagecolor="#ffffff"
      bordercolor="#000000"
      borderopacity="0.25"
@@ -21,52 +20,98 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="2.4555556"
-     inkscape:cx="92.239817"
-     inkscape:cy="110.56561"
+     inkscape:zoom="2.56"
+     inkscape:cx="92.1875"
+     inkscape:cy="79.492188"
      inkscape:window-width="1920"
      inkscape:window-height="1108"
      inkscape:window-x="0"
      inkscape:window-y="53"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg14" />
-  <!---->
+     inkscape:current-layer="g5" />
   <g
-     id="g7"
-     style="overflow:visible"
-     transform="matrix(1.9217834,0,0,1.9217834,-1.7872586,9.8749299)">
-    <polygon
-       fill="#0067b5"
-       points="16.19,19.77 29.19,42.29 3.19,42.29 0.93,46.2 44.32,46.2 22.63,8.63 "
-       id="polygon2"
-       style="fill:#2c7cfd;fill-opacity:1" />
-    <polygon
-       fill="#009fe8"
-       points="57.31,1.18 44.31,23.69 31.31,1.18 26.8,1.18 48.49,38.75 70.18,1.18 "
-       id="polygon3"
-       style="fill:#8ec5ff;fill-opacity:1" />
-    <polygon
-       fill="#009fe8"
-       points="94.44,27.66 68.43,27.66 81.44,5.15 79.18,1.24 57.49,38.81 100.87,38.81 "
-       id="polygon4"
-       style="fill:#8ec5ff;fill-opacity:1" />
-    <polygon
-       fill="#009fe8"
-       points="89.74,72.81 76.74,50.3 102.74,50.3 105,46.39 61.62,46.39 83.31,83.96 "
-       id="polygon5"
-       style="fill:#8ec5ff;fill-opacity:1" />
-    <polygon
-       fill="#0067b5"
-       points="48.62,91.41 61.62,68.89 74.62,91.41 79.13,91.41 57.45,53.83 35.75,91.41 "
-       id="polygon6"
-       style="fill:#2c7cfd;fill-opacity:1" />
-    <polygon
-       fill="#0067b5"
-       points="11.49,64.92 37.49,64.92 24.5,87.43 26.75,91.34 48.44,53.78 5.05,53.78 "
-       id="polygon7"
-       style="fill:#2c7cfd;fill-opacity:1" />
+     transform="matrix(2.0984308,0,0,2.0984308,83.49896,109.13924)"
+     id="g5">
+    <rect
+       x="-6.633275"
+       y="-51.953632"
+       width="28.590414"
+       height="28.590414"
+       rx="3.2988937"
+       fill="#8ec5ff"
+       id="rect1"
+       style="stroke-width:1.09963" />
+    <rect
+       x="-39.414604"
+       y="-52.007191"
+       width="28.590414"
+       height="28.590414"
+       rx="3.2988937"
+       fill="#8ec5ff"
+       id="rect1-56"
+       style="stroke-width:1.09963" />
+    <rect
+       x="26.997494"
+       y="-51.681351"
+       width="28.590414"
+       height="28.590414"
+       rx="3.2988937"
+       fill="#8ec5ff"
+       id="rect1-5"
+       style="stroke-width:1.09963" />
+    <rect
+       x="-7.0055771"
+       y="-18.406252"
+       width="28.590414"
+       height="28.590414"
+       rx="3.2988937"
+       fill="#5a9de6"
+       id="rect2"
+       style="stroke-width:1.09963" />
+    <rect
+       x="-7.0055771"
+       y="14.582686"
+       width="28.590414"
+       height="28.590414"
+       rx="3.2988937"
+       fill="#2c7cfd"
+       id="rect3"
+       style="stroke-width:1.09963" />
+    <rect
+       x="-39.689648"
+       y="14.813753"
+       width="28.590414"
+       height="28.590414"
+       rx="3.2988937"
+       fill="#2c7cfd"
+       id="rect3-2"
+       style="stroke-width:1.09963" />
+    <rect
+       x="26.91572"
+       y="14.813753"
+       width="28.590414"
+       height="28.590414"
+       rx="3.2988937"
+       fill="#2c7cfd"
+       id="rect3-9"
+       style="stroke-width:1.09963" />
+    <rect
+       x="26.591444"
+       y="-17.766558"
+       width="28.590414"
+       height="28.590414"
+       rx="3.2988937"
+       fill="#5a9de6"
+       id="rect4"
+       style="stroke-width:1.09963" />
+    <rect
+       x="-39.496445"
+       y="-18.058704"
+       width="28.590414"
+       height="28.590414"
+       rx="3.2988937"
+       fill="#5a9de6"
+       id="rect4-6"
+       style="stroke-width:1.09963" />
   </g>
-  <defs
-     v-gra="od"
-     id="defs14" />
 </svg>
