@@ -1,6 +1,7 @@
 import { Link, useLocation } from "@tanstack/react-router"
 import { useHotkey } from "@tanstack/react-hotkeys"
-import { ChevronRight, ExternalLink, FileText, icons } from "lucide-react"
+import { ChevronRight, ExternalLink, FileText } from "lucide-react"
+import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
 import { articleGroups } from "../content/article.ts"
 import { articleIcons } from "../helpers/article-icon.ts"
 import type { ArticleNode } from "../models/article.ts"
@@ -76,39 +77,31 @@ export function Sidebar() {
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {import.meta.env.CONFIG.sidebarLinks.map(link => {
-                  const Icon = link.icon
-                    ? icons[
-                        link.icon
-                          .split("-")
-                          .map(s => s.charAt(0).toUpperCase() + s.slice(1))
-                          .join("") as keyof typeof icons
-                      ]
-                    : undefined
-                  return (
-                    <SidebarMenuItem key={link.url}>
-                      <SidebarMenuButton
-                        className="text-muted-foreground"
-                        render={
-                          <a
-                            href={link.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          />
-                        }
-                      >
-                        {Icon && <Icon className="size-4" />}
-                        <span>
-                          {link.title}{" "}
-                          <ExternalLink
-                            className="inline -mt-0.5 opacity-75"
-                            style={{ width: 12, height: 12 }}
-                          />
-                        </span>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  )
-                })}
+                {import.meta.env.CONFIG.sidebarLinks.map(link => (
+                  <SidebarMenuItem key={link.url}>
+                    <SidebarMenuButton
+                      className="text-muted-foreground"
+                      render={
+                        <a
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        />
+                      }
+                    >
+                      {link.icon && (
+                        <DynamicIcon name={link.icon} className="size-4" />
+                      )}
+                      <span>
+                        {link.title}{" "}
+                        <ExternalLink
+                          className="inline -mt-0.5 opacity-75"
+                          style={{ width: 12, height: 12 }}
+                        />
+                      </span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
