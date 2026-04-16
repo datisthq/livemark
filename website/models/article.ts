@@ -18,6 +18,7 @@ export const Article = z.object({
   image: nonEmptyString.optional(),
   author: z.union([nonEmptyString, z.array(nonEmptyString)]).optional(),
   date: nonEmptyString.optional(),
+  tags: z.array(nonEmptyString).optional(),
 })
 
 /** Processed article ready for page rendering (result of content-collections transform). */
@@ -33,6 +34,7 @@ export interface ArticleView {
   image?: string
   author?: string | string[]
   date?: string
+  tags?: string[]
 }
 
 export interface ArticleNode {

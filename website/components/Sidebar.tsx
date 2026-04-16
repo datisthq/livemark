@@ -1,7 +1,6 @@
 import { Link, useLocation } from "@tanstack/react-router"
 import { useHotkey } from "@tanstack/react-hotkeys"
-import { ChevronRight, ExternalLink, FileText } from "lucide-react"
-import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
+import { ChevronRight, FileText } from "lucide-react"
 import {
   articleGroups,
   currentSection,
@@ -32,6 +31,7 @@ import {
   useSidebar,
 } from "../elements/sidebar.tsx"
 import { Search } from "./Search.tsx"
+import { SidebarLinks } from "./SidebarLinks.tsx"
 import { SiteTitle } from "./SiteTitle.tsx"
 import { Theme } from "./Theme.tsx"
 
@@ -46,7 +46,7 @@ export function Sidebar() {
   const section = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
   const groups = configSections?.length
     ? (sectionArticleGroups.get(section?.pathname ?? "__default__") ??
-        articleGroups)
+      articleGroups)
     : articleGroups
 
   return (
@@ -81,42 +81,7 @@ export function Sidebar() {
             </SidebarGroupContent>
           </SidebarGroup>
         ))}
-        {import.meta.env.CONFIG.sidebarLinks?.length && (
-          <SidebarGroup>
-            <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
-              Links
-            </SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {import.meta.env.CONFIG.sidebarLinks.map(link => (
-                  <SidebarMenuItem key={link.url}>
-                    <SidebarMenuButton
-                      className="text-muted-foreground"
-                      render={
-                        <a
-                          href={link.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        />
-                      }
-                    >
-                      {link.icon && (
-                        <DynamicIcon name={link.icon} className="size-4" />
-                      )}
-                      <span>
-                        {link.title}{" "}
-                        <ExternalLink
-                          className="inline -mt-0.5 opacity-75"
-                          style={{ width: 12, height: 12 }}
-                        />
-                      </span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        )}
+        <SidebarLinks />
       </SidebarContent>
       <SidebarFooter className="p-4 space-y-2">
         <Search />

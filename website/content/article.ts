@@ -53,10 +53,19 @@ export const sectionFlatArticles = new Map<string, string[]>()
 export const sectionFirstArticle = new Map<string, string | undefined>()
 
 if (configSections?.length) {
+  const sectionByPathname = new Map(configSections.map(s => [s.pathname, s]))
   const buckets = partitionBySection(sortedArticles, configSections)
   for (const [key, bucket] of buckets) {
-    const tree = buildArticleTree(bucket)
-    const groups = groupArticleTree(tree, bucket)
+    const section = sectionByPathname.get(key)
+    const sorted =
+      section?.type === "blog"
+        ? [...bucket].sort(
+            (a, b) =>
+              new Date(b.date ?? 0).getTime() - new Date(a.date ?? 0).getTime(),
+          )
+        : bucket
+    const tree = buildArticleTree(sorted)
+    const groups = groupArticleTree(tree, sorted)
     const flat = groups.flatMap(g => flattenArticleTree(g.nodes))
     sectionArticleGroups.set(key, groups)
     sectionFlatArticles.set(key, flat)

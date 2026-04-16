@@ -9,6 +9,7 @@ import {
   SidebarTrigger,
 } from "../elements/sidebar.tsx"
 import { Banner } from "./Banner.tsx"
+import { BlogSidebar } from "./BlogSidebar.tsx"
 import { Sidebar } from "./Sidebar.tsx"
 import { SiteTitle } from "./SiteTitle.tsx"
 
@@ -49,7 +50,10 @@ export function Layout(props: {
         {sections?.length ? (
           sections.map(section => {
             const isActive = activeSection?.pathname === section.pathname
-            const target = sectionFirstArticle.get(section.pathname)
+            const target =
+              section.type === "blog"
+                ? section.pathname
+                : sectionFirstArticle.get(section.pathname)
             return (
               <Link
                 key={section.pathname}
@@ -111,9 +115,12 @@ export function Layout(props: {
     )
   }
 
+  const SidebarComponent =
+    activeSection?.type === "blog" ? BlogSidebar : Sidebar
+
   return (
     <SidebarProvider>
-      <Sidebar />
+      <SidebarComponent />
       <SidebarInset>
         {header}
         <main className="flex-1">{props.children}</main>
