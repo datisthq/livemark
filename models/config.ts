@@ -33,6 +33,15 @@ export const UserConfig = z.object({
       }),
     )
     .optional(),
+  sections: z
+    .array(
+      z.object({
+        icon: z.string().optional(),
+        title: z.string(),
+        pathname: z.string(),
+      }),
+    )
+    .optional(),
 })
 
 /** Website configuration injected at build time via Vite define */
@@ -45,6 +54,7 @@ export const WebsiteConfig = UserConfig.pick({
   logo: true,
   headerLinks: true,
   sidebarLinks: true,
+  sections: true,
 })
 
 /**

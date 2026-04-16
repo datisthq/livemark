@@ -1,6 +1,7 @@
-import { Link } from "@tanstack/react-router"
+import { Link, useLocation } from "@tanstack/react-router"
 import { useHotkey } from "@tanstack/react-hotkeys"
 import { ExternalLink } from "lucide-react"
+import { currentSection, sectionFirstArticle } from "../content/article.ts"
 import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
 import {
   SidebarInset,
@@ -11,16 +12,25 @@ import { Banner } from "./Banner.tsx"
 import { Sidebar } from "./Sidebar.tsx"
 import { SiteTitle } from "./SiteTitle.tsx"
 
+function splatFor(pathname: string) {
+  return { _splat: pathname.replace(/^\/|\/$/g, "") }
+}
+
 export function Layout(props: {
   withSidebar?: boolean
   children?: React.ReactNode
 }) {
+  const pathname = useLocation({ select: l => l.pathname })
+  const activeSection = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
+
   useHotkey("J", () =>
     window.scrollBy({ top: window.innerHeight * 0.8, behavior: "smooth" }),
   )
   useHotkey("K", () =>
     window.scrollBy({ top: -window.innerHeight * 0.8, behavior: "smooth" }),
   )
+
+  const sections = import.meta.env.CONFIG.sections
 
   const header = (
     <header className="sticky top-0 z-20 flex h-16 shrink-0 items-center bg-background">
@@ -36,12 +46,39 @@ export function Layout(props: {
         )}
       </div>
       <div className="flex flex-1 items-center gap-8 self-stretch border-b px-6 text-sm">
-        <Link
-          to="/"
-          className="text-foreground font-medium underline underline-offset-4"
-        >
-          Docs
-        </Link>
+        {sections?.length ? (
+          sections.map(section => {
+            const isActive = activeSection?.pathname === section.pathname
+            const target = sectionFirstArticle.get(section.pathname)
+            return (
+              <Link
+                key={section.pathname}
+                to={target === "/" ? "/" : "/$"}
+                params={target && target !== "/" ? splatFor(target) : {}}
+                className={
+                  isActive
+                    ? "text-foreground font-medium underline underline-offset-4"
+                    : "text-muted-foreground hover:text-foreground transition-colors"
+                }
+              >
+                {section.icon && (
+                  <DynamicIcon
+                    name={section.icon}
+                    className="inline size-3.5 align-[-0.125em]"
+                  />
+                )}{" "}
+                {section.title}
+              </Link>
+            )
+          })
+        ) : (
+          <Link
+            to="/"
+            className="text-foreground font-medium underline underline-offset-4"
+          >
+            Docs
+          </Link>
+        )}
         {import.meta.env.CONFIG.headerLinks?.map(link => (
           <a
             key={link.url}

@@ -1,15 +1,23 @@
 import { Link } from "@tanstack/react-router"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { sortedArticles, flatArticles } from "../content/article.ts"
+import {
+  sortedArticles,
+  flatArticles,
+  currentSection,
+  sectionFlatArticles,
+} from "../content/article.ts"
 
 /** Previous/next article navigation shown at the bottom of each article page */
 export function PrevNext(props: { pathname: string }) {
-  const index = flatArticles.indexOf(props.pathname)
+  const section = currentSection(props.pathname)
+  const flat = section
+    ? (sectionFlatArticles.get(section.pathname) ?? flatArticles)
+    : flatArticles
+  const index = flat.indexOf(props.pathname)
   if (index < 0) return null
 
-  const prevPath = index > 0 ? flatArticles[index - 1] : undefined
-  const nextPath =
-    index < flatArticles.length - 1 ? flatArticles[index + 1] : undefined
+  const prevPath = index > 0 ? flat[index - 1] : undefined
+  const nextPath = index < flat.length - 1 ? flat[index + 1] : undefined
   const prev = prevPath
     ? sortedArticles.find(a => a.pathname === prevPath)
     : undefined

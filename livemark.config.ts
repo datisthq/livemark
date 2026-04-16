@@ -4,6 +4,7 @@ export default defineConfig({
   site: "https://livemark.dev",
   include: "docs/**/*.md",
   exclude: "docs/**/includes/**",
+  sections: [{ title: "Docs", pathname: "/" }],
   headerLinks: [
     {
       url: "https://github.com/datisthq/livemark",

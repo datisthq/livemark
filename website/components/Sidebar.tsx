@@ -2,7 +2,11 @@ import { Link, useLocation } from "@tanstack/react-router"
 import { useHotkey } from "@tanstack/react-hotkeys"
 import { ChevronRight, ExternalLink, FileText } from "lucide-react"
 import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
-import { articleGroups } from "../content/article.ts"
+import {
+  articleGroups,
+  currentSection,
+  sectionArticleGroups,
+} from "../content/article.ts"
 import { articleIcons } from "../helpers/article-icon.ts"
 import type { ArticleNode } from "../models/article.ts"
 import {
@@ -38,6 +42,13 @@ export function Sidebar() {
 
   useHotkey("S", toggleSidebar)
 
+  const configSections = import.meta.env.CONFIG.sections
+  const section = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
+  const groups = configSections?.length
+    ? (sectionArticleGroups.get(section?.pathname ?? "__default__") ??
+        articleGroups)
+    : articleGroups
+
   return (
     <SidebarRoot>
       <SidebarHeader>
@@ -50,7 +61,7 @@ export function Sidebar() {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        {articleGroups.map((group, index) => (
+        {groups.map((group, index) => (
           <SidebarGroup key={group.name ?? `__unnamed-${index}`}>
             {group.name && (
               <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
