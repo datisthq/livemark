@@ -128,14 +128,22 @@ export function BlogSidebar() {
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {tags.map(tag => (
-                  <SidebarMenuItem key={tag}>
-                    <SidebarMenuButton className="opacity-75">
-                      <Tag className="size-3.5" />
-                      <span>{tag}</span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
+                {tags.map(tag => {
+                  const tagPath = `${sectionPath}/tags/${tag}`
+                  const tagActive = normalized === `/${tagPath}/`
+                  return (
+                    <SidebarMenuItem key={tag}>
+                      <SidebarMenuButton
+                        isActive={tagActive}
+                        className={tagActive ? "" : "opacity-75"}
+                        render={<Link to="/$" params={{ _splat: tagPath }} />}
+                      >
+                        <Tag className="size-3.5" />
+                        <span>{tag}</span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  )
+                })}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>

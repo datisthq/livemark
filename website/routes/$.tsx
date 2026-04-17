@@ -5,8 +5,10 @@ import {
   homeArticle,
   sortedArticles,
 } from "../content/article.ts"
+import { sectionTags } from "../content/tag.ts"
 import { Article } from "../components/Article.tsx"
 import { BlogIndex } from "../components/BlogIndex.tsx"
+import { TagIndex } from "../components/TagIndex.tsx"
 
 export const Route = createFileRoute("/$")({
   loader: ({ params }) => {
@@ -23,12 +25,31 @@ export const Route = createFileRoute("/$")({
     if (article) return article
 
     const section = currentSection(splat)
-    if (section?.type === "blog" && section.pathname === splat) {
-      return {
-        blogIndex: true as const,
-        sectionPathname: section.pathname,
-        title: section.title,
-        sidebar: true,
+    if (section?.type === "blog") {
+      if (section.pathname === splat) {
+        return {
+          blogIndex: true as const,
+          sectionPathname: section.pathname,
+          title: section.title,
+          sidebar: true,
+        }
+      }
+
+      const tagMatch = splat.match(
+        new RegExp(`^${section.pathname}tags/([^/]+)/$`),
+      )
+      const tag = tagMatch?.[1]
+      if (tag) {
+        const tagMap = sectionTags.get(section.pathname)
+        if (tagMap?.has(tag)) {
+          return {
+            tagPage: true as const,
+            sectionPathname: section.pathname,
+            tag,
+            title: `Posts tagged '${tag}'`,
+            sidebar: true,
+          }
+        }
       }
     }
 
@@ -49,6 +70,9 @@ function Component() {
   const data = Route.useLoaderData()
   if ("blogIndex" in data) {
     return <BlogIndex sectionPathname={data.sectionPathname} />
+  }
+  if ("tagPage" in data) {
+    return <TagIndex sectionPathname={data.sectionPathname} tag={data.tag} />
   }
   return <Article article={data} />
 }
