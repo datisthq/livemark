@@ -19,7 +19,7 @@ export const sortedArticles = [...allArticles].sort(
 /** The article whose path is `/`, if any (rendered in place at the root) */
 export const homeArticle = sortedArticles.find(a => a.path === "/")
 
-/** Sidebar sections derived from the pathname tree, partitioned by `group` */
+/** Sidebar sections derived from the path tree, partitioned by `group` */
 export const articleGroups = groupArticleTree(
   buildArticleTree(sortedArticles),
   sortedArticles,
@@ -41,20 +41,20 @@ function orderKey(order?: number) {
 
 const configSections = import.meta.env.CONFIG.sections
 
-/** Per-section article groups, keyed by section pathname */
+/** Per-section article groups, keyed by section prefix */
 export const sectionArticleGroups = new Map<string, ArticleGroup[]>()
 
-/** Per-section flat article lists, keyed by section pathname */
+/** Per-section flat article lists, keyed by section prefix */
 export const sectionFlatArticles = new Map<string, string[]>()
 
-/** Per-section first article pathname, keyed by section pathname */
+/** Per-section first article path, keyed by section prefix */
 export const sectionFirstArticle = new Map<string, string | undefined>()
 
 if (configSections?.length) {
-  const sectionByPathname = new Map(configSections.map(s => [s.pathname, s]))
+  const sectionByPrefix = new Map(configSections.map(s => [s.prefix, s]))
   const buckets = partitionBySection(sortedArticles, configSections)
   for (const [key, bucket] of buckets) {
-    const section = sectionByPathname.get(key)
+    const section = sectionByPrefix.get(key)
     const sorted =
       section?.type === "blog"
         ? [...bucket].sort(

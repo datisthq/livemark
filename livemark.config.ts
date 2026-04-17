@@ -5,8 +5,8 @@ export default defineConfig({
   include: ["docs/**/*.md", "blog/**/*.md"],
   exclude: "docs/**/includes/**",
   sections: [
-    { title: "Docs", pathname: "/" },
-    { title: "Blog", pathname: "/blog/", type: "blog" },
+    { title: "Docs", prefix: "/" },
+    { title: "Blog", prefix: "/blog/", type: "blog" },
   ],
   headerLinks: [
     {

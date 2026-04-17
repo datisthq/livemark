@@ -36,7 +36,7 @@ export function BlogSidebar() {
   useHotkey("S", toggleSidebar)
 
   const section = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
-  const flat = section ? (sectionFlatArticles.get(section.pathname) ?? []) : []
+  const flat = section ? (sectionFlatArticles.get(section.prefix) ?? []) : []
   const posts = flat
     .map(p => sortedArticles.find(a => a.path === p))
     .filter(a => a !== undefined)
@@ -51,8 +51,8 @@ export function BlogSidebar() {
   const tags = [...allTags].sort()
 
   const normalized = `/${pathname.replace(/^\/|\/$/g, "")}/`
-  const isIndex = section ? normalized === section.pathname : false
-  const sectionPath = (section?.pathname ?? "/blog/").replace(/^\/|\/$/g, "")
+  const isIndex = section ? normalized === section.prefix : false
+  const sectionPath = (section?.prefix ?? "/blog/").replace(/^\/|\/$/g, "")
 
   return (
     <SidebarRoot>

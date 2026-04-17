@@ -49,14 +49,14 @@ export function Layout(props: {
       <div className="flex flex-1 items-center gap-8 self-stretch border-b px-6 text-sm">
         {sections?.length ? (
           sections.map(section => {
-            const isActive = activeSection?.pathname === section.pathname
+            const isActive = activeSection?.prefix === section.prefix
             const target =
               section.type === "blog"
-                ? section.pathname
-                : sectionFirstArticle.get(section.pathname)
+                ? section.prefix
+                : sectionFirstArticle.get(section.prefix)
             return (
               <Link
-                key={section.pathname}
+                key={section.prefix}
                 to={target === "/" ? "/" : "/$"}
                 params={target && target !== "/" ? splatFor(target) : {}}
                 className={

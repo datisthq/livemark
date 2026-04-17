@@ -26,25 +26,25 @@ export const Route = createFileRoute("/$")({
 
     const section = currentSection(splat)
     if (section?.type === "blog") {
-      if (section.pathname === splat) {
+      if (section.prefix === splat) {
         return {
           blogIndex: true as const,
-          sectionPathname: section.pathname,
+          sectionPrefix: section.prefix,
           title: section.title,
           sidebar: true,
         }
       }
 
       const tagMatch = splat.match(
-        new RegExp(`^${section.pathname}tags/([^/]+)/$`),
+        new RegExp(`^${section.prefix}tags/([^/]+)/$`),
       )
       const tag = tagMatch?.[1]
       if (tag) {
-        const tagMap = sectionTags.get(section.pathname)
+        const tagMap = sectionTags.get(section.prefix)
         if (tagMap?.has(tag)) {
           return {
             tagPage: true as const,
-            sectionPathname: section.pathname,
+            sectionPrefix: section.prefix,
             tag,
             title: `Posts tagged '${tag}'`,
             sidebar: true,
@@ -69,10 +69,10 @@ export const Route = createFileRoute("/$")({
 function Component() {
   const data = Route.useLoaderData()
   if ("blogIndex" in data) {
-    return <BlogIndex sectionPathname={data.sectionPathname} />
+    return <BlogIndex sectionPrefix={data.sectionPrefix} />
   }
   if ("tagPage" in data) {
-    return <TagIndex sectionPathname={data.sectionPathname} tag={data.tag} />
+    return <TagIndex sectionPrefix={data.sectionPrefix} tag={data.tag} />
   }
   return <Article article={data} />
 }

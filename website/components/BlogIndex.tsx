@@ -8,9 +8,9 @@ import { Separator } from "../elements/separator.tsx"
 import { Footer } from "./Footer.tsx"
 
 /** Auto-generated blog index listing all posts by date */
-export function BlogIndex(props: { sectionPathname: string }) {
-  const section = currentSection(props.sectionPathname)
-  const flat = sectionFlatArticles.get(props.sectionPathname) ?? []
+export function BlogIndex(props: { sectionPrefix: string }) {
+  const section = currentSection(props.sectionPrefix)
+  const flat = sectionFlatArticles.get(props.sectionPrefix) ?? []
   const posts = flat
     .map(p => sortedArticles.find(a => a.path === p))
     .filter(a => a !== undefined)

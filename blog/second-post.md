@@ -18,8 +18,8 @@ You can now split your site into multiple sections. Each section appears as a ta
 ```ts
 export default defineConfig({
   sections: [
-    { title: "Docs", pathname: "/" },
-    { title: "Blog", pathname: "/blog/", type: "blog" },
+    { title: "Docs", prefix: "/" },
+    { title: "Blog", prefix: "/blog/", type: "blog" },
   ],
 })
 ```

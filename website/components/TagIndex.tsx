@@ -5,10 +5,10 @@ import { Separator } from "../elements/separator.tsx"
 import { Footer } from "./Footer.tsx"
 
 /** Blog tag page listing posts filtered by a specific tag */
-export function TagIndex(props: { sectionPathname: string; tag: string }) {
-  const tagMap = sectionTags.get(props.sectionPathname)
-  const pathnames = tagMap?.get(props.tag) ?? []
-  const posts = pathnames
+export function TagIndex(props: { sectionPrefix: string; tag: string }) {
+  const tagMap = sectionTags.get(props.sectionPrefix)
+  const paths = tagMap?.get(props.tag) ?? []
+  const posts = paths
     .map(p => sortedArticles.find(a => a.path === p))
     .filter(a => a !== undefined)
 

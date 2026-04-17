@@ -45,7 +45,7 @@ export function Sidebar() {
   const configSections = import.meta.env.CONFIG.sections
   const section = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
   const groups = configSections?.length
-    ? (sectionArticleGroups.get(section?.pathname ?? "__default__") ??
+    ? (sectionArticleGroups.get(section?.prefix ?? "__default__") ??
       articleGroups)
     : articleGroups
 

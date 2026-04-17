@@ -11,7 +11,7 @@ import {
 export function PrevNext(props: { path: string }) {
   const section = currentSection(props.path)
   const flat = section
-    ? (sectionFlatArticles.get(section.pathname) ?? flatArticles)
+    ? (sectionFlatArticles.get(section.prefix) ?? flatArticles)
     : flatArticles
   const index = flat.indexOf(props.path)
   if (index < 0) return null

@@ -3,9 +3,9 @@ import { matchSection, partitionBySection } from "./section.ts"
 
 describe("matchSection", () => {
   const sections = [
-    { title: "Docs", pathname: "/" },
-    { title: "API", pathname: "/api/" },
-    { title: "API Auth", pathname: "/api/auth/" },
+    { title: "Docs", prefix: "/" },
+    { title: "API", prefix: "/api/" },
+    { title: "API Auth", prefix: "/api/auth/" },
   ]
 
   it("should match the most specific prefix", () => {
@@ -21,20 +21,20 @@ describe("matchSection", () => {
   })
 
   it("should return undefined when no section matches", () => {
-    const narrow = [{ title: "API", pathname: "/api/" }]
+    const narrow = [{ title: "API", prefix: "/api/" }]
     expect(matchSection("/getting-started/", narrow)).toBeUndefined()
   })
 
   it("should match a single root section for all articles", () => {
-    const root = [{ title: "Docs", pathname: "/" }]
+    const root = [{ title: "Docs", prefix: "/" }]
     expect(matchSection("/anything/deep/path/", root)?.title).toBe("Docs")
   })
 })
 
 describe("partitionBySection", () => {
   const sections = [
-    { title: "Docs", pathname: "/" },
-    { title: "API", pathname: "/api/" },
+    { title: "Docs", prefix: "/" },
+    { title: "API", prefix: "/api/" },
   ]
 
   const articles = [
@@ -57,7 +57,7 @@ describe("partitionBySection", () => {
   })
 
   it("should put unmatched articles in __default__ bucket", () => {
-    const narrow = [{ title: "API", pathname: "/api/" }]
+    const narrow = [{ title: "API", prefix: "/api/" }]
     const result = partitionBySection(articles, narrow)
     expect(result.get("__default__")?.map(a => a.path)).toEqual([
       "/getting-started/",

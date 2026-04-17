@@ -1,11 +1,11 @@
 export interface SectionDef {
   icon?: string
   title: string
-  pathname: string
+  prefix: string
   type?: "blog"
 }
 
-/** Find the section whose pathname is the longest prefix of the article path */
+/** Find the section whose prefix is the longest prefix of the article path */
 export function matchSection(
   articlePath: string,
   sections: SectionDef[],
@@ -14,11 +14,11 @@ export function matchSection(
   let bestLen = 0
   for (const section of sections) {
     if (
-      articlePath.startsWith(section.pathname) &&
-      section.pathname.length > bestLen
+      articlePath.startsWith(section.prefix) &&
+      section.prefix.length > bestLen
     ) {
       best = section
-      bestLen = section.pathname.length
+      bestLen = section.prefix.length
     }
   }
   return best
@@ -32,7 +32,7 @@ export function partitionBySection<T extends { path: string }>(
   const buckets = new Map<string, T[]>()
   for (const article of articles) {
     const section = matchSection(article.path, sections)
-    const key = section?.pathname ?? "__default__"
+    const key = section?.prefix ?? "__default__"
     const bucket = buckets.get(key)
     if (bucket) {
       bucket.push(article)
