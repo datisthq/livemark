@@ -21,6 +21,7 @@ export const UserConfig = z.object({
         url: z.string(),
         title: z.string(),
         icon: z.string().optional(),
+        prefix: z.string().optional(),
       }),
     )
     .optional(),
@@ -30,6 +31,7 @@ export const UserConfig = z.object({
         url: z.string(),
         title: z.string(),
         icon: z.string().optional(),
+        prefix: z.string().optional(),
       }),
     )
     .optional(),

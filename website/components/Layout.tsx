@@ -83,24 +83,28 @@ export function Layout(props: {
             Docs
           </Link>
         )}
-        {import.meta.env.CONFIG.headerLinks?.map(link => (
-          <a
-            key={link.url}
-            href={link.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-foreground transition-colors"
-          >
-            {link.icon && (
-              <DynamicIcon
-                name={link.icon}
-                className="inline size-3.5 align-[-0.125em]"
-              />
-            )}{" "}
-            {link.title}{" "}
-            <ExternalLink className="inline size-3 align-[-0.125em]" />
-          </a>
-        ))}
+        {import.meta.env.CONFIG.headerLinks
+          ?.filter(
+            link => !link.prefix || link.prefix === activeSection?.prefix,
+          )
+          .map(link => (
+            <a
+              key={link.url}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {link.icon && (
+                <DynamicIcon
+                  name={link.icon}
+                  className="inline size-3.5 align-[-0.125em]"
+                />
+              )}{" "}
+              {link.title}{" "}
+              <ExternalLink className="inline size-3 align-[-0.125em]" />
+            </a>
+          ))}
         <Banner />
       </div>
     </header>

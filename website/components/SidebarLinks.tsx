@@ -1,4 +1,6 @@
+import { useLocation } from "@tanstack/react-router"
 import { ExternalLink } from "lucide-react"
+import { currentSection } from "../content/article.ts"
 import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
 import {
   SidebarGroup,
@@ -11,7 +13,13 @@ import {
 
 /** Shared sidebar links group rendered from config.sidebarLinks */
 export function SidebarLinks() {
-  if (!import.meta.env.CONFIG.sidebarLinks?.length) return null
+  const pathname = useLocation({ select: l => l.pathname })
+  const section = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
+  const links = import.meta.env.CONFIG.sidebarLinks?.filter(
+    link => !link.prefix || link.prefix === section?.prefix,
+  )
+
+  if (!links?.length) return null
 
   return (
     <SidebarGroup>
@@ -20,7 +28,7 @@ export function SidebarLinks() {
       </SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
-          {import.meta.env.CONFIG.sidebarLinks.map(link => (
+          {links.map(link => (
             <SidebarMenuItem key={link.url}>
               <SidebarMenuButton
                 className="text-muted-foreground"
