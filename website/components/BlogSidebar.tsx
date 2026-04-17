@@ -38,7 +38,7 @@ export function BlogSidebar() {
   const section = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
   const flat = section ? (sectionFlatArticles.get(section.pathname) ?? []) : []
   const posts = flat
-    .map(p => sortedArticles.find(a => a.pathname === p))
+    .map(p => sortedArticles.find(a => a.path === p))
     .filter(a => a !== undefined)
   const recentPosts = posts.slice(0, 5)
 
@@ -89,9 +89,9 @@ export function BlogSidebar() {
                 </SidebarMenuButton>
                 <SidebarMenuSub>
                   {recentPosts.map(post => {
-                    const active = normalized === post.pathname
+                    const active = normalized === post.path
                     return (
-                      <SidebarMenuSubItem key={post.pathname}>
+                      <SidebarMenuSubItem key={post.path}>
                         <SidebarMenuSubButton
                           isActive={active}
                           className={active ? "" : "opacity-75"}
@@ -99,7 +99,7 @@ export function BlogSidebar() {
                             <Link
                               to="/$"
                               params={{
-                                _splat: post.pathname.replace(/^\/|\/$/g, ""),
+                                _splat: post.path.replace(/^\/|\/$/g, ""),
                               }}
                             />
                           }

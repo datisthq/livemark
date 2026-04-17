@@ -2,7 +2,7 @@
 title: Text Formatting
 icon: type
 order: 5
-pathname: /markdown/text-formatting/
+path: /markdown/text-formatting/
 ---
 
 # Text Formatting

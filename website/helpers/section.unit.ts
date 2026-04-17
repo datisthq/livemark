@@ -38,19 +38,19 @@ describe("partitionBySection", () => {
   ]
 
   const articles = [
-    { pathname: "/getting-started/" },
-    { pathname: "/guide/" },
-    { pathname: "/api/users/" },
-    { pathname: "/api/auth/" },
+    { path: "/getting-started/" },
+    { path: "/guide/" },
+    { path: "/api/users/" },
+    { path: "/api/auth/" },
   ]
 
   it("should split articles into section buckets", () => {
     const result = partitionBySection(articles, sections)
-    expect(result.get("/")?.map(a => a.pathname)).toEqual([
+    expect(result.get("/")?.map(a => a.path)).toEqual([
       "/getting-started/",
       "/guide/",
     ])
-    expect(result.get("/api/")?.map(a => a.pathname)).toEqual([
+    expect(result.get("/api/")?.map(a => a.path)).toEqual([
       "/api/users/",
       "/api/auth/",
     ])
@@ -59,11 +59,11 @@ describe("partitionBySection", () => {
   it("should put unmatched articles in __default__ bucket", () => {
     const narrow = [{ title: "API", pathname: "/api/" }]
     const result = partitionBySection(articles, narrow)
-    expect(result.get("__default__")?.map(a => a.pathname)).toEqual([
+    expect(result.get("__default__")?.map(a => a.path)).toEqual([
       "/getting-started/",
       "/guide/",
     ])
-    expect(result.get("/api/")?.map(a => a.pathname)).toEqual([
+    expect(result.get("/api/")?.map(a => a.path)).toEqual([
       "/api/users/",
       "/api/auth/",
     ])

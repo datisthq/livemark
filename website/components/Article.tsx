@@ -144,7 +144,7 @@ export function Article(props: { article: ArticleView }) {
               }}
             />
           </div>
-          <PrevNext pathname={article.pathname} />
+          <PrevNext path={article.path} />
           <Footer />
         </div>
         {article.toc !== false && (

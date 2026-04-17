@@ -71,11 +71,7 @@ export function Sidebar() {
             <SidebarGroupContent>
               <SidebarMenu>
                 {group.nodes.map(node => (
-                  <NavNode
-                    key={node.pathname}
-                    node={node}
-                    currentPath={pathname}
-                  />
+                  <NavNode key={node.path} node={node} currentPath={pathname} />
                 ))}
               </SidebarMenu>
             </SidebarGroupContent>
@@ -104,7 +100,7 @@ function isActive(articlePathname: string, currentPath: string) {
 function NavNode(props: { node: ArticleNode; currentPath: string }) {
   const { node, currentPath } = props
   const Icon = articleIcons[node.icon] ?? FileText
-  const active = isActive(node.pathname, currentPath)
+  const active = isActive(node.path, currentPath)
 
   if (node.children.length === 0) {
     return (
@@ -112,7 +108,7 @@ function NavNode(props: { node: ArticleNode; currentPath: string }) {
         <SidebarMenuButton
           isActive={active}
           className={active ? "" : "opacity-75"}
-          render={<Link to="/$" params={splatFor(node.pathname)} />}
+          render={<Link to="/$" params={splatFor(node.path)} />}
         >
           <Icon className="size-4" />
           <span>{node.label ?? node.title}</span>
@@ -127,7 +123,7 @@ function NavNode(props: { node: ArticleNode; currentPath: string }) {
         <SidebarMenuButton
           isActive={active}
           className={active ? "" : "opacity-75"}
-          render={<Link to="/$" params={splatFor(node.pathname)} />}
+          render={<Link to="/$" params={splatFor(node.path)} />}
         >
           <Icon className="size-4" />
           <span>{node.label ?? node.title}</span>
@@ -139,13 +135,13 @@ function NavNode(props: { node: ArticleNode; currentPath: string }) {
       <CollapsibleContent>
         <SidebarMenuSub>
           {node.children.map(child => {
-            const childIsActive = isActive(child.pathname, currentPath)
+            const childIsActive = isActive(child.path, currentPath)
             return (
-              <SidebarMenuSubItem key={child.pathname}>
+              <SidebarMenuSubItem key={child.path}>
                 <SidebarMenuSubButton
                   isActive={childIsActive}
                   className={childIsActive ? "" : "opacity-75"}
-                  render={<Link to="/$" params={splatFor(child.pathname)} />}
+                  render={<Link to="/$" params={splatFor(child.path)} />}
                 >
                   <span>{child.label ?? child.title}</span>
                 </SidebarMenuSubButton>

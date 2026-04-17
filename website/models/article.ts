@@ -11,7 +11,7 @@ export const Article = z.object({
   description: nonEmptyString.optional(),
   icon: nonEmptyString.optional(),
   order: z.number().optional(),
-  pathname: nonEmptyString.optional(),
+  path: nonEmptyString.optional(),
   group: nonEmptyString.optional(),
   sidebar: z.boolean().default(true),
   toc: z.boolean().default(true),
@@ -23,7 +23,7 @@ export const Article = z.object({
 
 /** Processed article ready for page rendering (result of content-collections transform). */
 export interface ArticleView {
-  pathname: string
+  path: string
   content: string
   filePath: string
   mdx: string
@@ -38,7 +38,7 @@ export interface ArticleView {
 }
 
 export interface ArticleNode {
-  pathname: string
+  path: string
   title: string
   label?: string
   icon: string

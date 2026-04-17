@@ -9,7 +9,7 @@ export function TagIndex(props: { sectionPathname: string; tag: string }) {
   const tagMap = sectionTags.get(props.sectionPathname)
   const pathnames = tagMap?.get(props.tag) ?? []
   const posts = pathnames
-    .map(p => sortedArticles.find(a => a.pathname === p))
+    .map(p => sortedArticles.find(a => a.path === p))
     .filter(a => a !== undefined)
 
   return (
@@ -20,11 +20,11 @@ export function TagIndex(props: { sectionPathname: string; tag: string }) {
         </h1>
         <div className="space-y-6">
           {posts.map((post, i) => (
-            <div key={post.pathname}>
+            <div key={post.path}>
               {i > 0 && <Separator className="mb-6" />}
               <Link
                 to="/$"
-                params={{ _splat: post.pathname.replace(/^\/|\/$/g, "") }}
+                params={{ _splat: post.path.replace(/^\/|\/$/g, "") }}
                 className="block group"
               >
                 <article>

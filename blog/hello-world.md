@@ -3,7 +3,7 @@ title: Hello World
 description: Our very first blog post announcing Livemark
 author: Livemark Team
 date: 2026-04-10
-pathname: /blog/hello-world/
+path: /blog/hello-world/
 tags: [announcement, getting-started]
 ---
 

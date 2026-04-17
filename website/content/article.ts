@@ -16,8 +16,8 @@ export const sortedArticles = [...allArticles].sort(
   (a, b) => orderKey(a.order) - orderKey(b.order),
 )
 
-/** The article whose pathname is `/`, if any (rendered in place at the root) */
-export const homeArticle = sortedArticles.find(a => a.pathname === "/")
+/** The article whose path is `/`, if any (rendered in place at the root) */
+export const homeArticle = sortedArticles.find(a => a.path === "/")
 
 /** Sidebar sections derived from the pathname tree, partitioned by `group` */
 export const articleGroups = groupArticleTree(
@@ -31,9 +31,7 @@ export const flatArticles = articleGroups.flatMap(group =>
 )
 
 /** The first article in sidebar order, used as the default landing page */
-export const firstArticle = sortedArticles.find(
-  a => a.pathname === flatArticles[0],
-)
+export const firstArticle = sortedArticles.find(a => a.path === flatArticles[0])
 
 function orderKey(order?: number) {
   if (order === undefined) return Number.MAX_SAFE_INTEGER / 2
@@ -73,8 +71,8 @@ if (configSections?.length) {
   }
 }
 
-/** Find which config section an article pathname belongs to */
-export function currentSection(pathname: string) {
+/** Find which config section an article path belongs to */
+export function currentSection(path: string) {
   if (!configSections?.length) return undefined
-  return matchSection(pathname, configSections)
+  return matchSection(path, configSections)
 }

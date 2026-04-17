@@ -54,7 +54,7 @@ const config = await loadConfig()
 const baseDir = resolve(import.meta.dirname, "../..")
 const directory = relative(baseDir, config.root) || "."
 
-function toPathname(filePath: string) {
+function toPath(filePath: string) {
   const name = basename(filePath).replace(/\.\w+$/, "")
   return slugify(name)
 }
@@ -93,7 +93,7 @@ const articles = defineCollection({
     const content = resolveIncludes(document.content, filePath)
     const title = document.title ?? extractTitle(content, document._meta.path)
     const icon = document.icon ?? pickDefaultIcon(document._meta.path)
-    const pathname = document.pathname ?? toPathname(document._meta.filePath)
+    const path = document.path ?? toPath(document._meta.filePath)
     const mdx = await compileMDX(
       context,
       { ...document, content },
@@ -168,7 +168,7 @@ const articles = defineCollection({
       image,
       title,
       icon,
-      pathname,
+      path,
       tocItems,
       searchText,
       mdx,

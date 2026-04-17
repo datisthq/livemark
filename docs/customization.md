@@ -3,7 +3,7 @@ title: Customization
 description: How to customize your Livemark project.
 icon: sliders-horizontal
 order: 3
-pathname: /customization/
+path: /customization/
 ---
 
 # Customization

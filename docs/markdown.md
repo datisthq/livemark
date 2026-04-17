@@ -2,7 +2,7 @@
 title: Markdown
 icon: file-code
 order: 2
-pathname: /markdown/
+path: /markdown/
 ---
 
 # Markdown

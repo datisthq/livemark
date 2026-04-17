@@ -2,7 +2,7 @@
 title: Rich Elements
 icon: layout-grid
 order: 6
-pathname: /markdown/rich-elements/
+path: /markdown/rich-elements/
 ---
 
 # Rich Elements

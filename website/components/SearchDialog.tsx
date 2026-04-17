@@ -15,7 +15,7 @@ import {
 
 interface SearchResult {
   title: string
-  pathname: string
+  path: string
   icon: string
   snippet: string
   group: string
@@ -55,12 +55,12 @@ export function SearchDialog(props: {
   const toResult = useCallback(
     (article: (typeof sortedArticles)[number], term: string): SearchResult => ({
       title: article.title,
-      pathname: article.pathname,
+      path: article.path,
       icon: article.icon,
       snippet: term
         ? extractSnippet(article.searchText, term)
         : (article.description ?? ""),
-      group: groupFor(article.pathname),
+      group: groupFor(article.path),
     }),
     [],
   )
@@ -89,7 +89,7 @@ export function SearchDialog(props: {
               {
                 ...sortedArticles[0],
                 title: hit.document.title,
-                pathname: "",
+                path: "",
                 searchText: hit.document.description,
                 description: hit.document.description,
                 icon: "",
@@ -104,13 +104,13 @@ export function SearchDialog(props: {
   )
 
   const handleSelect = useCallback(
-    (pathname: string) => {
+    (path: string) => {
       props.onOpenChange(false)
       setQuery("")
       setResults([])
       navigate({
         to: "/$",
-        params: { _splat: pathname.replace(/^\/|\/$/g, "") },
+        params: { _splat: path.replace(/^\/|\/$/g, "") },
       })
     },
     [navigate, props.onOpenChange],
@@ -153,9 +153,9 @@ export function SearchDialog(props: {
               const Icon = articleIcons[result.icon] ?? FileText
               return (
                 <CommandItem
-                  key={result.pathname}
-                  value={result.pathname}
-                  onSelect={() => handleSelect(result.pathname)}
+                  key={result.path}
+                  value={result.path}
+                  onSelect={() => handleSelect(result.path)}
                   className="py-2.5"
                 >
                   <Icon className="size-5 shrink-0 mt-0.5 self-start opacity-60" />

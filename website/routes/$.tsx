@@ -17,11 +17,11 @@ export const Route = createFileRoute("/$")({
       if (!firstArticle) throw notFound()
       throw redirect({
         to: "/$",
-        params: { _splat: firstArticle.pathname.replace(/^\/|\/$/g, "") },
+        params: { _splat: firstArticle.path.replace(/^\/|\/$/g, "") },
       })
     }
     const splat = `/${params._splat}/`
-    const article = sortedArticles.find(a => a.pathname === splat)
+    const article = sortedArticles.find(a => a.path === splat)
     if (article) return article
 
     const section = currentSection(splat)
