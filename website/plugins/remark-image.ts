@@ -16,11 +16,19 @@ export const remarkImage: Plugin<
     visit(tree, "paragraph", (node, index, parent) => {
       if (!parent || typeof index !== "number") return
       const isImageOnly = node.children.every(
+        child =>
+          child.type === "image" ||
+          child.type === "imageReference" ||
+          child.type === "break" ||
+          (child.type === "text" && child.value.trim() === ""),
+      )
+      if (!isImageOnly) return
+      const images = node.children.filter(
         child => child.type === "image" || child.type === "imageReference",
       )
-      if (!isImageOnly || node.children.length === 0) return
-      parent.children.splice(index, 1, ...node.children)
-      return index + node.children.length
+      if (images.length === 0) return
+      parent.children.splice(index, 1, ...images)
+      return index + images.length
     })
   }
 }
