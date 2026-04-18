@@ -38,7 +38,7 @@ export function Layout(props: {
   const header = (
     <header className="sticky top-0 z-20 flex h-16 shrink-0 items-center bg-background">
       <div
-        className={`flex items-center self-stretch pl-4 border-b ${props.withSidebar ? "pr-0" : "md:pr-20"}`}
+        className={`flex items-center self-stretch pl-4 border-b ${props.withSidebar ? "pr-4" : "md:pr-20"}`}
       >
         {props.withSidebar ? (
           <SidebarTrigger />
@@ -63,17 +63,17 @@ export function Layout(props: {
                   key={section.prefix}
                   to={target === "/" ? "/" : "/$"}
                   params={target && target !== "/" ? splatFor(target) : {}}
-                  className={
+                  className={`inline-flex items-center gap-1.5 text-foreground ${
                     isActive
-                      ? "text-foreground font-medium underline underline-offset-4"
-                      : "text-muted-foreground hover:text-foreground transition-colors"
-                  }
+                      ? "font-medium border-b-2 border-foreground pb-0.5 -mb-0.5"
+                      : "opacity-80 hover:opacity-100 transition-opacity"
+                  }`}
                 >
                   <DynamicIcon
                     name={sectionIcon(section)}
-                    className="inline size-3.5 align-[-0.125em]"
-                  />{" "}
-                  {section.title}
+                    className="size-3.5"
+                  />
+                  <span>{section.title}</span>
                 </Link>
               )
             })
@@ -97,7 +97,7 @@ export function Layout(props: {
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-foreground opacity-80 hover:opacity-100 transition-opacity"
             >
               {link.icon && (
                 <DynamicIcon

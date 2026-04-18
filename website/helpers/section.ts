@@ -9,7 +9,7 @@ export interface SectionDef {
 
 const DEFAULT_ICONS: Record<SectionDef["type"], string> = {
   article: "book-open",
-  blog: "pen-line",
+  blog: "rss",
   changelog: "history",
 }
 
