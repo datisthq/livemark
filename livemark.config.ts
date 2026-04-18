@@ -14,14 +14,11 @@ export default defineConfig({
       source: "CHANGELOG.md",
     },
   ],
-  headerLinks: [
+  links: [
     {
       url: "https://github.com/datisthq/livemark",
       title: "GitHub",
       icon: "github",
     },
-  ],
-  sidebarLinks: [
-    { url: "https://datist.io", title: "Datist", icon: "heart-handshake" },
   ],
 })

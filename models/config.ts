@@ -15,23 +15,14 @@ export const UserConfig = z.object({
   exclude: z.union([z.string(), z.array(z.string())]).optional(),
   codeThemeLight: CodeThemeLight.default("catppuccin-latte"),
   codeThemeDark: CodeThemeDark.default("catppuccin-mocha"),
-  headerLinks: z
+  links: z
     .array(
       z.object({
         url: z.string(),
         title: z.string(),
         icon: z.string().optional(),
         prefix: z.string().optional(),
-      }),
-    )
-    .optional(),
-  sidebarLinks: z
-    .array(
-      z.object({
-        url: z.string(),
-        title: z.string(),
-        icon: z.string().optional(),
-        prefix: z.string().optional(),
+        type: z.enum(["sidebar"]).optional(),
       }),
     )
     .optional(),
@@ -56,8 +47,7 @@ export const WebsiteConfig = UserConfig.pick({
   site: true,
   favicon: true,
   logo: true,
-  headerLinks: true,
-  sidebarLinks: true,
+  links: true,
   sections: true,
 })
 

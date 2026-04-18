@@ -84,9 +84,11 @@ export function Layout(props: {
             Docs
           </Link>
         )}
-        {import.meta.env.CONFIG.headerLinks
+        {import.meta.env.CONFIG.links
           ?.filter(
-            link => !link.prefix || link.prefix === activeSection?.prefix,
+            link =>
+              !link.type &&
+              (!link.prefix || link.prefix === activeSection?.prefix),
           )
           .map(link => (
             <a
