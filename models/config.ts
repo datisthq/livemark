@@ -22,7 +22,7 @@ export const UserConfig = z.object({
         title: z.string(),
         icon: z.string().optional(),
         prefix: z.string().optional(),
-        position: z.enum(["sidebar"]).optional(),
+        position: z.enum(["header", "sidebar"]).default("header"),
       }),
     )
     .optional(),
@@ -32,8 +32,8 @@ export const UserConfig = z.object({
         icon: z.string().optional(),
         title: z.string(),
         prefix: z.string(),
-        type: z.enum(["blog", "changelog"]).optional(),
-        position: z.enum(["sidebar"]).optional(),
+        type: z.enum(["article", "blog", "changelog"]).default("article"),
+        position: z.enum(["header", "sidebar"]).default("header"),
         source: z.string().optional(),
       }),
     )

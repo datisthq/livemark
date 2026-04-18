@@ -2,17 +2,17 @@ export interface SectionDef {
   icon?: string
   title: string
   prefix: string
-  type?: "blog" | "changelog"
-  position?: "sidebar"
+  type: "article" | "blog" | "changelog"
+  position: "header" | "sidebar"
   source?: string
 }
 
 /** Find the section whose prefix is the longest prefix of the article path */
-export function matchSection(
+export function matchSection<S extends { prefix: string }>(
   articlePath: string,
-  sections: SectionDef[],
-): SectionDef | undefined {
-  let best: SectionDef | undefined
+  sections: S[],
+): S | undefined {
+  let best: S | undefined
   let bestLen = 0
   for (const section of sections) {
     if (
@@ -29,7 +29,7 @@ export function matchSection(
 /** Split articles into per-section buckets. Unmatched articles go to "__default__" */
 export function partitionBySection<T extends { path: string }>(
   articles: T[],
-  sections: SectionDef[],
+  sections: { prefix: string }[],
 ): Map<string, T[]> {
   const buckets = new Map<string, T[]>()
   for (const article of articles) {

@@ -50,7 +50,7 @@ export function Layout(props: {
       <div className="flex flex-1 items-center gap-8 self-stretch border-b px-6 text-sm">
         {sections?.length ? (
           sections
-            .filter(section => section.position !== "sidebar")
+            .filter(section => section.position === "header")
             .map(section => {
               const isActive = activeSection?.prefix === section.prefix
               const target =
@@ -89,7 +89,7 @@ export function Layout(props: {
         {import.meta.env.CONFIG.links
           ?.filter(
             link =>
-              !link.position &&
+              link.position === "header" &&
               (!link.prefix || link.prefix === activeSection?.prefix),
           )
           .map(link => (
