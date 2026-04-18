@@ -59,35 +59,33 @@ export function BlogIndex(props: { sectionPrefix: string }) {
           </div>
           <div className="space-y-6">
             {posts.map((post, i) => (
-              <div key={post.path} id={slugOf(post.path)}>
+              <article key={post.path} id={slugOf(post.path)}>
                 {i > 0 && <Separator className="mb-6" />}
-                <Link
-                  to="/$"
-                  params={{ _splat: post.path.replace(/^\/|\/$/g, "") }}
-                  className="block group"
-                >
-                  <article>
-                    <h2 className="text-2xl font-bold group-hover:text-primary transition-colors">
-                      {post.title}
-                    </h2>
-                    <p className="text-sm text-muted-foreground mt-1 flex gap-3">
-                      {post.date && <span>{formatDate(post.date)}</span>}
-                      {post.author && (
-                        <span>
-                          {Array.isArray(post.author)
-                            ? post.author.join(", ")
-                            : post.author}
-                        </span>
-                      )}
-                    </p>
-                    {post.description && (
-                      <p className="text-muted-foreground mt-2">
-                        {post.description}
-                      </p>
-                    )}
-                  </article>
-                </Link>
-              </div>
+                <h2 className="text-2xl">
+                  <Link
+                    to="/$"
+                    params={{ _splat: post.path.replace(/^\/|\/$/g, "") }}
+                    className="font-medium hover:text-primary transition-colors"
+                  >
+                    {post.title}
+                  </Link>
+                </h2>
+                <p className="text-sm text-muted-foreground mt-1 flex gap-3">
+                  {post.date && <span>{formatDate(post.date)}</span>}
+                  {post.author && (
+                    <span>
+                      {Array.isArray(post.author)
+                        ? post.author.join(", ")
+                        : post.author}
+                    </span>
+                  )}
+                </p>
+                {post.description && (
+                  <p className="text-muted-foreground mt-2">
+                    {post.description}
+                  </p>
+                )}
+              </article>
             ))}
           </div>
           <div className="mt-10">

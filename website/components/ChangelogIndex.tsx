@@ -54,30 +54,28 @@ export function ChangelogIndex(props: { sectionPrefix: string }) {
           </div>
           <div className="space-y-6">
             {entries.map((entry, i) => (
-              <div key={entry.path} id={slugOf(entry.path)}>
+              <article key={entry.path} id={slugOf(entry.path)}>
                 {i > 0 && <Separator className="mb-6" />}
-                <Link
-                  to="/$"
-                  params={{ _splat: entry.path.replace(/^\/|\/$/g, "") }}
-                  className="block group"
-                >
-                  <article>
-                    <h2 className="text-2xl font-bold group-hover:text-primary transition-colors">
-                      {entry.title}
-                    </h2>
-                    {entry.date && (
-                      <p className="text-sm text-muted-foreground mt-1">
-                        {formatDate(entry.date)}
-                      </p>
-                    )}
-                    {entry.description && (
-                      <p className="text-muted-foreground mt-2">
-                        {entry.description}
-                      </p>
-                    )}
-                  </article>
-                </Link>
-              </div>
+                <h2 className="text-2xl">
+                  <Link
+                    to="/$"
+                    params={{ _splat: entry.path.replace(/^\/|\/$/g, "") }}
+                    className="font-medium hover:text-primary transition-colors"
+                  >
+                    {entry.title}
+                  </Link>
+                </h2>
+                {entry.date && (
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {formatDate(entry.date)}
+                  </p>
+                )}
+                {entry.description && (
+                  <p className="text-muted-foreground mt-2">
+                    {entry.description}
+                  </p>
+                )}
+              </article>
             ))}
           </div>
           <div className="mt-10">
