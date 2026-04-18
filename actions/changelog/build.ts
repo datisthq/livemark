@@ -1,6 +1,12 @@
 import { access, mkdir, readFile, rm, writeFile } from "node:fs/promises"
 import { join, resolve } from "node:path"
 import slugify from "@sindresorhus/slugify"
+import type { Root, RootContent } from "mdast"
+import { toString as mdastToString } from "mdast-util-to-string"
+import remarkParse from "remark-parse"
+import remarkStringify from "remark-stringify"
+import { unified } from "unified"
+import { visit } from "unist-util-visit"
 import type { Config } from "../../models/config.ts"
 import {
   isGitHubUrl,
@@ -29,6 +35,13 @@ interface ChangelogEntry {
 
 const CACHE_DIR = ".livemark/cache/changelog"
 const META_FILE = ".livemark/cache/changelog.meta.json"
+
+const parser = unified().use(remarkParse)
+const stringifier = unified().use(remarkStringify, {
+  bullet: "-",
+  fences: true,
+  emphasis: "_",
+})
 
 export function cacheIncludeGlob() {
   return `${CACHE_DIR}/**/*.md`
@@ -66,36 +79,53 @@ async function buildFromLocal(source: string, root: string) {
   return splitLocalChangelog(body)
 }
 
-function splitLocalChangelog(body: string): ChangelogEntry[] {
-  const lines = body.split("\n")
+/** Parse CHANGELOG.md into per-version entries using mdast */
+export function splitLocalChangelog(body: string): ChangelogEntry[] {
+  const tree = parser.parse(body) as Root
   const entries: ChangelogEntry[] = []
-  let current: { heading: string; bodyLines: string[] } | undefined
+  let current: { heading: string; children: RootContent[] } | undefined
 
-  for (const line of lines) {
-    if (line.startsWith("## ")) {
-      if (current) entries.push(parseLocalEntry(current))
-      current = { heading: line.slice(3).trim(), bodyLines: [] }
+  for (const child of tree.children) {
+    if (child.type === "heading" && child.depth === 2) {
+      if (current) entries.push(finalizeEntry(current))
+      current = { heading: mdastToString(child), children: [] }
     } else if (current) {
-      current.bodyLines.push(line)
+      current.children.push(child)
     }
   }
-  if (current) entries.push(parseLocalEntry(current))
+  if (current) entries.push(finalizeEntry(current))
   return entries
 }
 
-function parseLocalEntry(input: {
+function finalizeEntry(input: {
   heading: string
-  bodyLines: string[]
+  children: RootContent[]
 }): ChangelogEntry {
   const versionMatch = input.heading.match(/^\[?([^\]\s]+)\]?/)
   const version = versionMatch?.[1] ?? input.heading
   const dateMatch = input.heading.match(/\d{4}-\d{2}-\d{2}/)
+  const body = renderEntryBody(input.children)
   return {
     slug: slugify(version),
     title: version,
     date: dateMatch?.[0],
-    body: input.bodyLines.join("\n").trim(),
+    body,
   }
+}
+
+/** Serialize an entry's mdast children back to markdown */
+function renderEntryBody(children: RootContent[]) {
+  const root: Root = { type: "root", children }
+  return stringifier.stringify(root).trimEnd()
+}
+
+/** Shift h2–h6 up by one so the version becomes the article's h1 */
+function promoteHeadings(body: string) {
+  const tree = parser.parse(body) as Root
+  visit(tree, "heading", node => {
+    if (node.depth > 1) node.depth = (node.depth - 1) as 1 | 2 | 3 | 4 | 5
+  })
+  return stringifier.stringify(tree).trimEnd()
 }
 
 async function buildFromGitHub(
@@ -167,11 +197,6 @@ function wrapFrontmatter(entry: ChangelogEntry, section: SectionDef) {
   if (entry.date) lines.push(`date: ${entry.date}`)
   lines.push("---", "", `# ${entry.title}`, "", promoteHeadings(entry.body))
   return lines.join("\n")
-}
-
-/** Shift h3–h6 up by one level to fill the gap left by stripping the version h2 */
-function promoteHeadings(body: string) {
-  return body.replace(/^(#{3,6})\s/gm, match => match.slice(1))
 }
 
 async function readMeta(metaPath: string): Promise<CacheMeta | undefined> {
