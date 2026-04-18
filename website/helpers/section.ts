@@ -2,7 +2,7 @@ export interface SectionDef {
   icon?: string
   title: string
   prefix: string
-  type?: "blog" | "changelog"
+  type?: "blog" | "changelog" | "sidebar"
   source?: string
 }
 

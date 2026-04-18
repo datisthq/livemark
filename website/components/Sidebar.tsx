@@ -5,7 +5,9 @@ import {
   articleGroups,
   currentSection,
   sectionArticleGroups,
+  sectionFirstArticle,
 } from "../content/article.ts"
+import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
 import { articleIcons } from "../helpers/article-icon.ts"
 import type { ArticleNode } from "../models/article.ts"
 import {
@@ -48,6 +50,8 @@ export function Sidebar() {
     ? (sectionArticleGroups.get(section?.prefix ?? "__default__") ??
       articleGroups)
     : articleGroups
+  const sidebarSections =
+    configSections?.filter(s => s.type === "sidebar") ?? []
 
   return (
     <SidebarRoot>
@@ -61,6 +65,42 @@ export function Sidebar() {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
+        {sidebarSections.length > 0 && (
+          <SidebarGroup>
+            <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
+              Sections
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {sidebarSections.map(s => {
+                  const target = sectionFirstArticle.get(s.prefix) ?? s.prefix
+                  const active = section?.prefix === s.prefix
+                  return (
+                    <SidebarMenuItem key={s.prefix}>
+                      <SidebarMenuButton
+                        isActive={active}
+                        className={active ? "" : "opacity-75"}
+                        render={
+                          <Link
+                            to={target === "/" ? "/" : "/$"}
+                            params={
+                              target && target !== "/" ? splatFor(target) : {}
+                            }
+                          />
+                        }
+                      >
+                        {s.icon && (
+                          <DynamicIcon name={s.icon} className="size-4" />
+                        )}
+                        <span>{s.title}</span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  )
+                })}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
         {groups.map((group, index) => (
           <SidebarGroup key={group.name ?? `__unnamed-${index}`}>
             {group.name && (

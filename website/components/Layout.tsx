@@ -49,33 +49,35 @@ export function Layout(props: {
       </div>
       <div className="flex flex-1 items-center gap-8 self-stretch border-b px-6 text-sm">
         {sections?.length ? (
-          sections.map(section => {
-            const isActive = activeSection?.prefix === section.prefix
-            const target =
-              section.type === "blog" || section.type === "changelog"
-                ? section.prefix
-                : sectionFirstArticle.get(section.prefix)
-            return (
-              <Link
-                key={section.prefix}
-                to={target === "/" ? "/" : "/$"}
-                params={target && target !== "/" ? splatFor(target) : {}}
-                className={
-                  isActive
-                    ? "text-foreground font-medium underline underline-offset-4"
-                    : "text-muted-foreground hover:text-foreground transition-colors"
-                }
-              >
-                {section.icon && (
-                  <DynamicIcon
-                    name={section.icon}
-                    className="inline size-3.5 align-[-0.125em]"
-                  />
-                )}{" "}
-                {section.title}
-              </Link>
-            )
-          })
+          sections
+            .filter(section => section.type !== "sidebar")
+            .map(section => {
+              const isActive = activeSection?.prefix === section.prefix
+              const target =
+                section.type === "blog" || section.type === "changelog"
+                  ? section.prefix
+                  : sectionFirstArticle.get(section.prefix)
+              return (
+                <Link
+                  key={section.prefix}
+                  to={target === "/" ? "/" : "/$"}
+                  params={target && target !== "/" ? splatFor(target) : {}}
+                  className={
+                    isActive
+                      ? "text-foreground font-medium underline underline-offset-4"
+                      : "text-muted-foreground hover:text-foreground transition-colors"
+                  }
+                >
+                  {section.icon && (
+                    <DynamicIcon
+                      name={section.icon}
+                      className="inline size-3.5 align-[-0.125em]"
+                    />
+                  )}{" "}
+                  {section.title}
+                </Link>
+              )
+            })
         ) : (
           <Link
             to="/"
