@@ -1,4 +1,6 @@
 import { z } from "zod"
+import { Link } from "./link.ts"
+import { Section } from "./section.ts"
 import { CodeThemeDark, CodeThemeLight } from "./theme.ts"
 
 /**
@@ -15,30 +17,8 @@ export const UserConfig = z.object({
   exclude: z.union([z.string(), z.array(z.string())]).optional(),
   codeThemeLight: CodeThemeLight.default("catppuccin-latte"),
   codeThemeDark: CodeThemeDark.default("catppuccin-mocha"),
-  links: z
-    .array(
-      z.object({
-        url: z.string(),
-        title: z.string(),
-        icon: z.string().optional(),
-        prefix: z.string().optional(),
-        position: z.enum(["header", "sidebar"]).default("header"),
-      }),
-    )
-    .optional(),
-  sections: z
-    .array(
-      z.object({
-        icon: z.string().optional(),
-        title: z.string(),
-        prefix: z.string(),
-        type: z.enum(["article", "blog", "changelog"]).default("article"),
-        position: z.enum(["header", "sidebar"]).default("header"),
-        source: z.string().optional(),
-        version: z.boolean().optional(),
-      }),
-    )
-    .optional(),
+  links: z.array(Link).optional(),
+  sections: z.array(Section).optional(),
 })
 
 /** Website configuration injected at build time via Vite define */

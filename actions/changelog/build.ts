@@ -8,11 +8,11 @@ import remarkStringify from "remark-stringify"
 import { unified } from "unified"
 import { visit } from "unist-util-visit"
 import type { Config } from "../../models/config.ts"
+import type { ChangelogSection } from "../../models/section.ts"
 import {
   isGitHubUrl,
   parseGitHubRepo,
 } from "../../website/helpers/changelog-source.ts"
-import type { SectionDef } from "../../website/helpers/section.ts"
 
 interface Release {
   tag_name: string
@@ -48,13 +48,10 @@ export function cacheIncludeGlob() {
 }
 
 /** Build the per-version changelog cache files for a changelog section */
-export async function buildChangelog(section: SectionDef, config: Config) {
-  if (!section.source) {
-    throw new Error(
-      `Changelog section at ${section.prefix} requires a source (filepath or GitHub URL)`,
-    )
-  }
-
+export async function buildChangelog(
+  section: ChangelogSection,
+  config: Config,
+) {
   const cacheDir = join(config.root, CACHE_DIR)
   const metaPath = join(config.root, META_FILE)
 
@@ -188,7 +185,7 @@ async function buildFromGitHub(
   }))
 }
 
-function wrapFrontmatter(entry: ChangelogEntry, section: SectionDef) {
+function wrapFrontmatter(entry: ChangelogEntry, section: ChangelogSection) {
   const lines = [
     "---",
     `title: ${entry.title}`,

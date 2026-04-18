@@ -1,21 +1,13 @@
-export interface SectionDef {
-  icon?: string
-  title: string
-  prefix: string
-  type: "article" | "blog" | "changelog"
-  position: "header" | "sidebar"
-  source?: string
-  version?: boolean
-}
+import type { Section } from "../../models/section.ts"
 
-const DEFAULT_ICONS: Record<SectionDef["type"], string> = {
+const DEFAULT_ICONS: Record<Section["type"], string> = {
   article: "book-open",
   blog: "rss",
   changelog: "history",
 }
 
 /** Return the section's icon, falling back to a type-based default */
-export function sectionIcon(section: Pick<SectionDef, "icon" | "type">) {
+export function sectionIcon(section: Pick<Section, "icon" | "type">) {
   return section.icon ?? DEFAULT_ICONS[section.type]
 }
 
