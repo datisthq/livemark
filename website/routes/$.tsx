@@ -8,6 +8,7 @@ import {
 import { sectionTags } from "../content/tag.ts"
 import { Article } from "../components/Article.tsx"
 import { BlogIndex } from "../components/BlogIndex.tsx"
+import { ChangelogIndex } from "../components/ChangelogIndex.tsx"
 import { TagIndex } from "../components/TagIndex.tsx"
 
 export const Route = createFileRoute("/$")({
@@ -25,6 +26,14 @@ export const Route = createFileRoute("/$")({
     if (article) return article
 
     const section = currentSection(splat)
+    if (section?.type === "changelog" && section.prefix === splat) {
+      return {
+        changelogIndex: true as const,
+        sectionPrefix: section.prefix,
+        title: section.title,
+        sidebar: true,
+      }
+    }
     if (section?.type === "blog") {
       if (section.prefix === splat) {
         return {
@@ -70,6 +79,9 @@ function Component() {
   const data = Route.useLoaderData()
   if ("blogIndex" in data) {
     return <BlogIndex sectionPrefix={data.sectionPrefix} />
+  }
+  if ("changelogIndex" in data) {
+    return <ChangelogIndex sectionPrefix={data.sectionPrefix} />
   }
   if ("tagPage" in data) {
     return <TagIndex sectionPrefix={data.sectionPrefix} tag={data.tag} />

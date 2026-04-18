@@ -10,6 +10,7 @@ import {
 } from "../elements/sidebar.tsx"
 import { Banner } from "./Banner.tsx"
 import { BlogSidebar } from "./BlogSidebar.tsx"
+import { ChangelogSidebar } from "./ChangelogSidebar.tsx"
 import { Sidebar } from "./Sidebar.tsx"
 import { SiteTitle } from "./SiteTitle.tsx"
 
@@ -120,7 +121,11 @@ export function Layout(props: {
   }
 
   const SidebarComponent =
-    activeSection?.type === "blog" ? BlogSidebar : Sidebar
+    activeSection?.type === "blog"
+      ? BlogSidebar
+      : activeSection?.type === "changelog"
+        ? ChangelogSidebar
+        : Sidebar
 
   return (
     <SidebarProvider>

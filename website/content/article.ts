@@ -56,7 +56,7 @@ if (configSections?.length) {
   for (const [key, bucket] of buckets) {
     const section = sectionByPrefix.get(key)
     const sorted =
-      section?.type === "blog"
+      section?.type === "blog" || section?.type === "changelog"
         ? [...bucket].sort(
             (a, b) =>
               new Date(b.date ?? 0).getTime() - new Date(a.date ?? 0).getTime(),
