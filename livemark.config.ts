@@ -7,6 +7,12 @@ export default defineConfig({
   sections: [
     { title: "Docs", prefix: "/" },
     { title: "Blog", prefix: "/blog/", type: "blog" },
+    {
+      title: "Changelog",
+      prefix: "/changelog/",
+      type: "changelog",
+      source: "CHANGELOG.md",
+    },
   ],
   headerLinks: [
     {

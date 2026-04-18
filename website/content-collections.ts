@@ -12,6 +12,7 @@ import remarkGemoji from "remark-gemoji"
 import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
 import { loadConfig } from "../actions/config/load.ts"
+import { buildChangelog, cacheIncludeGlob } from "../actions/changelog/build.ts"
 import { Article } from "./models/article.ts"
 import { pickDefaultIcon } from "./helpers/article-icon.ts"
 import slugify from "@sindresorhus/slugify"
@@ -49,6 +50,19 @@ import { extractToc } from "./helpers/toc.ts"
 
 const config = await loadConfig()
 
+const changelogSections =
+  config.sections?.filter(s => s.type === "changelog") ?? []
+for (const section of changelogSections) {
+  await buildChangelog(section, config)
+}
+
+const configInclude = Array.isArray(config.include)
+  ? config.include
+  : [config.include]
+const include = changelogSections.length
+  ? [...configInclude, cacheIncludeGlob()]
+  : configInclude
+
 // content-collections compiles this file to .content-collections/cache/;
 // going up 2 levels reconstructs the baseDirectory it uses for path resolution
 const baseDir = resolve(import.meta.dirname, "../..")
@@ -85,7 +99,7 @@ function extractTitle(content: string, path: string) {
 const articles = defineCollection({
   name: "articles",
   directory,
-  include: config.include,
+  include,
   exclude: config.exclude,
   schema: Article,
   transform: async (document, context) => {

@@ -51,7 +51,7 @@ export function Layout(props: {
           sections.map(section => {
             const isActive = activeSection?.prefix === section.prefix
             const target =
-              section.type === "blog"
+              section.type === "blog" || section.type === "changelog"
                 ? section.prefix
                 : sectionFirstArticle.get(section.prefix)
             return (

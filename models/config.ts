@@ -41,7 +41,8 @@ export const UserConfig = z.object({
         icon: z.string().optional(),
         title: z.string(),
         prefix: z.string(),
-        type: z.enum(["blog"]).optional(),
+        type: z.enum(["blog", "changelog"]).optional(),
+        source: z.string().optional(),
       }),
     )
     .optional(),

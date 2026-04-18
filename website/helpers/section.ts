@@ -2,7 +2,8 @@ export interface SectionDef {
   icon?: string
   title: string
   prefix: string
-  type?: "blog"
+  type?: "blog" | "changelog"
+  source?: string
 }
 
 /** Find the section whose prefix is the longest prefix of the article path */
