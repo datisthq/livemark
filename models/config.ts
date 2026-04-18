@@ -22,7 +22,7 @@ export const UserConfig = z.object({
         title: z.string(),
         icon: z.string().optional(),
         prefix: z.string().optional(),
-        type: z.enum(["sidebar"]).optional(),
+        position: z.enum(["sidebar"]).optional(),
       }),
     )
     .optional(),

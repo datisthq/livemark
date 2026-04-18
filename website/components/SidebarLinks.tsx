@@ -11,13 +11,13 @@ import {
   SidebarMenuItem,
 } from "../elements/sidebar.tsx"
 
-/** Shared sidebar links group rendered from config.links with type: "sidebar" */
+/** Shared sidebar links group rendered from config.links with position: "sidebar" */
 export function SidebarLinks() {
   const pathname = useLocation({ select: l => l.pathname })
   const section = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
   const links = import.meta.env.CONFIG.links?.filter(
     link =>
-      link.type === "sidebar" &&
+      link.position === "sidebar" &&
       (!link.prefix || link.prefix === section?.prefix),
   )
 

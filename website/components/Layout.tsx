@@ -89,7 +89,7 @@ export function Layout(props: {
         {import.meta.env.CONFIG.links
           ?.filter(
             link =>
-              !link.type &&
+              !link.position &&
               (!link.prefix || link.prefix === activeSection?.prefix),
           )
           .map(link => (
