@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router"
+import { History } from "lucide-react"
 import {
   currentSection,
   sectionFlatArticles,
@@ -38,9 +39,19 @@ export function ChangelogIndex(props: { sectionPrefix: string }) {
     <TocContext.Provider value={tocItems}>
       <div className="flex flex-1 gap-10 p-6 md:p-10">
         <div className="flex-1 min-w-0 mx-auto max-w-3xl">
-          <h1 className="text-4xl font-bold tracking-tight mb-8">
-            {section?.title ?? "Changelog"}
-          </h1>
+          <div className="prose dark:prose-invert max-w-none mb-8">
+            <h1 id="top">
+              <a href="#top">{section?.title ?? "Changelog"}</a>
+            </h1>
+            {entries[0]?.date && (
+              <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground !-mt-4 !mb-0">
+                <span className="flex items-center gap-1.5">
+                  <History className="size-3.5" />
+                  Updated {formatDate(entries[0].date)}
+                </span>
+              </p>
+            )}
+          </div>
           <div className="space-y-6">
             {entries.map((entry, i) => (
               <div key={entry.path} id={slugOf(entry.path)}>
