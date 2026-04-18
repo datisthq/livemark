@@ -43,9 +43,9 @@ export function BlogIndex(props: { sectionPrefix: string }) {
     <TocContext.Provider value={tocItems}>
       <div className="flex flex-1 gap-10 p-6 md:p-10">
         <div className="flex-1 min-w-0 mx-auto max-w-3xl">
-          <div className="prose dark:prose-invert max-w-none mb-8">
-            <h1>{section?.title ?? "Blog"}</h1>
-          </div>
+          <h1 className="text-4xl font-bold tracking-tight mb-8">
+            {section?.title ?? "Blog"}
+          </h1>
           <div className="space-y-6">
             {posts.map((post, i) => (
               <div key={post.path} id={slugOf(post.path)}>
