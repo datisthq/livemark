@@ -3,6 +3,7 @@ import { useHotkey } from "@tanstack/react-hotkeys"
 import { ExternalLink } from "lucide-react"
 import { currentSection, sectionFirstArticle } from "../content/article.ts"
 import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
+import { sectionIcon } from "../helpers/section.ts"
 import {
   SidebarInset,
   SidebarProvider,
@@ -68,12 +69,10 @@ export function Layout(props: {
                       : "text-muted-foreground hover:text-foreground transition-colors"
                   }
                 >
-                  {section.icon && (
-                    <DynamicIcon
-                      name={section.icon}
-                      className="inline size-3.5 align-[-0.125em]"
-                    />
-                  )}{" "}
+                  <DynamicIcon
+                    name={sectionIcon(section)}
+                    className="inline size-3.5 align-[-0.125em]"
+                  />{" "}
                   {section.title}
                 </Link>
               )

@@ -7,6 +7,17 @@ export interface SectionDef {
   source?: string
 }
 
+const DEFAULT_ICONS: Record<SectionDef["type"], string> = {
+  article: "book-open",
+  blog: "pen-line",
+  changelog: "history",
+}
+
+/** Return the section's icon, falling back to a type-based default */
+export function sectionIcon(section: Pick<SectionDef, "icon" | "type">) {
+  return section.icon ?? DEFAULT_ICONS[section.type]
+}
+
 /** Find the section whose prefix is the longest prefix of the article path */
 export function matchSection<S extends { prefix: string }>(
   articlePath: string,

@@ -25,6 +25,7 @@ import {
 } from "../elements/sidebar.tsx"
 import { Search } from "./Search.tsx"
 import { SidebarLinks } from "./SidebarLinks.tsx"
+import { SidebarSections } from "./SidebarSections.tsx"
 import { SiteTitle } from "./SiteTitle.tsx"
 import { Theme } from "./Theme.tsx"
 
@@ -58,6 +59,7 @@ export function ChangelogSidebar() {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
+        <SidebarSections />
         <SidebarGroup>
           <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
             Releases
