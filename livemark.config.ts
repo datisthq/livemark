@@ -12,6 +12,7 @@ export default defineConfig({
       prefix: "/changelog/",
       type: "changelog",
       source: "CHANGELOG.md",
+      version: true,
     },
   ],
   links: [

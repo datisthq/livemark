@@ -35,6 +35,7 @@ export const UserConfig = z.object({
         type: z.enum(["article", "blog", "changelog"]).default("article"),
         position: z.enum(["header", "sidebar"]).default("header"),
         source: z.string().optional(),
+        version: z.boolean().optional(),
       }),
     )
     .optional(),

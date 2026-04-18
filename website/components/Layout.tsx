@@ -1,7 +1,12 @@
 import { Link, useLocation } from "@tanstack/react-router"
 import { useHotkey } from "@tanstack/react-hotkeys"
 import { ExternalLink } from "lucide-react"
-import { currentSection, sectionFirstArticle } from "../content/article.ts"
+import {
+  currentSection,
+  sectionFirstArticle,
+  sectionFlatArticles,
+  sortedArticles,
+} from "../content/article.ts"
 import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
 import { sectionIcon } from "../helpers/section.ts"
 import {
@@ -58,6 +63,13 @@ export function Layout(props: {
                 section.type === "blog" || section.type === "changelog"
                   ? section.prefix
                   : sectionFirstArticle.get(section.prefix)
+              const latestVersion =
+                section.type === "changelog" && section.version
+                  ? sortedArticles.find(
+                      a =>
+                        a.path === sectionFlatArticles.get(section.prefix)?.[0],
+                    )?.title
+                  : undefined
               return (
                 <Link
                   key={section.prefix}
@@ -73,7 +85,12 @@ export function Layout(props: {
                     name={sectionIcon(section)}
                     className="size-3.5"
                   />
-                  <span>{section.title}</span>
+                  <span>
+                    {section.title}
+                    {latestVersion && (
+                      <span className="opacity-60"> ({latestVersion})</span>
+                    )}
+                  </span>
                 </Link>
               )
             })

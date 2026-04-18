@@ -5,6 +5,7 @@ export interface SectionDef {
   type: "article" | "blog" | "changelog"
   position: "header" | "sidebar"
   source?: string
+  version?: boolean
 }
 
 const DEFAULT_ICONS: Record<SectionDef["type"], string> = {
