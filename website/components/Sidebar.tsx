@@ -51,7 +51,7 @@ export function Sidebar() {
       articleGroups)
     : articleGroups
   const sidebarSections =
-    configSections?.filter(s => s.type === "sidebar") ?? []
+    configSections?.filter(s => s.position === "sidebar") ?? []
 
   return (
     <SidebarRoot>

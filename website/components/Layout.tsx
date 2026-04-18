@@ -50,7 +50,7 @@ export function Layout(props: {
       <div className="flex flex-1 items-center gap-8 self-stretch border-b px-6 text-sm">
         {sections?.length ? (
           sections
-            .filter(section => section.type !== "sidebar")
+            .filter(section => section.position !== "sidebar")
             .map(section => {
               const isActive = activeSection?.prefix === section.prefix
               const target =
