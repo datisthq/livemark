@@ -7,7 +7,6 @@ import {
   LayoutPanelLeft,
   Moon,
   Search,
-  Sparkles,
   Workflow,
 } from "lucide-react"
 import type { ComponentType, ReactNode, SVGProps } from "react"
@@ -25,8 +24,8 @@ function Landing() {
       <Hero />
       <Features />
       <Showcase />
-      <Stack />
       <FinalCta />
+      <Stack />
     </div>
   )
 }
@@ -35,19 +34,9 @@ function Landing() {
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-border">
+    <section className="relative overflow-hidden border-b border-border flex items-center min-h-[calc(100vh-4rem)]">
       <BackgroundGrid />
-      <div className="relative mx-auto max-w-5xl px-6 py-24 md:py-32 text-center animate-in fade-in-0 slide-in-from-bottom-4 duration-700 ease-out">
-        <Link
-          to="/$"
-          params={{ _splat: "changelog" }}
-          className="inline-flex items-center gap-2 rounded-full border border-border bg-card/80 backdrop-blur px-3 py-1 text-xs font-medium text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors mb-8"
-        >
-          <Sparkles className="size-3 text-primary" />
-          <span>New in v0.3.0 · Blog & Changelog sections</span>
-          <ArrowRight className="size-3" />
-        </Link>
-
+      <div className="relative w-full mx-auto max-w-5xl px-6 py-16 text-center animate-in fade-in-0 slide-in-from-bottom-4 duration-700 ease-out">
         <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-foreground">
           Beautiful docs from{" "}
           <span className="relative inline-block">
@@ -213,28 +202,71 @@ function FeatureCard({ icon: Icon, title, description }: Feature) {
 
 /* ─────────────────────────── Showcase ─────────────────────────── */
 
-const markdownSample = `---
-title: Quickstart
-icon: rocket
----
+/**
+ * Catppuccin-flavoured token colours for the Markdown showcase.
+ * Latte palette for light mode, Mocha for dark mode — matches the
+ * default Shiki themes the site uses.
+ */
+const tk = {
+  fm: "text-[#7c7f93] dark:text-[#9399b2]", // frontmatter delimiter / punctuation
+  key: "text-[#8839ef] dark:text-[#cba6f7]", // mauve
+  str: "text-[#40a02b] dark:text-[#a6e3a1]", // green
+  head: "text-[#d20f39] dark:text-[#f38ba8] font-bold", // red, bold
+  lang: "text-[#df8e1d] dark:text-[#f9e2af]", // yellow
+  directive: "text-[#179299] dark:text-[#94e2d5]", // teal
+  code: "bg-[#eff1f5] dark:bg-[#313244] rounded px-1", // surface0
+  bold: "font-bold text-[#4c4f69] dark:text-[#cdd6f4]",
+  em: "italic text-[#4c4f69] dark:text-[#cdd6f4]",
+  body: "text-[#4c4f69] dark:text-[#cdd6f4]",
+  dim: "text-[#9ca0b0] dark:text-[#6c7086]",
+}
 
-# Quickstart
-
-Install the package:
-
-\`\`\`bash
-npm install livemark
-\`\`\`
-
-:::tip
-Run \`livemark dev\` and open the browser.
-:::
-
-## Features
-
-- **Fast** rebuilds with Vite
-- **MDX** components when you need them
-- _Beautiful_ out of the box`
+function MarkdownSample() {
+  return (
+    <pre className="p-5 text-sm leading-relaxed font-mono overflow-x-auto">
+      <code className={tk.body}>
+        <span className={tk.fm}>---</span>
+        {"\n"}
+        <span className={tk.key}>title</span>
+        <span className={tk.fm}>:</span>{" "}
+        <span className={tk.str}>Quickstart</span>
+        {"\n"}
+        <span className={tk.key}>icon</span>
+        <span className={tk.fm}>:</span> <span className={tk.str}>rocket</span>
+        {"\n"}
+        <span className={tk.fm}>---</span>
+        {"\n\n"}
+        <span className={tk.head}># Quickstart</span>
+        {"\n\n"}
+        Install the package:
+        {"\n\n"}
+        <span className={tk.dim}>```</span>
+        <span className={tk.lang}>bash</span>
+        {"\n"}
+        npm install livemark
+        {"\n"}
+        <span className={tk.dim}>```</span>
+        {"\n\n"}
+        <span className={tk.directive}>:::tip</span>
+        {"\n"}
+        Run <span className={tk.code}>livemark dev</span> and open the browser.
+        {"\n"}
+        <span className={tk.directive}>:::</span>
+        {"\n\n"}
+        <span className={tk.head}>## Features</span>
+        {"\n\n"}
+        <span className={tk.dim}>-</span>{" "}
+        <span className={tk.bold}>**Fast**</span> rebuilds with Vite
+        {"\n"}
+        <span className={tk.dim}>-</span>{" "}
+        <span className={tk.bold}>**MDX**</span> components when you need them
+        {"\n"}
+        <span className={tk.dim}>-</span>{" "}
+        <span className={tk.em}>_Beautiful_</span> out of the box
+      </code>
+    </pre>
+  )
+}
 
 function Showcase() {
   return (
@@ -255,16 +287,14 @@ function Showcase() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             <div className="rounded-xl border border-border bg-card overflow-hidden">
               <div className="flex items-center gap-2 border-b border-border px-4 py-2 bg-muted/50">
-                <div className="size-2.5 rounded-full bg-muted-foreground/30" />
-                <div className="size-2.5 rounded-full bg-muted-foreground/30" />
-                <div className="size-2.5 rounded-full bg-muted-foreground/30" />
+                <div className="size-2.5 rounded-full bg-red-400/60" />
+                <div className="size-2.5 rounded-full bg-yellow-400/60" />
+                <div className="size-2.5 rounded-full bg-green-400/60" />
                 <span className="ml-2 text-xs font-mono text-muted-foreground">
                   quickstart.md
                 </span>
               </div>
-              <pre className="p-5 text-sm leading-relaxed font-mono text-foreground overflow-x-auto">
-                <code>{markdownSample}</code>
-              </pre>
+              <MarkdownSample />
             </div>
             <div className="rounded-xl border border-border bg-card overflow-hidden">
               <div className="flex items-center gap-2 border-b border-border px-4 py-2 bg-muted/50">
@@ -331,7 +361,7 @@ const stackItems = [
 
 function Stack() {
   return (
-    <section className="border-b border-border">
+    <section>
       <div className="mx-auto max-w-5xl px-6 py-16">
         <Reveal>
           <div className="flex flex-col items-center gap-6 text-center">
