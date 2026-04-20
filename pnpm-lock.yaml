@@ -65,6 +65,9 @@ importers:
       '@tanstack/react-start':
         specifier: 1.167.2
         version: 1.167.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(vite@8.0.1(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(@types/node@24.2.0)(esbuild@0.25.12)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.3))
+      '@tanstack/virtual-file-routes':
+        specifier: ^1.161.7
+        version: 1.161.7
       '@types/mdast':
         specifier: ^4.0.4
         version: 4.0.4

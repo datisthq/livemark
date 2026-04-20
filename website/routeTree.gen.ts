@@ -9,34 +9,44 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SplatRouteImport } from './routes/$'
+import { Route as splatRouteImport } from './routes/$'
+import { Route as IndexRouteImport } from './../.livemark/routes/index'
 
-const SplatRoute = SplatRouteImport.update({
+const splatRoute = splatRouteImport.update({
   id: '/$',
   path: '/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/$': typeof SplatRoute
+  '/': typeof IndexRoute
+  '/$': typeof splatRoute
 }
 export interface FileRoutesByTo {
-  '/$': typeof SplatRoute
+  '/': typeof IndexRoute
+  '/$': typeof splatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/$': typeof SplatRoute
+  '/': typeof IndexRoute
+  '/$': typeof splatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/$'
+  fullPaths: '/' | '/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/$'
-  id: '__root__' | '/$'
+  to: '/' | '/$'
+  id: '__root__' | '/' | '/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  SplatRoute: typeof SplatRoute
+  IndexRoute: typeof IndexRoute
+  splatRoute: typeof splatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -45,14 +55,22 @@ declare module '@tanstack/react-router' {
       id: '/$'
       path: '/$'
       fullPath: '/$'
-      preLoaderRoute: typeof SplatRouteImport
+      preLoaderRoute: typeof splatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  SplatRoute: SplatRoute,
+  IndexRoute: IndexRoute,
+  splatRoute: splatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
