@@ -125,6 +125,7 @@
   html {
     scroll-behavior: smooth;
     scrollbar-color: #ddd transparent;
+    scrollbar-gutter: stable;
   }
 
   button:not([disabled]),
