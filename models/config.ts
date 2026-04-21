@@ -39,6 +39,7 @@ export const WebsiteConfig = UserConfig.pick({
 export type SystemConfig = z.infer<typeof SystemConfig>
 export const SystemConfig = z.object({
   root: z.string(),
+  configPath: z.string(),
 })
 
 /**

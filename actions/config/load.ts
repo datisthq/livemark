@@ -1,4 +1,5 @@
 import { dirname, resolve } from "node:path"
+import { pathToFileURL } from "node:url"
 import type { z } from "zod"
 import type { Config } from "../../models/config.ts"
 import { UserConfig } from "../../models/config.ts"
@@ -13,7 +14,9 @@ export async function loadConfig(path?: string): Promise<Config> {
   )
   const cliPath = configIndex !== -1 ? process.argv[configIndex + 1] : undefined
   const resolved = resolve(path ?? cliPath ?? "livemark.config.ts")
-  const module: Record<string, unknown> = await import(resolved)
+  // Cache-bust the ESM import so dev-server restart reloads edits on disk.
+  const url = `${pathToFileURL(resolved).href}?t=${Date.now()}`
+  const module: Record<string, unknown> = await import(url)
   const input = defineConfig(module.default as z.input<typeof UserConfig>)
-  return { ...input, root: dirname(resolved) }
+  return { ...input, root: dirname(resolved), configPath: resolved }
 }

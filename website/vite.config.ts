@@ -15,10 +15,7 @@ import { defineConfig } from "vite"
 import svgr from "vite-plugin-svgr"
 import { loadConfig } from "../actions/config/load.ts"
 import { WebsiteConfig } from "../models/config.ts"
-import {
-  livemarkImport,
-  OVERRIDE_SUBDIRS,
-} from "./plugins/vite-livemark-import.ts"
+import { livemark, OVERRIDE_SUBDIRS } from "./plugins/vite-livemark.ts"
 
 const config = await loadConfig()
 const websiteDir = import.meta.dirname
@@ -46,10 +43,11 @@ export default defineConfig({
     "import.meta.env.CONFIG": JSON.stringify(WebsiteConfig.parse(config)),
   },
   plugins: [
-    livemarkImport({
+    livemark({
       defaultsRoot: websiteDir,
       overridesRoot,
       subdirs: [...OVERRIDE_SUBDIRS],
+      configPath: config.configPath,
     }),
     devtools(),
     tailwind(),
