@@ -16,7 +16,12 @@
   "imports": {
     "#*": "./*"
   },
-  "exports": "./build/index.js",
+  "exports": {
+    ".": "./build/index.js",
+    "./components/*": "./build/website/components/*.tsx",
+    "./elements/*": "./build/website/elements/*.tsx",
+    "./styles/*": "./build/website/styles/*.css"
+  },
   "scripts": {
     "build": "tsgo && rm -rf build/website && cp -r website build",
     "bump": "ncu -u",

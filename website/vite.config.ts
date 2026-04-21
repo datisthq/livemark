@@ -1,24 +1,43 @@
-import { mkdirSync } from "node:fs"
+import { existsSync, mkdirSync, writeFileSync } from "node:fs"
 import { join, relative } from "node:path"
 import contentCollections from "@content-collections/vite"
 import tailwind from "@tailwindcss/vite"
 import { devtools } from "@tanstack/devtools-vite"
 import { tanstackStart } from "@tanstack/react-start/plugin/vite"
-import { physical, rootRoute, route } from "@tanstack/virtual-file-routes"
+import {
+  physical,
+  rootRoute,
+  route,
+  type VirtualRouteNode,
+} from "@tanstack/virtual-file-routes"
 import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 import svgr from "vite-plugin-svgr"
 import { loadConfig } from "../actions/config/load.ts"
 import { WebsiteConfig } from "../models/config.ts"
+import { livemarkImport } from "./plugins/vite-livemark-import.ts"
 
 const config = await loadConfig()
 const websiteDir = import.meta.dirname
 const websiteRelative = relative(config.root, websiteDir)
+const overridesRoot = join(config.root, ".livemark")
 
-// Ensure user-authored virtual routes directory exists so the router-generator
-// can scan it without ENOENT when a project has no custom routes yet.
-const virtualRoutesDir = join(config.root, ".livemark", "routes")
-mkdirSync(virtualRoutesDir, { recursive: true })
+// Sub-directories users can shadow by dropping a same-named file into
+// `.livemark/<subdir>/`. Extending this list enables overrides for a new dir.
+const overrideSubdirs = ["components", "elements", "styles"]
+
+// Seed `.livemark/.gitignore` on first run so Vite's build/cache artifacts
+// never get committed by accident.
+const gitignorePath = join(overridesRoot, ".gitignore")
+if (!existsSync(gitignorePath)) {
+  mkdirSync(overridesRoot, { recursive: true })
+  writeFileSync(gitignorePath, "/build\n/cache\n")
+}
+
+const routeChildren: VirtualRouteNode[] = [route("/$", "$.tsx")]
+if (existsSync(join(overridesRoot, "routes"))) {
+  routeChildren.push(physical("../../.livemark/routes"))
+}
 
 export default defineConfig({
   root: config.root,
@@ -28,6 +47,11 @@ export default defineConfig({
     "import.meta.env.CONFIG": JSON.stringify(WebsiteConfig.parse(config)),
   },
   plugins: [
+    livemarkImport({
+      defaultsRoot: websiteDir,
+      overridesRoot,
+      subdirs: overrideSubdirs,
+    }),
     devtools(),
     tailwind(),
     contentCollections({
@@ -41,10 +65,7 @@ export default defineConfig({
         ? { enabled: true, host: config.site }
         : { enabled: false },
       router: {
-        virtualRouteConfig: rootRoute("__root.tsx", [
-          route("/$", "$.tsx"),
-          physical("../../.livemark/routes"),
-        ]),
+        virtualRouteConfig: rootRoute("__root.tsx", routeChildren),
       },
     }),
     react(),
