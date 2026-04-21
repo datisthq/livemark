@@ -14,6 +14,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "../elements/sidebar.tsx"
+import { BackToTop } from "./BackToTop.tsx"
 import { Banner } from "./Banner.tsx"
 import { BlogSidebar } from "./BlogSidebar.tsx"
 import { ChangelogSidebar } from "./ChangelogSidebar.tsx"
@@ -139,6 +140,7 @@ export function Layout(props: {
       <div className="flex min-h-screen flex-col">
         {header}
         <main className="flex-1">{props.children}</main>
+        <BackToTop />
       </div>
     )
   }
@@ -156,6 +158,7 @@ export function Layout(props: {
       <SidebarInset>
         {header}
         <main className="flex-1">{props.children}</main>
+        <BackToTop />
       </SidebarInset>
     </SidebarProvider>
   )
