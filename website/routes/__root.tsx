@@ -76,7 +76,7 @@ function Document(props: { children: React.ReactNode }) {
         <Layout withSidebar={withSidebar}>{props.children}</Layout>
         <Toaster position="top-center" />
         <TanStackDevtools
-          config={{ hideUntilHover: true }}
+          config={{ hideUntilHover: true, position: "bottom-left" }}
           plugins={[
             {
               name: "TanStack Query",
