@@ -15,16 +15,15 @@ import { defineConfig } from "vite"
 import svgr from "vite-plugin-svgr"
 import { loadConfig } from "../actions/config/load.ts"
 import { WebsiteConfig } from "../models/config.ts"
-import { livemarkImport } from "./plugins/vite-livemark-import.ts"
+import {
+  livemarkImport,
+  OVERRIDE_SUBDIRS,
+} from "./plugins/vite-livemark-import.ts"
 
 const config = await loadConfig()
 const websiteDir = import.meta.dirname
 const websiteRelative = relative(config.root, websiteDir)
 const overridesRoot = join(config.root, ".livemark")
-
-// Sub-directories users can shadow by dropping a same-named file into
-// `.livemark/<subdir>/`. Extending this list enables overrides for a new dir.
-const overrideSubdirs = ["components", "elements", "styles"]
 
 // Seed `.livemark/.gitignore` on first run so Vite's build/cache artifacts
 // never get committed by accident.
@@ -50,7 +49,7 @@ export default defineConfig({
     livemarkImport({
       defaultsRoot: websiteDir,
       overridesRoot,
-      subdirs: overrideSubdirs,
+      subdirs: [...OVERRIDE_SUBDIRS],
     }),
     devtools(),
     tailwind(),
