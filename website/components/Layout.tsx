@@ -1,4 +1,4 @@
-import { Link, useLocation } from "@tanstack/react-router"
+import { Link, useLocation, useMatch } from "@tanstack/react-router"
 import { useHotkey } from "@tanstack/react-hotkeys"
 import { ExternalLink } from "lucide-react"
 import {
@@ -29,7 +29,10 @@ export function Layout(props: {
   children?: React.ReactNode
 }) {
   const pathname = useLocation({ select: l => l.pathname })
-  const activeSection = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
+  const articleRoute = useMatch({ from: "/$", shouldThrow: false })
+  const activeSection = articleRoute
+    ? currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
+    : undefined
 
   useHotkey("J", () =>
     window.scrollBy({ top: window.innerHeight * 0.8, behavior: "smooth" }),
