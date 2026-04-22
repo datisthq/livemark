@@ -25,7 +25,7 @@ export const Article = z.object({
 export interface ArticleView {
   path: string
   content: string
-  filePath: string
+  file: string
   mdx: string
   tocItems: TocItem[]
   toc?: boolean

@@ -2,7 +2,7 @@ import { useState, useCallback } from "react"
 import { Pencil, Copy, Check, ExternalLink } from "lucide-react"
 
 /** Toolbar with action buttons displayed for the article content */
-export function PageToolbar(props: { filePath?: string; content: string }) {
+export function PageToolbar(props: { file?: string; content: string }) {
   const [copied, setCopied] = useState(false)
 
   const handleCopy = useCallback(() => {
@@ -26,9 +26,9 @@ export function PageToolbar(props: { filePath?: string; content: string }) {
     <>
       <div className="mb-6 flex flex-col gap-2 text-sm">
         <p className="text-sm font-medium mb-1">Actions</p>
-        {props.filePath ? (
+        {props.file ? (
           <a
-            href={`https://github.com/datisthq/livemark/edit/main/${props.filePath}`}
+            href={`https://github.com/datisthq/livemark/edit/main/${props.file}`}
             target="_blank"
             rel="noopener noreferrer"
             className={buttonClass}

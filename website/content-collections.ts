@@ -189,7 +189,7 @@ const articles = defineCollection({
       : undefined
     return {
       ...doc,
-      filePath: doc._meta.filePath,
+      file: doc._meta.filePath,
       lastUpdated,
       image,
       title,

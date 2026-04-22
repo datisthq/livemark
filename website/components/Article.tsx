@@ -149,10 +149,7 @@ export function Article(props: { article: ArticleView }) {
         </div>
         {article.toc !== false && (
           <Toc items={article.tocItems}>
-            <PageToolbar
-              filePath={article.filePath}
-              content={article.content}
-            />
+            <PageToolbar file={article.file} content={article.content} />
           </Toc>
         )}
       </div>
