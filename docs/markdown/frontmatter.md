@@ -7,22 +7,65 @@ path: /markdown/frontmatter/
 
 # Frontmatter
 
-YAML-based frontmatter is supported at the top of each file:
+YAML frontmatter at the top of each `.md` file attaches metadata to an article. Every field is optional; Livemark derives sensible defaults from the file itself when a field is missing.
 
 ```yaml
 ---
-title: My Page
-description: A brief description of the page.
+title: Getting Started
+description: Your first Livemark project, in ten minutes.
 icon: rocket
+order: 1
+group: Docs
 ---
 ```
 
-All the fields are optional.
+## Article metadata
 
-## Article Metadata
+Identity and presentation of the article.
 
-TBD
+| Field         | Type                 | Default                          | Purpose                                                                  |
+| ------------- | -------------------- | -------------------------------- | ------------------------------------------------------------------------ |
+| `title`       | `string`             | First `#` heading, else filename | Browser tab title, article heading, navigation label.                    |
+| `label`       | `string`             | `title`                          | Short variant used in sidebar/breadcrumbs when `title` is long.          |
+| `description` | `string`             | —                                | `<meta name="description">` and Open Graph description.                  |
+| `icon`        | `string`             | Picked from path heuristics      | Lucide icon name (e.g. `rocket`, `book-open`).                           |
+| `image`       | `string`             | —                                | Open Graph / social card image. Relative paths resolve against the file. |
+| `author`      | `string \| string[]` | —                                | One or more author names.                                                |
+| `date`        | `string`             | —                                | ISO date. Drives sort order in blog sections.                            |
+| `tags`        | `string[]`           | —                                | Used by blog sections to build `/tags/<tag>/` pages.                     |
 
-## Sidebar Settings
+## Sidebar settings
 
-TBD
+How the article shows up in the left-hand navigation.
+
+| Field     | Type      | Default                 | Purpose                                                                                          |
+| --------- | --------- | ----------------------- | ------------------------------------------------------------------------------------------------ |
+| `order`   | `number`  | — (unordered, mid-sort) | Sort position. See "Ordering rules" below.                                                       |
+| `group`   | `string`  | —                       | Contiguous root-level articles sharing the same `group` render under a labelled sidebar section. |
+| `sidebar` | `boolean` | `true`                  | If false, the article is reachable by URL but hidden from nav.                                   |
+| `toc`     | `boolean` | `true`                  | If false, suppresses the right-hand table of contents.                                           |
+
+### Ordering rules
+
+`order` uses a two-region scheme:
+
+- Positive `order` sorts first, ascending (`order: 1`, `2`, `3`, …).
+- Articles with no `order` come next, in natural order.
+- Negative `order` lands at the end, with `-1` last, `-2` second-to-last, etc.
+
+This lets you pin "Getting Started" at the top (`order: 1`) and "FAQ" at the bottom (`order: -1`) while leaving the middle alone.
+
+## URL
+
+| Field  | Type     | Default                                   | Purpose                                                  |
+| ------ | -------- | ----------------------------------------- | -------------------------------------------------------- |
+| `path` | `string` | Slugified filename under the project root | Override the URL slug. Include leading/trailing slashes. |
+
+## Overriding without editing
+
+If you can't modify a file's frontmatter (for example a `README.md` that doubles as a GitHub landing), you can inject the same fields from `livemark.config.ts` via [Content Patches](/customization/content-patches/).
+
+## See also
+
+- [Sections](/customization/sections/) — how `order`, `group`, and `date` interact with blog and changelog sections.
+- [Content Patches](/customization/content-patches/) — set frontmatter from config, without touching the file.
