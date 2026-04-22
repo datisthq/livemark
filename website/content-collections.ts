@@ -103,14 +103,16 @@ const articles = defineCollection({
   exclude: config.exclude,
   schema: Article,
   transform: async (document, context) => {
-    const filePath = resolve(config.root, document._meta.filePath)
-    const content = resolveIncludes(document.content, filePath)
-    const title = document.title ?? extractTitle(content, document._meta.path)
-    const icon = document.icon ?? pickDefaultIcon(document._meta.path)
-    const path = document.path ?? toPath(document._meta.filePath)
+    const patch = config.patches?.find(p => p.file === document._meta.filePath)
+    const doc = patch ? { ...document, ...patch.article } : document
+    const filePath = resolve(config.root, doc._meta.filePath)
+    const content = resolveIncludes(doc.content, filePath)
+    const title = doc.title ?? extractTitle(content, doc._meta.path)
+    const icon = doc.icon ?? pickDefaultIcon(doc._meta.path)
+    const path = doc.path ?? toPath(doc._meta.filePath)
     const mdx = await compileMDX(
       context,
-      { ...document, content },
+      { ...doc, content },
       {
         remarkPlugins: [
           remarkGfm,
@@ -133,7 +135,7 @@ const articles = defineCollection({
           [
             remarkImage,
             {
-              filePath: resolve(config.root, document._meta.filePath),
+              filePath: resolve(config.root, doc._meta.filePath),
               root: config.root,
             },
           ],
@@ -171,13 +173,13 @@ const articles = defineCollection({
     )
     const tocItems = extractToc(content)
     const searchText = extractSearchText(content)
-    const lastUpdated = getLastUpdated(document._meta.filePath)
-    const image = document.image
-      ? resolveAssetPath(document.image, filePath, config.root)
+    const lastUpdated = getLastUpdated(doc._meta.filePath)
+    const image = doc.image
+      ? resolveAssetPath(doc.image, filePath, config.root)
       : undefined
     return {
-      ...document,
-      filePath: document._meta.filePath,
+      ...doc,
+      filePath: doc._meta.filePath,
       lastUpdated,
       image,
       title,

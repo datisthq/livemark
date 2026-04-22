@@ -1,5 +1,6 @@
 import { z } from "zod"
 import { Link } from "./link.ts"
+import { Patch } from "./patch.ts"
 import { Section } from "./section.ts"
 import { CodeThemeDark, CodeThemeLight } from "./theme.ts"
 
@@ -19,6 +20,7 @@ export const UserConfig = z.object({
   codeThemeDark: CodeThemeDark.default("catppuccin-mocha"),
   links: z.array(Link).optional(),
   sections: z.array(Section).optional(),
+  patches: z.array(Patch).optional(),
 })
 
 /** Website configuration injected at build time via Vite define */
