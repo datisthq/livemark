@@ -102,7 +102,7 @@ function BackgroundGrid() {
       />
       <div
         aria-hidden
-        className="absolute inset-x-0 top-0 h-[40rem] bg-gradient-to-b from-primary/20 via-primary/5 to-transparent pointer-events-none"
+        className="absolute inset-x-0 top-0 h-[40rem] bg-gradient-to-b from-primary/20 via-primary/5 to-transparent dark:from-primary/30 dark:via-primary/10 pointer-events-none"
       />
     </>
   )
