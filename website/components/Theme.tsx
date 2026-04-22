@@ -18,7 +18,6 @@ export function Theme() {
       size="sm"
       onClick={handleToggle}
       title="Change Theme"
-      aria-label="Toggle color scheme"
       className="w-full h-auto rounded-xl cursor-pointer text-xs font-normal justify-start text-muted-foreground bg-sidebar-accent/70 border border-border shadow-xs hover:!bg-background px-3 py-2"
     >
       <div className="flex flex-1 gap-2 items-center dark:hidden">
