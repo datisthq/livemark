@@ -49,7 +49,8 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
           <Tooltip>
             <TooltipTrigger
               onClick={handleWrapToggle}
-              className={`-me-2 p-1 rounded-md hover:text-foreground transition-colors ${wrap ? "text-foreground" : ""}`}
+              aria-label={wrap ? "Disable wrap" : "Enable wrap"}
+              className={`-me-2 p-1.5 rounded-md hover:text-foreground transition-colors ${wrap ? "text-foreground" : ""}`}
             >
               <WrapText className="size-3.5" />
             </TooltipTrigger>
@@ -60,7 +61,8 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
           <Tooltip>
             <TooltipTrigger
               onClick={handleCopy}
-              className="-me-2 p-1 rounded-md hover:text-foreground transition-colors"
+              aria-label={copied ? "Copied" : "Copy code"}
+              className="-me-2 p-1.5 rounded-md hover:text-foreground transition-colors"
             >
               {copied ? (
                 <Check className="size-3.5" />
@@ -76,7 +78,8 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
           <Tooltip>
             <TooltipTrigger
               onClick={handleWrapToggle}
-              className={`p-1 rounded-md hover:text-foreground transition-colors ${wrap ? "text-foreground" : ""}`}
+              aria-label={wrap ? "Disable wrap" : "Enable wrap"}
+              className={`p-1.5 rounded-md hover:text-foreground transition-colors ${wrap ? "text-foreground" : ""}`}
             >
               <WrapText className="size-3.5" />
             </TooltipTrigger>
@@ -87,7 +90,8 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
           <Tooltip>
             <TooltipTrigger
               onClick={handleCopy}
-              className="p-1 rounded-md hover:text-foreground transition-colors"
+              aria-label={copied ? "Copied" : "Copy code"}
+              className="p-1.5 rounded-md hover:text-foreground transition-colors"
             >
               {copied ? (
                 <Check className="size-3.5" />

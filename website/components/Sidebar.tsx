@@ -120,8 +120,8 @@ function NavNode(props: { node: ArticleNode; currentPath: string }) {
   }
 
   return (
-    <Collapsible defaultOpen className="group/collapsible">
-      <SidebarMenuItem>
+    <SidebarMenuItem>
+      <Collapsible defaultOpen className="group/collapsible">
         <SidebarMenuButton
           isActive={active}
           className={active ? "" : "opacity-75"}
@@ -130,28 +130,31 @@ function NavNode(props: { node: ArticleNode; currentPath: string }) {
           <Icon className="size-4" />
           <span>{node.label ?? node.title}</span>
         </SidebarMenuButton>
-        <CollapsibleTrigger className="absolute right-1 top-1.5 p-1 rounded-md hover:bg-sidebar-accent">
+        <CollapsibleTrigger
+          aria-label={`Toggle ${node.label ?? node.title} submenu`}
+          className="absolute right-1 top-1.5 p-1 rounded-md hover:bg-sidebar-accent"
+        >
           <ChevronRight className="size-3.5 transition-transform group-data-[open]/collapsible:rotate-90" />
         </CollapsibleTrigger>
-      </SidebarMenuItem>
-      <CollapsibleContent>
-        <SidebarMenuSub>
-          {node.children.map(child => {
-            const childIsActive = isActive(child.path, currentPath)
-            return (
-              <SidebarMenuSubItem key={child.path}>
-                <SidebarMenuSubButton
-                  isActive={childIsActive}
-                  className={childIsActive ? "" : "opacity-75"}
-                  render={<Link to="/$" params={splatFor(child.path)} />}
-                >
-                  <span>{child.label ?? child.title}</span>
-                </SidebarMenuSubButton>
-              </SidebarMenuSubItem>
-            )
-          })}
-        </SidebarMenuSub>
-      </CollapsibleContent>
-    </Collapsible>
+        <CollapsibleContent>
+          <SidebarMenuSub>
+            {node.children.map(child => {
+              const childIsActive = isActive(child.path, currentPath)
+              return (
+                <SidebarMenuSubItem key={child.path}>
+                  <SidebarMenuSubButton
+                    isActive={childIsActive}
+                    className={childIsActive ? "" : "opacity-75"}
+                    render={<Link to="/$" params={splatFor(child.path)} />}
+                  >
+                    <span>{child.label ?? child.title}</span>
+                  </SidebarMenuSubButton>
+                </SidebarMenuSubItem>
+              )
+            })}
+          </SidebarMenuSub>
+        </CollapsibleContent>
+      </Collapsible>
+    </SidebarMenuItem>
   )
 }

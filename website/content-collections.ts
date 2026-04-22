@@ -42,6 +42,7 @@ import {
   transformerNotations,
 } from "./plugins/shiki-line-highlight.ts"
 import { rehypeInlineCode } from "./plugins/rehype-inline-code.ts"
+import { rehypeTaskListA11y } from "./plugins/rehype-task-list-a11y.ts"
 import { transformerIcon } from "./plugins/shiki-icon.ts"
 import { resolveAssetPath } from "./helpers/resolve-asset-path.ts"
 import { resolveIncludes } from "./helpers/resolve-includes.ts"
@@ -168,6 +169,7 @@ const articles = defineCollection({
           rehypeInlineCode,
           rehypeSlug,
           rehypeKatex,
+          rehypeTaskListA11y,
         ],
       },
     )
