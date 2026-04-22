@@ -4,7 +4,7 @@ import { Star, MessageCircle } from "lucide-react"
 export function Banner() {
   return (
     <div className="hidden md:flex flex-1 items-center justify-end">
-      <div className="rounded-xl border border-primary/20 bg-primary/5 shadow-xs px-3 py-1.5 text-sm text-primary">
+      <div className="rounded-xl border border-primary/20 bg-primary/2 shadow-xs px-3 py-1.5 text-sm text-primary">
         <span>
           This project is in technical preview.{" "}
           <a

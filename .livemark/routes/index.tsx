@@ -87,10 +87,6 @@ function Hero() {
           <span>
             <span className="text-foreground">npm install</span> livemark
           </span>
-          <span
-            aria-hidden
-            className="inline-block w-2 h-4 bg-foreground/60 animate-pulse"
-          />
         </div>
       </div>
     </section>
@@ -106,7 +102,7 @@ function BackgroundGrid() {
       />
       <div
         aria-hidden
-        className="absolute inset-x-0 top-0 h-[40rem] bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none"
+        className="absolute inset-x-0 top-0 h-[40rem] bg-gradient-to-b from-primary/20 via-primary/5 to-transparent pointer-events-none"
       />
     </>
   )
@@ -270,7 +266,7 @@ function MarkdownSample() {
 
 function Showcase() {
   return (
-    <section className="border-b border-border bg-muted/30">
+    <section className="border-b border-border bg-primary/5">
       <div className="mx-auto max-w-6xl px-6 py-24">
         <Reveal>
           <div className="text-center max-w-2xl mx-auto mb-16">
@@ -285,8 +281,8 @@ function Showcase() {
         </Reveal>
         <Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-            <div className="rounded-xl border border-border bg-card overflow-hidden">
-              <div className="flex items-center gap-2 border-b border-border px-4 py-2 bg-muted/50">
+            <div className="rounded-xl border border-primary/20 bg-card overflow-hidden">
+              <div className="flex items-center gap-2 border-b border-primary/20 px-4 py-2 bg-muted/50">
                 <div className="size-2.5 rounded-full bg-red-400/60" />
                 <div className="size-2.5 rounded-full bg-yellow-400/60" />
                 <div className="size-2.5 rounded-full bg-green-400/60" />
@@ -296,8 +292,8 @@ function Showcase() {
               </div>
               <MarkdownSample />
             </div>
-            <div className="rounded-xl border border-border bg-card overflow-hidden">
-              <div className="flex items-center gap-2 border-b border-border px-4 py-2 bg-muted/50">
+            <div className="rounded-xl border border-primary/20 bg-card overflow-hidden">
+              <div className="flex items-center gap-2 border-b border-primary/20 px-4 py-2 bg-muted/50">
                 <div className="size-2.5 rounded-full bg-red-400/60" />
                 <div className="size-2.5 rounded-full bg-yellow-400/60" />
                 <div className="size-2.5 rounded-full bg-green-400/60" />
@@ -361,7 +357,7 @@ const stackItems = [
 
 function Stack() {
   return (
-    <section>
+    <section className="border-t border-border bg-muted/30">
       <div className="mx-auto max-w-5xl px-6 py-16">
         <Reveal>
           <div className="flex flex-col items-center gap-6 text-center">
@@ -390,10 +386,6 @@ function Stack() {
 function FinalCta() {
   return (
     <section className="relative overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-background"
-      />
       <div className="relative mx-auto max-w-3xl px-6 py-24 text-center">
         <Reveal>
           <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">
