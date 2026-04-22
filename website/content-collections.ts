@@ -157,6 +157,14 @@ const articles = defineCollection({
                 light: config.codeThemeLight,
                 dark: config.codeThemeDark,
               },
+              // Darken catppuccin-latte's green (the colour used for strings and
+              // some comments) — the theme default #40A02B lands at 3.2:1 on the
+              // code-block background, below the WCAG AA 4.5:1 threshold.
+              colorReplacements: {
+                "catppuccin-latte": {
+                  "#40a02b": "#2a7e16",
+                },
+              },
               transformers: [
                 transformerTwoslash({ explicitTrigger: true }),
                 transformerIcon(),
