@@ -92,7 +92,7 @@ export function Layout(props: {
                   <span>
                     {section.title}
                     {latestVersion && (
-                      <span className="opacity-60"> ({latestVersion})</span>
+                      <span className="opacity-80"> ({latestVersion})</span>
                     )}
                   </span>
                 </Link>
