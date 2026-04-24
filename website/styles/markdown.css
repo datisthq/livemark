@@ -3,7 +3,7 @@
 
 @layer components {
   .prose :is(h1, h2, h3, h4, h5, h6) {
-    @apply scroll-mt-20;
+    @apply scroll-mt-28 md:scroll-mt-20;
   }
 
   .prose :is(h1, h2, h3, h4, h5, h6)[id] {
