@@ -60,7 +60,7 @@ export function MobileToc(props: { items: TocItem[]; children?: ReactNode }) {
         />
       </button>
       {open && (
-        <div className="max-h-[calc(100vh-8rem)] space-y-4 overflow-auto px-4 pb-4">
+        <div className="max-h-[calc(100vh-8rem)] space-y-4 overflow-auto border-t px-4 pt-4 pb-4">
           {props.children}
           {props.items.length > 0 && (
             <nav>
