@@ -150,7 +150,6 @@ export function BlogSidebar() {
             </SidebarGroupContent>
           </SidebarGroup>
         )}
-
         <SidebarLinks />
       </SidebarContent>
       <SidebarFooter className="p-4 space-y-2">

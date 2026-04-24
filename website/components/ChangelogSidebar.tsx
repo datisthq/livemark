@@ -108,7 +108,6 @@ export function ChangelogSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-
         <SidebarLinks />
       </SidebarContent>
       <SidebarFooter className="p-4 space-y-2">

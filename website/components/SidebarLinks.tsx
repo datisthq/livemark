@@ -11,17 +11,18 @@ import {
   SidebarMenuItem,
 } from "../elements/sidebar.tsx"
 
-/** Shared sidebar links group rendered from config.links with position: "sidebar" */
+/** Shared Links group. Renders sidebar-positioned links always, and
+ * header-positioned links only on mobile (mobile collapses all chrome
+ * links into the sidebar since the header strip is hidden below `md`). */
 export function SidebarLinks() {
   const pathname = useLocation({ select: l => l.pathname })
   const section = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
-  const links = import.meta.env.CONFIG.links?.filter(
-    link =>
-      link.position === "sidebar" &&
-      (!link.prefix || link.prefix === section?.prefix),
-  )
+  const links =
+    import.meta.env.CONFIG.links?.filter(
+      link => !link.prefix || link.prefix === section?.prefix,
+    ) ?? []
 
-  if (!links?.length) return null
+  if (!links.length) return null
 
   return (
     <SidebarGroup>
@@ -30,31 +31,37 @@ export function SidebarLinks() {
       </SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
-          {links.map(link => (
-            <SidebarMenuItem key={link.url}>
-              <SidebarMenuButton
-                className="text-muted-foreground"
-                render={
-                  <a
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  />
-                }
+          {links.map(link => {
+            const mobileOnly = link.position !== "sidebar"
+            return (
+              <SidebarMenuItem
+                key={link.url}
+                className={mobileOnly ? "md:hidden" : undefined}
               >
-                {link.icon && (
-                  <DynamicIcon name={link.icon} className="size-4" />
-                )}
-                <span>
-                  {link.title}{" "}
-                  <ExternalLink
-                    className="inline -mt-0.5 opacity-75"
-                    style={{ width: 12, height: 12 }}
-                  />
-                </span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+                <SidebarMenuButton
+                  className="text-muted-foreground"
+                  render={
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    />
+                  }
+                >
+                  {link.icon && (
+                    <DynamicIcon name={link.icon} className="size-4" />
+                  )}
+                  <span>
+                    {link.title}{" "}
+                    <ExternalLink
+                      className="inline -mt-0.5 opacity-75"
+                      style={{ width: 12, height: 12 }}
+                    />
+                  </span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            )
+          })}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
