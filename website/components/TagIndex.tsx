@@ -6,7 +6,7 @@ import { Separator } from "../elements/separator.tsx"
 import { TocContext } from "../helpers/toc-context.ts"
 import { Footer } from "./Footer.tsx"
 import { PageToolbar } from "./PageToolbar.tsx"
-import { Toc } from "./Toc.tsx"
+import { MobileToc, Toc } from "./Toc.tsx"
 
 /** Blog tag page listing posts filtered by a specific tag */
 export function TagIndex(props: { sectionPrefix: string; tag: string }) {
@@ -41,7 +41,10 @@ export function TagIndex(props: { sectionPrefix: string; tag: string }) {
 
   return (
     <TocContext.Provider value={tocItems}>
-      <div className="flex flex-1 gap-10 p-6 md:p-10">
+      <MobileToc items={tocItems}>
+        <PageToolbar content={content} />
+      </MobileToc>
+      <div className="flex flex-1 gap-10 p-4 pt-8 md:p-10">
         <div className="flex-1 min-w-0 mx-auto max-w-3xl">
           <div className="prose dark:prose-invert max-w-none mb-8">
             <h1 id="top">
