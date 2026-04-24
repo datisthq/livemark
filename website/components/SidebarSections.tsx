@@ -15,12 +15,13 @@ function splatFor(pathname: string) {
   return { _splat: pathname.replace(/^\/|\/$/g, "") }
 }
 
-/** Shared Sections group rendered from config.sections with position: "sidebar" */
+/** Shared Sections group. Renders sidebar-positioned sections always, and
+ * header-positioned sections only on mobile (mobile collapses all sections
+ * into the sidebar since the header nav strip is hidden below `md`). */
 export function SidebarSections() {
   const pathname = useLocation({ select: l => l.pathname })
   const section = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
-  const sections =
-    import.meta.env.CONFIG.sections?.filter(s => s.position === "sidebar") ?? []
+  const sections = import.meta.env.CONFIG.sections ?? []
 
   if (!sections.length) return null
 
@@ -37,8 +38,12 @@ export function SidebarSections() {
                 ? s.prefix
                 : (sectionFirstArticle.get(s.prefix) ?? s.prefix)
             const active = section?.prefix === s.prefix
+            const mobileOnly = s.position !== "sidebar"
             return (
-              <SidebarMenuItem key={s.prefix}>
+              <SidebarMenuItem
+                key={s.prefix}
+                className={mobileOnly ? "md:hidden" : undefined}
+              >
                 <SidebarMenuButton
                   isActive={active}
                   className={active ? "" : "opacity-75"}
