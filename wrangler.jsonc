@@ -5,7 +5,7 @@
   "preview_urls": true,
   "workers_dev": true,
   "assets": {
-    "directory": "./livemark/build",
+    "directory": ".livemark/build",
   },
   "routes": [
     {
