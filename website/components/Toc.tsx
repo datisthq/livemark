@@ -35,10 +35,27 @@ export function Toc(props: { items: TocItem[]; children?: ReactNode }) {
 }
 
 /** Mobile-only sticky secondary bar showing the active heading and an
- * expandable panel with the Contents + page Actions. */
+ * overlay dropdown with the Contents + page Actions. */
 export function MobileToc(props: { items: TocItem[]; children?: ReactNode }) {
   const activeId = useActiveHeading(props.items)
   const [open, setOpen] = useState(false)
+  const wrapperRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!open) return
+    const onPointerDown = (event: MouseEvent) => {
+      if (!wrapperRef.current?.contains(event.target as Node)) setOpen(false)
+    }
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false)
+    }
+    document.addEventListener("mousedown", onPointerDown)
+    document.addEventListener("keydown", onKey)
+    return () => {
+      document.removeEventListener("mousedown", onPointerDown)
+      document.removeEventListener("keydown", onKey)
+    }
+  }, [open])
 
   if (props.items.length === 0 && !props.children) return null
 
@@ -46,7 +63,10 @@ export function MobileToc(props: { items: TocItem[]; children?: ReactNode }) {
   const title = active?.title ?? props.items[0]?.title ?? "Contents"
 
   return (
-    <div className="xl:hidden sticky top-16 z-10 border-b bg-background">
+    <div
+      ref={wrapperRef}
+      className="xl:hidden sticky top-16 z-20 border-b bg-background"
+    >
       <button
         type="button"
         onClick={() => setOpen(v => !v)}
@@ -60,27 +80,31 @@ export function MobileToc(props: { items: TocItem[]; children?: ReactNode }) {
         />
       </button>
       {open && (
-        <div className="max-h-[calc(100vh-8rem)] space-y-4 overflow-auto border-t px-4 pt-4 pb-4">
-          {props.children}
-          {props.items.length > 0 && (
-            <nav>
-              <p className="mb-2 text-sm font-medium">Contents</p>
-              <ul className="border-l border-border text-sm">
-                {props.items.map(item => (
-                  <li key={item.url}>
-                    <a
-                      href={item.url}
-                      data-active={activeId === item.url.slice(1) || undefined}
-                      onClick={() => setOpen(false)}
-                      className={`-ms-px block border-l border-transparent py-1.5 text-muted-foreground transition-colors hover:text-foreground data-[active]:border-primary data-[active]:font-medium data-[active]:text-primary ${item.depth <= 2 ? "ps-3" : item.depth === 3 ? "ps-6" : "ps-8"}`}
-                    >
-                      {item.title}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          )}
+        <div className="absolute top-full left-0 right-0 mt-px max-h-[calc(100vh-8rem)] overflow-auto border-b bg-background shadow-md animate-in slide-in-from-top-2 fade-in-0 duration-200">
+          <div className="space-y-4 px-4 pt-4 pb-4">
+            {props.children}
+            {props.items.length > 0 && (
+              <nav>
+                <p className="mb-2 text-sm font-medium">Contents</p>
+                <ul className="border-l border-border text-sm">
+                  {props.items.map(item => (
+                    <li key={item.url}>
+                      <a
+                        href={item.url}
+                        data-active={
+                          activeId === item.url.slice(1) || undefined
+                        }
+                        onClick={() => setOpen(false)}
+                        className={`-ms-px block border-l border-transparent py-1.5 text-muted-foreground transition-colors hover:text-foreground data-[active]:border-primary data-[active]:font-medium data-[active]:text-primary ${item.depth <= 2 ? "ps-3" : item.depth === 3 ? "ps-6" : "ps-8"}`}
+                      >
+                        {item.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            )}
+          </div>
         </div>
       )}
     </div>
