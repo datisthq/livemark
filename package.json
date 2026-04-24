@@ -32,7 +32,8 @@
     "format": "vp fmt",
     "lint": "vp fmt --check && vp lint",
     "prepare": "is-ci || lefthook install --force",
-    "release": "pnpm -r publish --access public --ignore-scripts --no-git-checks",
+    "release": "pnpm publish --access public --ignore-scripts --no-git-checks",
+    "setversion": "pnpm version --no-git-tag-version",
     "unit": "vp test",
     "test": "pnpm lint && pnpm type && pnpm unit",
     "type": "tsgo --noEmit"
