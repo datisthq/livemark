@@ -1,3 +1,4 @@
+import { ChevronDown } from "lucide-react"
 import { useEffect, useRef, useState, type ReactNode } from "react"
 import type { TocItem } from "../models/toc.ts"
 
@@ -31,6 +32,108 @@ export function Toc(props: { items: TocItem[]; children?: ReactNode }) {
       </div>
     </aside>
   )
+}
+
+/** Mobile-only sticky secondary bar showing the active heading and an
+ * expandable panel with the Contents + page Actions. */
+export function MobileToc(props: { items: TocItem[]; children?: ReactNode }) {
+  const activeId = useActiveHeading(props.items)
+  const [open, setOpen] = useState(false)
+
+  if (props.items.length === 0 && !props.children) return null
+
+  const active = props.items.find(item => item.url.slice(1) === activeId)
+  const title = active?.title ?? props.items[0]?.title ?? "Contents"
+
+  return (
+    <div className="xl:hidden sticky top-16 z-10 border-b bg-background">
+      <button
+        type="button"
+        onClick={() => setOpen(v => !v)}
+        aria-expanded={open}
+        className="flex w-full items-center gap-3 px-4 py-3 text-sm text-muted-foreground"
+      >
+        <ScrollProgressRing />
+        <span className="truncate flex-1 text-left">{title}</span>
+        <ChevronDown
+          className={`size-4 shrink-0 transition-transform ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+      {open && (
+        <div className="max-h-[calc(100vh-8rem)] space-y-4 overflow-auto px-4 pb-4">
+          {props.children}
+          {props.items.length > 0 && (
+            <nav>
+              <p className="mb-2 text-sm font-medium">Contents</p>
+              <ul className="border-l border-border text-sm">
+                {props.items.map(item => (
+                  <li key={item.url}>
+                    <a
+                      href={item.url}
+                      data-active={activeId === item.url.slice(1) || undefined}
+                      onClick={() => setOpen(false)}
+                      className={`-ms-px block border-l border-transparent py-1.5 text-muted-foreground transition-colors hover:text-foreground data-[active]:border-primary data-[active]:font-medium data-[active]:text-primary ${item.depth <= 2 ? "ps-3" : item.depth === 3 ? "ps-6" : "ps-8"}`}
+                    >
+                      {item.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function ScrollProgressRing() {
+  const progress = useScrollProgress()
+  const radius = 6
+  const circumference = 2 * Math.PI * radius
+  const offset = circumference * (1 - progress)
+  return (
+    <svg viewBox="0 0 16 16" className="size-4 shrink-0 -rotate-90" aria-hidden>
+      <circle
+        cx="8"
+        cy="8"
+        r={radius}
+        className="stroke-muted-foreground/30"
+        strokeWidth="2"
+        fill="none"
+      />
+      <circle
+        cx="8"
+        cy="8"
+        r={radius}
+        className="stroke-primary transition-[stroke-dashoffset] duration-150"
+        strokeWidth="2"
+        fill="none"
+        strokeLinecap="round"
+        strokeDasharray={circumference}
+        strokeDashoffset={offset}
+      />
+    </svg>
+  )
+}
+
+function useScrollProgress() {
+  const [progress, setProgress] = useState(0)
+  useEffect(() => {
+    const update = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight
+      const next = max > 0 ? window.scrollY / max : 0
+      setProgress(Math.min(1, Math.max(0, next)))
+    }
+    update()
+    window.addEventListener("scroll", update, { passive: true })
+    window.addEventListener("resize", update)
+    return () => {
+      window.removeEventListener("scroll", update)
+      window.removeEventListener("resize", update)
+    }
+  }, [])
+  return progress
 }
 
 function useActiveHeading(items: TocItem[]) {
