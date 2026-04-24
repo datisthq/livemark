@@ -1,4 +1,4 @@
-import { Link, useLocation } from "@tanstack/react-router"
+import { Link, useLocation, useMatch } from "@tanstack/react-router"
 import { currentSection, sectionFirstArticle } from "../content/article.ts"
 import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
 import { sectionIcon } from "../helpers/section.ts"
@@ -20,7 +20,10 @@ function splatFor(pathname: string) {
  * into the sidebar since the header nav strip is hidden below `md`). */
 export function SidebarSections() {
   const pathname = useLocation({ select: l => l.pathname })
-  const section = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
+  const articleRoute = useMatch({ from: "/$", shouldThrow: false })
+  const section = articleRoute
+    ? currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
+    : undefined
   const sections = import.meta.env.CONFIG.sections ?? []
 
   if (!sections.length) return null
