@@ -13,6 +13,7 @@ import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
+  useSidebar,
 } from "../elements/sidebar.tsx"
 import { BackToTop } from "./BackToTop.tsx"
 import { Banner } from "./Banner.tsx"
@@ -169,12 +170,31 @@ export function Layout(props: {
 
   return (
     <SidebarProvider>
-      <SidebarComponent />
+      <SidebarShell SidebarComponent={SidebarComponent} header={header}>
+        {props.children}
+      </SidebarShell>
+    </SidebarProvider>
+  )
+}
+
+function SidebarShell(props: {
+  SidebarComponent: React.ComponentType
+  header: React.ReactNode
+  children?: React.ReactNode
+}) {
+  const { isMobile, setOpenMobile } = useSidebar()
+  const onClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (!isMobile) return
+    if ((event.target as HTMLElement).closest("a")) setOpenMobile(false)
+  }
+  return (
+    <div style={{ display: "contents" }} onClick={onClick}>
+      <props.SidebarComponent />
       <SidebarInset>
-        {header}
+        {props.header}
         <main className="flex-1">{props.children}</main>
         <BackToTop />
       </SidebarInset>
-    </SidebarProvider>
+    </div>
   )
 }

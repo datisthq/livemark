@@ -23,7 +23,6 @@ import {
   SidebarRail,
   useSidebar,
 } from "../elements/sidebar.tsx"
-import { useCloseSidebarOnNavigate } from "../hooks/close-sidebar-on-navigate.ts"
 import { Search } from "./Search.tsx"
 import { SidebarLinks } from "./SidebarLinks.tsx"
 import { SidebarSections } from "./SidebarSections.tsx"
@@ -36,7 +35,6 @@ export function ChangelogSidebar() {
   const { toggleSidebar } = useSidebar()
 
   useHotkey("S", toggleSidebar)
-  useCloseSidebarOnNavigate()
 
   const section = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
   const flat = section ? (sectionFlatArticles.get(section.prefix) ?? []) : []

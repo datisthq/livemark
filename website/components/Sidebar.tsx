@@ -30,7 +30,6 @@ import {
   SidebarRail,
   useSidebar,
 } from "../elements/sidebar.tsx"
-import { useCloseSidebarOnNavigate } from "../hooks/close-sidebar-on-navigate.ts"
 import { Search } from "./Search.tsx"
 import { SidebarLinks } from "./SidebarLinks.tsx"
 import { SidebarSections } from "./SidebarSections.tsx"
@@ -43,7 +42,6 @@ export function Sidebar() {
   const { toggleSidebar } = useSidebar()
 
   useHotkey("S", toggleSidebar)
-  useCloseSidebarOnNavigate()
 
   const configSections = import.meta.env.CONFIG.sections
   const section = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
