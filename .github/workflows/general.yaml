@@ -32,6 +32,10 @@ jobs:
         run: pnpm build
       - name: Test Packages
         run: pnpm test
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v5
+        with:
+          use_oidc: true
 
   release:
     needs: [test]
