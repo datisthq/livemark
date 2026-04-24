@@ -21,7 +21,7 @@ This file provides guidance to coding agents when working with code in this repo
 - Run `pnpm format` to auto-fix formatting issues with Biome
 - Run `pnpm type` to check TypeScript types
 - Run `pnpm unit` to run only the Vitest tests
-- Run `pnpm exec vitest run path/to/test.ts` to run a single test
+- Run `pnpm vp test path/to/test.ts` to run a single test
 - Run `pnpm docs:build` to verify the website builds without errors
 - Run `pnpm docs:start` to start a dev server for live devtools inspection
 
