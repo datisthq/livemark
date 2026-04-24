@@ -50,7 +50,17 @@ export function Layout(props: {
         className={`flex items-center self-stretch pl-4 ${props.withSidebar ? "pr-4" : "md:pr-20"}`}
       >
         {props.withSidebar ? (
-          <SidebarTrigger />
+          <>
+            <div className="hidden md:flex">
+              <SidebarTrigger />
+            </div>
+            <Link
+              to="/"
+              className="md:hidden flex items-center gap-2 pl-2 pr-4"
+            >
+              <SiteTitle />
+            </Link>
+          </>
         ) : (
           <Link to="/" className="flex items-center gap-2 px-2">
             <SiteTitle />
@@ -132,6 +142,11 @@ export function Layout(props: {
           ))}
         <Banner />
       </div>
+      {props.withSidebar && (
+        <div className="md:hidden ml-auto pr-4">
+          <SidebarTrigger />
+        </div>
+      )}
     </header>
   )
 

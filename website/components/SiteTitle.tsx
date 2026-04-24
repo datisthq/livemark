@@ -4,7 +4,7 @@ import defaultLogo from "../assets/logo.svg"
 export function SiteTitle() {
   const logo = import.meta.env.CONFIG.logo ?? defaultLogo
   return (
-    <div className="flex items-end gap-2.5">
+    <div className="flex items-end gap-2.5 text-sm">
       <img
         src={logo}
         alt={import.meta.env.CONFIG.title}
