@@ -105,7 +105,7 @@ export function Article(props: { article: ArticleView }) {
           <PageToolbar file={article.file} content={article.content} />
         </MobileToc>
       )}
-      <div className="flex flex-1 gap-10 p-6 md:p-10">
+      <div className="flex flex-1 gap-10 p-4 md:p-10">
         <div className="flex-1 min-w-0 mx-auto max-w-3xl">
           <div className="prose dark:prose-invert max-w-none">
             <MDXContent

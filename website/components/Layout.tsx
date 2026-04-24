@@ -55,10 +55,7 @@ export function Layout(props: {
             <div className="hidden md:flex">
               <SidebarTrigger />
             </div>
-            <Link
-              to="/"
-              className="md:hidden flex items-center gap-2 pl-2 pr-4"
-            >
+            <Link to="/" className="md:hidden flex items-center gap-2">
               <SiteTitle />
             </Link>
           </>
@@ -144,7 +141,7 @@ export function Layout(props: {
         <Banner />
       </div>
       {props.withSidebar && (
-        <div className="md:hidden ml-auto pr-4">
+        <div className="md:hidden ml-auto pr-2">
           <SidebarTrigger />
         </div>
       )}
