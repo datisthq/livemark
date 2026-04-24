@@ -23,9 +23,10 @@ export function SidebarLinks() {
     ) ?? []
 
   if (!links.length) return null
+  const hasDesktopItems = links.some(l => l.position === "sidebar")
 
   return (
-    <SidebarGroup>
+    <SidebarGroup className={hasDesktopItems ? undefined : "md:hidden"}>
       <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
         Links
       </SidebarGroupLabel>

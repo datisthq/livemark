@@ -132,4 +132,32 @@
   [role="button"]:not([disabled]) {
     cursor: pointer;
   }
+
+  [data-slot="sidebar-content"] {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    transition: scrollbar-color 0.2s;
+  }
+  [data-slot="sidebar-content"]:hover,
+  [data-slot="sidebar-content"]:focus-within {
+    scrollbar-color: color-mix(
+        in oklch,
+        var(--sidebar-foreground) 20%,
+        transparent
+      )
+      transparent;
+  }
+
+  [data-slot="sidebar-content"]::-webkit-scrollbar {
+    width: 8px;
+  }
+  [data-slot="sidebar-content"]::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 9999px;
+    transition: background 0.2s;
+  }
+  [data-slot="sidebar-content"]:hover::-webkit-scrollbar-thumb,
+  [data-slot="sidebar-content"]:focus-within::-webkit-scrollbar-thumb {
+    background: color-mix(in oklch, var(--sidebar-foreground) 20%, transparent);
+  }
 }

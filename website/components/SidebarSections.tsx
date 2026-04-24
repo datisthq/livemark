@@ -24,9 +24,10 @@ export function SidebarSections() {
   const sections = import.meta.env.CONFIG.sections ?? []
 
   if (!sections.length) return null
+  const hasDesktopItems = sections.some(s => s.position === "sidebar")
 
   return (
-    <SidebarGroup>
+    <SidebarGroup className={hasDesktopItems ? undefined : "md:hidden"}>
       <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
         Sections
       </SidebarGroupLabel>
