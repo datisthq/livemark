@@ -19,6 +19,7 @@ import { BackToTop } from "./BackToTop.tsx"
 import { Banner } from "./Banner.tsx"
 import { BlogSidebar } from "./BlogSidebar.tsx"
 import { ChangelogSidebar } from "./ChangelogSidebar.tsx"
+import { MiniSidebar } from "./MiniSidebar.tsx"
 import { Sidebar } from "./Sidebar.tsx"
 import { SiteTitle } from "./SiteTitle.tsx"
 
@@ -60,7 +61,7 @@ export function Layout(props: {
             </Link>
           </>
         ) : (
-          <Link to="/" className="flex items-center gap-2 px-2">
+          <Link to="/" className="flex items-center gap-2">
             <SiteTitle />
           </Link>
         )}
@@ -140,33 +141,25 @@ export function Layout(props: {
           ))}
         <Banner />
       </div>
-      {props.withSidebar && (
-        <div className="md:hidden ml-auto pr-2">
-          <SidebarTrigger />
-        </div>
-      )}
+      <div className="md:hidden ml-auto pr-2">
+        <SidebarTrigger />
+      </div>
     </header>
   )
 
-  if (!props.withSidebar) {
-    return (
-      <div className="flex min-h-screen flex-col">
-        {header}
-        <main className="flex-1">{props.children}</main>
-        <BackToTop />
-      </div>
-    )
-  }
-
-  const SidebarComponent =
-    activeSection?.type === "blog"
+  const SidebarComponent = !props.withSidebar
+    ? MiniSidebar
+    : activeSection?.type === "blog"
       ? BlogSidebar
       : activeSection?.type === "changelog"
         ? ChangelogSidebar
         : Sidebar
 
   return (
-    <SidebarProvider>
+    <SidebarProvider
+      key={props.withSidebar ? "sidebar" : "mini"}
+      defaultOpen={!!props.withSidebar}
+    >
       <SidebarShell SidebarComponent={SidebarComponent} header={header}>
         {props.children}
       </SidebarShell>
