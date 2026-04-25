@@ -26,10 +26,10 @@ export default defineConfig({
     {
       file: "README.md",
       article: {
-        title: "Getting Started",
+        title: "Introduction",
         description: "Learn how to set up your first Livemark project.",
         icon: "rocket",
-        path: "/getting-started/",
+        path: "/introduction/",
         order: 1,
         group: "Articles",
       },

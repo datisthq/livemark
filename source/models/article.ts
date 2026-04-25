@@ -26,6 +26,7 @@ export const Article = z.object({
 /** Processed article ready for page rendering (result of content-collections transform). */
 export interface ArticleView {
   path: string
+  title: string
   content: string
   file: string
   mdx: string

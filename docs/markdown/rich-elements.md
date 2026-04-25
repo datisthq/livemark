@@ -237,7 +237,7 @@ Push to production.
 Create content cards using the `:::card` directive. Consecutive cards are automatically grouped into a grid.
 
 ```md
-:::card{title="Getting Started" href="/getting-started" icon="rocket"}
+:::card{title="Getting Started" href="/introduction" icon="rocket"}
 Learn how to set up your first project.
 :::
 ```
@@ -250,7 +250,7 @@ Configure your Livemark project.
 
 Renders as:
 
-:::card{title="Getting Started" href="/getting-started/" icon="rocket"}
+:::card{title="Getting Started" href="/introduction/" icon="rocket"}
 Learn how to set up your first project.
 :::
 
@@ -283,13 +283,13 @@ Renders as:
 Call-to-action link buttons using the `::button` leaf directive:
 
 ```md
-::button[Get Started]{href="/getting-started"}
+::button[Get Started]{href="/introduction"}
 ```
 
 With variant and size options:
 
 ```md
-::button[Get Started]{href="/getting-started" variant="default" size="lg"}
+::button[Get Started]{href="/introduction" variant="default" size="lg"}
 ::button[Configuration]{href="/configuration" variant="outline"}
 ::button[View Source]{href="/github" variant="secondary" size="sm"}
 ```
@@ -297,12 +297,12 @@ With variant and size options:
 You can also use the `label` attribute:
 
 ```md
-::button{href="/getting-started" label="Get Started"}
+::button{href="/introduction" label="Get Started"}
 ```
 
 Renders as:
 
-::button[Get Started]{href="/getting-started/" variant="default" size="lg"}
+::button[Get Started]{href="/introduction/" variant="default" size="lg"}
 ::button[Configuration]{href="/customization/configuration/" variant="outline"}
 ::button[View Source]{href="https://github.com/datisthq/livemark" variant="secondary" size="sm"}
 

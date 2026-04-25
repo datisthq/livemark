@@ -86,6 +86,10 @@ function getLastUpdated(filePath: string) {
   }
 }
 
+function stripLeadingH1(content: string) {
+  return content.replace(/^[ \t]*#\s+[^\n]*\n+/, "")
+}
+
 function extractTitle(content: string, path: string) {
   const match = /^#\s+(.+)$/m.exec(content)
   if (match) return match[1]!
@@ -111,9 +115,14 @@ const articles = defineCollection({
     const title = doc.title ?? extractTitle(content, doc._meta.path)
     const icon = doc.icon ?? pickDefaultIcon(doc._meta.path)
     const path = doc.path ?? toPath(doc._meta.filePath)
+    // The article's h1 is rendered from `title` by the layout, so strip any
+    // leading h1 in the body to avoid two h1s side-by-side (especially when
+    // a content patch overrides the title to something different from the
+    // body's own heading).
+    const bodyContent = stripLeadingH1(content)
     const mdx = await compileMDX(
       context,
-      { ...doc, content },
+      { ...doc, content: bodyContent },
       {
         remarkPlugins: [
           remarkGfm,

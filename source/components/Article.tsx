@@ -57,47 +57,6 @@ export function Article(props: { article: ArticleView }) {
     : []
   const hasMeta = publishedDate || authors.length > 0 || lastUpdated
 
-  const H1 = (headingProps: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <>
-      <h1 {...headingProps}>
-        {headingProps.id ? (
-          <a href={`#${headingProps.id}`}>{headingProps.children}</a>
-        ) : (
-          headingProps.children
-        )}
-      </h1>
-      {hasMeta && (
-        <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground !-mt-4 !mb-6">
-          {authors.length > 0 && (
-            <span className="flex items-center gap-1.5">
-              <User className="size-3.5" />
-              {authors.join(", ")}
-            </span>
-          )}
-          {publishedDate && (
-            <span className="flex items-center gap-1.5">
-              <Calendar className="size-3.5" />
-              Published {publishedDate}
-            </span>
-          )}
-          {lastUpdated && (
-            <span className="flex items-center gap-1.5">
-              <History className="size-3.5" />
-              Updated {lastUpdated}
-            </span>
-          )}
-        </p>
-      )}
-      {article.image && (
-        <img
-          src={article.image}
-          alt=""
-          className="!mt-0 !mb-6 w-full rounded-xl border shadow-sm"
-        />
-      )}
-    </>
-  )
-
   return (
     <TocContext.Provider value={article.tocItems}>
       {article.toc !== false && (
@@ -113,6 +72,38 @@ export function Article(props: { article: ArticleView }) {
       <div className="flex flex-1 gap-10 p-4 pt-8 md:p-10">
         <div className="flex-1 min-w-0 mx-auto max-w-3xl">
           <div className="prose dark:prose-invert max-w-none">
+            <h1 id="top">
+              <a href="#top">{article.title}</a>
+            </h1>
+            {hasMeta && (
+              <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground !-mt-4 !mb-6">
+                {authors.length > 0 && (
+                  <span className="flex items-center gap-1.5">
+                    <User className="size-3.5" />
+                    {authors.join(", ")}
+                  </span>
+                )}
+                {publishedDate && (
+                  <span className="flex items-center gap-1.5">
+                    <Calendar className="size-3.5" />
+                    Published {publishedDate}
+                  </span>
+                )}
+                {lastUpdated && (
+                  <span className="flex items-center gap-1.5">
+                    <History className="size-3.5" />
+                    Updated {lastUpdated}
+                  </span>
+                )}
+              </p>
+            )}
+            {article.image && (
+              <img
+                src={article.image}
+                alt=""
+                className="!mt-0 !mb-6 w-full rounded-xl border shadow-sm"
+              />
+            )}
             <MDXContent
               code={article.mdx}
               components={{
@@ -150,7 +141,6 @@ export function Article(props: { article: ArticleView }) {
                 SoundCloud,
                 YouTube,
                 ...headingComponents,
-                h1: H1,
               }}
             />
           </div>

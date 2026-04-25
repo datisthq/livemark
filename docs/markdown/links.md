@@ -12,10 +12,10 @@ path: /markdown/links/
 Link to other pages in your documentation:
 
 ```md
-[Getting Started](/getting-started/)
+[Getting Started](/introduction/)
 ```
 
-Renders as: [Getting Started](/getting-started/)
+Renders as: [Getting Started](/introduction/)
 
 ## External Links
 

@@ -58,7 +58,7 @@ function Hero() {
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             to="/$"
-            params={{ _splat: "getting-started" }}
+            params={{ _splat: "introduction" }}
             className={cn(
               buttonVariants({ variant: "default", size: "lg" }),
               "px-5 no-underline",
@@ -398,7 +398,7 @@ function FinalCta() {
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               to="/$"
-              params={{ _splat: "getting-started" }}
+              params={{ _splat: "introduction" }}
               className={cn(
                 buttonVariants({ variant: "default", size: "lg" }),
                 "px-5 no-underline",
