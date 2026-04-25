@@ -33,11 +33,14 @@ if (!existsSync(gitignorePath)) {
 
 const routeChildren: VirtualRouteNode[] = [route("/$", "$.tsx")]
 if (existsSync(join(overridesRoot, "routes"))) {
-  // physical() resolves its argument relative to this file. Hardcoding a
-  // relative literal lands at <pkg>/.livemark/ when livemark is installed
-  // under node_modules/. Compute it from the consumer's overridesRoot.
+  // physical(dir) resolves `dir` relative to the routes directory
+  // (`srcDirectory/routes`). A hardcoded "../../.livemark/routes" only
+  // works when source/ sits one level under config.root — it lands at
+  // node_modules/.livemark/routes once livemark is installed. Compute
+  // the path dynamically from the consumer's actual layout.
+  const routesDir = join(sourceDir, "routes")
   routeChildren.push(
-    physical(relative(sourceDir, join(overridesRoot, "routes"))),
+    physical(relative(routesDir, join(overridesRoot, "routes"))),
   )
 }
 
