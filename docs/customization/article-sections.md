@@ -1,12 +1,11 @@
 ---
-title: Sections
 description: Organize articles into Docs, Blog, and Changelog sections.
+path: /customization/article-sections/
 icon: layout-panel-left
 order: 5
-path: /customization/sections/
 ---
 
-# Sections
+# Article Sections
 
 A section is a group of articles that share a URL prefix, a sidebar, and a navigation tab. Livemark ships three section types:
 
@@ -116,5 +115,5 @@ Keep prefixes trailing-slashed (`/blog/`, not `/blog`) for predictable matching.
 
 ## See also
 
-- [Navigation Links](/customization/navigation-links/) — add external links next to your section tabs.
+- [External Links](/customization/external-links/) — add external links next to your section tabs.
 - [Frontmatter](/markdown/frontmatter/) — the `path`, `order`, `group`, `date`, `tags` fields that drive section content.

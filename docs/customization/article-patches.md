@@ -1,12 +1,11 @@
 ---
-title: Content Patches
 description: Override article frontmatter from your config, without touching the file.
 icon: pencil-ruler
-order: 6
-path: /customization/content-patches/
+order: 7
+path: /customization/article-patches/
 ---
 
-# Content Patches
+# Article Patches
 
 Sometimes a markdown file doubles as both site content and a file that's read elsewhere — a `README.md` rendered by GitHub, a shared spec in another project. Adding livemark-only frontmatter to it pollutes the other view.
 
@@ -69,4 +68,4 @@ Patches are for metadata; the content of the file is always the content of the f
 ## See also
 
 - [Frontmatter](/markdown/frontmatter/) — all the fields you can set, whether inline or via a patch.
-- [Configuration](/customization/configuration/) — the `include` glob that decides which files a patch can match.
+- [Configuration](/customization/configuration-file/) — the `include` glob that decides which files a patch can match.

@@ -1,8 +1,8 @@
 ---
 title: Links
+path: /markdown/links/
 icon: link
 order: 3
-path: /markdown/links/
 ---
 
 # Links

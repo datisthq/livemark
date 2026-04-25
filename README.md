@@ -90,11 +90,11 @@ Anything under `.livemark/components/`, `.livemark/elements/`, or `.livemark/sty
 Livemark is meant to look great with zero configuration and stay out of your way when you need more. Common customizations:
 
 - **Site metadata** — title, description, favicon, logo. See the [Site Metadata guide](https://livemark.dev/customization/site-metadata/).
-- **Sections** — split content into Docs / Blog / Changelog with their own URL prefixes. See [Sections](https://livemark.dev/customization/sections/).
-- **Navigation links** — header and sidebar links to anywhere. See [Navigation Links](https://livemark.dev/customization/navigation-links/).
+- **Sections** — split content into Docs / Blog / Changelog with their own URL prefixes. See [Article Sections](https://livemark.dev/customization/article-sections/).
+- **External links** — header and sidebar links to anywhere. See [External Links](https://livemark.dev/customization/external-links/).
 - **Syntax themes** — Shiki theme per light/dark. See [Syntax Themes](https://livemark.dev/customization/syntax-themes/).
-- **Content patches** — override a markdown file's frontmatter from `livemark.config.ts` without touching the file. See [Content Patches](https://livemark.dev/customization/content-patches/).
-- **File overrides** — replace any built-in component or stylesheet from your project. See [File Overrides](https://livemark.dev/customization/file-overrides/).
+- **Article patches** — override a markdown file's frontmatter from `livemark.config.ts` without touching the file. See [Article Patches](https://livemark.dev/customization/article-patches/).
+- **Module escaping** — replace any built-in component or stylesheet from your project. See [Module Escaping](https://livemark.dev/customization/module-escaping/).
 - **Custom routes** — drop a `.tsx` file into `.livemark/routes/` to add a fully custom page. See [Custom Routes](https://livemark.dev/customization/custom-routes/).
 
 ## Documentation

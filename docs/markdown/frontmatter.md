@@ -1,8 +1,8 @@
 ---
 title: Frontmatter
+path: /markdown/frontmatter/
 icon: file-text
 order: 1
-path: /markdown/frontmatter/
 ---
 
 # Frontmatter
@@ -63,9 +63,9 @@ This lets you pin "Getting Started" at the top (`order: 1`) and "FAQ" at the bot
 
 ## Overriding without editing
 
-If you can't modify a file's frontmatter (for example a `README.md` that doubles as a GitHub landing), you can inject the same fields from `livemark.config.ts` via [Content Patches](/customization/content-patches/).
+If you can't modify a file's frontmatter (for example a `README.md` that doubles as a GitHub landing), you can inject the same fields from `livemark.config.ts` via [Article Patches](/customization/article-patches/).
 
 ## See also
 
-- [Sections](/customization/sections/) — how `order`, `group`, and `date` interact with blog and changelog sections.
-- [Content Patches](/customization/content-patches/) — set frontmatter from config, without touching the file.
+- [Article Sections](/customization/article-sections/) — how `order`, `group`, and `date` interact with blog and changelog sections.
+- [Article Patches](/customization/article-patches/) — set frontmatter from config, without touching the file.

@@ -1,12 +1,11 @@
 ---
-title: Navigation Links
-description: Add external links to the header or the sidebar.
-icon: link
-order: 4
-path: /customization/navigation-links/
+description: Add external URLs to the header or the sidebar.
+path: /customization/external-links/
+icon: external-link
+order: 6
 ---
 
-# Navigation Links
+# External Links
 
 The `links` array attaches external URLs to the header or the sidebar. Each entry renders as a link with an optional icon.
 
@@ -83,5 +82,5 @@ links: [
 
 ## See also
 
-- [Sections](/customization/sections/) — the `prefix` values that `prefix` on a link targets.
+- [Article Sections](/customization/article-sections/) — the `prefix` values that `prefix` on a link targets.
 - [Site Metadata](/customization/site-metadata/) — the brand title and logo that sit next to header links.

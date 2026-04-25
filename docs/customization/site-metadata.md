@@ -1,9 +1,9 @@
 ---
 title: Site Metadata
 description: Set site title, description, URL, logo, and favicon.
+path: /customization/site-metadata/
 icon: globe
 order: 2
-path: /customization/site-metadata/
 ---
 
 # Site Metadata
@@ -49,5 +49,5 @@ Keep the `logo` file small (an SVG is ideal). It inlines into the header on ever
 
 ## See also
 
-- [Navigation Links](/customization/navigation-links/) — header/sidebar links that live next to the title.
-- [Sections](/customization/sections/) — structuring the content of the site itself.
+- [External Links](/customization/external-links/) — header/sidebar links that live next to the title.
+- [Article Sections](/customization/article-sections/) — structuring the content of the site itself.

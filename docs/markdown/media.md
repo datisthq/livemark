@@ -1,8 +1,8 @@
 ---
 title: Media
+path: /markdown/media/
 icon: image
 order: 4
-path: /markdown/media/
 ---
 
 # Media

@@ -1,12 +1,11 @@
 ---
-title: File Overrides
 description: Shadow any livemark component, element, or stylesheet by dropping a same-named file into .livemark/.
 icon: file-pen-line
-order: 7
-path: /customization/file-overrides/
+order: 8
+path: /customization/module-escaping/
 ---
 
-# File Overrides
+# Module Escaping
 
 Livemark ships a library of React components, shadcn-style primitives, and a base stylesheet. Each file can be overridden by placing a same-named file under `.livemark/`:
 

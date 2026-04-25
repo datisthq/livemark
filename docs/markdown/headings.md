@@ -1,8 +1,8 @@
 ---
 title: Headings
+path: /markdown/headings/
 icon: heading
 order: 2
-path: /markdown/headings/
 ---
 
 # Headings
