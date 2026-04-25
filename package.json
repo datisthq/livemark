@@ -14,9 +14,6 @@
   ],
   "type": "module",
   "sideEffects": false,
-  "imports": {
-    "#*": "./*"
-  },
   "exports": {
     ".": "./build/index.js",
     "./components/*": "./build/website/components/*.tsx",
