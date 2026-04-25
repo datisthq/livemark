@@ -102,7 +102,12 @@ export function Article(props: { article: ArticleView }) {
     <TocContext.Provider value={article.tocItems}>
       {article.toc !== false && (
         <MobileToc items={article.tocItems}>
-          <PageToolbar file={article.file} content={article.content} />
+          <PageToolbar
+            file={article.file}
+            sourceUrl={article.sourceUrl}
+            sourceAction={article.sourceAction}
+            content={article.content}
+          />
         </MobileToc>
       )}
       <div className="flex flex-1 gap-10 p-4 pt-8 md:p-10">
@@ -154,7 +159,12 @@ export function Article(props: { article: ArticleView }) {
         </div>
         {article.toc !== false && (
           <Toc items={article.tocItems}>
-            <PageToolbar file={article.file} content={article.content} />
+            <PageToolbar
+              file={article.file}
+              sourceUrl={article.sourceUrl}
+              sourceAction={article.sourceAction}
+              content={article.content}
+            />
           </Toc>
         )}
       </div>

@@ -19,6 +19,8 @@ export const Article = z.object({
   author: z.union([nonEmptyString, z.array(nonEmptyString)]).optional(),
   date: nonEmptyString.optional(),
   tags: z.array(nonEmptyString).optional(),
+  sourceUrl: nonEmptyString.optional(),
+  sourceAction: z.enum(["edit", "view"]).default("edit"),
 })
 
 /** Processed article ready for page rendering (result of content-collections transform). */
@@ -35,6 +37,8 @@ export interface ArticleView {
   author?: string | string[]
   date?: string
   tags?: string[]
+  sourceUrl?: string
+  sourceAction?: "edit" | "view"
 }
 
 export interface ArticleNode {

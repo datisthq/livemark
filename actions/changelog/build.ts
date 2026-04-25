@@ -19,6 +19,7 @@ interface Release {
   name?: string | null
   published_at?: string | null
   body?: string | null
+  html_url?: string | null
 }
 
 interface CacheMeta {
@@ -31,6 +32,7 @@ interface ChangelogEntry {
   title: string
   date?: string
   body: string
+  sourceUrl?: string
 }
 
 const CACHE_DIR = ".livemark/cache/changelog"
@@ -208,6 +210,7 @@ async function buildFromGitHub(
     title: release.tag_name,
     date: release.published_at ?? undefined,
     body: (release.body ?? "").trim(),
+    sourceUrl: release.html_url ?? undefined,
   }))
 }
 
@@ -218,6 +221,9 @@ function wrapFrontmatter(entry: ChangelogEntry, section: ChangelogSection) {
     `path: ${section.prefix}${entry.slug}/`,
   ]
   if (entry.date) lines.push(`date: ${entry.date}`)
+  if (entry.sourceUrl) {
+    lines.push(`sourceUrl: ${entry.sourceUrl}`, "sourceAction: view")
+  }
   lines.push("---", "", `# ${entry.title}`, "", processBody(entry.body))
   return lines.join("\n")
 }

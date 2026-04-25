@@ -1,9 +1,22 @@
 import { useState, useCallback } from "react"
-import { Pencil, Copy, Check, ExternalLink } from "lucide-react"
+import { Eye, Pencil, Copy, Check, ExternalLink } from "lucide-react"
 
 /** Toolbar with action buttons displayed for the article content */
-export function PageToolbar(props: { file?: string; content: string }) {
+export function PageToolbar(props: {
+  file?: string
+  sourceUrl?: string
+  sourceAction?: "edit" | "view"
+  content: string
+}) {
   const [copied, setCopied] = useState(false)
+  const sourceHref =
+    props.sourceUrl ??
+    (props.file
+      ? `https://github.com/datisthq/livemark/edit/main/${props.file}`
+      : undefined)
+  const isView = props.sourceAction === "view"
+  const sourceLabel = isView ? "View on GitHub" : "Edit on GitHub"
+  const SourceIcon = isView ? Eye : Pencil
 
   const handleCopy = useCallback(() => {
     navigator.clipboard.writeText(props.content)
@@ -26,23 +39,23 @@ export function PageToolbar(props: { file?: string; content: string }) {
     <>
       <div className="mb-6 flex flex-col gap-2 text-sm">
         <p className="text-sm font-medium mb-1">Actions</p>
-        {props.file ? (
+        {sourceHref ? (
           <a
-            href={`https://github.com/datisthq/livemark/edit/main/${props.file}`}
+            href={sourceHref}
             target="_blank"
             rel="noopener noreferrer"
             className={buttonClass}
           >
-            <Pencil className="size-3.5" />
-            Edit on GitHub
+            <SourceIcon className="size-3.5" />
+            {sourceLabel}
           </a>
         ) : (
           <span
             className={`${buttonClass} opacity-50 cursor-not-allowed hover:text-muted-foreground`}
             aria-disabled="true"
           >
-            <Pencil className="size-3.5" />
-            Edit on GitHub
+            <SourceIcon className="size-3.5" />
+            {sourceLabel}
           </span>
         )}
         <button type="button" onClick={handleCopy} className={buttonClass}>
