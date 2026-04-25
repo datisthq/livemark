@@ -1,55 +1,35 @@
-import {
-  Binary,
-  Blocks,
-  BrainCircuit,
-  Bug,
-  Cloud,
-  Code,
-  Cpu,
-  Database,
-  FileCode,
-  GitBranch,
-  Globe,
-  HardDrive,
-  Layers,
-  Network,
-  Rocket,
-  Server,
-  Shield,
-  SlidersHorizontal,
-  Terminal,
-  Webhook,
-  Zap,
-} from "lucide-react"
+import { FileText, icons } from "lucide-react"
 
-export const articleIcons: Record<
-  string,
-  React.ComponentType<React.SVGProps<SVGSVGElement>>
-> = {
-  binary: Binary,
-  blocks: Blocks,
-  "brain-circuit": BrainCircuit,
-  bug: Bug,
-  cloud: Cloud,
-  code: Code,
-  cpu: Cpu,
-  database: Database,
-  "file-code": FileCode,
-  "git-branch": GitBranch,
-  globe: Globe,
-  "hard-drive": HardDrive,
-  layers: Layers,
-  network: Network,
-  rocket: Rocket,
-  server: Server,
-  shield: Shield,
-  "sliders-horizontal": SlidersHorizontal,
-  terminal: Terminal,
-  webhook: Webhook,
-  zap: Zap,
+/** Resolve a Lucide icon by kebab-case name, falling back to FileText. */
+export function resolveArticleIcon(name: string) {
+  const key = toPascalCase(name)
+  return key in icons ? icons[key as keyof typeof icons] : FileText
 }
 
-const defaultIconNames = Object.keys(articleIcons)
+/** Curated set of icons used as default fallbacks for articles without one. */
+const defaultIconNames = [
+  "binary",
+  "blocks",
+  "brain-circuit",
+  "bug",
+  "cloud",
+  "code",
+  "cpu",
+  "database",
+  "file-code",
+  "git-branch",
+  "globe",
+  "hard-drive",
+  "layers",
+  "network",
+  "rocket",
+  "server",
+  "shield",
+  "sliders-horizontal",
+  "terminal",
+  "webhook",
+  "zap",
+]
 
 /** Deterministic icon name based on article path */
 export function pickDefaultIcon(path: string) {
@@ -58,4 +38,11 @@ export function pickDefaultIcon(path: string) {
     hash = (hash * 31 + path.charCodeAt(i)) | 0
   }
   return defaultIconNames[Math.abs(hash) % defaultIconNames.length]!
+}
+
+function toPascalCase(name: string) {
+  return name
+    .split("-")
+    .map(s => s.charAt(0).toUpperCase() + s.slice(1))
+    .join("")
 }

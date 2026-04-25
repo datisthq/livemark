@@ -1,9 +1,8 @@
 import { useState, useRef, useCallback, useMemo } from "react"
 import { useNavigate } from "@tanstack/react-router"
-import { FileText } from "lucide-react"
 import { create, insertMultiple, search } from "@orama/orama"
 import { sortedArticles } from "../content/article.ts"
-import { articleIcons } from "../helpers/article-icon.ts"
+import { resolveArticleIcon } from "../helpers/article-icon.ts"
 import {
   CommandDialog,
   CommandEmpty,
@@ -150,7 +149,7 @@ export function SearchDialog(props: {
         {[...grouped.entries()].map(([group, items]) => (
           <CommandGroup key={group} heading={group}>
             {items.map(result => {
-              const Icon = articleIcons[result.icon] ?? FileText
+              const Icon = resolveArticleIcon(result.icon)
               return (
                 <CommandItem
                   key={result.path}

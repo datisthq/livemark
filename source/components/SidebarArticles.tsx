@@ -1,5 +1,5 @@
 import { Link, useLocation } from "@tanstack/react-router"
-import { ChevronRight, FileText } from "lucide-react"
+import { ChevronRight } from "lucide-react"
 import {
   articleGroups,
   currentSection,
@@ -21,7 +21,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "../elements/sidebar.tsx"
-import { articleIcons } from "../helpers/article-icon.ts"
+import { resolveArticleIcon } from "../helpers/article-icon.ts"
 import type { ArticleNode } from "../models/article.ts"
 
 /** Article-tree body slot for the Sidebar shell */
@@ -68,7 +68,7 @@ function isActive(articlePathname: string, currentPath: string) {
 
 function NavNode(props: { node: ArticleNode; currentPath: string }) {
   const { node, currentPath } = props
-  const Icon = articleIcons[node.icon] ?? FileText
+  const Icon = resolveArticleIcon(node.icon)
   const active = isActive(node.path, currentPath)
 
   if (node.children.length === 0) {

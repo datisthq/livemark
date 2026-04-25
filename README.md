@@ -4,14 +4,14 @@ Livemark turns plain Markdown into a fast, modern documentation site. Point it a
 
 ## What you get
 
-- 📝 **Just write Markdown.** GitHub-flavored Markdown works out of the box, with frontmatter, custom heading IDs, footnotes, definition lists, and gemoji.
-- 🎨 **Beautiful code blocks.** Syntax highlighting via [Shiki](https://shiki.style/) with 100+ languages, dual light/dark themes, line highlights, diffs, and TwoSlash type hints.
-- 📊 **Diagrams and math.** [Mermaid](https://mermaid.js.org/) flowcharts and KaTeX equations, theme-aware, zero config.
-- 🧩 **Rich elements.** Callouts, tabs, file trees, cards, columns, badges, package tabs (npm/pnpm/yarn/bun), embeds (YouTube, SoundCloud), and more — all as Markdown directives or MDX components.
-- 📚 **Sections.** First-class support for docs, blog (with tags + RSS), and changelog (local `CHANGELOG.md` or GitHub releases).
-- 🔍 **Search.** Full-text search powered by [Orama](https://oramasearch.com/), keyboard shortcuts, smart table-of-contents.
-- 🌗 **Themable.** Tailwind v4, shadcn-style primitives, dark mode, and per-file overrides via a `.livemark/` folder.
-- ⚡ **Built on TanStack Start.** SSR, prerendering, sitemap, and routing for free.
+- **Just write Markdown.** GitHub-flavored Markdown works out of the box, with frontmatter, custom heading IDs, footnotes, definition lists, and gemoji.
+- **Beautiful code blocks.** Syntax highlighting via [Shiki](https://shiki.style/) with 100+ languages, dual light/dark themes, line highlights, diffs, and TwoSlash type hints.
+- **Diagrams and math.** [Mermaid](https://mermaid.js.org/) flowcharts and KaTeX equations, theme-aware, zero config.
+- **Rich elements.** Callouts, tabs, file trees, cards, columns, badges, package tabs (npm/pnpm/yarn/bun), embeds (YouTube, SoundCloud), and more — all as Markdown directives or MDX components.
+- **Sections.** First-class support for docs, blog (with tags + RSS), and changelog (local `CHANGELOG.md` or GitHub releases).
+- **Search.** Full-text search powered by [Orama](https://oramasearch.com/), keyboard shortcuts, smart table-of-contents.
+- **Themable.** Tailwind v4, shadcn-style primitives, dark mode, and per-file overrides via a `.livemark/` folder.
+- **Built on TanStack Start.** SSR, prerendering, sitemap, and routing for free.
 
 ## Quick start
 
