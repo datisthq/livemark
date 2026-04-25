@@ -1,5 +1,5 @@
 import { access, mkdir, readFile, rm, writeFile } from "node:fs/promises"
-import { join, resolve } from "node:path"
+import { dirname, join, resolve } from "node:path"
 import slugify from "@sindresorhus/slugify"
 import type { Root, RootContent } from "mdast"
 import { toString as mdastToString } from "mdast-util-to-string"
@@ -191,6 +191,7 @@ async function buildFromGitHub(
   const releases = (await res.json()) as Release[]
   const etag = res.headers.get("etag")
   if (etag) {
+    await mkdir(dirname(metaPath), { recursive: true })
     await writeFile(
       metaPath,
       JSON.stringify(
