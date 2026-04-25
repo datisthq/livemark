@@ -51,6 +51,16 @@ export default defineConfig({
   define: {
     "import.meta.env.CONFIG": JSON.stringify(WebsiteConfig.parse(config)),
   },
+  // dedupe: collapse multiple resolutions of the same React-family package
+  // to a single physical module, so livemark's source, the consumer's
+  // .livemark/ overrides, and any transitive package that re-resolves React
+  // through its own peer-dep chain all share one instance. Without this,
+  // pnpm's isolated layout can land different importers on different copies
+  // of React, breaking single-instance invariants (useSyncExternalStore
+  // returns null, hooks see wrong stores).
+  resolve: {
+    dedupe: ["react", "react-dom"],
+  },
   plugins: [
     livemark({
       defaultsRoot: sourceDir,
