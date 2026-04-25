@@ -116,13 +116,34 @@ function renderEntryBody(children: RootContent[]) {
   return stringifier.stringify(root).trimEnd()
 }
 
-/** Shift h2–h6 up by one so the version becomes the article's h1 */
-function promoteHeadings(body: string) {
+/** Shift h2–h6 up by one so the version becomes the article's h1, and
+ * escape stray `<` outside code so MDX doesn't mistake them for JSX. */
+function processBody(body: string) {
   const tree = parser.parse(body) as Root
   visit(tree, "heading", node => {
     if (node.depth > 1) node.depth = (node.depth - 1) as 1 | 2 | 3 | 4 | 5
   })
-  return stringifier.stringify(tree).trimEnd()
+  return escapeMdxAngles(stringifier.stringify(tree).trimEnd())
+}
+
+/** Escape `<` to `\<` outside fenced code blocks and inline backtick spans
+ * so commit messages with placeholders like `<subdir>` don't get parsed as
+ * JSX by MDX. */
+function escapeMdxAngles(markdown: string) {
+  let inFence = false
+  return markdown
+    .split("\n")
+    .map(line => {
+      if (line.startsWith("```")) {
+        inFence = !inFence
+        return line
+      }
+      if (inFence) return line
+      return line.replace(/`[^`]*`|</g, match =>
+        match === "<" ? "\\<" : match,
+      )
+    })
+    .join("\n")
 }
 
 async function buildFromGitHub(
@@ -192,7 +213,7 @@ function wrapFrontmatter(entry: ChangelogEntry, section: ChangelogSection) {
     `path: ${section.prefix}${entry.slug}/`,
   ]
   if (entry.date) lines.push(`date: ${entry.date}`)
-  lines.push("---", "", `# ${entry.title}`, "", promoteHeadings(entry.body))
+  lines.push("---", "", `# ${entry.title}`, "", processBody(entry.body))
   return lines.join("\n")
 }
 

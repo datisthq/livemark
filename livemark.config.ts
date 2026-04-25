@@ -11,7 +11,7 @@ export default defineConfig({
       title: "Changelog",
       prefix: "/changelog/",
       type: "changelog",
-      source: "CHANGELOG.md",
+      source: "https://github.com/datisthq/livemark",
       version: true,
     },
   ],
