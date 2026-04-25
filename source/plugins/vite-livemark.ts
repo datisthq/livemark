@@ -9,40 +9,50 @@ export interface LivemarkOptions {
   configPath: string
 }
 
-/** Bare specifiers that TanStack Start's compiler tries to resolve from
- *  arbitrary importer files (including transitive packages). Under pnpm's
- *  isolated layout these are unreachable from non-livemark importers, so we
- *  bridge them by re-resolving from livemark's own location. */
-const PINNED_SPECIFIERS = ["@tanstack/react-start"] as const
-
-function isPinnedSpecifier(id: string) {
-  for (const spec of PINNED_SPECIFIERS) {
-    if (id === spec || id.startsWith(`${spec}/`)) return true
-  }
-  return false
-}
+/** Match bare specifiers (`react`, `@scope/pkg`, `react/jsx-runtime`) but
+ *  not relative (`./foo`), absolute (`/foo`), URL, or virtual (`\0...`)
+ *  paths. */
+const BARE_SPECIFIER_RE = /^(@[^/]+\/)?[a-z0-9_][^?#]*$/i
 
 /** Livemark dev/build integration:
+ * - Anchors every bare-specifier resolution at livemark's own location so
+ *   the entire build pipeline runs inside livemark's package boundary,
+ *   regardless of which file (consumer override, transitive package,
+ *   livemark source) issues the import. Removes pnpm-isolation hazards
+ *   without forcing peerDependencies on the consumer.
  * - Redirects imports that land in `<defaultsRoot>/<subdir>/` to the matching
  *   user file under `<overridesRoot>/<subdir>/` when it exists.
  * - Watches `livemark.config.ts` and `.livemark/**` so edits, additions and
  *   deletions trigger the right reload without manual restart. */
 export function livemark(opts: LivemarkOptions): Plugin {
   const EXT_RE = /\.(tsx|ts|jsx|js|css)(\?|$)/
+  const livemarkAnchor = join(opts.defaultsRoot, "index.ts")
   return {
     name: "livemark",
     enforce: "pre",
     async resolveId(id, importer, options) {
-      // Pin TanStack's deeply-resolved packages to livemark's own copy so
-      // pnpm's isolated layout doesn't strand them when start-compiler-plugin
-      // walks transitive package files.
-      if (isPinnedSpecifier(id)) {
-        const anchor = join(opts.defaultsRoot, "index.ts")
-        const resolved = await this.resolve(id, anchor, {
+      // Encapsulation bridge: if the importer can resolve `id` itself
+      // (its own subtree has the right version), use that — preserves
+      // version isolation between transitive packages (e.g. recharts and
+      // mermaid both pulling different d3 majors). Only when the importer
+      // *can't* resolve do we fall back to livemark's own location, which
+      // covers React, the @tanstack/react-* cluster, and anything else
+      // that lives only inside livemark's tree but gets requested from a
+      // file that doesn't declare it (consumer overrides, foreign
+      // packages compiled by TanStack's transforms, etc.).
+      if (BARE_SPECIFIER_RE.test(id)) {
+        const fromImporter = importer
+          ? await this.resolve(id, importer, {
+              ...options,
+              skipSelf: true,
+            })
+          : null
+        if (fromImporter) return fromImporter
+        const fromLivemark = await this.resolve(id, livemarkAnchor, {
           ...options,
           skipSelf: true,
         })
-        if (resolved) return resolved
+        if (fromLivemark) return fromLivemark
       }
 
       if (!importer || !EXT_RE.test(id)) return null
