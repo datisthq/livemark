@@ -9,7 +9,7 @@ import {
 import { dirname, join } from "node:path"
 import { Command } from "commander"
 import pc from "picocolors"
-import { OVERRIDE_SUBDIRS } from "../website/plugins/vite-livemark.ts"
+import { OVERRIDE_SUBDIRS } from "../settings.ts"
 
 const defaultsRoot = join(import.meta.dirname, "..", "website")
 

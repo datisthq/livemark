@@ -4,10 +4,12 @@ import { escape } from "./commands/escape.ts"
 import { preview } from "./commands/preview.ts"
 import { start } from "./commands/start.ts"
 import { helpConfiguration } from "./helpers/program.ts"
+import packageJson from "./package.json" with { type: "json" }
 
 export const program = new Command()
   .name("livemark")
   .description("Livemark static site generator")
+  .version(packageJson.version, "-v, --version", "display the livemark version")
   .option("-c, --config <path>", "path to config file")
   .configureHelp(helpConfiguration)
   .addCommand(start)

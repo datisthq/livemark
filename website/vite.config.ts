@@ -15,7 +15,8 @@ import { defineConfig } from "vite"
 import svgr from "vite-plugin-svgr"
 import { loadConfig } from "../actions/config/load.ts"
 import { WebsiteConfig } from "../models/config.ts"
-import { livemark, OVERRIDE_SUBDIRS } from "./plugins/vite-livemark.ts"
+import { OVERRIDE_SUBDIRS } from "../settings.ts"
+import { livemark } from "./plugins/vite-livemark.ts"
 
 const config = await loadConfig()
 const websiteDir = import.meta.dirname

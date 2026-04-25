@@ -2,13 +2,6 @@ import { existsSync } from "node:fs"
 import { join } from "node:path"
 import type { Plugin } from "vite"
 
-/** Sub-directories of `website/` that participate in the override mechanism. */
-export const OVERRIDE_SUBDIRS: readonly string[] = [
-  "components",
-  "elements",
-  "styles",
-]
-
 export interface LivemarkOptions {
   defaultsRoot: string
   overridesRoot: string
