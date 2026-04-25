@@ -11,6 +11,7 @@
   "files": [
     "target",
     "source",
+    "!source/routeTree.gen.ts",
     "skills"
   ],
   "type": "module",

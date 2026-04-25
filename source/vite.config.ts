@@ -19,8 +19,8 @@ import { OVERRIDE_SUBDIRS } from "./settings.ts"
 import { livemark } from "./plugins/vite-livemark.ts"
 
 const config = await loadConfig()
-const websiteDir = import.meta.dirname
-const websiteRelative = relative(config.root, websiteDir)
+const sourceDir = import.meta.dirname
+const sourceRelative = relative(config.root, sourceDir)
 const overridesRoot = join(config.root, ".livemark")
 
 // Seed `.livemark/.gitignore` on first run so Vite's build/cache artifacts
@@ -33,7 +33,12 @@ if (!existsSync(gitignorePath)) {
 
 const routeChildren: VirtualRouteNode[] = [route("/$", "$.tsx")]
 if (existsSync(join(overridesRoot, "routes"))) {
-  routeChildren.push(physical("../../.livemark/routes"))
+  // physical() resolves its argument relative to this file. Hardcoding a
+  // relative literal lands at <pkg>/.livemark/ when livemark is installed
+  // under node_modules/. Compute it from the consumer's overridesRoot.
+  routeChildren.push(
+    physical(relative(sourceDir, join(overridesRoot, "routes"))),
+  )
 }
 
 export default defineConfig({
@@ -45,7 +50,7 @@ export default defineConfig({
   },
   plugins: [
     livemark({
-      defaultsRoot: websiteDir,
+      defaultsRoot: sourceDir,
       overridesRoot,
       subdirs: [...OVERRIDE_SUBDIRS],
       configPath: config.configPath,
@@ -53,10 +58,10 @@ export default defineConfig({
     devtools(),
     tailwind(),
     contentCollections({
-      configPath: join(websiteRelative, "content-collections.ts"),
+      configPath: join(sourceRelative, "content-collections.ts"),
     }),
     tanstackStart({
-      srcDirectory: websiteRelative,
+      srcDirectory: sourceRelative,
       pages: [{ path: "/" }],
       prerender: { enabled: true, crawlLinks: true },
       sitemap: config.site
