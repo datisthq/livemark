@@ -4,3 +4,12 @@ export const OVERRIDE_SUBDIRS: readonly string[] = [
   "elements",
   "styles",
 ]
+
+/** Glob patterns auto-excluded from content scanning when the consumer's
+ *  project doesn't ship a `.gitignore` to declare its own exclusions. */
+export const DEFAULT_EXCLUDES: readonly string[] = [
+  "**/node_modules/**",
+  "**/.git/**",
+  "**/build/**",
+  "**/dist/**",
+]

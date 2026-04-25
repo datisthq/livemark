@@ -1,5 +1,7 @@
 import { execSync } from "node:child_process"
+import { existsSync } from "node:fs"
 import { basename, relative, resolve } from "node:path"
+import { DEFAULT_EXCLUDES } from "./settings.ts"
 import { defineCollection, defineConfig } from "@content-collections/core"
 import { compileMDX } from "@content-collections/mdx"
 import rehypeShiki from "@shikijs/rehype"
@@ -65,6 +67,18 @@ const include = changelogSections.length
   ? [...configInclude, cacheIncludeGlob()]
   : configInclude
 
+const userExclude = config.exclude
+  ? Array.isArray(config.exclude)
+    ? config.exclude
+    : [config.exclude]
+  : []
+// When the consumer doesn't have a .gitignore, fall back to a sensible
+// floor so `**/*.md` doesn't sweep up every README.md under node_modules,
+// build outputs, etc. With a .gitignore present we trust the user.
+const hasGitignore = existsSync(resolve(config.root, ".gitignore"))
+const defaultExclude = hasGitignore ? [] : [...DEFAULT_EXCLUDES]
+const exclude = [...defaultExclude, ...userExclude]
+
 // content-collections compiles this file to .content-collections/cache/;
 // going up 2 levels reconstructs the baseDirectory it uses for path resolution
 const baseDir = resolve(import.meta.dirname, "../..")
@@ -106,7 +120,7 @@ const articles = defineCollection({
   name: "articles",
   directory,
   include,
-  exclude: config.exclude,
+  exclude,
   schema: Article,
   transform: async (document, context) => {
     const patch = config.patches?.find(p => p.file === document._meta.filePath)
