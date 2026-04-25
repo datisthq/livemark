@@ -2,8 +2,8 @@ import { defineConfig } from "./source/index.ts"
 
 export default defineConfig({
   site: "https://livemark.dev",
-  include: ["docs/**/*.md", "blog/**/*.md"],
-  exclude: "docs/**/includes/**",
+  include: ["docs/**/*.md", "blog/**/*.md", "README.md", "CONTRIBUTING.md"],
+  exclude: ["docs/**/includes/**"],
   sections: [
     { title: "Docs", prefix: "/" },
     { title: "Blog", prefix: "/blog/", type: "blog" },
@@ -20,6 +20,30 @@ export default defineConfig({
       url: "https://github.com/datisthq/livemark",
       title: "GitHub",
       icon: "github",
+    },
+  ],
+  patches: [
+    {
+      file: "README.md",
+      article: {
+        title: "Getting Started",
+        description: "Learn how to set up your first Livemark project.",
+        icon: "rocket",
+        path: "/getting-started/",
+        order: 1,
+        group: "Articles",
+      },
+    },
+    {
+      file: "CONTRIBUTING.md",
+      article: {
+        title: "Contributing",
+        description:
+          "How to set up Livemark locally, propose changes, and ship a release.",
+        icon: "heart-handshake",
+        path: "/contributing/",
+        order: -1,
+      },
     },
   ],
 })
