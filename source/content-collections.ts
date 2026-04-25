@@ -37,6 +37,7 @@ import { remarkMermaid } from "./plugins/remark-mermaid.ts"
 import { remarkToc } from "./plugins/remark-toc.ts"
 import { remarkNpm } from "./plugins/remark-npm.ts"
 import { remarkSteps } from "./plugins/remark-steps.ts"
+import { remarkPassthroughDirective } from "./plugins/remark-passthrough-directive.ts"
 import {
   transformerLineHighlight,
   transformerNotations,
@@ -157,6 +158,10 @@ const articles = defineCollection({
           remarkCodeTabs,
           remarkSteps,
           remarkCustomHeadingId,
+          // Run last: anything still typed as a directive after every handler
+          // above is unintended (e.g. `3.2:1`, `port:8080`) — passthrough as
+          // plain text so it doesn't render as an empty span/div.
+          remarkPassthroughDirective,
         ],
         rehypePlugins: [
           [
