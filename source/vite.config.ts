@@ -61,6 +61,16 @@ export default defineConfig({
   resolve: {
     dedupe: ["react", "react-dom"],
   },
+  // Force React + ReactDOM external in SSR so they're resolved at Node
+  // runtime — paired with `dedupe` at build time, both bundle environments
+  // (server + client) collapse onto the same physical module rather than
+  // splitting React across multiple inlined chunks. Without this pair,
+  // pnpm's isolated layout can land react and react-dom on opposite sides
+  // of the bundle/external boundary and produce React 19's
+  // ReactSharedInternals.H-is-null failure (useSyncExternalStore throws).
+  ssr: {
+    external: ["react", "react-dom"],
+  },
   plugins: [
     livemark({
       defaultsRoot: sourceDir,
