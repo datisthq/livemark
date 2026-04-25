@@ -116,13 +116,18 @@ function renderEntryBody(children: RootContent[]) {
   return stringifier.stringify(root).trimEnd()
 }
 
-/** Shift h2–h6 up by one so the version becomes the article's h1, and
+/** Drop the body's leading h1 (typically the conventional-changelog
+ * `# 0.7.2 (2026-04-25)` boilerplate that duplicates the article's title),
+ * shift h2–h6 up by one so subsection headings become h1 / h2 / …, and
  * escape stray `<` outside code so MDX doesn't mistake them for JSX. */
 function processBody(body: string) {
   const tree = parser.parse(body) as Root
   visit(tree, "heading", node => {
     if (node.depth > 1) node.depth = (node.depth - 1) as 1 | 2 | 3 | 4 | 5
   })
+  if (tree.children[0]?.type === "heading" && tree.children[0].depth === 1) {
+    tree.children.shift()
+  }
   return escapeMdxAngles(stringifier.stringify(tree).trimEnd())
 }
 
@@ -201,7 +206,7 @@ async function buildFromGitHub(
   return releases.map(release => ({
     slug: slugify(release.tag_name),
     title: release.tag_name,
-    date: release.published_at?.slice(0, 10),
+    date: release.published_at ?? undefined,
     body: (release.body ?? "").trim(),
   }))
 }

@@ -41,7 +41,7 @@ export function ChangelogSidebar() {
   const entries = flat
     .map(p => sortedArticles.find(a => a.path === p))
     .filter(a => a !== undefined)
-  const recent = entries.slice(0, 10)
+  const recent = entries.slice(0, 5)
 
   const normalized = `/${pathname.replace(/^\/|\/$/g, "")}/`
   const isIndex = section ? normalized === section.prefix : false
