@@ -9,6 +9,19 @@ export interface LivemarkOptions {
   configPath: string
 }
 
+/** Bare specifiers that TanStack Start's compiler tries to resolve from
+ *  arbitrary importer files (including transitive packages). Under pnpm's
+ *  isolated layout these are unreachable from non-livemark importers, so we
+ *  bridge them by re-resolving from livemark's own location. */
+const PINNED_SPECIFIERS = ["@tanstack/react-start"] as const
+
+function isPinnedSpecifier(id: string) {
+  for (const spec of PINNED_SPECIFIERS) {
+    if (id === spec || id.startsWith(`${spec}/`)) return true
+  }
+  return false
+}
+
 /** Livemark dev/build integration:
  * - Redirects imports that land in `<defaultsRoot>/<subdir>/` to the matching
  *   user file under `<overridesRoot>/<subdir>/` when it exists.
@@ -20,6 +33,18 @@ export function livemark(opts: LivemarkOptions): Plugin {
     name: "livemark",
     enforce: "pre",
     async resolveId(id, importer, options) {
+      // Pin TanStack's deeply-resolved packages to livemark's own copy so
+      // pnpm's isolated layout doesn't strand them when start-compiler-plugin
+      // walks transitive package files.
+      if (isPinnedSpecifier(id)) {
+        const anchor = join(opts.defaultsRoot, "index.ts")
+        const resolved = await this.resolve(id, anchor, {
+          ...options,
+          skipSelf: true,
+        })
+        if (resolved) return resolved
+      }
+
       if (!importer || !EXT_RE.test(id)) return null
       const resolved = await this.resolve(id, importer, {
         ...options,
