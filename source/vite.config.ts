@@ -23,12 +23,32 @@ const sourceDir = import.meta.dirname
 const sourceRelative = relative(config.root, sourceDir)
 const overridesRoot = join(config.root, ".livemark")
 
-// Seed `.livemark/.gitignore` on first run so Vite's build/cache artifacts
-// never get committed by accident.
+// Seed `.livemark/.gitignore` on first run so Vite's build/cache
+// artifacts never get committed by accident. On the same first-run
+// trigger, also seed an `.npmrc` when pnpm is in use: pnpm's strict
+// isolation hides livemark's transitive deps (react, @tanstack/*) from
+// Vite's optimizer, which walks from config.root rather than livemark's
+// subtree. The public-hoist-pattern entries make those deps reachable
+// from the consumer's top-level node_modules. Skip when the consumer
+// already authored their own `.npmrc` — never overwrite user config.
 const gitignorePath = join(overridesRoot, ".gitignore")
 if (!existsSync(gitignorePath)) {
   mkdirSync(overridesRoot, { recursive: true })
   writeFileSync(gitignorePath, "/build\n/cache\n")
+
+  const npmrcPath = join(config.root, ".npmrc")
+  const usingPnpm = existsSync(join(config.root, "pnpm-lock.yaml"))
+  if (usingPnpm && !existsSync(npmrcPath)) {
+    writeFileSync(
+      npmrcPath,
+      "public-hoist-pattern[]=react\n" +
+        "public-hoist-pattern[]=react-*\n" +
+        "public-hoist-pattern[]=@tanstack/*\n",
+    )
+    console.log(
+      "Created .npmrc with hoist patterns for pnpm. Run `pnpm install` to apply.",
+    )
+  }
 }
 
 const routeChildren: VirtualRouteNode[] = [route("/$", "$.tsx")]
@@ -51,25 +71,10 @@ export default defineConfig({
   define: {
     "import.meta.env.CONFIG": JSON.stringify(WebsiteConfig.parse(config)),
   },
-  // dedupe: collapse multiple resolutions of the same React-family package
-  // to a single physical module, so livemark's source, the consumer's
-  // .livemark/ overrides, and any transitive package that re-resolves React
-  // through its own peer-dep chain all share one instance. Without this,
-  // pnpm's isolated layout can land different importers on different copies
-  // of React, breaking single-instance invariants (useSyncExternalStore
-  // returns null, hooks see wrong stores).
+  // peerDependencies guarantee one canonical react/react-dom in the pnpm
+  // store. dedupe collapses any transitive resolutions to that copy.
   resolve: {
     dedupe: ["react", "react-dom"],
-  },
-  // Force React + ReactDOM external in SSR so they're resolved at Node
-  // runtime — paired with `dedupe` at build time, both bundle environments
-  // (server + client) collapse onto the same physical module rather than
-  // splitting React across multiple inlined chunks. Without this pair,
-  // pnpm's isolated layout can land react and react-dom on opposite sides
-  // of the bundle/external boundary and produce React 19's
-  // ReactSharedInternals.H-is-null failure (useSyncExternalStore throws).
-  ssr: {
-    external: ["react", "react-dom"],
   },
   plugins: [
     livemark({

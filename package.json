@@ -79,9 +79,7 @@
     "mermaid": "^11.14.0",
     "npm-to-yarn": "^3.0.1",
     "picocolors": "1.1.1",
-    "react": "19.2.4",
     "react-day-picker": "9.14.0",
-    "react-dom": "19.2.4",
     "react-medium-image-zoom": "^5.4.2",
     "react-resizable-panels": "4.9.0",
     "recharts": "3.8.1",
@@ -118,11 +116,17 @@
     "is-ci": "4.1.0",
     "lefthook": "2.1.1",
     "npm-check-updates": "18.0.1",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
     "semantic-release": "24.2.9",
     "tempy": "3.2.0",
     "vite-plus": "0.1.19",
     "vitest-polly": "2.1.0",
     "wrangler": "4.85.0"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "engines": {
     "node": "^24.0.0",
