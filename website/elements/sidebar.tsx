@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { Menu } from "lucide-react"
 import * as React from "react"
 import { cn } from "../helpers/style.ts"
-import { useIsMobile } from "../hooks/media.ts"
+import { isMobileNow, useIsMobile } from "../hooks/media.ts"
 import { Button } from "./button.tsx"
 import { Input } from "./input.tsx"
 import { Separator } from "./separator.tsx"
@@ -83,9 +83,12 @@ function SidebarProvider({
   )
 
   // Helper to toggle the sidebar.
+  // Reads matchMedia synchronously instead of relying on `isMobile` React
+  // state, which can be momentarily stale on the first click after a
+  // SidebarProvider key remount (e.g. landing → article navigation).
   const toggleSidebar = React.useCallback(() => {
-    return isMobile ? setOpenMobile(open => !open) : setOpen(open => !open)
-  }, [isMobile, setOpen, setOpenMobile])
+    return isMobileNow() ? setOpenMobile(open => !open) : setOpen(open => !open)
+  }, [setOpen, setOpenMobile])
 
   // Adds a keyboard shortcut to toggle the sidebar.
   React.useEffect(() => {

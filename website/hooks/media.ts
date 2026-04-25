@@ -1,19 +1,29 @@
-import * as React from "react"
+import { useSyncExternalStore } from "react"
 
-const MOBILE_BREAKPOINT = 768
+export const MOBILE_BREAKPOINT = 768
 
 export function useIsMobile() {
-  const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined)
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
+}
 
-  React.useEffect(() => {
-    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
-    const onChange = () => {
-      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
-    }
-    mql.addEventListener("change", onChange)
-    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
-    return () => mql.removeEventListener("change", onChange)
-  }, [])
+/** Synchronous, render-cycle-independent check.
+ *  Use at event-handler call sites where React state may be momentarily stale
+ *  (e.g. right after a SidebarProvider key remount). */
+export function isMobileNow() {
+  if (typeof window === "undefined") return false
+  return window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`).matches
+}
 
-  return !!isMobile
+function subscribe(callback: () => void) {
+  const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
+  mql.addEventListener("change", callback)
+  return () => mql.removeEventListener("change", callback)
+}
+
+function getSnapshot() {
+  return window.innerWidth < MOBILE_BREAKPOINT
+}
+
+function getServerSnapshot() {
+  return false
 }
