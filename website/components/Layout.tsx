@@ -17,9 +17,6 @@ import {
 } from "../elements/sidebar.tsx"
 import { BackToTop } from "./BackToTop.tsx"
 import { Banner } from "./Banner.tsx"
-import { BlogSidebar } from "./BlogSidebar.tsx"
-import { ChangelogSidebar } from "./ChangelogSidebar.tsx"
-import { MiniSidebar } from "./MiniSidebar.tsx"
 import { Sidebar } from "./Sidebar.tsx"
 import { SiteTitle } from "./SiteTitle.tsx"
 
@@ -147,20 +144,12 @@ export function Layout(props: {
     </header>
   )
 
-  const SidebarComponent = !props.withSidebar
-    ? MiniSidebar
-    : activeSection?.type === "blog"
-      ? BlogSidebar
-      : activeSection?.type === "changelog"
-        ? ChangelogSidebar
-        : Sidebar
-
   return (
     <SidebarProvider
       key={props.withSidebar ? "sidebar" : "mini"}
       defaultOpen={!!props.withSidebar}
     >
-      <SidebarShell SidebarComponent={SidebarComponent} header={header}>
+      <SidebarShell withSidebar={props.withSidebar} header={header}>
         {props.children}
       </SidebarShell>
     </SidebarProvider>
@@ -168,7 +157,7 @@ export function Layout(props: {
 }
 
 function SidebarShell(props: {
-  SidebarComponent: React.ComponentType
+  withSidebar?: boolean
   header: React.ReactNode
   children?: React.ReactNode
 }) {
@@ -179,7 +168,7 @@ function SidebarShell(props: {
   }
   return (
     <div style={{ display: "contents" }} onClick={onClick}>
-      <props.SidebarComponent />
+      <Sidebar withSidebar={props.withSidebar} />
       <SidebarInset>
         {props.header}
         <main className="flex-1">{props.children}</main>

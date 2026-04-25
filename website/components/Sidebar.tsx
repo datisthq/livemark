@@ -1,54 +1,37 @@
-import { Link, useLocation } from "@tanstack/react-router"
+import { Link, useLocation, useMatch } from "@tanstack/react-router"
 import { useHotkey } from "@tanstack/react-hotkeys"
-import { ChevronRight, FileText } from "lucide-react"
-import {
-  articleGroups,
-  currentSection,
-  sectionArticleGroups,
-} from "../content/article.ts"
-import { articleIcons } from "../helpers/article-icon.ts"
-import type { ArticleNode } from "../models/article.ts"
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "../elements/collapsible.tsx"
+import { currentSection } from "../content/article.ts"
 import {
   Sidebar as SidebarRoot,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarRail,
   useSidebar,
 } from "../elements/sidebar.tsx"
 import { Search } from "./Search.tsx"
+import { SidebarArticles } from "./SidebarArticles.tsx"
 import { SidebarLinks } from "./SidebarLinks.tsx"
+import { SidebarPosts } from "./SidebarPosts.tsx"
+import { SidebarReleases } from "./SidebarReleases.tsx"
 import { SidebarSections } from "./SidebarSections.tsx"
 import { SiteTitle } from "./SiteTitle.tsx"
 import { Theme } from "./Theme.tsx"
 
-/** Application sidebar with article navigation, search, and theme toggle */
-export function Sidebar() {
+/** Application sidebar shell: header, body slot picked by section.type, footer */
+export function Sidebar(props: { withSidebar?: boolean }) {
   const pathname = useLocation({ select: l => l.pathname })
+  const articleRoute = useMatch({ from: "/$", shouldThrow: false })
   const { toggleSidebar } = useSidebar()
 
   useHotkey("S", toggleSidebar)
 
-  const configSections = import.meta.env.CONFIG.sections
-  const section = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
-  const groups = configSections?.length
-    ? (sectionArticleGroups.get(section?.prefix ?? "__default__") ??
-      articleGroups)
-    : articleGroups
+  const section = articleRoute
+    ? currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
+    : undefined
 
   return (
     <SidebarRoot>
@@ -63,22 +46,13 @@ export function Sidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarSections />
-        {groups.map((group, index) => (
-          <SidebarGroup key={group.name ?? `__unnamed-${index}`}>
-            {group.name && (
-              <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
-                {group.name}
-              </SidebarGroupLabel>
-            )}
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {group.nodes.map(node => (
-                  <NavNode key={node.path} node={node} currentPath={pathname} />
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
+        {props.withSidebar && section?.type === "blog" && <SidebarPosts />}
+        {props.withSidebar && section?.type === "changelog" && (
+          <SidebarReleases />
+        )}
+        {props.withSidebar &&
+          section?.type !== "blog" &&
+          section?.type !== "changelog" && <SidebarArticles />}
         <SidebarLinks />
       </SidebarContent>
       <SidebarFooter className="p-4 space-y-2">
@@ -87,74 +61,5 @@ export function Sidebar() {
       </SidebarFooter>
       <SidebarRail />
     </SidebarRoot>
-  )
-}
-
-function splatFor(pathname: string) {
-  return { _splat: pathname.replace(/^\/|\/$/g, "") }
-}
-
-function isActive(articlePathname: string, currentPath: string) {
-  const normalized = `/${currentPath.replace(/^\/|\/$/g, "")}/`
-  return articlePathname === normalized
-}
-
-function NavNode(props: { node: ArticleNode; currentPath: string }) {
-  const { node, currentPath } = props
-  const Icon = articleIcons[node.icon] ?? FileText
-  const active = isActive(node.path, currentPath)
-
-  if (node.children.length === 0) {
-    return (
-      <SidebarMenuItem>
-        <SidebarMenuButton
-          isActive={active}
-          className={active ? "" : "opacity-75"}
-          render={<Link to="/$" params={splatFor(node.path)} />}
-        >
-          <Icon className="size-4" />
-          <span>{node.label ?? node.title}</span>
-        </SidebarMenuButton>
-      </SidebarMenuItem>
-    )
-  }
-
-  return (
-    <SidebarMenuItem>
-      <Collapsible defaultOpen className="group/collapsible">
-        <SidebarMenuButton
-          isActive={active}
-          className={active ? "" : "opacity-75"}
-          render={<Link to="/$" params={splatFor(node.path)} />}
-        >
-          <Icon className="size-4" />
-          <span>{node.label ?? node.title}</span>
-        </SidebarMenuButton>
-        <CollapsibleTrigger
-          aria-label={`Toggle ${node.label ?? node.title} submenu`}
-          className="absolute right-1 top-1.5 p-1 rounded-md hover:bg-sidebar-accent"
-        >
-          <ChevronRight className="size-3.5 transition-transform group-data-[open]/collapsible:rotate-90" />
-        </CollapsibleTrigger>
-        <CollapsibleContent>
-          <SidebarMenuSub>
-            {node.children.map(child => {
-              const childIsActive = isActive(child.path, currentPath)
-              return (
-                <SidebarMenuSubItem key={child.path}>
-                  <SidebarMenuSubButton
-                    isActive={childIsActive}
-                    className={childIsActive ? "" : "opacity-75"}
-                    render={<Link to="/$" params={splatFor(child.path)} />}
-                  >
-                    <span>{child.label ?? child.title}</span>
-                  </SidebarMenuSubButton>
-                </SidebarMenuSubItem>
-              )
-            })}
-          </SidebarMenuSub>
-        </CollapsibleContent>
-      </Collapsible>
-    </SidebarMenuItem>
   )
 }
