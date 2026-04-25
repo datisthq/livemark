@@ -5,6 +5,7 @@ This file provides guidance to coding agents when working with code in this repo
 ## General
 
 - **Never commit unless asked to**
+- **Never act unless asked to. Usually just answer**
 - **Never add co-authored by Claude Code to commits!**
 - **Never push main or pull requests to origin unless asked to**
 - Prioritize using LSP capabilities if possible

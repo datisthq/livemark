@@ -6,26 +6,29 @@
   "author": "Evgeny Karev",
   "repository": "https://github.com/datisthq/livemark",
   "bin": {
-    "livemark": "./build/entrypoints/main.js"
+    "livemark": "./target/entrypoints/main.js"
   },
   "files": [
-    "build",
+    "target",
+    "source",
     "skills"
   ],
   "type": "module",
   "sideEffects": false,
   "exports": {
-    ".": "./build/index.js",
-    "./components/*": "./build/website/components/*.tsx",
-    "./elements/*": "./build/website/elements/*.tsx",
-    "./styles/*": "./build/website/styles/*.css"
+    ".": "./target/index.js",
+    "./components/*": "./source/components/*.tsx",
+    "./elements/*": "./source/elements/*.tsx",
+    "./hooks/*": "./source/hooks/*.ts",
+    "./styles/*": "./source/styles/*.css",
+    "./utils/*": "./source/utils/*.ts"
   },
   "scripts": {
-    "build": "tsgo && rm -rf build/website && cp -r website build",
+    "build": "tsgo",
     "bump": "ncu -u",
-    "clean": "rm -rf pnpm-lock.yaml node_modules build",
-    "docs:build": "node entrypoints/main.ts build",
-    "docs:start": "node entrypoints/main.ts start",
+    "clean": "rm -rf pnpm-lock.yaml node_modules target",
+    "docs:build": "node source/entrypoints/main.ts build",
+    "docs:start": "node source/entrypoints/main.ts start",
     "format": "vp fmt",
     "lint": "vp fmt --check && vp lint",
     "prepare": "is-ci || lefthook install --force",

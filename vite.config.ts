@@ -19,7 +19,7 @@ export default defineConfig({
   },
   test: {
     include: ["**/*.unit.(ts|tsx)"],
-    exclude: ["**/node_modules/**", "**/build/**"],
+    exclude: ["**/node_modules/**", "**/target/**"],
     env: { NODE_OPTIONS: "--no-warnings" },
     testTimeout: 60 * 1000,
     passWithNoTests: true,
@@ -30,7 +30,7 @@ export default defineConfig({
       exclude: [
         ...coverageConfigDefaults.exclude,
         "**/@*",
-        "**/build/**",
+        "**/target/**",
         "**/compile/**",
         "**/coverage/**",
         "**/entrypoints/**",
@@ -38,7 +38,6 @@ export default defineConfig({
         "**/messages.js",
         "**/program.ts",
         "**/index.ts",
-        "**/main.ts",
       ],
     },
     resolveSnapshotPath: (testPath: string, snapExtension: string) => {

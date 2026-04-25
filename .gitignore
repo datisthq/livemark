@@ -55,7 +55,7 @@ pids
 .clinic/
 .vscode/
 .wrangler/
-build/
+target/
 compile/
 dist/
 .astro/
