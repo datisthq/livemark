@@ -12,7 +12,7 @@ Livemark exposes a handful of hooks for tailoring how your site looks, what it c
 
 ## Topics
 
-:::card{title="Configuration" href="/customization/configuration-file/" icon="layers"}
+:::card{title="Configuration" href="/customization/config-file/" icon="layers"}
 `livemark.config.ts` basics — `include`/`exclude` globs for your content.
 :::
 
@@ -40,7 +40,7 @@ Label sidebar groups within a section using the `group` frontmatter field.
 Override article frontmatter from config, without editing the file.
 :::
 
-:::card{title="Module Escaping" href="/customization/module-escaping/" icon="file-pen-line"}
+:::card{title="Overriding/Escaping" href="/customization/overriding-escaping/" icon="file-pen-line"}
 Shadow any Livemark component, element, or stylesheet via `.livemark/`.
 :::
 

@@ -21,10 +21,12 @@ describe("loadConfig", () => {
       expect(config.root).toBe(tmpDir)
     }))
 
-  it("should validate loaded config", () =>
+  it("should apply defaults when fields are omitted", () =>
     temporaryDirectoryTask(async tmpDir => {
       const configPath = join(tmpDir, "livemark.config.ts")
       fs.writeFileSync(configPath, "export default {}\n")
-      await expect(loadConfig(configPath)).rejects.toThrow()
+      const config = await loadConfig(configPath)
+      expect(config.include).toBe("**/*.md")
+      expect(config.title).toBe("Livemark")
     }))
 })

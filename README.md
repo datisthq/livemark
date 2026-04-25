@@ -94,7 +94,7 @@ Livemark is meant to look great with zero configuration and stay out of your way
 - **External links** — header and sidebar links to anywhere. See [External Links](https://livemark.dev/customization/external-links/).
 - **Syntax themes** — Shiki theme per light/dark. See [Syntax Themes](https://livemark.dev/customization/syntax-themes/).
 - **Article patches** — override a markdown file's frontmatter from `livemark.config.ts` without touching the file. See [Article Patches](https://livemark.dev/customization/article-patches/).
-- **Module escaping** — replace any built-in component or stylesheet from your project. See [Module Escaping](https://livemark.dev/customization/module-escaping/).
+- **Overriding/Escaping** — replace any built-in component or stylesheet from your project. See [Overriding/Escaping](https://livemark.dev/customization/overriding-escaping/).
 - **Custom routes** — drop a `.tsx` file into `.livemark/routes/` to add a fully custom page. See [Custom Routes](https://livemark.dev/customization/custom-routes/).
 
 ## Documentation

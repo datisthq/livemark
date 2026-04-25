@@ -2,7 +2,7 @@
 description: Split a section's sidebar into labelled groups using the `group` field.
 path: /customization/article-groups/
 icon: folder-tree
-order: 6
+order: 4
 ---
 
 # Article Groups
@@ -68,14 +68,14 @@ The order of groups is determined by the `order` of the **first article** in eac
 ```md title="docs/auth.md"
 ---
 group: Guides
-order: 1     # opens "Guides"
+order: 1 # opens "Guides"
 ---
 ```
 
 ```md title="docs/api.md"
 ---
 group: Reference
-order: 10    # opens "Reference" — comes after "Guides"
+order: 10 # opens "Reference" — comes after "Guides"
 ---
 ```
 

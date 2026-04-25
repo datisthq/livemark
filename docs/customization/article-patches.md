@@ -1,8 +1,8 @@
 ---
 description: Override article frontmatter from your config, without touching the file.
-icon: pencil-ruler
-order: 7
 path: /customization/article-patches/
+icon: pencil-ruler
+order: 5
 ---
 
 # Article Patches
@@ -68,4 +68,4 @@ Patches are for metadata; the content of the file is always the content of the f
 ## See also
 
 - [Frontmatter](/markdown/frontmatter/) — all the fields you can set, whether inline or via a patch.
-- [Configuration](/customization/configuration-file/) — the `include` glob that decides which files a patch can match.
+- [Configuration](/customization/config-file/) — the `include` glob that decides which files a patch can match.

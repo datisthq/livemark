@@ -3,7 +3,7 @@ title: Custom Routes
 description: Author new pages in .livemark/routes/ alongside your markdown content.
 path: /customization/custom-routes/
 icon: route
-order: 9
+order: 8
 ---
 
 # Custom Routes
@@ -69,5 +69,5 @@ Files placed in `.livemark/public/` are served at the site root. Put a `robots.t
 
 ## See also
 
-- [Module Escaping](/customization/module-escaping/) — replace a built-in page or component instead of adding a new one.
+- [Overriding/Escaping](/customization/overriding-escaping/) — replace a built-in page or component instead of adding a new one.
 - [Site Metadata](/customization/site-metadata/) — the site title and favicon that show on custom routes too.

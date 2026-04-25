@@ -27,7 +27,8 @@ describe("defineConfig", () => {
     expect(config.exclude).toBeUndefined()
   })
 
-  it("should reject missing include", () => {
-    expect(() => defineConfig({} as any)).toThrow()
+  it("should default include to **/*.md", () => {
+    const config = defineConfig({})
+    expect(config.include).toBe("**/*.md")
   })
 })

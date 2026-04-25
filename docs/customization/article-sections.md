@@ -2,7 +2,7 @@
 description: Organize articles into Docs, Blog, and Changelog sections.
 path: /customization/article-sections/
 icon: layout-panel-left
-order: 5
+order: 3
 ---
 
 # Article Sections

@@ -254,7 +254,7 @@ Renders as:
 Learn how to set up your first project.
 :::
 
-:::card{title="Configuration" href="/customization/configuration-file/" icon="layers"}
+:::card{title="Configuration" href="/customization/config-file/" icon="layers"}
 Configure your Livemark project.
 :::
 
@@ -303,7 +303,7 @@ You can also use the `label` attribute:
 Renders as:
 
 ::button[Get Started]{href="/introduction/" variant="default" size="lg"}
-::button[Configuration]{href="/customization/configuration-file/" variant="outline"}
+::button[Configuration]{href="/customization/config-file/" variant="outline"}
 ::button[View Source]{href="https://github.com/datisthq/livemark" variant="secondary" size="sm"}
 
 Available variants: `default`, `outline`, `secondary`, `ghost`, `destructive`, `link`. Available sizes: `default`, `sm`, `lg`.

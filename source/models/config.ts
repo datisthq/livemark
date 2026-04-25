@@ -14,7 +14,7 @@ export const UserConfig = z.object({
   logo: z.string().optional(),
   title: z.string().default("Livemark"),
   description: z.string().default("Markdown site generator"),
-  include: z.union([z.string(), z.array(z.string())]),
+  include: z.union([z.string(), z.array(z.string())]).default("**/*.md"),
   exclude: z.union([z.string(), z.array(z.string())]).optional(),
   codeThemeLight: CodeThemeLight.default("catppuccin-latte"),
   codeThemeDark: CodeThemeDark.default("catppuccin-mocha"),

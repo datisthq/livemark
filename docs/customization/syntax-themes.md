@@ -3,7 +3,7 @@ title: Syntax Themes
 description: Pick light and dark themes for fenced code blocks.
 path: /customization/syntax-themes/
 icon: palette
-order: -1
+order: 7
 ---
 
 # Syntax Themes
@@ -46,4 +46,4 @@ If you bring your own theme and want to stay AA-compliant, check each token colo
 ## See also
 
 - [Code Blocks](/markdown/code-blocks/) — the authoring side: meta strings, diffs, line highlights.
-- [Module Escaping](/customization/module-escaping/) — override the full code-block component if you need deeper control.
+- [Overriding/Escaping](/customization/overriding-escaping/) — override the full code-block component if you need deeper control.
