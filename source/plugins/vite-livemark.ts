@@ -79,9 +79,22 @@ export function livemark(opts: LivemarkOptions): Plugin {
       return `export const config = ${JSON.stringify(config)}`
     },
     configureServer(server) {
+      // Vite 8's chokidar runs with `disableGlobbing: true`, so passing
+      // a glob to `.add()` is treated as a literal path and silently
+      // does nothing. Pass the directories directly — chokidar watches
+      // them recursively by default.
+      //
+      // Watch only the escapable surfaces under `.livemark/` so we
+      // don't burn watches on `.livemark/build/` (the prerendered
+      // output dir) or other generated subdirs sitting alongside.
       server.watcher.add(opts.config.configPath)
-      server.watcher.add(join(overridesRoot, "**", "*"))
-      server.watcher.add(join(SOURCE_DIR, "**", "*"))
+      for (const folder of ESCAPABLE_FOLDERS) {
+        server.watcher.add(join(overridesRoot, folder))
+      }
+      for (const file of ESCAPABLE_FILES) {
+        server.watcher.add(join(overridesRoot, file))
+      }
+      server.watcher.add(SOURCE_DIR)
 
       server.watcher.on("change", file => onChange(file, "change"))
       server.watcher.on("add", file => onChange(file, "add"))
