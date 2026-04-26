@@ -1,4 +1,11 @@
-import { access, mkdir, readFile, rm, writeFile } from "node:fs/promises"
+import {
+  access,
+  mkdir,
+  readFile,
+  readdir,
+  rm,
+  writeFile,
+} from "node:fs/promises"
 import { dirname, join, resolve } from "node:path"
 import slugify from "@sindresorhus/slugify"
 import type { Root, RootContent } from "mdast"
@@ -34,7 +41,6 @@ interface ChangelogEntry {
 }
 
 const CACHE_SUBDIR = "cache/changelog"
-const META_SUBDIR = "cache/changelog-meta"
 
 const parser = unified().use(remarkParse)
 const stringifier = unified().use(remarkStringify, {
@@ -50,21 +56,18 @@ export function cacheIncludeGlob(config: Config) {
   return join(targetDirFor(config.configPath), CACHE_SUBDIR, "**", "*.md")
 }
 
-/** Build the per-version changelog cache files for a changelog section */
+/** Build the per-version changelog cache files. Livemark allows one
+ *  changelog per project, so all cache state lives in a single
+ *  `cache/changelog/`: the rendered `.md` entries plus a `meta.json`
+ *  holding the etag for conditional GETs. On refresh we wipe only the
+ *  `.md` files, leaving meta intact. */
 export async function buildChangelog(
   section: ChangelogSection,
   config: Config,
 ) {
   const targetDir = targetDirFor(config.configPath)
   const cacheDir = join(targetDir, CACHE_SUBDIR)
-  // Per-section meta file keyed by slugified source URL — multiple
-  // changelog sections pointing at different repos must not share an
-  // etag (each repo's etag is meaningless to the others).
-  const metaPath = join(
-    targetDir,
-    META_SUBDIR,
-    `${slugify(section.source)}.json`,
-  )
+  const metaPath = join(cacheDir, "meta.json")
 
   const entries = isGitHubUrl(section.source)
     ? await buildFromGitHub(section.source, metaPath, cacheDir)
@@ -72,8 +75,10 @@ export async function buildChangelog(
 
   if (entries === undefined) return
 
-  await rm(cacheDir, { recursive: true, force: true })
   await mkdir(cacheDir, { recursive: true })
+  for (const f of await readdir(cacheDir).catch(() => [])) {
+    if (f.endsWith(".md")) await rm(join(cacheDir, f), { force: true })
+  }
 
   for (const entry of entries) {
     const markdown = wrapFrontmatter(entry, section)
