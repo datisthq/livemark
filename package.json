@@ -34,7 +34,7 @@
     "prepare": "is-ci || lefthook install --force",
     "release": "pnpm publish --access public --ignore-scripts --no-git-checks",
     "setversion": "pnpm version --no-git-tag-version",
-    "start": "node source/entrypoints/main.ts start",
+    "start": "pnpm build && livemark start",
     "unit": "vp test",
     "test": "pnpm lint && pnpm type && pnpm unit",
     "type": "tsgo --noEmit"
