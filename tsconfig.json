@@ -1,8 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
 
-  "include": ["${configDir}/**/*.ts", "${configDir}/**/*.tsx"],
-  "exclude": [ "${configDir}/**/build/", "${configDir}/**/targets/" ],
+  "include": [
+    "${configDir}/**/*.ts",
+    "${configDir}/**/*.tsx",
+    "${configDir}/.livemark/**/*.ts",
+    "${configDir}/.livemark/**/*.tsx"
+  ],
+  "exclude": ["${configDir}/**/build/", "${configDir}/**/targets/"],
 
   "compilerOptions": {
     "target": "ES2024",
