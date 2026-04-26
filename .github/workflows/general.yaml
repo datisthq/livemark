@@ -38,6 +38,7 @@ jobs:
       - name: Run Build
         run: node build/entrypoints/main.js -v
       - name: Upload Coverage
+        if: matrix.os == 'ubuntu-latest'
         uses: codecov/codecov-action@v5
         with:
           use_oidc: true
