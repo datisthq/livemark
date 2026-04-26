@@ -51,8 +51,8 @@ function Hero() {
         <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
           Livemark turns your{" "}
           <code className="font-mono text-foreground">.md</code> files into a
-          fast, modern documentation site — with Shiki, Mermaid, LaTeX, MDX
-          components, blog and changelog sections, all built in.
+          fast, modern documentation site, blog and changelog sections, all
+          built in.
         </p>
 
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
