@@ -1,6 +1,12 @@
 import { cpSync, existsSync, rmSync } from "node:fs"
 import { join, sep } from "node:path"
-import type { Plugin, ViteDevServer } from "vite"
+import type {
+  ConfigEnv,
+  Plugin,
+  UserConfig as ViteUserConfig,
+  ViteDevServer,
+} from "vite"
+import { mergeConfig } from "vite"
 import { buildTarget } from "../actions/target/build.ts"
 import type { Config } from "../models/config.ts"
 import { WebsiteConfig } from "../models/config.ts"
@@ -24,9 +30,9 @@ export function livemark(opts: LivemarkOptions): Plugin {
   return {
     name: "livemark",
     enforce: "pre",
-    config() {
+    async config(_, env) {
       targetDir = buildTarget(opts.config.configPath)
-      return {
+      const base: ViteUserConfig = {
         root: targetDir,
         // outDir lives outside the target root (in the consumer's
         // .livemark/) so the consumer can find their deployable output
@@ -41,6 +47,8 @@ export function livemark(opts: LivemarkOptions): Plugin {
         },
         resolve: { dedupe: ["react", "react-dom"] },
       }
+      const override = await resolveViteOverride(opts.config.vite, env)
+      return override ? mergeConfig(base, override) : base
     },
     configureServer(server) {
       server.watcher.add(opts.config.configPath)
@@ -143,4 +151,24 @@ function syncSource(
 
 function fullReload(server: ViteDevServer) {
   server.ws.send({ type: "full-reload" })
+}
+
+/** Resolve livemark.config.ts's `vite` field — either a config object
+ *  or a function `(env) => config` (matching Vite's own `defineConfig`).
+ *  Schema stores it as `unknown`; typing for the consumer's editor
+ *  lives on {@link ViteOverride}. */
+async function resolveViteOverride(
+  vite: unknown,
+  env: ConfigEnv,
+): Promise<Record<string, unknown> | null> {
+  if (!vite) return null
+  if (typeof vite === "function") {
+    const result = await Reflect.apply(vite, undefined, [env])
+    return isObject(result) ? result : null
+  }
+  return isObject(vite) ? vite : null
+}
+
+function isObject(v: unknown): v is Record<string, unknown> {
+  return v !== null && typeof v === "object"
 }
