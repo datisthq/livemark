@@ -4,7 +4,7 @@ import { StrictMode } from "react"
 import { hydrateRoot } from "react-dom/client"
 import { config } from "livemark:virtual"
 
-if (config.site) {
+if (config.site && location.hostname !== "localhost") {
   plausible.init({
     domain: new URL(config.site).hostname,
     outboundLinks: true,
