@@ -97,11 +97,15 @@ function BackgroundGrid() {
     <>
       <div
         aria-hidden
-        className="absolute inset-0 [background-image:radial-gradient(circle_at_1px_1px,var(--color-border)_1px,transparent_0)] [background-size:24px_24px] opacity-40 [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)]"
+        className="absolute inset-0 [background-image:repeating-linear-gradient(90deg,var(--color-border)_0,var(--color-border)_1px,transparent_1px,transparent_8px)] opacity-25 [mask-image:linear-gradient(to_top,black_10%,transparent_85%)]"
       />
       <div
         aria-hidden
-        className="absolute inset-x-0 top-0 h-[40rem] bg-gradient-to-b from-primary/20 via-primary/5 to-transparent dark:from-primary/30 dark:via-primary/10 pointer-events-none"
+        className="absolute -bottom-40 -left-40 h-[36rem] w-[36rem] rounded-full bg-primary/30 dark:bg-primary/25 blur-[110px] pointer-events-none"
+      />
+      <div
+        aria-hidden
+        className="absolute -top-32 -right-32 h-[32rem] w-[32rem] rounded-full bg-secondary/30 dark:bg-secondary/25 blur-[110px] pointer-events-none"
       />
     </>
   )
