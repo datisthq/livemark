@@ -9,37 +9,41 @@ import {
 import { dirname, join } from "node:path"
 import { Command } from "commander"
 import pc from "picocolors"
-import { OVERRIDE_SUBDIRS } from "../settings.ts"
+import { ESCAPABLE_FILES, ESCAPABLE_FOLDERS } from "../settings.ts"
 
 const defaultsRoot = join(import.meta.dirname, "..", "..", "source")
 
 /**
- * List or copy overridable livemark files into `.livemark/`.
+ * List or copy escapable livemark files into `.livemark/`.
  *
  * Without an argument, prints every file you can shadow. With a path, copies
  * the default from the livemark package into `.livemark/<path>`; fails if the
  * destination already exists.
  */
 export const escape = new Command("escape")
-  .description("List or copy overridable livemark files into .livemark/")
+  .description("List or copy escapable livemark files into .livemark/")
   .argument(
     "[path]",
-    "path relative to .livemark/ (e.g. components/Footer.tsx)",
+    "path relative to .livemark/ (e.g. components/Footer.tsx, client.tsx)",
   )
   .action((relPath?: string) => {
     if (!relPath) {
-      for (const file of listOverridable()) console.log(file)
+      for (const file of listEscapable()) console.log(file)
       console.log(
         pc.dim("\nRun 'livemark escape <path>' to copy a file into .livemark/"),
       )
       return
     }
 
+    const isTopLevelFile =
+      !relPath.includes("/") && ESCAPABLE_FILES.includes(relPath)
     const [first] = relPath.split("/")
-    if (!first || !OVERRIDE_SUBDIRS.includes(first) || relPath.includes("..")) {
+    const isFolderPath =
+      !!first && ESCAPABLE_FOLDERS.includes(first) && !relPath.includes("..")
+    if (!isTopLevelFile && !isFolderPath) {
       console.error(
         pc.red(
-          `Error: '${relPath}' is not under an overridable subdir (${OVERRIDE_SUBDIRS.join(", ")})`,
+          `Error: '${relPath}' is not escapable (folders: ${ESCAPABLE_FOLDERS.join(", ")}; files: ${ESCAPABLE_FILES.join(", ")})`,
         ),
       )
       process.exit(1)
@@ -64,14 +68,17 @@ export const escape = new Command("escape")
     )
   })
 
-function listOverridable() {
+function listEscapable() {
   const files: string[] = []
-  for (const subdir of OVERRIDE_SUBDIRS) {
-    const dir = join(defaultsRoot, subdir)
+  for (const folder of ESCAPABLE_FOLDERS) {
+    const dir = join(defaultsRoot, folder)
     if (!existsSync(dir)) continue
     for (const entry of readdirSync(dir)) {
-      if (statSync(join(dir, entry)).isFile()) files.push(`${subdir}/${entry}`)
+      if (statSync(join(dir, entry)).isFile()) files.push(`${folder}/${entry}`)
     }
+  }
+  for (const file of ESCAPABLE_FILES) {
+    if (existsSync(join(defaultsRoot, file))) files.push(file)
   }
   return files.sort()
 }

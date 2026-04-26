@@ -10,6 +10,7 @@ import { visit } from "unist-util-visit"
 import type { Config } from "../../models/config.ts"
 import type { ChangelogSection } from "../../models/section.ts"
 import { isGitHubUrl, parseGitHubRepo } from "../../helpers/changelog-source.ts"
+import { targetDirFor } from "../target/build.ts"
 
 interface Release {
   tag_name: string
@@ -32,8 +33,8 @@ interface ChangelogEntry {
   sourceUrl?: string
 }
 
-const CACHE_DIR = ".livemark/cache/changelog"
-const META_FILE = ".livemark/cache/changelog.meta.json"
+const CACHE_SUBDIR = "cache/changelog"
+const META_SUBPATH = "cache/changelog.meta.json"
 
 const parser = unified().use(remarkParse)
 const stringifier = unified().use(remarkStringify, {
@@ -42,8 +43,11 @@ const stringifier = unified().use(remarkStringify, {
   emphasis: "_",
 })
 
-export function cacheIncludeGlob() {
-  return `${CACHE_DIR}/**/*.md`
+/** Glob (absolute path) covering all cached changelog markdown files for
+ *  a given consumer. Used by content-collections to include them in the
+ *  article scan. */
+export function cacheIncludeGlob(config: Config) {
+  return join(targetDirFor(config.configPath), CACHE_SUBDIR, "**", "*.md")
 }
 
 /** Build the per-version changelog cache files for a changelog section */
@@ -51,8 +55,9 @@ export async function buildChangelog(
   section: ChangelogSection,
   config: Config,
 ) {
-  const cacheDir = join(config.root, CACHE_DIR)
-  const metaPath = join(config.root, META_FILE)
+  const targetDir = targetDirFor(config.configPath)
+  const cacheDir = join(targetDir, CACHE_SUBDIR)
+  const metaPath = join(targetDir, META_SUBPATH)
 
   const entries = isGitHubUrl(section.source)
     ? await buildFromGitHub(section.source, metaPath, cacheDir)

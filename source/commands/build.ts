@@ -15,6 +15,7 @@ const configFile = join(
  */
 export const build = new Command("build")
   .description("Build the site for production")
+  .option("--clear", "Wipe and fully rebuild the runtime target dir")
   .action(async () => {
     const builder = await createBuilder({ configFile })
     await builder.buildApp()

@@ -15,6 +15,7 @@ const configFile = join(
  */
 export const start = new Command("start")
   .description("Start a live server")
+  .option("--clear", "Wipe and fully rebuild the runtime target dir")
   .action(async () => {
     const server = await createServer({
       configFile,

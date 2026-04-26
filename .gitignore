@@ -55,6 +55,7 @@ pids
 .vscode/
 .wrangler/
 build/
+targets/
 compile/
 dist/
 .astro/

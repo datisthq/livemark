@@ -1,119 +1,146 @@
-import { existsSync } from "node:fs"
-import { join } from "node:path"
-import type { Plugin } from "vite"
+import { cpSync, existsSync, rmSync } from "node:fs"
+import { join, sep } from "node:path"
+import type { Plugin, ViteDevServer } from "vite"
+import { buildTarget } from "../actions/target/build.ts"
+import type { Config } from "../models/config.ts"
+import { WebsiteConfig } from "../models/config.ts"
+import { ESCAPABLE_FILES, ESCAPABLE_FOLDERS } from "../settings.ts"
 
 export interface LivemarkOptions {
-  defaultsRoot: string
-  overridesRoot: string
-  subdirs: string[]
-  configPath: string
+  config: Config
 }
 
-/** Match bare specifiers (`react`, `@scope/pkg`, `react/jsx-runtime`) but
- *  not relative (`./foo`), absolute (`/foo`), URL, or virtual (`\0...`)
- *  paths. */
-const BARE_SPECIFIER_RE = /^(@[^/]+\/)?[a-z0-9_][^?#]*$/i
+const SOURCE_DIR = join(import.meta.dirname, "..")
 
-/** Livemark dev/build integration:
- * - Anchors every bare-specifier resolution at livemark's own location so
- *   the entire build pipeline runs inside livemark's package boundary,
- *   regardless of which file (consumer override, transitive package,
- *   livemark source) issues the import. Removes pnpm-isolation hazards
- *   without forcing peerDependencies on the consumer.
- * - Redirects imports that land in `<defaultsRoot>/<subdir>/` to the matching
- *   user file under `<overridesRoot>/<subdir>/` when it exists.
- * - Watches `livemark.config.ts` and `.livemark/**` so edits, additions and
- *   deletions trigger the right reload without manual restart. */
+/** Owns the per-consumer `targets/<hash>/` mount: synthesizes it via
+ *  `buildTarget()`, returns the Vite config that anchors there, and
+ *  watches the consumer's `.livemark/` (plus livemark's `source/` in
+ *  dev) for changes that need to be re-copied into the target. The
+ *  override mechanism is pure file-system (full copies) — no resolveId
+ *  redirection, no realpath surprises. */
 export function livemark(opts: LivemarkOptions): Plugin {
-  const EXT_RE = /\.(tsx|ts|jsx|js|css)(\?|$)/
-  const livemarkAnchor = join(opts.defaultsRoot, "index.ts")
+  const overridesRoot = join(opts.config.root, ".livemark")
+  let targetDir = ""
   return {
     name: "livemark",
     enforce: "pre",
-    async resolveId(id, importer, options) {
-      // Encapsulation bridge: if the importer can resolve `id` itself
-      // (its own subtree has the right version), use that — preserves
-      // version isolation between transitive packages (e.g. recharts and
-      // mermaid both pulling different d3 majors). Only when the importer
-      // *can't* resolve do we fall back to livemark's own location, which
-      // covers React, the @tanstack/react-* cluster, and anything else
-      // that lives only inside livemark's tree but gets requested from a
-      // file that doesn't declare it (consumer overrides, foreign
-      // packages compiled by TanStack's transforms, etc.).
-      if (BARE_SPECIFIER_RE.test(id)) {
-        const fromImporter = importer
-          ? await this.resolve(id, importer, {
-              ...options,
-              skipSelf: true,
-            })
-          : null
-        if (fromImporter) return fromImporter
-        const fromLivemark = await this.resolve(id, livemarkAnchor, {
-          ...options,
-          skipSelf: true,
-        })
-        if (fromLivemark) return fromLivemark
+    config() {
+      targetDir = buildTarget(opts.config.configPath)
+      return {
+        root: targetDir,
+        // outDir lives outside the target root (in the consumer's
+        // .livemark/) so the consumer can find their deployable output
+        // without digging into node_modules. Vite's default refusal to
+        // empty out-of-root directories doesn't apply here because the
+        // target/ root is livemark's, not the consumer's.
+        build: { outDir: join(overridesRoot, "build"), emptyOutDir: true },
+        define: {
+          "import.meta.env.CONFIG": JSON.stringify(
+            WebsiteConfig.parse(opts.config),
+          ),
+        },
+        resolve: { dedupe: ["react", "react-dom"] },
       }
-
-      if (!importer || !EXT_RE.test(id)) return null
-      const resolved = await this.resolve(id, importer, {
-        ...options,
-        skipSelf: true,
-      })
-      if (!resolved) return null
-      const queryIdx = resolved.id.indexOf("?")
-      const path =
-        queryIdx === -1 ? resolved.id : resolved.id.slice(0, queryIdx)
-      const query = queryIdx === -1 ? "" : resolved.id.slice(queryIdx)
-      for (const subdir of opts.subdirs) {
-        const defaultsSubdir = `${join(opts.defaultsRoot, subdir)}/`
-        if (!path.startsWith(defaultsSubdir)) continue
-        const rel = path.slice(defaultsSubdir.length)
-        const userPath = join(opts.overridesRoot, subdir, rel)
-        if (existsSync(userPath)) return userPath + query
-        return null
-      }
-      return null
     },
     configureServer(server) {
-      server.watcher.add(opts.configPath)
-      server.watcher.add(join(opts.overridesRoot, "**/*"))
+      server.watcher.add(opts.config.configPath)
+      server.watcher.add(join(overridesRoot, "**", "*"))
+      server.watcher.add(join(SOURCE_DIR, "**", "*"))
 
-      const overrideRoots = opts.subdirs.map(
-        subdir => `${join(opts.overridesRoot, subdir)}/`,
-      )
-      const routesRoot = `${join(opts.overridesRoot, "routes")}/`
+      server.watcher.on("change", file => onChange(file, "change"))
+      server.watcher.on("add", file => onChange(file, "add"))
+      server.watcher.on("unlink", file => onChange(file, "unlink"))
 
-      const onChange = (file: string) => {
-        if (file === opts.configPath) {
+      function onChange(file: string, kind: "change" | "add" | "unlink") {
+        if (file === opts.config.configPath) {
           server.restart()
           return
         }
-
-        if (file.startsWith(routesRoot)) {
-          server.restart()
+        const overlayHit = matchOverlay(file, overridesRoot)
+        if (overlayHit) {
+          syncOverlay(overlayHit, kind, targetDir, overridesRoot)
+          if (kind !== "change") fullReload(server)
           return
         }
-
-        for (let i = 0; i < opts.subdirs.length; i++) {
-          const root = overrideRoots[i]
-          if (!root || !file.startsWith(root)) continue
-          const rel = file.slice(root.length)
-          const subdir = opts.subdirs[i]
-          if (!subdir) continue
-          const defaultPath = join(opts.defaultsRoot, subdir, rel)
-          const mod = server.moduleGraph.getModuleById(defaultPath)
-          if (mod) server.moduleGraph.invalidateModule(mod)
-          server.ws.send({ type: "full-reload" })
-          return
+        const sourceHit = matchSource(file)
+        if (sourceHit) {
+          syncSource(sourceHit, kind, targetDir, overridesRoot)
+          if (kind !== "change") fullReload(server)
         }
       }
-
-      server.watcher.on("add", onChange)
-      server.watcher.on("unlink", onChange)
-      server.watcher.on("change", file => {
-        if (file === opts.configPath) server.restart()
-      })
     },
   }
+}
+
+interface Hit {
+  rel: string
+  category: "folder" | "file" | null
+}
+
+function matchOverlay(file: string, overridesRoot: string): Hit | null {
+  const prefix = `${overridesRoot}${sep}`
+  if (!file.startsWith(prefix)) return null
+  const rel = file.slice(prefix.length)
+  return { rel, category: classify(rel) }
+}
+
+function matchSource(file: string): Hit | null {
+  const prefix = `${SOURCE_DIR}${sep}`
+  if (!file.startsWith(prefix)) return null
+  // Skip the targets/ output dir itself (sibling of source/) and any
+  // `.gen.ts` files that downstream tools regenerate inside the target.
+  const rel = file.slice(prefix.length)
+  if (rel === "" || rel.includes("routeTree.gen.ts")) return null
+  return { rel, category: classify(rel) }
+}
+
+function classify(rel: string): "folder" | "file" | null {
+  const [head] = rel.split(sep)
+  if (head && ESCAPABLE_FOLDERS.includes(head)) return "folder"
+  if (ESCAPABLE_FILES.includes(rel)) return "file"
+  // Non-escapable source files still need to flow into target during
+  // livemark's own dev — the user is editing the canonical source.
+  return null
+}
+
+function syncOverlay(
+  hit: Hit,
+  kind: "change" | "add" | "unlink",
+  targetDir: string,
+  overridesRoot: string,
+) {
+  if (!hit.category) return
+  const dest = join(targetDir, hit.rel)
+  const source = join(SOURCE_DIR, hit.rel)
+  if (kind === "unlink") {
+    rmSync(dest, { force: true, recursive: true })
+    if (existsSync(source))
+      cpSync(source, dest, { recursive: true, force: true })
+    return
+  }
+  const overlay = join(overridesRoot, hit.rel)
+  if (existsSync(overlay))
+    cpSync(overlay, dest, { recursive: true, force: true })
+}
+
+function syncSource(
+  hit: Hit,
+  kind: "change" | "add" | "unlink",
+  targetDir: string,
+  overridesRoot: string,
+) {
+  // If the consumer has an overlay for this file (and it's escapable),
+  // the overlay wins — ignore source changes.
+  if (hit.category && existsSync(join(overridesRoot, hit.rel))) return
+  const dest = join(targetDir, hit.rel)
+  const source = join(SOURCE_DIR, hit.rel)
+  if (kind === "unlink") {
+    rmSync(dest, { force: true, recursive: true })
+    return
+  }
+  if (existsSync(source)) cpSync(source, dest, { recursive: true, force: true })
+}
+
+function fullReload(server: ViteDevServer) {
+  server.ws.send({ type: "full-reload" })
 }

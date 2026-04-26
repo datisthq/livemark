@@ -10,9 +10,9 @@ import {
   Workflow,
 } from "lucide-react"
 import type { ComponentType, ReactNode, SVGProps } from "react"
-import { buttonVariants } from "../../source/elements/button.tsx"
-import { useInView } from "../../source/hooks/in-view.ts"
-import { cn } from "../../source/utils/style.ts"
+import { buttonVariants } from "livemark/elements/button"
+import { useInView } from "livemark/hooks/in-view"
+import { cn } from "livemark/utils/style"
 
 export const Route = createFileRoute("/")({
   component: Landing,

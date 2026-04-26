@@ -64,7 +64,7 @@ const configInclude = Array.isArray(config.include)
   ? config.include
   : [config.include]
 const include = changelogSections.length
-  ? [...configInclude, cacheIncludeGlob()]
+  ? [...configInclude, cacheIncludeGlob(config)]
   : configInclude
 
 const userExclude = config.exclude
