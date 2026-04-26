@@ -5,7 +5,6 @@
 node_modules/
 jspm_packages/
 .lock-wscript
-build/Release
 .node_repl_history
 *.tgz
 .npm
@@ -55,7 +54,7 @@ pids
 .clinic/
 .vscode/
 .wrangler/
-target/
+build/
 compile/
 dist/
 .astro/

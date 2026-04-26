@@ -19,7 +19,7 @@ export default defineConfig({
   },
   test: {
     include: ["**/*.unit.(ts|tsx)"],
-    exclude: ["**/node_modules/**", "**/target/**"],
+    exclude: ["**/node_modules/**", "**/build/**"],
     env: { NODE_OPTIONS: "--no-warnings" },
     testTimeout: 60 * 1000,
     passWithNoTests: true,
@@ -30,7 +30,7 @@ export default defineConfig({
       exclude: [
         ...coverageConfigDefaults.exclude,
         "**/@*",
-        "**/target/**",
+        "**/build/**",
         "**/compile/**",
         "**/coverage/**",
         "**/entrypoints/**",

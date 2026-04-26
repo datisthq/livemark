@@ -6,10 +6,10 @@
   "author": "Evgeny Karev",
   "repository": "https://github.com/datisthq/livemark",
   "bin": {
-    "livemark": "./target/entrypoints/main.js"
+    "livemark": "./build/entrypoints/main.js"
   },
   "files": [
-    "target",
+    "build",
     "source",
     "!source/routeTree.gen.ts",
     "skills"
@@ -17,7 +17,7 @@
   "type": "module",
   "sideEffects": false,
   "exports": {
-    ".": "./target/index.js",
+    ".": "./build/index.js",
     "./components/*": "./source/components/*.tsx",
     "./elements/*": "./source/elements/*.tsx",
     "./hooks/*": "./source/hooks/*.ts",
@@ -27,7 +27,7 @@
   "scripts": {
     "build": "tsgo",
     "bump": "ncu -u",
-    "clean": "rm -rf pnpm-lock.yaml node_modules target",
+    "clean": "rm -rf pnpm-lock.yaml node_modules build",
     "docs:build": "node source/entrypoints/main.ts build",
     "docs:start": "node source/entrypoints/main.ts start",
     "format": "vp fmt",

@@ -8,7 +8,7 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": "${configDir}/source",
-    "outDir": "${configDir}/target",
+    "outDir": "${configDir}/build",
 
     "lib": ["ESNext", "DOM"],
     "types": ["node", "vite/client"],

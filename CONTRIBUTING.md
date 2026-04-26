@@ -19,7 +19,7 @@ pnpm docs:start
 
 ```
 livemark/
-├── source/             # all package code (compiles into target/)
+├── source/             # all package code (compiles into build/)
 │   ├── actions/        # build-time orchestration (config, changelog)
 │   ├── commands/       # `livemark <cmd>` CLI entrypoints
 │   ├── components/     # React components (overridable via .livemark/)
@@ -33,13 +33,13 @@ livemark/
 │   ├── models/         # Zod schemas
 │   ├── content/        # content-collections derivations
 │   └── vite.config.ts  # the Vite config consumers run against
-├── target/             # compiled JS, used by Node CLI
+├── build/              # compiled JS, used by Node CLI
 ├── docs/               # this site's content
 ├── blog/               # this site's blog posts
 └── livemark.config.ts  # this site's livemark config
 ```
 
-Both `source/` and `target/` ship in the npm package: Node loads `target/*.js`, while Vite bundles raw TS from `source/*` so the literal `.ts` import extensions resolve.
+Both `source/` and `build/` ship in the npm package: Node loads `build/*.js`, while Vite bundles raw TS from `source/*` so the literal `.ts` import extensions resolve.
 
 ## Local commands
 
@@ -47,7 +47,7 @@ Both `source/` and `target/` ship in the npm package: Node loads `target/*.js`, 
 | ----------------- | ------------------------------------------- |
 | `pnpm docs:start` | Run the dev server against this repo's docs |
 | `pnpm docs:build` | Production build of the docs site           |
-| `pnpm build`      | Compile `source/` → `target/` (`tsgo`)      |
+| `pnpm build`      | Compile `source/` → `build/` (`tsgo`)       |
 | `pnpm type`       | Type-check (no emit)                        |
 | `pnpm lint`       | Format check + lint via Biome               |
 | `pnpm format`     | Auto-fix formatting                         |
