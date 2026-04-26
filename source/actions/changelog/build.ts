@@ -34,7 +34,7 @@ interface ChangelogEntry {
 }
 
 const CACHE_SUBDIR = "cache/changelog"
-const META_SUBPATH = "cache/changelog.meta.json"
+const META_SUBDIR = "cache/changelog-meta"
 
 const parser = unified().use(remarkParse)
 const stringifier = unified().use(remarkStringify, {
@@ -57,7 +57,14 @@ export async function buildChangelog(
 ) {
   const targetDir = targetDirFor(config.configPath)
   const cacheDir = join(targetDir, CACHE_SUBDIR)
-  const metaPath = join(targetDir, META_SUBPATH)
+  // Per-section meta file keyed by slugified source URL — multiple
+  // changelog sections pointing at different repos must not share an
+  // etag (each repo's etag is meaningless to the others).
+  const metaPath = join(
+    targetDir,
+    META_SUBDIR,
+    `${slugify(section.source)}.json`,
+  )
 
   const entries = isGitHubUrl(section.source)
     ? await buildFromGitHub(section.source, metaPath, cacheDir)
