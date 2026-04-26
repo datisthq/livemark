@@ -1,6 +1,7 @@
+import { config } from "livemark:virtual"
 import { sectionFlatArticles, sortedArticles } from "./article.ts"
 
-const configSections = import.meta.env.CONFIG.sections
+const configSections = config.sections
 
 /** Per-section tag → article paths mapping. Articles sorted by date descending. */
 export const sectionTags = new Map<string, Map<string, string[]>>()

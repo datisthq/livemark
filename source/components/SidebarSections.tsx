@@ -1,3 +1,4 @@
+import { config } from "livemark:virtual"
 import { Link, useLocation, useMatch } from "@tanstack/react-router"
 import { currentSection, sectionFirstArticle } from "../content/article.ts"
 import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
@@ -24,7 +25,7 @@ export function SidebarSections() {
   const section = articleRoute
     ? currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
     : undefined
-  const sections = import.meta.env.CONFIG.sections ?? []
+  const sections = config.sections ?? []
 
   if (!sections.length) return null
   const hasDesktopItems = sections.some(s => s.position === "sidebar")

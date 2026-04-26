@@ -1,3 +1,4 @@
+import { config } from "livemark:virtual"
 import { Link, useLocation, useMatches } from "@tanstack/react-router"
 import { currentSection } from "../content/article.ts"
 
@@ -11,7 +12,7 @@ export function Breadcrumbs() {
   return (
     <nav className="flex items-center gap-1.5 text-sm text-muted-foreground">
       <Link to="/" className="hover:text-foreground transition-colors">
-        {section?.title ?? import.meta.env.CONFIG.title}
+        {section?.title ?? config.title}
       </Link>
       <span>/</span>
       {loaderData?.title && (

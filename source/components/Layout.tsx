@@ -1,3 +1,4 @@
+import { config } from "livemark:virtual"
 import { Link, useLocation, useMatch } from "@tanstack/react-router"
 import { useHotkey } from "@tanstack/react-hotkeys"
 import { ExternalLink } from "lucide-react"
@@ -41,7 +42,7 @@ export function Layout(props: {
     window.scrollBy({ top: -window.innerHeight * 0.8, behavior: "smooth" }),
   )
 
-  const sections = import.meta.env.CONFIG.sections
+  const sections = config.sections
 
   const header = (
     <header className="sticky top-0 z-20 flex h-16 shrink-0 items-center border-b bg-background">
@@ -112,7 +113,7 @@ export function Layout(props: {
             Docs
           </Link>
         )}
-        {import.meta.env.CONFIG.links
+        {config.links
           ?.filter(
             link =>
               link.position === "header" &&

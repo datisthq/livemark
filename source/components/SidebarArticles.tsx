@@ -1,3 +1,4 @@
+import { config } from "livemark:virtual"
 import { Link, useLocation } from "@tanstack/react-router"
 import { ChevronRight } from "lucide-react"
 import {
@@ -28,7 +29,7 @@ import type { ArticleNode } from "../models/article.ts"
 export function SidebarArticles() {
   const pathname = useLocation({ select: l => l.pathname })
 
-  const configSections = import.meta.env.CONFIG.sections
+  const configSections = config.sections
   const section = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
   const groups = configSections?.length
     ? (sectionArticleGroups.get(section?.prefix ?? "__default__") ??

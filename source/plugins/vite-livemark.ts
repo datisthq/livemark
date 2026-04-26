@@ -18,6 +18,21 @@ export interface LivemarkOptions {
 
 const SOURCE_DIR = join(import.meta.dirname, "..")
 
+/** Single virtual module exposing livemark's runtime values to consumer
+ *  override files via named exports:
+ *
+ *      import { config } from "livemark:virtual"
+ *
+ *  Currently exports `config` (validated `WebsiteConfig`); future
+ *  additions (e.g. `articles`, `sections`) land here as new named
+ *  exports without consumers changing their import statements.
+ *
+ *  The `\0` prefix on the resolved id is Vite's convention to signal
+ *  "this is a virtual module — no other plugin should try to resolve
+ *  or load it from disk". */
+const VIRTUAL_ID = "livemark:virtual"
+const VIRTUAL_RESOLVED_ID = `\0${VIRTUAL_ID}`
+
 /** Owns the per-consumer `targets/<hash>/` mount: synthesizes it via
  *  `buildTarget()`, returns the Vite config that anchors there, and
  *  watches the consumer's `.livemark/` (plus livemark's `source/` in
@@ -40,15 +55,19 @@ export function livemark(opts: LivemarkOptions): Plugin {
         // empty out-of-root directories doesn't apply here because the
         // target/ root is livemark's, not the consumer's.
         build: { outDir: join(overridesRoot, "build"), emptyOutDir: true },
-        define: {
-          "import.meta.env.CONFIG": JSON.stringify(
-            WebsiteConfig.parse(opts.config),
-          ),
-        },
         resolve: { dedupe: ["react", "react-dom"] },
       }
       const override = await resolveViteOverride(opts.config.vite, env)
       return override ? mergeConfig(base, override) : base
+    },
+    resolveId(id) {
+      if (id === VIRTUAL_ID) return VIRTUAL_RESOLVED_ID
+      return null
+    },
+    load(id) {
+      if (id !== VIRTUAL_RESOLVED_ID) return null
+      const config = WebsiteConfig.parse(opts.config)
+      return `export const config = ${JSON.stringify(config)}`
     },
     configureServer(server) {
       server.watcher.add(opts.config.configPath)

@@ -1,14 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
 
-  "include": ["${configDir}/source/**/*.ts", "${configDir}/source/**/*.tsx"],
+  "include": ["${configDir}/**/*.ts", "${configDir}/**/*.tsx"],
+  "exclude": [ "${configDir}/**/build/", "${configDir}/**/targets/" ],
 
   "compilerOptions": {
     "target": "ES2024",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "${configDir}/source",
-    "outDir": "${configDir}/build",
 
     "lib": ["ESNext", "DOM"],
     "types": ["node", "vite/client"],
@@ -27,7 +26,6 @@
     "inlineSources": true,
     "skipLibCheck": true,
 
-    "declaration": true,
     "rewriteRelativeImportExtensions": true
   }
 }

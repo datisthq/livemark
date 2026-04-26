@@ -1,3 +1,4 @@
+import { config } from "livemark:virtual"
 import { TanStackDevtools } from "@tanstack/react-devtools"
 import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools"
 import {
@@ -19,21 +20,18 @@ import generalCss from "../styles/general.css?url"
 
 export const Route = createRootRoute({
   head: () => {
-    const favicon =
-      import.meta.env.CONFIG.favicon ??
-      import.meta.env.CONFIG.logo ??
-      defaultFavicon
+    const favicon = config.favicon ?? config.logo ?? defaultFavicon
     return {
       meta: [
         { charSet: "utf-8" },
-        { title: import.meta.env.CONFIG.title },
-        { name: "description", content: import.meta.env.CONFIG.description },
-        { property: "og:title", content: import.meta.env.CONFIG.title },
+        { title: config.title },
+        { name: "description", content: config.description },
+        { property: "og:title", content: config.title },
         {
           property: "og:description",
-          content: import.meta.env.CONFIG.description,
+          content: config.description,
         },
-        { property: "og:site_name", content: import.meta.env.CONFIG.title },
+        { property: "og:site_name", content: config.title },
         { property: "og:type", content: "website" },
         {
           name: "viewport",

@@ -1,5 +1,5 @@
-interface ImportMetaEnv {
-  readonly CONFIG: import("./models/config.ts").WebsiteConfig
+declare module "livemark:virtual" {
+  export const config: import("./models/config.ts").WebsiteConfig
 }
 
 declare module "content-collections" {

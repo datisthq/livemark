@@ -11,7 +11,7 @@
   "files": [
     "build",
     "source",
-    "!source/routeTree.gen.ts",
+    "!source/tsconfig.json",
     "skills"
   ],
   "type": "module",
@@ -25,11 +25,11 @@
     "./utils/*": "./source/utils/*.ts"
   },
   "scripts": {
-    "build": "tsgo",
+    "build": "tsgo --project source/tsconfig.json",
     "bump": "ncu -u",
     "clean": "rm -rf pnpm-lock.yaml node_modules build",
-    "docs:build": "node source/entrypoints/main.ts build",
-    "docs:start": "node source/entrypoints/main.ts start",
+    "docs:build": "livemark build",
+    "docs:start": "livemark start",
     "format": "vp fmt",
     "lint": "vp fmt --check && vp lint",
     "prepare": "is-ci || lefthook install --force",
@@ -107,6 +107,7 @@
     "zod": "4.3.6"
   },
   "devDependencies": {
+    "@plausible-analytics/tracker": "^0.4.4",
     "@semantic-release/exec": "7.1.0",
     "@types/node": "24.2.0",
     "@typescript/native-preview": "7.0.0-dev.20260316.1",
@@ -115,6 +116,7 @@
     "husky": "9.1.7",
     "is-ci": "4.1.0",
     "lefthook": "2.1.1",
+    "livemark": "link:.",
     "npm-check-updates": "18.0.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",

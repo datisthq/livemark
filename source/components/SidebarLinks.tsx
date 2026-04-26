@@ -1,3 +1,4 @@
+import { config } from "livemark:virtual"
 import { useLocation } from "@tanstack/react-router"
 import { ExternalLink } from "lucide-react"
 import { currentSection } from "../content/article.ts"
@@ -18,7 +19,7 @@ export function SidebarLinks() {
   const pathname = useLocation({ select: l => l.pathname })
   const section = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
   const links =
-    import.meta.env.CONFIG.links?.filter(
+    config.links?.filter(
       link => !link.prefix || link.prefix === section?.prefix,
     ) ?? []
 

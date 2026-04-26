@@ -1,3 +1,4 @@
+import { config } from "livemark:virtual"
 import { allArticles } from "content-collections"
 import type { ArticleGroup } from "../models/article.ts"
 import {
@@ -39,7 +40,7 @@ function orderKey(order?: number) {
   return order
 }
 
-const configSections = import.meta.env.CONFIG.sections
+const configSections = config.sections
 
 /** Per-section article groups, keyed by section prefix */
 export const sectionArticleGroups = new Map<string, ArticleGroup[]>()
