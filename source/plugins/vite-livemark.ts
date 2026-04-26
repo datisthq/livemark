@@ -56,6 +56,15 @@ export function livemark(opts: LivemarkOptions): Plugin {
         // target/ root is livemark's, not the consumer's.
         build: { outDir: join(overridesRoot, "build"), emptyOutDir: true },
         resolve: { dedupe: ["react", "react-dom"] },
+        // For the SSR build only, inline every node_modules dep into
+        // server.js. The prerender step (which runs server.js with
+        // Node) walks node_modules from the build/ dir and can't reach
+        // packages buried in pnpm's `.pnpm/*/node_modules/` (e.g.
+        // TanStack-internal aliases like `h3-v2`). Self-contained
+        // bundle bypasses the issue. Dev SSR keeps externals (faster).
+        ...(env.command === "build" && {
+          environments: { ssr: { resolve: { noExternal: true } } },
+        }),
       }
       const override = await resolveViteOverride(opts.config.vite, env)
       return override ? mergeConfig(base, override) : base
