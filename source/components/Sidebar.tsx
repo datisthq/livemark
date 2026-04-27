@@ -25,9 +25,11 @@ import { Theme } from "./Theme.tsx"
 export function Sidebar(props: { withSidebar?: boolean }) {
   const pathname = useLocation({ select: l => l.pathname })
   const articleRoute = useMatch({ from: "/$", shouldThrow: false })
-  const { toggleSidebar } = useSidebar()
+  const { toggleSidebar, isMobile } = useSidebar()
 
-  useHotkey("S", toggleSidebar)
+  useHotkey("S", () => {
+    if (props.withSidebar || isMobile) toggleSidebar()
+  })
 
   const section = articleRoute
     ? currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
