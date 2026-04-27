@@ -1,5 +1,6 @@
 import { cpSync, existsSync, rmSync } from "node:fs"
 import { join, sep } from "node:path"
+import { watch as chokidarWatch } from "chokidar"
 import type {
   ConfigEnv,
   Plugin,
@@ -79,26 +80,33 @@ export function livemark(opts: LivemarkOptions): Plugin {
       return `export const config = ${JSON.stringify(config)}`
     },
     configureServer(server) {
-      // Vite 8's chokidar runs with `disableGlobbing: true`, so passing
-      // a glob to `.add()` is treated as a literal path and silently
-      // does nothing. Pass the directories directly — chokidar watches
-      // them recursively by default.
-      //
-      // Watch only the escapable surfaces under `.livemark/` so we
-      // don't burn watches on `.livemark/build/` (the prerendered
-      // output dir) or other generated subdirs sitting alongside.
-      server.watcher.add(opts.config.configPath)
+      // Run our own chokidar instance instead of `server.watcher.add()`.
+      // Vite 8 bundles chokidar 3 with `disableGlobbing: true`, and paths
+      // added via `.add()` for surfaces outside its root (the consumer's
+      // `.livemark/` here) silently never fire — getWatched() reports
+      // them but no events arrive for external editors. A dedicated
+      // chokidar 5 watcher set up directly on those paths fires reliably.
+      // The cpSync into targetDir below is a same-process write, which
+      // Vite's own watcher on its root sees fine, so HMR triggers from
+      // there without needing to forward events manually.
+      const overlayPaths: string[] = []
       for (const folder of ESCAPABLE_FOLDERS) {
-        server.watcher.add(join(overridesRoot, folder))
+        overlayPaths.push(join(overridesRoot, folder))
       }
       for (const file of ESCAPABLE_FILES) {
-        server.watcher.add(join(overridesRoot, file))
+        overlayPaths.push(join(overridesRoot, file))
       }
-      server.watcher.add(SOURCE_DIR)
-
-      server.watcher.on("change", file => onChange(file, "change"))
-      server.watcher.on("add", file => onChange(file, "add"))
-      server.watcher.on("unlink", file => onChange(file, "unlink"))
+      const watcher = chokidarWatch(
+        [opts.config.configPath, ...overlayPaths, SOURCE_DIR],
+        { ignoreInitial: true, ignorePermissionErrors: true },
+      )
+      watcher.on("change", file => onChange(file, "change"))
+      watcher.on("add", file => onChange(file, "add"))
+      watcher.on("unlink", file => onChange(file, "unlink"))
+      const closeWatcher = () => {
+        watcher.close()
+      }
+      server.httpServer?.once("close", closeWatcher)
 
       function onChange(file: string, kind: "change" | "add" | "unlink") {
         if (file === opts.config.configPath) {
