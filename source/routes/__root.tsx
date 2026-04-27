@@ -17,6 +17,7 @@ import { Toaster } from "../elements/sonner.tsx"
 import { faviconType } from "../helpers/favicon.ts"
 import defaultFavicon from "../assets/logo.svg"
 import generalCss from "../styles/general.css?url"
+import markdownCss from "../styles/markdown.css?url"
 
 export const Route = createRootRoute({
   head: () => {
@@ -41,6 +42,7 @@ export const Route = createRootRoute({
       links: [
         { rel: "icon", href: favicon, type: faviconType(favicon) },
         { rel: "stylesheet", href: generalCss },
+        { rel: "stylesheet", href: markdownCss },
       ],
     }
   },

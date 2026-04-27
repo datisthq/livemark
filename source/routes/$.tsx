@@ -10,7 +10,6 @@ import { Article } from "../components/Article.tsx"
 import { BlogIndex } from "../components/BlogIndex.tsx"
 import { ChangelogIndex } from "../components/ChangelogIndex.tsx"
 import { TagIndex } from "../components/TagIndex.tsx"
-import markdownCss from "../styles/markdown.css?url"
 
 export const Route = createFileRoute("/$")({
   loader: ({ params }) => {
@@ -72,7 +71,6 @@ export const Route = createFileRoute("/$")({
         ? [{ name: "description", content: loaderData.description }]
         : []),
     ],
-    links: [{ rel: "stylesheet", href: markdownCss }],
   }),
   component: Component,
 })
