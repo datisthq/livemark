@@ -4,7 +4,7 @@ export function Footer() {
     <p className="mt-12 text-center text-sm text-muted-foreground">
       Built with <span className="text-red-500">❤</span> and{" "}
       <a
-        href="https://github.com/datisthq/livemark"
+        href="https://livemark.dev"
         target="_blank"
         rel="noopener noreferrer"
         className="font-medium hover:text-foreground transition-colors"
