@@ -207,18 +207,27 @@ function fullReload(server: ViteDevServer) {
   server.ws.send({ type: "full-reload" })
 }
 
-/** Manually fire Vite's watcher for a target file after we've cpSync'd
- *  into it. Vite's chokidar ignores `**\/node_modules/**` by default and
- *  our targetDir lives inside livemark's own node_modules in consumer
- *  projects, so cpSync writes there are silently filtered out. Emitting
- *  the event directly on `server.watcher` bypasses that filter and
- *  triggers the HMR pipeline as if chokidar had fired. */
+/** Drive Vite's HMR pipeline manually for a target file we just synced.
+ *  Vite's chokidar ignores `**\/node_modules/**` by default and our
+ *  targetDir lives inside livemark's own node_modules in consumer
+ *  projects, so cpSync writes there are silently filtered out.
+ *
+ *  Emitting on `server.watcher` runs Vite's HMR analysis per environment
+ *  (CSS gets `hmr update`, route modules trigger `(ssr) page reload`).
+ *  But `(ssr) page reload` only sends `full-reload` on the SSR
+ *  environment's hot channel — the browser is connected to the *client*
+ *  channel and never sees it. So we also fire `full-reload` on the
+ *  client hot directly, which is what TanStack Start needs for route
+ *  edits to actually refresh the page. CSS HMR still works because
+ *  Vite's analysis runs first and updates already-flushed before our
+ *  reload. */
 function notifyVite(
   server: ViteDevServer,
   targetFile: string,
   kind: "change" | "add" | "unlink",
 ) {
   server.watcher.emit(kind, targetFile)
+  server.environments.client.hot.send({ type: "full-reload" })
 }
 
 /** Resolve livemark.config.ts's `vite` field — either a config object
