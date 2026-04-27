@@ -1,3 +1,4 @@
+import { useHotkey } from "@tanstack/react-hotkeys"
 import { ArrowUp } from "lucide-react"
 import { useEffect, useState } from "react"
 import { Button } from "../elements/button.tsx"
@@ -13,6 +14,8 @@ export function BackToTop() {
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
+
+  useHotkey("B", () => window.scrollTo({ top: 0, behavior: "smooth" }))
 
   return (
     <Button
