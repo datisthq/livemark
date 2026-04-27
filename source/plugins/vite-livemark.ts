@@ -80,15 +80,18 @@ export function livemark(opts: LivemarkOptions): Plugin {
       return `export const config = ${JSON.stringify(config)}`
     },
     configureServer(server) {
-      // Run our own chokidar instance instead of `server.watcher.add()`.
-      // Vite 8 bundles chokidar 3 with `disableGlobbing: true`, and paths
-      // added via `.add()` for surfaces outside its root (the consumer's
-      // `.livemark/` here) silently never fire — getWatched() reports
-      // them but no events arrive for external editors. A dedicated
-      // chokidar 5 watcher set up directly on those paths fires reliably.
-      // The cpSync into targetDir below is a same-process write, which
-      // Vite's own watcher on its root sees fine, so HMR triggers from
-      // there without needing to forward events manually.
+      // Two reasons we don't use Vite's own `server.watcher`:
+      //   1. Vite 8 bundles chokidar 3 with `disableGlobbing: true`, and
+      //      paths added via `server.watcher.add()` for surfaces outside
+      //      Vite's root never fire — getWatched() reports them but no
+      //      events arrive for external editors.
+      //   2. Vite's chokidar ignores `**\/node_modules/**` by default, so
+      //      even if (1) were fixed, our targetDir (which lives inside
+      //      livemark's own node_modules in consumer projects) would be
+      //      silently filtered. We emit the change event manually onto
+      //      `server.watcher` after cpSync — see {@link notifyVite}.
+      // A dedicated chokidar 5 watcher set up directly on these paths
+      // fires reliably; we forward events into Vite's HMR pipeline below.
       const overlayPaths: string[] = []
       for (const folder of ESCAPABLE_FOLDERS) {
         overlayPaths.push(join(overridesRoot, folder))
@@ -116,12 +119,14 @@ export function livemark(opts: LivemarkOptions): Plugin {
         const overlayHit = matchOverlay(file, overridesRoot)
         if (overlayHit) {
           syncOverlay(overlayHit, kind, targetDir, overridesRoot)
+          notifyVite(server, join(targetDir, overlayHit.rel), kind)
           if (kind !== "change") fullReload(server)
           return
         }
         const sourceHit = matchSource(file)
         if (sourceHit) {
           syncSource(sourceHit, kind, targetDir, overridesRoot)
+          notifyVite(server, join(targetDir, sourceHit.rel), kind)
           if (kind !== "change") fullReload(server)
         }
       }
@@ -200,6 +205,20 @@ function syncSource(
 
 function fullReload(server: ViteDevServer) {
   server.ws.send({ type: "full-reload" })
+}
+
+/** Manually fire Vite's watcher for a target file after we've cpSync'd
+ *  into it. Vite's chokidar ignores `**\/node_modules/**` by default and
+ *  our targetDir lives inside livemark's own node_modules in consumer
+ *  projects, so cpSync writes there are silently filtered out. Emitting
+ *  the event directly on `server.watcher` bypasses that filter and
+ *  triggers the HMR pipeline as if chokidar had fired. */
+function notifyVite(
+  server: ViteDevServer,
+  targetFile: string,
+  kind: "change" | "add" | "unlink",
+) {
+  server.watcher.emit(kind, targetFile)
 }
 
 /** Resolve livemark.config.ts's `vite` field — either a config object
