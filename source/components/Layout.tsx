@@ -1,7 +1,6 @@
 import { config } from "livemark:virtual"
 import { Link, useLocation, useMatch } from "@tanstack/react-router"
 import { useHotkey } from "@tanstack/react-hotkeys"
-import { ExternalLink } from "lucide-react"
 import {
   currentSection,
   sectionFirstArticle,
@@ -123,8 +122,6 @@ export function Layout(props: {
             <a
               key={link.url}
               href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
               className="text-foreground opacity-80 hover:opacity-100 transition-opacity"
             >
               {link.icon && (
@@ -133,8 +130,7 @@ export function Layout(props: {
                   className="inline size-3.5 align-[-0.125em]"
                 />
               )}{" "}
-              {link.title}{" "}
-              <ExternalLink className="inline size-3 align-[-0.125em]" />
+              {link.title}
             </a>
           ))}
         <Banner />

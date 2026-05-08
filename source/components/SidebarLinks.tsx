@@ -1,6 +1,5 @@
 import { config } from "livemark:virtual"
 import { useLocation } from "@tanstack/react-router"
-import { ExternalLink } from "lucide-react"
 import { currentSection } from "../content/article.ts"
 import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
 import {
@@ -42,24 +41,12 @@ export function SidebarLinks() {
               >
                 <SidebarMenuButton
                   className="text-muted-foreground"
-                  render={
-                    <a
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    />
-                  }
+                  render={<a href={link.url} />}
                 >
                   {link.icon && (
                     <DynamicIcon name={link.icon} className="size-4" />
                   )}
-                  <span>
-                    {link.title}{" "}
-                    <ExternalLink
-                      className="inline -mt-0.5 opacity-75"
-                      style={{ width: 12, height: 12 }}
-                    />
-                  </span>
+                  <span>{link.title}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             )
