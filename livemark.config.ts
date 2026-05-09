@@ -16,11 +16,10 @@ export default defineConfig({
       source: "https://github.com/datisthq/livemark",
       version: true,
     },
-  ],
-  links: [
     {
-      url: "https://github.com/datisthq/livemark",
       title: "GitHub",
+      type: "external",
+      url: "https://github.com/datisthq/livemark",
       icon: "github",
     },
   ],

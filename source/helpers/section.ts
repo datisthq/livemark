@@ -4,6 +4,7 @@ const DEFAULT_ICONS: Record<Section["type"], string> = {
   article: "book-open",
   blog: "rss",
   changelog: "history",
+  external: "external-link",
 }
 
 /** Return the section's icon, falling back to a type-based default */

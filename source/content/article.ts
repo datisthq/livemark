@@ -33,6 +33,10 @@ function orderKey(order?: number) {
 
 const configSections = config.sections
 
+/** Route-bound sections (everything except `external`). External sections
+ *  are pure links — they have no `prefix` and don't claim a URL space. */
+const routedSections = configSections?.filter(s => s.type !== "external") ?? []
+
 /** Per-section article tree, keyed by section prefix */
 export const sectionArticleTrees = new Map<string, ArticleNode[]>()
 
@@ -42,9 +46,9 @@ export const sectionFlatArticles = new Map<string, string[]>()
 /** Per-section first article path, keyed by section prefix */
 export const sectionFirstArticle = new Map<string, string | undefined>()
 
-if (configSections?.length) {
-  const sectionByPrefix = new Map(configSections.map(s => [s.prefix, s]))
-  const buckets = partitionBySection(sortedArticles, configSections)
+if (routedSections.length) {
+  const sectionByPrefix = new Map(routedSections.map(s => [s.prefix, s]))
+  const buckets = partitionBySection(sortedArticles, routedSections)
   for (const [key, bucket] of buckets) {
     const section = sectionByPrefix.get(key)
     const sorted =
@@ -62,8 +66,8 @@ if (configSections?.length) {
   }
 }
 
-/** Find which config section an article path belongs to */
+/** Find which routed config section an article path belongs to */
 export function currentSection(path: string) {
-  if (!configSections?.length) return undefined
-  return matchSection(path, configSections)
+  if (!routedSections.length) return undefined
+  return matchSection(path, routedSections)
 }

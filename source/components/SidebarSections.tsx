@@ -2,6 +2,7 @@ import { config } from "livemark:virtual"
 import { Link, useLocation, useMatch } from "@tanstack/react-router"
 import { currentSection, sectionFirstArticle } from "../content/article.ts"
 import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
+import { prefixUrl } from "../helpers/prefix-url.ts"
 import { sectionIcon } from "../helpers/section.ts"
 import {
   SidebarGroup,
@@ -38,12 +39,28 @@ export function SidebarSections() {
       <SidebarGroupContent>
         <SidebarMenu>
           {sections.map(s => {
+            const mobileOnly = s.position !== "sidebar"
+            if (s.type === "external") {
+              return (
+                <SidebarMenuItem
+                  key={s.url}
+                  className={mobileOnly ? "md:hidden" : undefined}
+                >
+                  <SidebarMenuButton
+                    className="opacity-75"
+                    render={<a href={prefixUrl(s.url, config.base)} />}
+                  >
+                    <DynamicIcon name={sectionIcon(s)} className="size-4" />
+                    <span>{s.title}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )
+            }
             const target =
               s.type === "blog" || s.type === "changelog"
                 ? s.prefix
                 : (sectionFirstArticle.get(s.prefix) ?? s.prefix)
             const active = section?.prefix === s.prefix
-            const mobileOnly = s.position !== "sidebar"
             return (
               <SidebarMenuItem
                 key={s.prefix}

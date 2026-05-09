@@ -69,6 +69,21 @@ export function Layout(props: {
           sections
             .filter(section => section.position === "header")
             .map(section => {
+              if (section.type === "external") {
+                return (
+                  <a
+                    key={section.url}
+                    href={prefixUrl(section.url, config.base)}
+                    className="inline-flex items-center gap-1.5 text-foreground opacity-80 hover:opacity-100 transition-opacity"
+                  >
+                    <DynamicIcon
+                      name={sectionIcon(section)}
+                      className="size-3.5"
+                    />
+                    <span>{section.title}</span>
+                  </a>
+                )
+              }
               const isActive = activeSection?.prefix === section.prefix
               const target =
                 section.type === "blog" || section.type === "changelog"
