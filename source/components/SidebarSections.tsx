@@ -32,7 +32,7 @@ export function SidebarSections() {
   const hasDesktopItems = sections.some(s => s.position === "sidebar")
 
   return (
-    <SidebarGroup className={hasDesktopItems ? undefined : "md:hidden"}>
+    <SidebarGroup className={hasDesktopItems ? undefined : "lg:hidden"}>
       <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
         Sections
       </SidebarGroupLabel>
@@ -46,7 +46,7 @@ export function SidebarSections() {
               return (
                 <SidebarMenuItem
                   key={s.url}
-                  className={mobileOnly ? "md:hidden" : undefined}
+                  className={mobileOnly ? "lg:hidden" : undefined}
                 >
                   <SidebarMenuButton
                     isActive={active}
@@ -67,7 +67,7 @@ export function SidebarSections() {
             return (
               <SidebarMenuItem
                 key={s.prefix}
-                className={mobileOnly ? "md:hidden" : undefined}
+                className={mobileOnly ? "lg:hidden" : undefined}
               >
                 <SidebarMenuButton
                   isActive={active}

@@ -27,7 +27,7 @@ export function SidebarLinks() {
   const hasDesktopItems = links.some(l => l.position === "sidebar")
 
   return (
-    <SidebarGroup className={hasDesktopItems ? undefined : "md:hidden"}>
+    <SidebarGroup className={hasDesktopItems ? undefined : "lg:hidden"}>
       <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
         Links
       </SidebarGroupLabel>
@@ -38,7 +38,7 @@ export function SidebarLinks() {
             return (
               <SidebarMenuItem
                 key={link.url}
-                className={mobileOnly ? "md:hidden" : undefined}
+                className={mobileOnly ? "lg:hidden" : undefined}
               >
                 <SidebarMenuButton
                   className="text-muted-foreground"

@@ -47,14 +47,14 @@ export function Layout(props: {
   const header = (
     <header className="sticky top-0 z-20 flex h-16 shrink-0 items-center border-b bg-background">
       <div
-        className={`flex items-center self-stretch pl-4 ${props.withSidebar ? "pr-4" : "md:pr-20"}`}
+        className={`flex items-center self-stretch pl-4 ${props.withSidebar ? "pr-4" : "lg:pr-20"}`}
       >
         {props.withSidebar ? (
           <>
-            <div className="hidden md:flex">
+            <div className="hidden lg:flex">
               <SidebarTrigger />
             </div>
-            <Link to="/" className="md:hidden flex items-center gap-2">
+            <Link to="/" className="lg:hidden flex items-center gap-2">
               <SiteTitle />
             </Link>
           </>
@@ -64,7 +64,7 @@ export function Layout(props: {
           </Link>
         )}
       </div>
-      <div className="hidden md:flex flex-1 items-center gap-8 self-stretch px-6 text-sm">
+      <div className="hidden lg:flex flex-1 items-center gap-8 self-stretch px-6 text-sm">
         {sections?.length ? (
           sections
             .filter(section => section.position === "header")
@@ -151,7 +151,7 @@ export function Layout(props: {
           ))}
         <Banner />
       </div>
-      <div className="md:hidden ml-auto pr-2">
+      <div className="lg:hidden ml-auto pr-2">
         <SidebarTrigger />
       </div>
     </header>
