@@ -8,13 +8,14 @@ export default defineConfig({
   exclude: ["docs/**/includes/**"],
   sections: [
     { title: "Docs", prefix: "/" },
-    { title: "Blog", prefix: "/blog/", type: "blog" },
+    { title: "Blog", prefix: "/blog/", type: "blog", icon: "rss" },
     {
       title: "Changelog",
       prefix: "/changelog/",
       type: "changelog",
       source: "https://github.com/datisthq/livemark",
       version: true,
+      icon: "history",
     },
     {
       title: "GitHub",
