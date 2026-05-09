@@ -1,15 +1,30 @@
 import type { Section } from "../models/section.ts"
 
-const DEFAULT_ICONS: Record<Section["type"], string> = {
+const DEFAULT_ICONS: Partial<Record<Section["type"], string>> = {
   article: "book-open",
   blog: "rss",
   changelog: "history",
-  external: "external-link",
 }
 
-/** Return the section's icon, falling back to a type-based default */
+/** Return the section's icon, falling back to a type-based default.
+ *  Custom sections have no default — the user opts in via `icon`. */
 export function sectionIcon(section: Pick<Section, "icon" | "type">) {
   return section.icon ?? DEFAULT_ICONS[section.type]
+}
+
+/** Whether a custom section's URL should highlight as active for the
+ *  current pathname. Only `/`-leading internal paths participate;
+ *  protocol-absolute (`https://…`, `//cdn…`) URLs never highlight.
+ *  Match semantics mirror routed sections — exact path or any
+ *  descendant. A URL of `/` only highlights the home page itself
+ *  (otherwise it would always match). */
+export function customSectionActive(url: string, pathname: string) {
+  if (!url.startsWith("/") || url.startsWith("//")) return false
+  const stripped = url.split(/[?#]/)[0] ?? ""
+  const target = `/${stripped.replace(/^\/|\/$/g, "")}/`
+  const current = `/${pathname.replace(/^\/|\/$/g, "")}/`
+  if (target === "/") return current === "/"
+  return current === target || current.startsWith(target)
 }
 
 /** Find the section whose prefix is the longest prefix of the article path */

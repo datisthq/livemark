@@ -33,9 +33,9 @@ function orderKey(order?: number) {
 
 const configSections = config.sections
 
-/** Route-bound sections (everything except `external`). External sections
+/** Route-bound sections (everything except `custom`). Custom sections
  *  are pure links — they have no `prefix` and don't claim a URL space. */
-const routedSections = configSections?.filter(s => s.type !== "external") ?? []
+const routedSections = configSections?.filter(s => s.type !== "custom") ?? []
 
 /** Per-section article tree, keyed by section prefix */
 export const sectionArticleTrees = new Map<string, ArticleNode[]>()

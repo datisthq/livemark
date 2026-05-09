@@ -9,7 +9,7 @@ import {
 } from "../content/article.ts"
 import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
 import { prefixUrl } from "../helpers/prefix-url.ts"
-import { sectionIcon } from "../helpers/section.ts"
+import { customSectionActive, sectionIcon } from "../helpers/section.ts"
 import {
   SidebarInset,
   SidebarProvider,
@@ -69,17 +69,20 @@ export function Layout(props: {
           sections
             .filter(section => section.position === "header")
             .map(section => {
-              if (section.type === "external") {
+              const icon = sectionIcon(section)
+              if (section.type === "custom") {
+                const isActive = customSectionActive(section.url, pathname)
                 return (
                   <a
                     key={section.url}
                     href={prefixUrl(section.url, config.base)}
-                    className="inline-flex items-center gap-1.5 text-foreground opacity-80 hover:opacity-100 transition-opacity"
+                    className={`inline-flex items-center gap-1.5 text-foreground ${
+                      isActive
+                        ? "font-medium border-b-2 border-foreground pb-0.5 -mb-0.5"
+                        : "opacity-80 hover:opacity-100 transition-opacity"
+                    }`}
                   >
-                    <DynamicIcon
-                      name={sectionIcon(section)}
-                      className="size-3.5"
-                    />
+                    {icon && <DynamicIcon name={icon} className="size-3.5" />}
                     <span>{section.title}</span>
                   </a>
                 )
@@ -107,10 +110,7 @@ export function Layout(props: {
                       : "opacity-80 hover:opacity-100 transition-opacity"
                   }`}
                 >
-                  <DynamicIcon
-                    name={sectionIcon(section)}
-                    className="size-3.5"
-                  />
+                  {icon && <DynamicIcon name={icon} className="size-3.5" />}
                   <span>
                     {section.title}
                     {latestVersion && (

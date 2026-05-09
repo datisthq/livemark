@@ -18,7 +18,7 @@ export default defineConfig({
     },
     {
       title: "GitHub",
-      type: "external",
+      type: "custom",
       url: "https://github.com/datisthq/livemark",
       icon: "github",
     },

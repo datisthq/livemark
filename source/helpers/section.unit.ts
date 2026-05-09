@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vite-plus/test"
-import { matchSection, partitionBySection } from "./section.ts"
+import {
+  customSectionActive,
+  matchSection,
+  partitionBySection,
+} from "./section.ts"
 
 describe("matchSection", () => {
   const sections = [
@@ -67,5 +71,43 @@ describe("partitionBySection", () => {
       "/api/users/",
       "/api/auth/",
     ])
+  })
+})
+
+describe("customSectionActive", () => {
+  it("should not match an absolute http url", () => {
+    expect(customSectionActive("https://x.com/y", "/y/")).toBe(false)
+    expect(customSectionActive("http://x.com/y", "/y/")).toBe(false)
+  })
+
+  it("should not match a protocol-relative url", () => {
+    expect(customSectionActive("//cdn.x.com/y", "/y/")).toBe(false)
+  })
+
+  it("should not match a hash url", () => {
+    expect(customSectionActive("#section", "/section/")).toBe(false)
+  })
+
+  it("should match the exact path", () => {
+    expect(customSectionActive("/about", "/about/")).toBe(true)
+    expect(customSectionActive("/about/", "/about/")).toBe(true)
+  })
+
+  it("should match a descendant path", () => {
+    expect(customSectionActive("/about", "/about/team/")).toBe(true)
+  })
+
+  it("should not match a sibling path with shared prefix", () => {
+    expect(customSectionActive("/about", "/aboutus/")).toBe(false)
+  })
+
+  it("should match exact root only", () => {
+    expect(customSectionActive("/", "/")).toBe(true)
+    expect(customSectionActive("/", "/about/")).toBe(false)
+  })
+
+  it("should ignore query and hash on the url", () => {
+    expect(customSectionActive("/about?x=1", "/about/")).toBe(true)
+    expect(customSectionActive("/about#top", "/about/team/")).toBe(true)
   })
 })

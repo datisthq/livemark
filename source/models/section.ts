@@ -29,10 +29,12 @@ export const ChangelogSection = BaseSection.extend({
   version: z.boolean().optional(),
 })
 
-/** External section: renders as a link to an arbitrary URL. */
-export type ExternalSection = z.infer<typeof ExternalSection>
-export const ExternalSection = BaseSection.extend({
-  type: z.literal("external"),
+/** Custom section: renders as a link to an arbitrary URL — absolute
+ *  (`https://…`) or internal (`/changelog`). Internal URLs participate
+ *  in active-state highlighting like routed sections. */
+export type CustomSection = z.infer<typeof CustomSection>
+export const CustomSection = BaseSection.extend({
+  type: z.literal("custom"),
   url: z.string(),
 })
 
@@ -54,6 +56,6 @@ export const Section = z.preprocess(
     ArticleSection,
     BlogSection,
     ChangelogSection,
-    ExternalSection,
+    CustomSection,
   ]),
 )

@@ -3,7 +3,7 @@ import { Link, useLocation, useMatch } from "@tanstack/react-router"
 import { currentSection, sectionFirstArticle } from "../content/article.ts"
 import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
 import { prefixUrl } from "../helpers/prefix-url.ts"
-import { sectionIcon } from "../helpers/section.ts"
+import { customSectionActive, sectionIcon } from "../helpers/section.ts"
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -40,17 +40,20 @@ export function SidebarSections() {
         <SidebarMenu>
           {sections.map(s => {
             const mobileOnly = s.position !== "sidebar"
-            if (s.type === "external") {
+            const icon = sectionIcon(s)
+            if (s.type === "custom") {
+              const active = customSectionActive(s.url, pathname)
               return (
                 <SidebarMenuItem
                   key={s.url}
                   className={mobileOnly ? "md:hidden" : undefined}
                 >
                   <SidebarMenuButton
-                    className="opacity-75"
+                    isActive={active}
+                    className={active ? "" : "opacity-75"}
                     render={<a href={prefixUrl(s.url, config.base)} />}
                   >
-                    <DynamicIcon name={sectionIcon(s)} className="size-4" />
+                    {icon && <DynamicIcon name={icon} className="size-4" />}
                     <span>{s.title}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -76,7 +79,7 @@ export function SidebarSections() {
                     />
                   }
                 >
-                  <DynamicIcon name={sectionIcon(s)} className="size-4" />
+                  {icon && <DynamicIcon name={icon} className="size-4" />}
                   <span>{s.title}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
