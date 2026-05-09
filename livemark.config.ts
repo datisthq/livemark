@@ -33,7 +33,6 @@ export default defineConfig({
         icon: "rocket",
         path: "/introduction/",
         order: 1,
-        group: "Articles",
       },
     },
     {

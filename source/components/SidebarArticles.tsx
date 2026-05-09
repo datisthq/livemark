@@ -2,9 +2,9 @@ import { config } from "livemark:virtual"
 import { Link, useLocation } from "@tanstack/react-router"
 import { ChevronRight } from "lucide-react"
 import {
-  articleGroups,
+  articleTree,
   currentSection,
-  sectionArticleGroups,
+  sectionArticleTrees,
 } from "../content/article.ts"
 import {
   Collapsible,
@@ -31,30 +31,23 @@ export function SidebarArticles() {
 
   const configSections = config.sections
   const section = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
-  const groups = configSections?.length
-    ? (sectionArticleGroups.get(section?.prefix ?? "__default__") ??
-      articleGroups)
-    : articleGroups
+  const tree = configSections?.length
+    ? (sectionArticleTrees.get(section?.prefix ?? "__default__") ?? articleTree)
+    : articleTree
 
   return (
-    <>
-      {groups.map((group, index) => (
-        <SidebarGroup key={group.name ?? `__unnamed-${index}`}>
-          {group.name && (
-            <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
-              {group.name}
-            </SidebarGroupLabel>
-          )}
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {group.nodes.map(node => (
-                <NavNode key={node.path} node={node} currentPath={pathname} />
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      ))}
-    </>
+    <SidebarGroup>
+      <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
+        Articles
+      </SidebarGroupLabel>
+      <SidebarGroupContent>
+        <SidebarMenu>
+          {tree.map(node => (
+            <NavNode key={node.path} node={node} currentPath={pathname} />
+          ))}
+        </SidebarMenu>
+      </SidebarGroupContent>
+    </SidebarGroup>
   )
 }
 

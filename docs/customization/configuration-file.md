@@ -77,7 +77,6 @@ export default defineConfig({
 
 - [Site Metadata](/customization/site-metadata/) — title, description, favicon, logo.
 - [Article Sections](/customization/article-sections/) — split content into multiple URL prefixes (docs / blog / changelog).
-- [Article Groups](/customization/article-groups/) — label sidebar groups within a section.
 - [External Links](/customization/external-links/) — header and sidebar links.
 - [Syntax Themes](/customization/syntax-themes/) — pick or extend Shiki themes.
 - [Article Patches](/customization/article-patches/) — override frontmatter from config.

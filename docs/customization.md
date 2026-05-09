@@ -32,10 +32,6 @@ Add external links to the header or the sidebar.
 Organize content into Docs, Blog, and Changelog sections.
 :::
 
-:::card{title="Article Groups" href="/customization/article-groups/" icon="folder-tree"}
-Label sidebar groups within a section using the `group` frontmatter field.
-:::
-
 :::card{title="Article Patches" href="/customization/article-patches/" icon="pencil-ruler"}
 Override article frontmatter from config, without editing the file.
 :::

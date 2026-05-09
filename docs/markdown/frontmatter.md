@@ -15,7 +15,6 @@ title: Getting Started
 description: Your first Livemark project, in ten minutes.
 icon: rocket
 order: 1
-group: Docs
 ---
 ```
 
@@ -38,12 +37,11 @@ Identity and presentation of the article.
 
 How the article shows up in the left-hand navigation.
 
-| Field     | Type      | Default                 | Purpose                                                                                          |
-| --------- | --------- | ----------------------- | ------------------------------------------------------------------------------------------------ |
-| `order`   | `number`  | — (unordered, mid-sort) | Sort position. See "Ordering rules" below.                                                       |
-| `group`   | `string`  | —                       | Contiguous root-level articles sharing the same `group` render under a labelled sidebar section. |
-| `sidebar` | `boolean` | `true`                  | If false, the article is reachable by URL but hidden from nav.                                   |
-| `toc`     | `boolean` | `true`                  | If false, suppresses the right-hand table of contents.                                           |
+| Field     | Type      | Default                 | Purpose                                                        |
+| --------- | --------- | ----------------------- | -------------------------------------------------------------- |
+| `order`   | `number`  | — (unordered, mid-sort) | Sort position. See "Ordering rules" below.                     |
+| `sidebar` | `boolean` | `true`                  | If false, the article is reachable by URL but hidden from nav. |
+| `toc`     | `boolean` | `true`                  | If false, suppresses the right-hand table of contents.         |
 
 ### Ordering rules
 
@@ -67,5 +65,5 @@ If you can't modify a file's frontmatter (for example a `README.md` that doubles
 
 ## See also
 
-- [Article Sections](/customization/article-sections/) — how `order`, `group`, and `date` interact with blog and changelog sections.
+- [Article Sections](/customization/article-sections/) — how `order` and `date` interact with blog and changelog sections.
 - [Article Patches](/customization/article-patches/) — set frontmatter from config, without touching the file.

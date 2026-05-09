@@ -12,7 +12,6 @@ export const Article = z.object({
   icon: nonEmptyString.optional(),
   order: z.number().optional(),
   path: nonEmptyString.optional(),
-  group: nonEmptyString.optional(),
   sidebar: z.boolean().default(true),
   toc: z.boolean().default(true),
   image: nonEmptyString.optional(),
@@ -48,13 +47,4 @@ export interface ArticleNode {
   label?: string
   icon: string
   children: ArticleNode[]
-}
-
-/**
- * A contiguous section of root articles sharing the same `group` label.
- * `name: undefined` represents the leading ungrouped section (at most one).
- */
-export interface ArticleGroup {
-  name?: string
-  nodes: ArticleNode[]
 }

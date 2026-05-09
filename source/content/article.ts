@@ -1,11 +1,7 @@
 import { config } from "livemark:virtual"
 import { allArticles } from "content-collections"
-import type { ArticleGroup } from "../models/article.ts"
-import {
-  buildArticleTree,
-  flattenArticleTree,
-  groupArticleTree,
-} from "../helpers/article.ts"
+import type { ArticleNode } from "../models/article.ts"
+import { buildArticleTree, flattenArticleTree } from "../helpers/article.ts"
 import { matchSection, partitionBySection } from "../helpers/section.ts"
 
 /**
@@ -20,16 +16,11 @@ export const sortedArticles = [...allArticles].sort(
 /** The article whose path is `/`, if any (rendered in place at the root) */
 export const homeArticle = sortedArticles.find(a => a.path === "/")
 
-/** Sidebar sections derived from the path tree, partitioned by `group` */
-export const articleGroups = groupArticleTree(
-  buildArticleTree(sortedArticles),
-  sortedArticles,
-)
+/** Sidebar tree derived from the article path hierarchy */
+export const articleTree = buildArticleTree(sortedArticles)
 
-/** Articles in depth-first order across all sections (matches sidebar walk) */
-export const flatArticles = articleGroups.flatMap(group =>
-  flattenArticleTree(group.nodes),
-)
+/** Articles in depth-first order across the tree (matches sidebar walk) */
+export const flatArticles = flattenArticleTree(articleTree)
 
 /** The first article in sidebar order, used as the default landing page */
 export const firstArticle = sortedArticles.find(a => a.path === flatArticles[0])
@@ -42,8 +33,8 @@ function orderKey(order?: number) {
 
 const configSections = config.sections
 
-/** Per-section article groups, keyed by section prefix */
-export const sectionArticleGroups = new Map<string, ArticleGroup[]>()
+/** Per-section article tree, keyed by section prefix */
+export const sectionArticleTrees = new Map<string, ArticleNode[]>()
 
 /** Per-section flat article lists, keyed by section prefix */
 export const sectionFlatArticles = new Map<string, string[]>()
@@ -64,9 +55,8 @@ if (configSections?.length) {
           )
         : bucket
     const tree = buildArticleTree(sorted)
-    const groups = groupArticleTree(tree, sorted)
-    const flat = groups.flatMap(g => flattenArticleTree(g.nodes))
-    sectionArticleGroups.set(key, groups)
+    const flat = flattenArticleTree(tree)
+    sectionArticleTrees.set(key, tree)
     sectionFlatArticles.set(key, flat)
     sectionFirstArticle.set(key, flat[0])
   }
