@@ -1,9 +1,10 @@
 import { config } from "livemark:virtual"
+import { prefixUrl } from "../helpers/prefix-url.ts"
 import defaultLogo from "../assets/logo.svg"
 
 /** Renders the site logo, title, and description in the sidebar header */
 export function SiteTitle() {
-  const logo = config.logo ?? defaultLogo
+  const logo = prefixUrl(config.logo ?? defaultLogo, config.base)
   return (
     <div className="flex items-end gap-2.5 text-sm">
       <img src={logo} alt={config.title} className="size-6.5 mb-1.25" />

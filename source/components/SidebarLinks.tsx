@@ -2,6 +2,7 @@ import { config } from "livemark:virtual"
 import { useLocation } from "@tanstack/react-router"
 import { currentSection } from "../content/article.ts"
 import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
+import { prefixUrl } from "../helpers/prefix-url.ts"
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -41,7 +42,7 @@ export function SidebarLinks() {
               >
                 <SidebarMenuButton
                   className="text-muted-foreground"
-                  render={<a href={link.url} />}
+                  render={<a href={prefixUrl(link.url, config.base)} />}
                 >
                   {link.icon && (
                     <DynamicIcon name={link.icon} className="size-4" />

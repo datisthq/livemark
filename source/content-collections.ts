@@ -162,6 +162,7 @@ const articles = defineCollection({
             {
               filePath: resolve(config.root, doc._meta.filePath),
               root: config.root,
+              base: config.base,
             },
           ],
           remarkAnsi,
@@ -213,7 +214,7 @@ const articles = defineCollection({
     const searchText = extractSearchText(content)
     const lastUpdated = getLastUpdated(doc._meta.filePath)
     const image = doc.image
-      ? resolveAssetPath(doc.image, filePath, config.root)
+      ? resolveAssetPath(doc.image, filePath, config.root, config.base)
       : undefined
     return {
       ...doc,

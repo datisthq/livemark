@@ -23,6 +23,14 @@ export type UserConfig = Omit<z.infer<typeof UserConfig>, "vite"> & {
 }
 export const UserConfig = z.object({
   site: z.string().optional(),
+  base: z
+    .string()
+    .optional()
+    .transform(v => {
+      if (!v) return undefined
+      const trimmed = v.replace(/^\/|\/$/g, "")
+      return trimmed ? `/${trimmed}` : undefined
+    }),
   favicon: z.string().optional(),
   logo: z.string().optional(),
   title: z.string().default("Livemark"),
@@ -46,6 +54,7 @@ export const WebsiteConfig = UserConfig.pick({
   title: true,
   description: true,
   site: true,
+  base: true,
   favicon: true,
   logo: true,
   links: true,

@@ -50,6 +50,11 @@ export function livemark(opts: LivemarkOptions): Plugin {
       targetDir = buildTarget(opts.config.configPath)
       const base: ViteUserConfig = {
         root: targetDir,
+        // Mount everything (asset URLs, modulepreloads, dev server) under
+        // `config.base` so the same build works at root or at a sub-path
+        // (e.g. GitHub Pages `https://user.github.io/repo/`). The router
+        // and asset-path resolver mirror this at runtime.
+        base: opts.config.base ? `${opts.config.base}/` : "/",
         // outDir lives outside the target root (in the consumer's
         // .livemark/) so the consumer can find their deployable output
         // without digging into node_modules. Vite's default refusal to

@@ -8,6 +8,7 @@ import {
   sortedArticles,
 } from "../content/article.ts"
 import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
+import { prefixUrl } from "../helpers/prefix-url.ts"
 import { sectionIcon } from "../helpers/section.ts"
 import {
   SidebarInset,
@@ -121,7 +122,7 @@ export function Layout(props: {
           .map(link => (
             <a
               key={link.url}
-              href={link.url}
+              href={prefixUrl(link.url, config.base)}
               className="text-foreground opacity-80 hover:opacity-100 transition-opacity"
             >
               {link.icon && (

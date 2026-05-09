@@ -5,12 +5,12 @@ import { resolveAssetPath } from "../helpers/resolve-asset-path.ts"
 
 /** Remark plugin that resolves relative image paths and unwraps image-only paragraphs */
 export const remarkImage: Plugin<
-  [{ filePath: string; root: string }],
+  [{ filePath: string; root: string; base?: string }],
   Root
-> = ({ filePath, root }) => {
+> = ({ filePath, root, base }) => {
   return tree => {
     visit(tree, "image", node => {
-      node.url = resolveAssetPath(node.url, filePath, root)
+      node.url = resolveAssetPath(node.url, filePath, root, base)
     })
 
     visit(tree, "paragraph", (node, index, parent) => {

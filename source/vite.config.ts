@@ -18,12 +18,26 @@ export default defineConfig({
     contentCollections({ configPath: "content-collections.ts" }),
     tanstackStart({
       srcDirectory: ".",
-      pages: [{ path: "/" }],
-      prerender: { enabled: true, crawlLinks: true },
+      // Seed path must match what the crawler produces (router-emitted
+      // hrefs include the basepath), otherwise prerender records both
+      // shapes and the sitemap ends up with duplicate entries.
+      pages: [{ path: config.base ? `${config.base}/` : "/" }],
+      // Disable route-tree auto-discovery: it produces basepath-naive
+      // paths (e.g. `/`) that duplicate the crawl-derived prefixed paths,
+      // bloating pages.json and sitemap. Crawling from the seed already
+      // reaches every linked page.
+      prerender: {
+        enabled: true,
+        crawlLinks: true,
+        autoStaticPathsDiscovery: false,
+      },
       sitemap: config.site
         ? { enabled: true, host: config.site }
         : { enabled: false },
-      router: { generatedRouteTree: "routeTree.gen.ts" },
+      router: {
+        generatedRouteTree: "routeTree.gen.ts",
+        basepath: config.base,
+      },
     }),
     react(),
     svgr(),

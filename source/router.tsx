@@ -1,3 +1,4 @@
+import { config } from "livemark:virtual"
 import { QueryClient } from "@tanstack/react-query"
 import { createRouter } from "@tanstack/react-router"
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query"
@@ -10,6 +11,7 @@ export function getRouter() {
 
   const router = createRouter({
     routeTree,
+    basepath: config.base,
     context: { queryClient },
     trailingSlash: "always",
     defaultPreload: "intent",
