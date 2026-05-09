@@ -3,7 +3,7 @@ import { Link, useLocation, useMatch } from "@tanstack/react-router"
 import { currentSection, sectionFirstArticle } from "../content/article.ts"
 import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
 import { prefixUrl } from "../helpers/prefix-url.ts"
-import { customSectionActive, sectionIcon } from "../helpers/section.ts"
+import { customSectionActive } from "../helpers/section.ts"
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -40,7 +40,7 @@ export function SidebarSections() {
         <SidebarMenu>
           {sections.map(s => {
             const mobileOnly = s.position !== "sidebar"
-            const icon = sectionIcon(s)
+            const icon = s.icon
             if (s.type === "custom") {
               const active = customSectionActive(s.url, pathname)
               return (

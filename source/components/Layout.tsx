@@ -9,7 +9,7 @@ import {
 } from "../content/article.ts"
 import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
 import { prefixUrl } from "../helpers/prefix-url.ts"
-import { customSectionActive, sectionIcon } from "../helpers/section.ts"
+import { customSectionActive } from "../helpers/section.ts"
 import {
   SidebarInset,
   SidebarProvider,
@@ -69,7 +69,7 @@ export function Layout(props: {
           sections
             .filter(section => section.position === "header")
             .map(section => {
-              const icon = sectionIcon(section)
+              const icon = section.icon
               if (section.type === "custom") {
                 const isActive = customSectionActive(section.url, pathname)
                 return (

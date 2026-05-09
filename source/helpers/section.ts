@@ -1,17 +1,3 @@
-import type { Section } from "../models/section.ts"
-
-const DEFAULT_ICONS: Partial<Record<Section["type"], string>> = {
-  article: "book-open",
-  blog: "rss",
-  changelog: "history",
-}
-
-/** Return the section's icon, falling back to a type-based default.
- *  Custom sections have no default — the user opts in via `icon`. */
-export function sectionIcon(section: Pick<Section, "icon" | "type">) {
-  return section.icon ?? DEFAULT_ICONS[section.type]
-}
-
 /** Whether a custom section's URL should highlight as active for the
  *  current pathname. Only `/`-leading internal paths participate;
  *  protocol-absolute (`https://…`, `//cdn…`) URLs never highlight.

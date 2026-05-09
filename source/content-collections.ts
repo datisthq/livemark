@@ -16,7 +16,6 @@ import remarkMath from "remark-math"
 import { loadConfig } from "./actions/config/load.ts"
 import { buildChangelog, cacheIncludeGlob } from "./actions/changelog/build.ts"
 import { Article } from "./models/article.ts"
-import { pickDefaultIcon } from "./helpers/article-icon.ts"
 import slugify from "@sindresorhus/slugify"
 import remarkCustomHeadingId from "./plugins/remark-custom-heading-id.ts"
 import { remarkCallout } from "./plugins/remark-callout.ts"
@@ -128,7 +127,7 @@ const articles = defineCollection({
     const filePath = resolve(config.root, doc._meta.filePath)
     const content = resolveIncludes(doc.content, filePath)
     const title = doc.title ?? extractTitle(content, doc._meta.path)
-    const icon = doc.icon ?? pickDefaultIcon(doc._meta.path)
+    const icon = doc.icon
     const path = doc.path ?? toPath(doc._meta.filePath)
     // The article's h1 is rendered from `title` by the layout, so strip any
     // leading h1 in the body to avoid two h1s side-by-side (especially when

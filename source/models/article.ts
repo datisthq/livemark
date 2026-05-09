@@ -45,6 +45,6 @@ export interface ArticleNode {
   path: string
   title: string
   label?: string
-  icon: string
+  icon?: string
   children: ArticleNode[]
 }

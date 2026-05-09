@@ -22,16 +22,16 @@ order: 1
 
 Identity and presentation of the article.
 
-| Field         | Type                 | Default                          | Purpose                                                                  |
-| ------------- | -------------------- | -------------------------------- | ------------------------------------------------------------------------ |
-| `title`       | `string`             | First `#` heading, else filename | Browser tab title, article heading, navigation label.                    |
-| `label`       | `string`             | `title`                          | Short variant used in sidebar/breadcrumbs when `title` is long.          |
-| `description` | `string`             | —                                | `<meta name="description">` and Open Graph description.                  |
-| `icon`        | `string`             | Picked from path heuristics      | Lucide icon name (e.g. `rocket`, `book-open`).                           |
-| `image`       | `string`             | —                                | Open Graph / social card image. Relative paths resolve against the file. |
-| `author`      | `string \| string[]` | —                                | One or more author names.                                                |
-| `date`        | `string`             | —                                | ISO date. Drives sort order in blog sections.                            |
-| `tags`        | `string[]`           | —                                | Used by blog sections to build `/tags/<tag>/` pages.                     |
+| Field         | Type                 | Default                          | Purpose                                                                                             |
+| ------------- | -------------------- | -------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `title`       | `string`             | First `#` heading, else filename | Browser tab title, article heading, navigation label.                                               |
+| `label`       | `string`             | `title`                          | Short variant used in sidebar/breadcrumbs when `title` is long.                                     |
+| `description` | `string`             | —                                | `<meta name="description">` and Open Graph description.                                             |
+| `icon`        | `string`             | —                                | Lucide icon name (e.g. `rocket`, `book-open`). Articles without an icon render with no icon at all. |
+| `image`       | `string`             | —                                | Open Graph / social card image. Relative paths resolve against the file.                            |
+| `author`      | `string \| string[]` | —                                | One or more author names.                                                                           |
+| `date`        | `string`             | —                                | ISO date. Drives sort order in blog sections.                                                       |
+| `tags`        | `string[]`           | —                                | Used by blog sections to build `/tags/<tag>/` pages.                                                |
 
 ## Sidebar settings
 

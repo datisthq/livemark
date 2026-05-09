@@ -83,7 +83,7 @@ function NavNode(props: {
           className={active ? "" : "opacity-75"}
           render={link}
         >
-          {!isSub && <Icon className="size-4" />}
+          {!isSub && Icon && <Icon className="size-4" />}
           {label}
         </Button>
       </Item>
@@ -98,7 +98,7 @@ function NavNode(props: {
           className={active ? "" : "opacity-75"}
           render={link}
         >
-          {!isSub && <Icon className="size-4" />}
+          {!isSub && Icon && <Icon className="size-4" />}
           {label}
         </Button>
         <CollapsibleTrigger

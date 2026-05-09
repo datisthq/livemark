@@ -15,7 +15,7 @@ import {
 interface SearchResult {
   title: string
   path: string
-  icon: string
+  icon?: string
   snippet: string
   group: string
 }
@@ -157,7 +157,9 @@ export function SearchDialog(props: {
                   onSelect={() => handleSelect(result.path)}
                   className="py-2.5"
                 >
-                  <Icon className="size-5 shrink-0 mt-0.5 self-start opacity-60" />
+                  {Icon && (
+                    <Icon className="size-5 shrink-0 mt-0.5 self-start opacity-60" />
+                  )}
                   <div className="flex flex-col gap-0.5 min-w-0">
                     <span className="text-base font-medium">
                       {result.title}

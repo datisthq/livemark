@@ -1,43 +1,12 @@
-import { FileText, icons } from "lucide-react"
+import { icons } from "lucide-react"
 
-/** Resolve a Lucide icon by kebab-case name, falling back to FileText. */
-export function resolveArticleIcon(name: string) {
+/** Resolve a Lucide icon by kebab-case name. Returns undefined when no
+ *  name is given or the name doesn't match a known icon — articles
+ *  without an explicit `icon` frontmatter render with no icon at all. */
+export function resolveArticleIcon(name: string | undefined) {
+  if (!name) return undefined
   const key = toPascalCase(name)
-  return key in icons ? icons[key as keyof typeof icons] : FileText
-}
-
-/** Curated set of icons used as default fallbacks for articles without one. */
-const defaultIconNames = [
-  "binary",
-  "blocks",
-  "brain-circuit",
-  "bug",
-  "cloud",
-  "code",
-  "cpu",
-  "database",
-  "file-code",
-  "git-branch",
-  "globe",
-  "hard-drive",
-  "layers",
-  "network",
-  "rocket",
-  "server",
-  "shield",
-  "sliders-horizontal",
-  "terminal",
-  "webhook",
-  "zap",
-]
-
-/** Deterministic icon name based on article path */
-export function pickDefaultIcon(path: string) {
-  let hash = 0
-  for (let i = 0; i < path.length; i++) {
-    hash = (hash * 31 + path.charCodeAt(i)) | 0
-  }
-  return defaultIconNames[Math.abs(hash) % defaultIconNames.length]!
+  return key in icons ? icons[key as keyof typeof icons] : undefined
 }
 
 function toPascalCase(name: string) {

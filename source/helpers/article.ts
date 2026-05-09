@@ -6,7 +6,7 @@ export function buildArticleTree(
     path: string
     title: string
     label?: string
-    icon: string
+    icon?: string
   }[],
 ) {
   const nodeMap = new Map<string, ArticleNode>()
