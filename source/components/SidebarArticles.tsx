@@ -67,37 +67,47 @@ function isActive(articlePathname: string, currentPath: string) {
   return articlePathname === normalized
 }
 
-function NavNode(props: { node: ArticleNode; currentPath: string }) {
-  const { node, currentPath } = props
+function NavNode(props: {
+  node: ArticleNode
+  currentPath: string
+  depth?: number
+}) {
+  const { node, currentPath, depth = 0 } = props
   const Icon = resolveArticleIcon(node.icon)
   const active = isActive(node.path, currentPath)
+  const isSub = depth > 0
+  const Item = isSub ? SidebarMenuSubItem : SidebarMenuItem
+  const Button = isSub ? SidebarMenuSubButton : SidebarMenuButton
+
+  const link = <Link to="/$" params={splatFor(node.path)} />
+  const label = <span>{node.label ?? node.title}</span>
 
   if (node.children.length === 0) {
     return (
-      <SidebarMenuItem>
-        <SidebarMenuButton
+      <Item>
+        <Button
           isActive={active}
           className={active ? "" : "opacity-75"}
-          render={<Link to="/$" params={splatFor(node.path)} />}
+          render={link}
         >
-          <Icon className="size-4" />
-          <span>{node.label ?? node.title}</span>
-        </SidebarMenuButton>
-      </SidebarMenuItem>
+          {!isSub && <Icon className="size-4" />}
+          {label}
+        </Button>
+      </Item>
     )
   }
 
   return (
-    <SidebarMenuItem>
+    <Item>
       <Collapsible defaultOpen className="group/collapsible">
-        <SidebarMenuButton
+        <Button
           isActive={active}
           className={active ? "" : "opacity-75"}
-          render={<Link to="/$" params={splatFor(node.path)} />}
+          render={link}
         >
-          <Icon className="size-4" />
-          <span>{node.label ?? node.title}</span>
-        </SidebarMenuButton>
+          {!isSub && <Icon className="size-4" />}
+          {label}
+        </Button>
         <CollapsibleTrigger
           aria-label={`Toggle ${node.label ?? node.title} submenu`}
           className="absolute right-1 top-1.5 p-1 rounded-md hover:bg-sidebar-accent"
@@ -106,23 +116,17 @@ function NavNode(props: { node: ArticleNode; currentPath: string }) {
         </CollapsibleTrigger>
         <CollapsibleContent>
           <SidebarMenuSub>
-            {node.children.map(child => {
-              const childIsActive = isActive(child.path, currentPath)
-              return (
-                <SidebarMenuSubItem key={child.path}>
-                  <SidebarMenuSubButton
-                    isActive={childIsActive}
-                    className={childIsActive ? "" : "opacity-75"}
-                    render={<Link to="/$" params={splatFor(child.path)} />}
-                  >
-                    <span>{child.label ?? child.title}</span>
-                  </SidebarMenuSubButton>
-                </SidebarMenuSubItem>
-              )
-            })}
+            {node.children.map(child => (
+              <NavNode
+                key={child.path}
+                node={child}
+                currentPath={currentPath}
+                depth={depth + 1}
+              />
+            ))}
           </SidebarMenuSub>
         </CollapsibleContent>
       </Collapsible>
-    </SidebarMenuItem>
+    </Item>
   )
 }
