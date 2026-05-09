@@ -1,4 +1,4 @@
-import { dirname, relative, resolve } from "node:path"
+import { dirname, relative, resolve, sep } from "node:path"
 import { prefixUrl } from "./prefix-url.ts"
 
 /** Resolve a relative asset path to an absolute URL serveable by Vite */
@@ -11,5 +11,6 @@ export function resolveAssetPath(
   if (url.startsWith("http") || url.startsWith("data:")) return url
   if (url.startsWith("/")) return prefixUrl(url, base)
   const absolute = resolve(dirname(filePath), url)
-  return prefixUrl("/" + relative(root, absolute), base)
+  const rel = relative(root, absolute).split(sep).join("/")
+  return prefixUrl("/" + rel, base)
 }
