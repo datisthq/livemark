@@ -15,22 +15,33 @@ export type ViteOverride =
   | ViteUserConfig
   | ((env: ConfigEnv) => ViteUserConfig | Promise<ViteUserConfig>)
 
+/** Sub-path mount. String form is used as-is; function form is called
+ *  with Vite's `command` (`"serve"` in dev, `"build"` in production) so
+ *  the user can branch (typical case: serve at `/` in dev but at
+ *  `/repo/` in production for GitHub Pages). The build pipeline
+ *  resolves it to a string before any runtime sees it. */
+export type Base = string | ((command: "build" | "serve") => string | undefined)
+
 /**
  * User-provided configuration for Livemark.
+ *
+ * `vite` and `base` are lifted from `unknown` to their public types so
+ * `defineConfig` shows the right shape in editors. Use this type for
+ * the input to `defineConfig` — it keeps defaulted fields optional
+ * (because zod input ≠ output for fields with `.default()`).
  */
-export type UserConfig = Omit<z.infer<typeof UserConfig>, "vite"> & {
+export type UserConfig = Omit<z.input<typeof UserConfig>, "vite" | "base"> & {
   vite?: ViteOverride
+  base?: Base
 }
 export const UserConfig = z.object({
   site: z.string().optional(),
-  base: z
-    .string()
-    .optional()
-    .transform(v => {
-      if (!v) return undefined
-      const trimmed = v.replace(/^\/|\/$/g, "")
-      return trimmed ? `/${trimmed}` : undefined
-    }),
+  // Stored as `unknown` in the schema (zod can't type a function and
+  // string union meaningfully); the public TypeScript surface above
+  // lifts it back to `Base` for editor support. The build pipeline
+  // resolves it via `resolveBase()` before any runtime consumer sees
+  // it, so the runtime `WebsiteConfig.base` is strictly `string`.
+  base: z.unknown().optional(),
   favicon: z.string().optional(),
   logo: z.string().optional(),
   title: z.string().default("Livemark"),
@@ -48,17 +59,20 @@ export const UserConfig = z.object({
   vite: z.unknown().optional(),
 })
 
-/** Website configuration injected at build time via Vite define */
+/** Website configuration injected at build time via Vite define.
+ *  `base` is strictly a string here — the build pipeline has already
+ *  resolved any function form via `resolveBase()`. */
 export type WebsiteConfig = z.infer<typeof WebsiteConfig>
 export const WebsiteConfig = UserConfig.pick({
   title: true,
   description: true,
   site: true,
-  base: true,
   favicon: true,
   logo: true,
   links: true,
   sections: true,
+}).extend({
+  base: z.string().optional(),
 })
 
 /**
@@ -73,9 +87,13 @@ export const SystemConfig = z.object({
 /**
  * Fully resolved Livemark configuration.
  *
- * `vite` stays `unknown` here because that's what the runtime schema
+ * `vite` stays `unknown` because that's what the runtime schema
  * produces — consumer-facing typing happens via {@link UserConfig} so
- * `defineConfig` shows the right shape in editors.
+ * `defineConfig` shows the right shape in editors. `base` is lifted to
+ * `string | undefined` because `loadConfig()` resolves any function
+ * form via `resolveBase()` before returning.
  */
-export type Config = z.infer<typeof Config>
+export type Config = Omit<z.infer<typeof Config>, "base"> & {
+  base?: string
+}
 export const Config = UserConfig.merge(SystemConfig)
