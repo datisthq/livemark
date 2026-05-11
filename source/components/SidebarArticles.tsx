@@ -56,7 +56,8 @@ function splatFor(pathname: string) {
 }
 
 function isActive(articlePathname: string, currentPath: string) {
-  const normalized = `/${currentPath.replace(/^\/|\/$/g, "")}/`
+  const trimmed = currentPath.replace(/^\/|\/$/g, "")
+  const normalized = trimmed ? `/${trimmed}/` : "/"
   return articlePathname === normalized
 }
 
