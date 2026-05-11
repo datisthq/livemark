@@ -9,7 +9,7 @@ export default defineConfig({
   include: ["docs/**/*.md", "blog/**/*.md", "README.md", "CONTRIBUTING.md"],
   exclude: ["docs/**/includes/**"],
   sections: [
-    { title: "Docs", prefix: "/" },
+    { title: "Docs", prefix: "/", icon: "book-open" },
     { title: "Blog", prefix: "/blog/", type: "blog", icon: "rss" },
     {
       title: "Changelog",
