@@ -3,6 +3,8 @@ import { defineConfig } from "./source/index.ts"
 export default defineConfig({
   site: "https://livemark.dev",
   logo: "/logo.svg",
+  title: "Livemark",
+  description: "Markdown site generator",
   favicon: "/logo.png",
   include: ["docs/**/*.md", "blog/**/*.md", "README.md", "CONTRIBUTING.md"],
   exclude: ["docs/**/includes/**"],

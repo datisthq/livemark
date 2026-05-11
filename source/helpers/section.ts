@@ -1,3 +1,36 @@
+import type { Section } from "../models/section.ts"
+
+/** Return the section whose prefix or internal-URL best matches the
+ *  given pathname. Routed sections (article/blog/changelog) match by
+ *  `prefix`. Custom sections with internal URLs (`/`-leading, not
+ *  `//`) match by their URL — with the same exact-`/` guard as
+ *  `customSectionActive` so a custom URL of `/` only activates on
+ *  the home page itself. Custom sections with absolute URLs never
+ *  match. Longest match wins. */
+export function activeSiteSection(pathname: string, sections: Section[]) {
+  const current = `/${pathname.replace(/^\/|\/$/g, "")}/`
+  let best: Section | undefined
+  let bestLen = 0
+  for (const s of sections) {
+    const prefix = sectionMatchPrefix(s)
+    if (!prefix) continue
+    if (s.type === "custom" && prefix === "/" && current !== "/") continue
+    if (!current.startsWith(prefix)) continue
+    if (prefix.length > bestLen) {
+      best = s
+      bestLen = prefix.length
+    }
+  }
+  return best
+}
+
+function sectionMatchPrefix(s: Section): string | undefined {
+  if (s.type !== "custom") return s.prefix
+  if (!s.url.startsWith("/") || s.url.startsWith("//")) return undefined
+  const stripped = s.url.split(/[?#]/)[0] ?? ""
+  return `/${stripped.replace(/^\/|\/$/g, "")}/`
+}
+
 /** Whether a custom section's URL should highlight as active for the
  *  current pathname. Only `/`-leading internal paths participate;
  *  protocol-absolute (`https://…`, `//cdn…`) URLs never highlight.

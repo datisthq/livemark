@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vite-plus/test"
+import type { Section } from "../models/section.ts"
 import {
+  activeSiteSection,
   customSectionActive,
   matchSection,
   partitionBySection,
@@ -109,5 +111,72 @@ describe("customSectionActive", () => {
   it("should ignore query and hash on the url", () => {
     expect(customSectionActive("/about?x=1", "/about/")).toBe(true)
     expect(customSectionActive("/about#top", "/about/team/")).toBe(true)
+  })
+})
+
+describe("activeSiteSection", () => {
+  const docs: Section = {
+    type: "article",
+    title: "Docs",
+    prefix: "/",
+    position: "header",
+  }
+  const blog: Section = {
+    type: "blog",
+    title: "Blog",
+    prefix: "/blog/",
+    position: "header",
+  }
+  const apiCustom: Section = {
+    type: "custom",
+    title: "API",
+    url: "/api/v2",
+    position: "header",
+  }
+  const githubCustom: Section = {
+    type: "custom",
+    title: "GitHub",
+    url: "https://github.com/example/repo",
+    position: "header",
+  }
+  const homeCustom: Section = {
+    type: "custom",
+    title: "Home",
+    url: "/",
+    position: "header",
+  }
+
+  it("should return the routed section matching by prefix", () => {
+    expect(activeSiteSection("/blog/post/", [docs, blog])?.title).toBe("Blog")
+  })
+
+  it("should return the custom section matching by internal url", () => {
+    expect(activeSiteSection("/api/v2/users/", [docs, apiCustom])?.title).toBe(
+      "API",
+    )
+  })
+
+  it("should pick the longest match among overlapping prefixes", () => {
+    expect(activeSiteSection("/blog/post/", [docs, blog])?.title).toBe("Blog")
+    expect(activeSiteSection("/api/v2/foo/", [docs, apiCustom])?.title).toBe(
+      "API",
+    )
+  })
+
+  it("should ignore custom sections with absolute URLs", () => {
+    expect(activeSiteSection("/anything/", [githubCustom])).toBeUndefined()
+  })
+
+  it("should match custom URL `/` only on the home page", () => {
+    expect(activeSiteSection("/", [homeCustom])?.title).toBe("Home")
+    expect(activeSiteSection("/about/", [homeCustom])).toBeUndefined()
+  })
+
+  it("should let routed `/` match descendants while custom `/` does not", () => {
+    expect(activeSiteSection("/about/", [docs, homeCustom])?.title).toBe("Docs")
+  })
+
+  it("should return undefined when no section matches", () => {
+    expect(activeSiteSection("/anything/", [blog, apiCustom])).toBeUndefined()
   })
 })

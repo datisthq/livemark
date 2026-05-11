@@ -4,6 +4,8 @@ const BaseSection = z.object({
   icon: z.string().optional(),
   title: z.string(),
   position: z.enum(["header", "sidebar"]).default("header"),
+  siteTitle: z.string().optional(),
+  siteDescription: z.string().optional(),
 })
 
 /** Default section: renders articles. */
