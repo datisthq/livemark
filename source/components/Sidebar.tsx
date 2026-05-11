@@ -1,6 +1,8 @@
-import { Link, useLocation, useMatch } from "@tanstack/react-router"
+import { config } from "livemark:virtual"
+import { useLocation, useMatch } from "@tanstack/react-router"
 import { useHotkey } from "@tanstack/react-hotkeys"
 import { currentSection } from "../content/article.ts"
+import { activeSiteLink } from "../helpers/section.ts"
 import {
   Sidebar as SidebarRoot,
   SidebarContent,
@@ -18,6 +20,7 @@ import { SidebarLinks } from "./SidebarLinks.tsx"
 import { SidebarPosts } from "./SidebarPosts.tsx"
 import { SidebarReleases } from "./SidebarReleases.tsx"
 import { SidebarSections } from "./SidebarSections.tsx"
+import { SiteLink } from "./SiteLink.tsx"
 import { SiteTitle } from "./SiteTitle.tsx"
 import { Theme } from "./Theme.tsx"
 
@@ -34,13 +37,17 @@ export function Sidebar(props: { withSidebar?: boolean }) {
   const section = articleRoute
     ? currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
     : undefined
+  const siteLinkTarget = activeSiteLink(pathname, config.sections ?? [])
 
   return (
     <SidebarRoot>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" render={<Link to="/" />}>
+            <SidebarMenuButton
+              size="lg"
+              render={<SiteLink to={siteLinkTarget} />}
+            >
               <SiteTitle />
             </SidebarMenuButton>
           </SidebarMenuItem>

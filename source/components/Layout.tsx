@@ -9,7 +9,7 @@ import {
 } from "../content/article.ts"
 import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
 import { prefixUrl } from "../helpers/prefix-url.ts"
-import { customSectionActive } from "../helpers/section.ts"
+import { activeSiteLink, customSectionActive } from "../helpers/section.ts"
 import {
   SidebarInset,
   SidebarProvider,
@@ -19,6 +19,7 @@ import {
 import { BackToTop } from "./BackToTop.tsx"
 import { Banner } from "./Banner.tsx"
 import { Sidebar } from "./Sidebar.tsx"
+import { SiteLink } from "./SiteLink.tsx"
 import { SiteTitle } from "./SiteTitle.tsx"
 
 function splatFor(pathname: string) {
@@ -34,6 +35,7 @@ export function Layout(props: {
   const activeSection = articleRoute
     ? currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
     : undefined
+  const siteLinkTarget = activeSiteLink(pathname, config.sections ?? [])
 
   useHotkey("J", () =>
     window.scrollBy({ top: window.innerHeight * 0.8, behavior: "smooth" }),
@@ -54,14 +56,17 @@ export function Layout(props: {
             <div className="hidden lg:flex">
               <SidebarTrigger />
             </div>
-            <Link to="/" className="lg:hidden flex items-center gap-2">
+            <SiteLink
+              to={siteLinkTarget}
+              className="lg:hidden flex items-center gap-2"
+            >
               <SiteTitle />
-            </Link>
+            </SiteLink>
           </>
         ) : (
-          <Link to="/" className="flex items-center gap-2">
+          <SiteLink to={siteLinkTarget} className="flex items-center gap-2">
             <SiteTitle />
-          </Link>
+          </SiteLink>
         )}
       </div>
       <div className="hidden lg:flex flex-1 items-center gap-8 self-stretch px-6 text-sm">

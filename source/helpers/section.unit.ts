@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vite-plus/test"
 import type { Section } from "../models/section.ts"
 import {
+  activeSiteLink,
   activeSiteSection,
   customSectionActive,
   matchSection,
@@ -178,5 +179,46 @@ describe("activeSiteSection", () => {
 
   it("should return undefined when no section matches", () => {
     expect(activeSiteSection("/anything/", [blog, apiCustom])).toBeUndefined()
+  })
+})
+
+describe("activeSiteLink", () => {
+  const docs: Section = {
+    type: "article",
+    title: "Docs",
+    prefix: "/",
+    position: "header",
+  }
+  const blog: Section = {
+    type: "blog",
+    title: "Blog",
+    prefix: "/blog/",
+    position: "header",
+    siteLink: "/blog/",
+  }
+  const externalCustom: Section = {
+    type: "custom",
+    title: "GitHub",
+    url: "/github",
+    position: "header",
+    siteLink: "https://github.com/example/repo",
+  }
+
+  it("should default to '/' when no section matches", () => {
+    expect(activeSiteLink("/anything/", [blog])).toBe("/")
+  })
+
+  it("should default to '/' when matching section has no siteLink", () => {
+    expect(activeSiteLink("/about/", [docs])).toBe("/")
+  })
+
+  it("should return the matching section's siteLink", () => {
+    expect(activeSiteLink("/blog/post/", [blog])).toBe("/blog/")
+  })
+
+  it("should support absolute URLs as the siteLink", () => {
+    expect(activeSiteLink("/github/", [externalCustom])).toBe(
+      "https://github.com/example/repo",
+    )
   })
 })
