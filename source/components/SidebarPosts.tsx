@@ -1,3 +1,4 @@
+import { config } from "livemark:virtual"
 import { Link, useLocation } from "@tanstack/react-router"
 import { Clock, List, Rss, Tag } from "lucide-react"
 import {
@@ -87,12 +88,17 @@ export function SidebarPosts() {
                 })}
               </SidebarMenuSub>
             </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton className="opacity-75">
-                <Rss className="size-4" />
-                <span>RSS Feed</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
+            {config.site && (
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  className="opacity-75"
+                  render={<a href={`/${sectionPath}/rss.xml`} />}
+                >
+                  <Rss className="size-4" />
+                  <span>RSS Feed</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            )}
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>

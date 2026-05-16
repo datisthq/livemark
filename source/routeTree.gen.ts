@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as splatRouteImport } from './routes/$'
+import { Route as SectionRssDotxmlRouteImport } from './routes/$section.rss[.]xml'
 import { Route as IndexRouteImport } from './../.livemark/routes/index'
 
 const splatRoute = splatRouteImport.update({
   id: '/$',
   path: '/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SectionRssDotxmlRoute = SectionRssDotxmlRouteImport.update({
+  id: '/$section/rss.xml',
+  path: '/$section/rss.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -26,27 +32,31 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof splatRoute
+  '/$section/rss.xml': typeof SectionRssDotxmlRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof splatRoute
+  '/$section/rss.xml': typeof SectionRssDotxmlRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$': typeof splatRoute
+  '/$section/rss.xml': typeof SectionRssDotxmlRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/$'
+  fullPaths: '/' | '/$' | '/$section/rss.xml'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/$'
-  id: '__root__' | '/' | '/$'
+  to: '/' | '/$' | '/$section/rss.xml'
+  id: '__root__' | '/' | '/$' | '/$section/rss.xml'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   splatRoute: typeof splatRoute
+  SectionRssDotxmlRoute: typeof SectionRssDotxmlRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/$'
       fullPath: '/$'
       preLoaderRoute: typeof splatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$section/rss.xml': {
+      id: '/$section/rss.xml'
+      path: '/$section/rss.xml'
+      fullPath: '/$section/rss.xml'
+      preLoaderRoute: typeof SectionRssDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -71,6 +88,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   splatRoute: splatRoute,
+  SectionRssDotxmlRoute: SectionRssDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -26,6 +26,16 @@ export const Route = createRootRoute({
       config.favicon ?? config.logo ?? defaultFavicon,
       config.base,
     )
+    const feedLinks = config.site
+      ? (config.sections ?? [])
+          .filter(s => s.type === "blog")
+          .map(s => ({
+            rel: "alternate",
+            type: "application/rss+xml",
+            title: `${s.siteTitle ?? s.title} RSS Feed`,
+            href: prefixUrl(`${s.prefix}rss.xml`, config.base),
+          }))
+      : []
     return {
       meta: [
         { charSet: "utf-8" },
@@ -48,6 +58,7 @@ export const Route = createRootRoute({
         { rel: "shortcut icon", href: favicon, type: faviconType(favicon) },
         { rel: "stylesheet", href: generalCss },
         { rel: "stylesheet", href: markdownCss },
+        ...feedLinks,
       ],
     }
   },

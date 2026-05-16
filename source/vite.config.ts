@@ -11,6 +11,19 @@ import { robots } from "./plugins/vite-robots.ts"
 
 const config = await loadConfig()
 
+// Per-blog-section RSS feed paths to prerender. Gated on `config.site`
+// because feed URLs are absolute (matching the sitemap/robots.txt gate)
+// and the route returns 404 without it anyway. Excluded from the sitemap
+// since `.xml` payloads don't belong in a sitemap.
+const blogFeedPages = config.site
+  ? (config.sections ?? [])
+      .filter(s => s.type === "blog")
+      .map(s => ({
+        path: `${config.base ?? ""}${s.prefix}rss.xml`,
+        sitemap: { exclude: true },
+      }))
+  : []
+
 export default defineConfig({
   plugins: [
     livemark({ config }),
@@ -23,7 +36,10 @@ export default defineConfig({
       // Seed path must match what the crawler produces (router-emitted
       // hrefs include the basepath), otherwise prerender records both
       // shapes and the sitemap ends up with duplicate entries.
-      pages: [{ path: config.base ? `${config.base}/` : "/" }],
+      pages: [
+        { path: config.base ? `${config.base}/` : "/" },
+        ...blogFeedPages,
+      ],
       // Disable route-tree auto-discovery: it produces basepath-naive
       // paths (e.g. `/`) that duplicate the crawl-derived prefixed paths,
       // bloating pages.json and sitemap. Crawling from the seed already
