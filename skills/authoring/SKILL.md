@@ -92,6 +92,6 @@ After authoring, run:
 
 ## References
 
-- Full frontmatter reference: `docs/markdown/frontmatter.md`.
+- Full frontmatter reference: `docs/authoring/frontmatter.md`.
 - Schema source of truth: `website/models/article.ts`.
 - Transform pipeline: `website/content-collections.ts`.

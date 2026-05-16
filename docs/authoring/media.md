@@ -1,6 +1,6 @@
 ---
 title: Media
-path: /markdown/media/
+path: /authoring/media/
 icon: image
 order: 4
 ---

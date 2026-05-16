@@ -101,7 +101,7 @@ Livemark is meant to look great with zero configuration and stay out of your way
 
 Full documentation lives at **[livemark.dev](https://livemark.dev)**:
 
-- [Markdown reference](https://livemark.dev/markdown/) — every Markdown / MDX feature with examples
+- [Authoring reference](https://livemark.dev/authoring/) — every Markdown / MDX feature with examples
 - [Customization](https://livemark.dev/customization/) — every knob, with copy-pasteable snippets
 - [Changelog](https://livemark.dev/changelog/) — release notes
 - [Contributing](https://livemark.dev/contributing/) — local setup and PR flow

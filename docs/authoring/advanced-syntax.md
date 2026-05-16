@@ -1,6 +1,6 @@
 ---
 title: Advanced Syntax
-path: /markdown/advanced-syntax/
+path: /authoring/advanced-syntax/
 icon: puzzle
 order: 8
 ---

@@ -1,6 +1,6 @@
 ---
 title: Links
-path: /markdown/links/
+path: /authoring/links/
 icon: link
 order: 3
 ---

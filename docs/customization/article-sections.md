@@ -116,4 +116,4 @@ Keep prefixes trailing-slashed (`/blog/`, not `/blog`) for predictable matching.
 ## See also
 
 - [External Links](/customization/external-links/) — add external links next to your section tabs.
-- [Frontmatter](/markdown/frontmatter/) — the `path`, `order`, `group`, `date`, `tags` fields that drive section content.
+- [Frontmatter](/authoring/frontmatter/) — the `path`, `order`, `group`, `date`, `tags` fields that drive section content.

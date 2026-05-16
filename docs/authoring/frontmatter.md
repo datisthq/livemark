@@ -1,6 +1,6 @@
 ---
 title: Frontmatter
-path: /markdown/frontmatter/
+path: /authoring/frontmatter/
 icon: file-text
 order: 1
 ---

@@ -1,6 +1,6 @@
 ---
 title: Rich Elements
-path: /markdown/rich-elements/
+path: /authoring/rich-elements/
 icon: layout-grid
 order: 6
 ---

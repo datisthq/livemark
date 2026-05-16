@@ -67,5 +67,5 @@ Patches are for metadata; the content of the file is always the content of the f
 
 ## See also
 
-- [Frontmatter](/markdown/frontmatter/) — all the fields you can set, whether inline or via a patch.
+- [Frontmatter](/authoring/frontmatter/) — all the fields you can set, whether inline or via a patch.
 - [Configuration](/customization/config-file/) — the `include` glob that decides which files a patch can match.
