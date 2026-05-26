@@ -1,12 +1,7 @@
 import { cpSync, existsSync, rmSync } from "node:fs"
 import { join, sep } from "node:path"
 import { watch as chokidarWatch } from "chokidar"
-import type {
-  ConfigEnv,
-  Plugin,
-  UserConfig as ViteUserConfig,
-  ViteDevServer,
-} from "vite"
+import type { ConfigEnv, Plugin, UserConfig as ViteUserConfig, ViteDevServer } from "vite"
 import { mergeConfig } from "vite"
 import { buildTarget } from "../actions/target/build.ts"
 import type { Config } from "../models/config.ts"
@@ -181,13 +176,11 @@ function syncOverlay(
   const source = join(SOURCE_DIR, hit.rel)
   if (kind === "unlink") {
     rmSync(dest, { force: true, recursive: true })
-    if (existsSync(source))
-      cpSync(source, dest, { recursive: true, force: true })
+    if (existsSync(source)) cpSync(source, dest, { recursive: true, force: true })
     return
   }
   const overlay = join(overridesRoot, hit.rel)
-  if (existsSync(overlay))
-    cpSync(overlay, dest, { recursive: true, force: true })
+  if (existsSync(overlay)) cpSync(overlay, dest, { recursive: true, force: true })
 }
 
 function syncSource(

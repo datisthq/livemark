@@ -49,10 +49,9 @@ function Hero() {
         </h1>
 
         <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-          Livemark turns your{" "}
-          <code className="font-mono text-foreground">.md</code> files into a
-          fast, modern documentation site, blog and changelog sections, all
-          built in.
+          Livemark turns your <code className="font-mono text-foreground">.md</code> files
+          into a fast, modern documentation site, blog and changelog sections, all built
+          in.
         </p>
 
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -168,8 +167,8 @@ function Features() {
               Everything a modern doc site needs
             </h2>
             <p className="mt-4 text-muted-foreground text-lg">
-              Opinionated defaults, zero config to start, fully customizable
-              when you need it.
+              Opinionated defaults, zero config to start, fully customizable when you need
+              it.
             </p>
           </div>
         </Reveal>
@@ -192,9 +191,7 @@ function FeatureCard({ icon: Icon, title, description }: Feature) {
         <Icon className="size-5" />
       </div>
       <h3 className="text-lg font-semibold text-foreground">{title}</h3>
-      <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-        {description}
-      </p>
+      <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{description}</p>
     </div>
   )
 }
@@ -227,8 +224,7 @@ function MarkdownSample() {
         <span className={tk.fm}>---</span>
         {"\n"}
         <span className={tk.key}>title</span>
-        <span className={tk.fm}>:</span>{" "}
-        <span className={tk.str}>Quickstart</span>
+        <span className={tk.fm}>:</span> <span className={tk.str}>Quickstart</span>
         {"\n"}
         <span className={tk.key}>icon</span>
         <span className={tk.fm}>:</span> <span className={tk.str}>rocket</span>
@@ -254,14 +250,14 @@ function MarkdownSample() {
         {"\n\n"}
         <span className={tk.head}>## Features</span>
         {"\n\n"}
-        <span className={tk.dim}>-</span>{" "}
-        <span className={tk.bold}>**Fast**</span> rebuilds with Vite
+        <span className={tk.dim}>-</span> <span className={tk.bold}>**Fast**</span>{" "}
+        rebuilds with Vite
         {"\n"}
-        <span className={tk.dim}>-</span>{" "}
-        <span className={tk.bold}>**MDX**</span> components when you need them
+        <span className={tk.dim}>-</span> <span className={tk.bold}>**MDX**</span>{" "}
+        components when you need them
         {"\n"}
-        <span className={tk.dim}>-</span>{" "}
-        <span className={tk.em}>_Beautiful_</span> out of the box
+        <span className={tk.dim}>-</span> <span className={tk.em}>_Beautiful_</span> out
+        of the box
       </code>
     </pre>
   )
@@ -277,8 +273,8 @@ function Showcase() {
               Write Markdown. Ship a website.
             </h2>
             <p className="mt-4 text-muted-foreground text-lg">
-              Your <code className="font-mono">.md</code> files stay as they are
-              — Livemark does the rest.
+              Your <code className="font-mono">.md</code> files stay as they are —
+              Livemark does the rest.
             </p>
           </div>
         </Reveal>
@@ -306,18 +302,14 @@ function Showcase() {
               </div>
               <div className="p-6">
                 <h3 className="text-2xl font-bold">Quickstart</h3>
-                <p className="mt-3 text-sm text-muted-foreground">
-                  Install the package:
-                </p>
+                <p className="mt-3 text-sm text-muted-foreground">Install the package:</p>
                 <div className="mt-3 rounded-md bg-[#1e1e2e] text-[#cdd6f4] p-3 font-mono text-xs">
                   <span className="text-[#cba6f7]">npm</span>{" "}
                   <span className="text-[#a6e3a1]">install</span>{" "}
                   <span className="text-[#f9e2af]">livemark</span>
                 </div>
                 <div className="mt-4 rounded-md border-l-4 border-primary bg-primary/5 px-4 py-3">
-                  <div className="text-xs font-semibold text-primary mb-1">
-                    TIP
-                  </div>
+                  <div className="text-xs font-semibold text-primary mb-1">TIP</div>
                   <p className="text-sm text-foreground">
                     Run{" "}
                     <code className="font-mono text-xs bg-muted px-1 py-0.5 rounded">
@@ -396,8 +388,7 @@ function FinalCta() {
             <span className="text-primary">Let Livemark handle the rest.</span>
           </h2>
           <p className="mt-6 text-lg text-muted-foreground">
-            Install, point to a folder of Markdown, deploy. That's the whole
-            setup.
+            Install, point to a folder of Markdown, deploy. That's the whole setup.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link

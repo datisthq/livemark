@@ -81,9 +81,6 @@ export function buildTarget(configPath: string) {
  *  rebuilding it. Used by code that needs to write into the target
  *  (e.g. cache writers) outside of `buildTarget`'s setup phase. */
 export function targetDirFor(configPath: string) {
-  const hash = createHash("sha256")
-    .update(configPath)
-    .digest("hex")
-    .slice(0, 16)
+  const hash = createHash("sha256").update(configPath).digest("hex").slice(0, 16)
   return join(TARGETS_ROOT, hash)
 }

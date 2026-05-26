@@ -55,11 +55,7 @@ export function PackageTabs(props: PackageTabsProps) {
           className="me-2 p-1 rounded-md text-muted-foreground hover:text-foreground transition-colors"
           aria-label="Copy code"
         >
-          {copied ? (
-            <Check className="size-3.5" />
-          ) : (
-            <Clipboard className="size-3.5" />
-          )}
+          {copied ? <Check className="size-3.5" /> : <Clipboard className="size-3.5" />}
         </button>
       </div>
       <div className="text-[0.8125rem] py-3.5 overflow-auto max-h-[600px]">

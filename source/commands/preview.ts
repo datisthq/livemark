@@ -2,13 +2,7 @@ import { join } from "node:path"
 import { Command } from "commander"
 import { preview as vitePreview } from "vite"
 
-const configFile = join(
-  import.meta.dirname,
-  "..",
-  "..",
-  "source",
-  "vite.config.ts",
-)
+const configFile = join(import.meta.dirname, "..", "..", "source", "vite.config.ts")
 
 /**
  * Preview the production build locally.

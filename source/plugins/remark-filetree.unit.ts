@@ -98,10 +98,7 @@ describe("parseList", () => {
           listItem(
             paragraph(text("b/")),
             list(
-              listItem(
-                paragraph(text("c/")),
-                list(listItem(paragraph(text("deep.ts")))),
-              ),
+              listItem(paragraph(text("c/")), list(listItem(paragraph(text("deep.ts"))))),
             ),
           ),
         ),

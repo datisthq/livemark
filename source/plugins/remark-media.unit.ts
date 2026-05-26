@@ -57,17 +57,13 @@ describe("transformMediaDirectives", () => {
   })
 
   it("should skip audio directive without url", () => {
-    const tree = process(
-      makeTree(makeLeafDirective("audio", { type: "soundcloud" })),
-    )
+    const tree = process(makeTree(makeLeafDirective("audio", { type: "soundcloud" })))
     const node = tree.children[0]
     expect(node).toMatchObject({ type: "leafDirective", name: "audio" })
   })
 
   it("should ignore unrelated leaf directives", () => {
-    const tree = process(
-      makeTree(makeLeafDirective("include", { file: "test.md" })),
-    )
+    const tree = process(makeTree(makeLeafDirective("include", { file: "test.md" })))
     const node = tree.children[0]
     expect(node).toMatchObject({ type: "leafDirective", name: "include" })
   })

@@ -17,9 +17,7 @@ describe("ansiToHtml", () => {
 
   it("should render standard foreground colors", () => {
     const input = "\x1b[31mred text\x1b[0m"
-    expect(ansiToHtml(input)).toBe(
-      '<span style="color:#bf616a">red text</span>',
-    )
+    expect(ansiToHtml(input)).toBe('<span style="color:#bf616a">red text</span>')
   })
 
   it("should render bold text", () => {
@@ -29,9 +27,7 @@ describe("ansiToHtml", () => {
 
   it("should render italic text", () => {
     const input = "\x1b[3mitalic\x1b[0m"
-    expect(ansiToHtml(input)).toBe(
-      '<span style="font-style:italic">italic</span>',
-    )
+    expect(ansiToHtml(input)).toBe('<span style="font-style:italic">italic</span>')
   })
 
   it("should render underline text", () => {
@@ -69,9 +65,7 @@ describe("ansiToHtml", () => {
 
   it("should handle bright foreground colors", () => {
     const input = "\x1b[91mbright red\x1b[0m"
-    expect(ansiToHtml(input)).toBe(
-      '<span style="color:#bf616a">bright red</span>',
-    )
+    expect(ansiToHtml(input)).toBe('<span style="color:#bf616a">bright red</span>')
   })
 
   it("should handle bright background colors", () => {
@@ -88,9 +82,7 @@ describe("ansiToHtml", () => {
 
   it("should handle 256-color background", () => {
     const input = "\x1b[48;5;21mbg\x1b[0m"
-    expect(ansiToHtml(input)).toBe(
-      '<span style="background-color:#0000ff">bg</span>',
-    )
+    expect(ansiToHtml(input)).toBe('<span style="background-color:#0000ff">bg</span>')
   })
 
   it("should handle 24-bit RGB foreground", () => {
@@ -100,16 +92,12 @@ describe("ansiToHtml", () => {
 
   it("should handle 24-bit RGB background", () => {
     const input = "\x1b[48;2;0;128;255mbg\x1b[0m"
-    expect(ansiToHtml(input)).toBe(
-      '<span style="background-color:#0080ff">bg</span>',
-    )
+    expect(ansiToHtml(input)).toBe('<span style="background-color:#0080ff">bg</span>')
   })
 
   it("should handle reset via empty escape", () => {
     const input = "\x1b[31mred\x1b[mnormal"
-    expect(ansiToHtml(input)).toBe(
-      '<span style="color:#bf616a">red</span>normal',
-    )
+    expect(ansiToHtml(input)).toBe('<span style="color:#bf616a">red</span>normal')
   })
 
   it("should handle multiple segments", () => {

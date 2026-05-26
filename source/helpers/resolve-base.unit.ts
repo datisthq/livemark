@@ -43,8 +43,7 @@ describe("resolveBase", () => {
   })
 
   it("should handle a function returning undefined", () => {
-    const fn = (cmd: "build" | "serve") =>
-      cmd === "serve" ? undefined : "prod"
+    const fn = (cmd: "build" | "serve") => (cmd === "serve" ? undefined : "prod")
     expect(resolveBase(fn, "serve")).toBeUndefined()
     expect(resolveBase(fn, "build")).toBe("/prod")
   })

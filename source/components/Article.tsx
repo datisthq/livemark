@@ -13,11 +13,7 @@ import { Column } from "./Column.tsx"
 import { Columns } from "./Columns.tsx"
 import { ContentTab } from "./ContentTab.tsx"
 import { ContentTabs } from "./ContentTabs.tsx"
-import {
-  DefinitionDetail,
-  DefinitionList,
-  DefinitionTerm,
-} from "./DefinitionList.tsx"
+import { DefinitionDetail, DefinitionList, DefinitionTerm } from "./DefinitionList.tsx"
 import { Details } from "./Details.tsx"
 import { FileTree } from "./FileTree.tsx"
 import { Footer } from "./Footer.tsx"

@@ -76,9 +76,7 @@ function resolveDirective(
       const filename = file.split("/").pop()!
       const title = `title="${filename}"`
       const meta = attrs.meta ? ` ${attrs.meta}` : ""
-      return (
-        "```" + lang + " " + title + meta + "\n" + included.trimEnd() + "\n```"
-      )
+      return "```" + lang + " " + title + meta + "\n" + included.trimEnd() + "\n```"
     }
 
     included = included.replace(FRONTMATTER_RE, "")
@@ -89,11 +87,7 @@ function resolveDirective(
 }
 
 /** Resolves ::include{file="..."} directives by replacing them with referenced file contents */
-export function resolveIncludes(
-  content: string,
-  filePath: string,
-  depth = 0,
-): string {
+export function resolveIncludes(content: string, filePath: string, depth = 0): string {
   if (depth > 5) return content
 
   const fileDir = dirname(filePath)

@@ -44,10 +44,7 @@ export function Sidebar(props: { withSidebar?: boolean }) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              size="lg"
-              render={<SiteLink to={siteLinkTarget} />}
-            >
+            <SidebarMenuButton size="lg" render={<SiteLink to={siteLinkTarget} />}>
               <SiteTitle />
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -56,9 +53,7 @@ export function Sidebar(props: { withSidebar?: boolean }) {
       <SidebarContent>
         <SidebarSections />
         {props.withSidebar && section?.type === "blog" && <SidebarPosts />}
-        {props.withSidebar && section?.type === "changelog" && (
-          <SidebarReleases />
-        )}
+        {props.withSidebar && section?.type === "changelog" && <SidebarReleases />}
         {props.withSidebar &&
           section?.type !== "blog" &&
           section?.type !== "changelog" && <SidebarArticles />}

@@ -6,39 +6,35 @@ import { visit, SKIP } from "unist-util-visit"
 /** Remark plugin that converts :::card directives into Card/Cards JSX elements */
 export const remarkCard: Plugin<[], Root> = () => {
   return tree => {
-    visit(
-      tree,
-      "containerDirective",
-      (node: ContainerDirective, index, parent) => {
-        if (node.name !== "card" || index === undefined || !parent) return
+    visit(tree, "containerDirective", (node: ContainerDirective, index, parent) => {
+      if (node.name !== "card" || index === undefined || !parent) return
 
-        const title = node.attributes?.title ?? ""
-        const href = node.attributes?.href
-        const icon = node.attributes?.icon
+      const title = node.attributes?.title ?? ""
+      const href = node.attributes?.href
+      const icon = node.attributes?.icon
 
-        const attributes = [
-          { type: "mdxJsxAttribute" as const, name: "title", value: title },
-          ...(href
-            ? [{ type: "mdxJsxAttribute" as const, name: "href", value: href }]
-            : []),
-          ...(icon
-            ? [{ type: "mdxJsxAttribute" as const, name: "icon", value: icon }]
-            : []),
-        ]
+      const attributes = [
+        { type: "mdxJsxAttribute" as const, name: "title", value: title },
+        ...(href
+          ? [{ type: "mdxJsxAttribute" as const, name: "href", value: href }]
+          : []),
+        ...(icon
+          ? [{ type: "mdxJsxAttribute" as const, name: "icon", value: icon }]
+          : []),
+      ]
 
-        const jsxNode = {
-          type: "mdxJsxFlowElement" as const,
-          name: "Card",
-          attributes,
-          children: node.children,
-          data: { _mdxExplicitJsx: true },
-        }
+      const jsxNode = {
+        type: "mdxJsxFlowElement" as const,
+        name: "Card",
+        attributes,
+        children: node.children,
+        data: { _mdxExplicitJsx: true },
+      }
 
-        // @ts-expect-error mdxJsxFlowElement is not in mdast types
-        parent.children[index] = jsxNode
-        return SKIP
-      },
-    )
+      // @ts-expect-error mdxJsxFlowElement is not in mdast types
+      parent.children[index] = jsxNode
+      return SKIP
+    })
 
     const children = tree.children
     let i = 0

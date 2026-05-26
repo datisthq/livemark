@@ -51,39 +51,33 @@ function parseListItem(listItem: ListItem): TreeItem | undefined {
 /** Remark plugin that converts :::filetree directives into FileTree JSX elements */
 export const remarkFiletree: Plugin<[], Root> = () => {
   return tree => {
-    visit(
-      tree,
-      "containerDirective",
-      (node: ContainerDirective, index, parent) => {
-        if (node.name !== "filetree" || index === undefined || !parent) return
+    visit(tree, "containerDirective", (node: ContainerDirective, index, parent) => {
+      if (node.name !== "filetree" || index === undefined || !parent) return
 
-        const lists = node.children.filter(
-          (child): child is List => child.type === "list",
-        )
+      const lists = node.children.filter((child): child is List => child.type === "list")
 
-        const treeItems: TreeItem[] = []
-        for (const list of lists) {
-          treeItems.push(...parseList(list))
-        }
+      const treeItems: TreeItem[] = []
+      for (const list of lists) {
+        treeItems.push(...parseList(list))
+      }
 
-        const jsxNode = {
-          type: "mdxJsxFlowElement" as const,
-          name: "FileTree",
-          attributes: [
-            {
-              type: "mdxJsxAttribute" as const,
-              name: "tree",
-              value: JSON.stringify(treeItems),
-            },
-          ],
-          children: [],
-          data: { _mdxExplicitJsx: true },
-        }
+      const jsxNode = {
+        type: "mdxJsxFlowElement" as const,
+        name: "FileTree",
+        attributes: [
+          {
+            type: "mdxJsxAttribute" as const,
+            name: "tree",
+            value: JSON.stringify(treeItems),
+          },
+        ],
+        children: [],
+        data: { _mdxExplicitJsx: true },
+      }
 
-        // @ts-expect-error mdxJsxFlowElement is not in mdast types
-        parent.children[index] = jsxNode
-        return SKIP
-      },
-    )
+      // @ts-expect-error mdxJsxFlowElement is not in mdast types
+      parent.children[index] = jsxNode
+      return SKIP
+    })
   }
 }

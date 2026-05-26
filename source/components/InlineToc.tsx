@@ -13,10 +13,7 @@ export function InlineToc(props: { maxLevel?: string }) {
       <p className="text-base font-semibold mb-4">Table of Contents</p>
       <ul className="text-base space-y-2.5">
         {items.map(item => (
-          <li
-            key={item.url}
-            style={{ paddingLeft: `${(item.depth - 2) * 1.25}rem` }}
-          >
+          <li key={item.url} style={{ paddingLeft: `${(item.depth - 2) * 1.25}rem` }}>
             <a
               href={item.url}
               className="text-muted-foreground hover:text-primary transition-colors"

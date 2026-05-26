@@ -1,11 +1,7 @@
 import { config } from "livemark:virtual"
 import { Link, useLocation } from "@tanstack/react-router"
 import { ChevronRight } from "lucide-react"
-import {
-  articleTree,
-  currentSection,
-  sectionArticleTrees,
-} from "../content/article.ts"
+import { articleTree, currentSection, sectionArticleTrees } from "../content/article.ts"
 import {
   Collapsible,
   CollapsibleContent,
@@ -61,11 +57,7 @@ function isActive(articlePathname: string, currentPath: string) {
   return articlePathname === normalized
 }
 
-function NavNode(props: {
-  node: ArticleNode
-  currentPath: string
-  depth?: number
-}) {
+function NavNode(props: { node: ArticleNode; currentPath: string; depth?: number }) {
   const { node, currentPath, depth = 0 } = props
   const Icon = resolveArticleIcon(node.icon)
   const active = isActive(node.path, currentPath)
@@ -79,11 +71,7 @@ function NavNode(props: {
   if (node.children.length === 0) {
     return (
       <Item>
-        <Button
-          isActive={active}
-          className={active ? "" : "opacity-75"}
-          render={link}
-        >
+        <Button isActive={active} className={active ? "" : "opacity-75"} render={link}>
           {!isSub && Icon && <Icon className="size-4" />}
           {label}
         </Button>
@@ -94,11 +82,7 @@ function NavNode(props: {
   return (
     <Item>
       <Collapsible defaultOpen className="group/collapsible">
-        <Button
-          isActive={active}
-          className={active ? "" : "opacity-75"}
-          render={link}
-        >
+        <Button isActive={active} className={active ? "" : "opacity-75"} render={link}>
           {!isSub && Icon && <Icon className="size-4" />}
           {label}
         </Button>

@@ -44,9 +44,7 @@ export const Route = createFileRoute("/$")({
         }
       }
 
-      const tagMatch = splat.match(
-        new RegExp(`^${section.prefix}tags/([^/]+)/$`),
-      )
+      const tagMatch = splat.match(new RegExp(`^${section.prefix}tags/([^/]+)/$`))
       const tag = tagMatch?.[1]
       if (tag) {
         const tagMap = sectionTags.get(section.prefix)

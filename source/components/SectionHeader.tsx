@@ -10,13 +10,7 @@ export function SectionHeader(props: {
   const align = props.align ?? "center"
 
   return (
-    <div
-      className={cn(
-        align === "center" && "text-center",
-        "mb-12",
-        props.className,
-      )}
-    >
+    <div className={cn(align === "center" && "text-center", "mb-12", props.className)}>
       {props.label && (
         <p className="text-primary text-xs uppercase tracking-[0.2em] font-medium mb-3">
           {props.label}

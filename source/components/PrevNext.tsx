@@ -18,12 +18,8 @@ export function PrevNext(props: { path: string }) {
 
   const prevPath = index > 0 ? flat[index - 1] : undefined
   const nextPath = index < flat.length - 1 ? flat[index + 1] : undefined
-  const prev = prevPath
-    ? sortedArticles.find(a => a.path === prevPath)
-    : undefined
-  const next = nextPath
-    ? sortedArticles.find(a => a.path === nextPath)
-    : undefined
+  const prev = prevPath ? sortedArticles.find(a => a.path === prevPath) : undefined
+  const next = nextPath ? sortedArticles.find(a => a.path === nextPath) : undefined
 
   if (!prev && !next) return null
 

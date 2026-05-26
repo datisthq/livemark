@@ -13,9 +13,6 @@ export function DefinitionTerm(props: ComponentProps<"dt">) {
 /** Styled definition detail with a left border accent */
 export function DefinitionDetail(props: ComponentProps<"dd">) {
   return (
-    <dd
-      {...props}
-      className="ml-0 pl-4 border-l-2 border-border text-muted-foreground"
-    />
+    <dd {...props} className="ml-0 pl-4 border-l-2 border-border text-muted-foreground" />
   )
 }

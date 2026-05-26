@@ -59,11 +59,7 @@ export function PageToolbar(props: {
           </span>
         )}
         <button type="button" onClick={handleCopy} className={buttonClass}>
-          {copied ? (
-            <Check className="size-3.5" />
-          ) : (
-            <Copy className="size-3.5" />
-          )}
+          {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
           Copy Markdown
         </button>
         <button

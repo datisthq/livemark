@@ -41,8 +41,7 @@ function color256(n: number): string | undefined {
     const r = Math.floor(idx / 36)
     const g = Math.floor((idx % 36) / 6)
     const b = idx % 6
-    const toHex = (v: number) =>
-      (v === 0 ? 0 : 55 + v * 40).toString(16).padStart(2, "0")
+    const toHex = (v: number) => (v === 0 ? 0 : 55 + v * 40).toString(16).padStart(2, "0")
     return `#${toHex(r)}${toHex(g)}${toHex(b)}`
   }
   if (n < 256) {
@@ -192,9 +191,7 @@ export function ansiToHtml(input: string): string {
 
     const rawParams = match[1]!
     const params =
-      rawParams === ""
-        ? [0]
-        : rawParams.split(";").map(s => Number.parseInt(s, 10))
+      rawParams === "" ? [0] : rawParams.split(";").map(s => Number.parseInt(s, 10))
     applyParams(state, params)
     lastIndex = match.index + match[0].length
     match = sgr.exec(input)

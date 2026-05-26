@@ -8,10 +8,7 @@ function toPascalCase(name: string) {
 }
 
 /** Resolves a Lucide icon by kebab-case name from the full registry */
-export default function DynamicIconResolver(props: {
-  name: string
-  className?: string
-}) {
+export default function DynamicIconResolver(props: { name: string; className?: string }) {
   const key = toPascalCase(props.name)
   if (!(key in icons)) return null
   const Icon = icons[key as keyof typeof icons]

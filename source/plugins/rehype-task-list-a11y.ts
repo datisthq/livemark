@@ -14,8 +14,7 @@ export function rehypeTaskListA11y() {
     visit(tree, "element", (node: HastNode) => {
       if (node.tagName !== "li") return
       const classes = node.properties?.className
-      const hasTaskClass =
-        Array.isArray(classes) && classes.includes("task-list-item")
+      const hasTaskClass = Array.isArray(classes) && classes.includes("task-list-item")
       if (!hasTaskClass) return
 
       for (const child of node.children ?? []) {

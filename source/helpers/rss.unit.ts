@@ -106,9 +106,7 @@ describe("renderRssFeed", () => {
         },
       ],
     })
-    expect(xml).toContain(
-      "<title>Title &amp; &quot;quoted&quot; &lt;tag&gt;</title>",
-    )
+    expect(xml).toContain("<title>Title &amp; &quot;quoted&quot; &lt;tag&gt;</title>")
     expect(xml).toContain("<description>A &amp; B</description>")
     expect(xml).toContain("<title>1 &lt; 2 &amp; 3 &gt; 0</title>")
     expect(xml).toContain("<description>It&apos;s fine</description>")

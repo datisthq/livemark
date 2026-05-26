@@ -14,12 +14,7 @@ export interface RobotsOptions {
  *  overlay wins — Vite copies the publicDir before writeBundle, so
  *  unconditional emitFile would silently overwrite the override. */
 export function robots(opts: RobotsOptions): Plugin {
-  const overrideFile = join(
-    opts.config.root,
-    ".livemark",
-    "public",
-    "robots.txt",
-  )
+  const overrideFile = join(opts.config.root, ".livemark", "public", "robots.txt")
   return {
     name: "livemark:robots",
     applyToEnvironment(env) {

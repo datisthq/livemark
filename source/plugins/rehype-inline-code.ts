@@ -1,23 +1,13 @@
 import type { Plugin } from "unified"
 import { visit } from "unist-util-visit"
-import {
-  type BundledLanguage,
-  bundledLanguages,
-  getSingletonHighlighter,
-} from "shiki"
+import { type BundledLanguage, bundledLanguages, getSingletonHighlighter } from "shiki"
 
 interface HastText {
   type: "text"
   value: string
 }
 
-type PropertyValue =
-  | boolean
-  | number
-  | string
-  | null
-  | undefined
-  | Array<string | number>
+type PropertyValue = boolean | number | string | null | undefined | Array<string | number>
 
 interface HastElement {
   type: "element"
@@ -56,15 +46,10 @@ export const rehypeInlineCode: Plugin<[], HastRoot> = () => {
     visit(
       tree,
       "element",
-      (
-        node: HastNode,
-        _index: number | undefined,
-        parent: HastNode | undefined,
-      ) => {
+      (node: HastNode, _index: number | undefined, parent: HastNode | undefined) => {
         if (node.type !== "element") return
         if (node.tagName !== "code") return
-        if (parent && parent.type === "element" && parent.tagName === "pre")
-          return
+        if (parent && parent.type === "element" && parent.tagName === "pre") return
 
         const textChild = node.children[0]
         if (!textChild || textChild.type !== "text") return
@@ -92,8 +77,7 @@ export const rehypeInlineCode: Plugin<[], HastRoot> = () => {
         const codeEl = pre.children[0]
         if (codeEl && codeEl.type === "element" && "children" in codeEl) {
           node.children = codeEl.children.filter(
-            (c): c is HastElement | HastText =>
-              c.type === "element" || c.type === "text",
+            (c): c is HastElement | HastText => c.type === "element" || c.type === "text",
           )
           node.properties = {
             ...node.properties,

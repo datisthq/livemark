@@ -53,14 +53,8 @@ describe("partitionBySection", () => {
 
   it("should split articles into section buckets", () => {
     const result = partitionBySection(articles, sections)
-    expect(result.get("/")?.map(a => a.path)).toEqual([
-      "/getting-started/",
-      "/guide/",
-    ])
-    expect(result.get("/api/")?.map(a => a.path)).toEqual([
-      "/api/users/",
-      "/api/auth/",
-    ])
+    expect(result.get("/")?.map(a => a.path)).toEqual(["/getting-started/", "/guide/"])
+    expect(result.get("/api/")?.map(a => a.path)).toEqual(["/api/users/", "/api/auth/"])
   })
 
   it("should put unmatched articles in __default__ bucket", () => {
@@ -70,10 +64,7 @@ describe("partitionBySection", () => {
       "/getting-started/",
       "/guide/",
     ])
-    expect(result.get("/api/")?.map(a => a.path)).toEqual([
-      "/api/users/",
-      "/api/auth/",
-    ])
+    expect(result.get("/api/")?.map(a => a.path)).toEqual(["/api/users/", "/api/auth/"])
   })
 })
 
@@ -152,16 +143,12 @@ describe("activeSiteSection", () => {
   })
 
   it("should return the custom section matching by internal url", () => {
-    expect(activeSiteSection("/api/v2/users/", [docs, apiCustom])?.title).toBe(
-      "API",
-    )
+    expect(activeSiteSection("/api/v2/users/", [docs, apiCustom])?.title).toBe("API")
   })
 
   it("should pick the longest match among overlapping prefixes", () => {
     expect(activeSiteSection("/blog/post/", [docs, blog])?.title).toBe("Blog")
-    expect(activeSiteSection("/api/v2/foo/", [docs, apiCustom])?.title).toBe(
-      "API",
-    )
+    expect(activeSiteSection("/api/v2/foo/", [docs, apiCustom])?.title).toBe("API")
   })
 
   it("should ignore custom sections with absolute URLs", () => {

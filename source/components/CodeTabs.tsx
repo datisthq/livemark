@@ -37,9 +37,7 @@ export function CodeTabs(props: {
   useEffect(() => {
     if (!props.sync) return
     const handler = (e: Event) => {
-      const { sync, title } = (
-        e as CustomEvent<{ sync: string; title: string }>
-      ).detail
+      const { sync, title } = (e as CustomEvent<{ sync: string; title: string }>).detail
       if (sync !== props.sync) return
       const idx = names.indexOf(title)
       if (idx >= 0) setActive(idx)

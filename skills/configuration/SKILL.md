@@ -59,9 +59,7 @@ export default defineConfig({
   ],
 
   // Optional: per-file frontmatter overrides
-  patches: [
-    { file: "README.md", article: { title: "Overview", icon: "sparkles" } },
-  ],
+  patches: [{ file: "README.md", article: { title: "Overview", icon: "sparkles" } }],
 })
 ```
 

@@ -63,10 +63,7 @@ export function MobileToc(props: { items: TocItem[]; children?: ReactNode }) {
   const title = active?.title ?? props.items[0]?.title ?? "Contents"
 
   return (
-    <div
-      ref={wrapperRef}
-      className="xl:hidden sticky top-16 z-20 border-b bg-background"
-    >
+    <div ref={wrapperRef} className="xl:hidden sticky top-16 z-20 border-b bg-background">
       <button
         type="button"
         onClick={() => setOpen(v => !v)}
@@ -91,9 +88,7 @@ export function MobileToc(props: { items: TocItem[]; children?: ReactNode }) {
                     <li key={item.url}>
                       <a
                         href={item.url}
-                        data-active={
-                          activeId === item.url.slice(1) || undefined
-                        }
+                        data-active={activeId === item.url.slice(1) || undefined}
                         onClick={() => setOpen(false)}
                         className={`-ms-px block border-l border-transparent py-1.5 text-muted-foreground transition-colors hover:text-foreground data-[active]:border-primary data-[active]:font-medium data-[active]:text-primary ${item.depth <= 2 ? "ps-3" : item.depth === 3 ? "ps-6" : "ps-8"}`}
                       >

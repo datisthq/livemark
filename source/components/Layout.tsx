@@ -26,10 +26,7 @@ function splatFor(pathname: string) {
   return { _splat: pathname.replace(/^\/|\/$/g, "") }
 }
 
-export function Layout(props: {
-  withSidebar?: boolean
-  children?: React.ReactNode
-}) {
+export function Layout(props: { withSidebar?: boolean; children?: React.ReactNode }) {
   const pathname = useLocation({ select: l => l.pathname })
   const articleRoute = useMatch({ from: "/$", shouldThrow: false })
   const activeSection = articleRoute
@@ -56,10 +53,7 @@ export function Layout(props: {
             <div className="hidden lg:flex">
               <SidebarTrigger />
             </div>
-            <SiteLink
-              to={siteLinkTarget}
-              className="lg:hidden flex items-center gap-2"
-            >
+            <SiteLink to={siteLinkTarget} className="lg:hidden flex items-center gap-2">
               <SiteTitle />
             </SiteLink>
           </>
@@ -100,8 +94,7 @@ export function Layout(props: {
               const latestVersion =
                 section.type === "changelog" && section.version
                   ? sortedArticles.find(
-                      a =>
-                        a.path === sectionFlatArticles.get(section.prefix)?.[0],
+                      a => a.path === sectionFlatArticles.get(section.prefix)?.[0],
                     )?.title
                   : undefined
               return (

@@ -7,9 +7,7 @@ export function Mermaid(props: { children: string }) {
   return (
     <Suspense
       fallback={
-        <div className="not-prose mermaid flex justify-center">
-          Loading diagram…
-        </div>
+        <div className="not-prose mermaid flex justify-center">Loading diagram…</div>
       }
     >
       <MermaidRenderer>{props.children}</MermaidRenderer>

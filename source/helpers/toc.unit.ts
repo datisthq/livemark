@@ -35,9 +35,7 @@ describe("extractToc", () => {
   it("should handle code formatting with custom ids", () => {
     const content = "## `config` Options [#config-opts]"
     const toc = extractToc(content)
-    expect(toc).toEqual([
-      { url: "#config-opts", title: "config Options", depth: 2 },
-    ])
+    expect(toc).toEqual([{ url: "#config-opts", title: "config Options", depth: 2 }])
   })
 
   it("should skip h1 headings", () => {

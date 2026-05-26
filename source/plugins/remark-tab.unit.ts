@@ -11,9 +11,7 @@ function makeContainerDirective(
     type: "containerDirective",
     name,
     attributes: attributes ?? {},
-    children: [
-      { type: "paragraph", children: [{ type: "text", value: "content" }] },
-    ],
+    children: [{ type: "paragraph", children: [{ type: "text", value: "content" }] }],
   }
 }
 
@@ -39,9 +37,7 @@ describe("transformTabDirectives", () => {
         {
           type: "mdxJsxFlowElement",
           name: "ContentTab",
-          attributes: [
-            { type: "mdxJsxAttribute", name: "title", value: "React" },
-          ],
+          attributes: [{ type: "mdxJsxAttribute", name: "title", value: "React" }],
         },
       ],
     })

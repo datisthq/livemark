@@ -23,9 +23,7 @@ export function transformMediaDirectives(tree: Root) {
       const jsxNode = {
         type: "mdxJsxFlowElement" as const,
         name: "YouTube",
-        attributes: [
-          { type: "mdxJsxAttribute" as const, name: "id", value: id },
-        ],
+        attributes: [{ type: "mdxJsxAttribute" as const, name: "id", value: id }],
         children: [],
         data: { _mdxExplicitJsx: true },
       }
@@ -41,9 +39,7 @@ export function transformMediaDirectives(tree: Root) {
       const jsxNode = {
         type: "mdxJsxFlowElement" as const,
         name: "SoundCloud",
-        attributes: [
-          { type: "mdxJsxAttribute" as const, name: "url", value: url },
-        ],
+        attributes: [{ type: "mdxJsxAttribute" as const, name: "url", value: url }],
         children: [],
         data: { _mdxExplicitJsx: true },
       }

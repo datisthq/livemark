@@ -1,9 +1,5 @@
 import { type ComponentProps, useEffect, useState } from "react"
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "../elements/hover-card.tsx"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "../elements/hover-card.tsx"
 
 const FOOTNOTE_PREFIX = "#user-content-fn-"
 

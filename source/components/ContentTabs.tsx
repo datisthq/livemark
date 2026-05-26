@@ -1,10 +1,7 @@
 import { Children, isValidElement, useEffect, useState } from "react"
 
 /** Tabbed container component for grouping content tabs with optional sync across groups */
-export function ContentTabs(props: {
-  sync?: string
-  children: React.ReactNode
-}) {
+export function ContentTabs(props: { sync?: string; children: React.ReactNode }) {
   const children = Children.toArray(props.children)
   const titles = children.map(child =>
     isValidElement<{ title: string }>(child) ? child.props.title : "",
@@ -38,9 +35,7 @@ export function ContentTabs(props: {
   useEffect(() => {
     if (!props.sync) return
     const handler = (e: Event) => {
-      const { sync, title } = (
-        e as CustomEvent<{ sync: string; title: string }>
-      ).detail
+      const { sync, title } = (e as CustomEvent<{ sync: string; title: string }>).detail
       if (sync !== props.sync) return
       const idx = titles.indexOf(title)
       if (idx >= 0) setActive(idx)
@@ -70,9 +65,7 @@ export function ContentTabs(props: {
       {children.map((child, i) => (
         <div
           key={titles[i]}
-          className={
-            i === active ? "p-4 prose dark:prose-invert max-w-none" : "hidden"
-          }
+          className={i === active ? "p-4 prose dark:prose-invert max-w-none" : "hidden"}
         >
           {child}
         </div>

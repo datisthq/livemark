@@ -63,10 +63,7 @@ export function matchSection<S extends { prefix: string }>(
   let best: S | undefined
   let bestLen = 0
   for (const section of sections) {
-    if (
-      articlePath.startsWith(section.prefix) &&
-      section.prefix.length > bestLen
-    ) {
+    if (articlePath.startsWith(section.prefix) && section.prefix.length > bestLen) {
       best = section
       bestLen = section.prefix.length
     }

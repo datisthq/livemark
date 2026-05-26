@@ -74,9 +74,7 @@ export function ChangelogIndex(props: { sectionPrefix: string }) {
                   </p>
                 )}
                 {entry.description && (
-                  <p className="text-muted-foreground mt-2">
-                    {entry.description}
-                  </p>
+                  <p className="text-muted-foreground mt-2">{entry.description}</p>
                 )}
               </article>
             ))}

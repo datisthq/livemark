@@ -2,13 +2,7 @@ import { join } from "node:path"
 import { Command } from "commander"
 import { createServer } from "vite"
 
-const configFile = join(
-  import.meta.dirname,
-  "..",
-  "..",
-  "source",
-  "vite.config.ts",
-)
+const configFile = join(import.meta.dirname, "..", "..", "source", "vite.config.ts")
 
 /**
  * Start a development server.

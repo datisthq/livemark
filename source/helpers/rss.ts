@@ -37,19 +37,13 @@ export function renderRssFeed(feed: RssFeed) {
     lines.push(`      <link>${escapeXml(item.link)}</link>`)
     lines.push(`      <guid isPermaLink="true">${escapeXml(item.guid)}</guid>`)
     if (item.description) {
-      lines.push(
-        `      <description>${escapeXml(item.description)}</description>`,
-      )
+      lines.push(`      <description>${escapeXml(item.description)}</description>`)
     }
     if (item.pubDate) {
-      lines.push(
-        `      <pubDate>${escapeXml(toRfc822(item.pubDate))}</pubDate>`,
-      )
+      lines.push(`      <pubDate>${escapeXml(toRfc822(item.pubDate))}</pubDate>`)
     }
     if (item.author) {
-      const author = Array.isArray(item.author)
-        ? item.author.join(", ")
-        : item.author
+      const author = Array.isArray(item.author) ? item.author.join(", ") : item.author
       lines.push(`      <author>${escapeXml(author)}</author>`)
     }
     if (item.categories) {

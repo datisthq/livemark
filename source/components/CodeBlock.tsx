@@ -1,10 +1,6 @@
 import { Check, ChevronDown, Clipboard, WrapText } from "lucide-react"
 import { useRef, useState } from "react"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "../elements/tooltip.tsx"
+import { Tooltip, TooltipContent, TooltipTrigger } from "../elements/tooltip.tsx"
 
 export function CodeBlock(props: React.ComponentProps<"pre">) {
   const [copied, setCopied] = useState(false)
@@ -17,9 +13,7 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
   const maxLines = meta?.match(/maxLines=(\d+)/)?.[1]
   const icon = extra.icon as string | undefined
   const style = props.style as Record<string, string> | undefined
-  const collapsedHeight = maxLines
-    ? `${Number(maxLines) * 1.5 + 1.75}rem`
-    : undefined
+  const collapsedHeight = maxLines ? `${Number(maxLines) * 1.5 + 1.75}rem` : undefined
 
   const handleCopy = () => {
     const text = preRef.current?.textContent ?? ""
@@ -54,9 +48,7 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
             >
               <WrapText className="size-3.5" />
             </TooltipTrigger>
-            <TooltipContent>
-              {wrap ? "Disable wrap" : "Enable wrap"}
-            </TooltipContent>
+            <TooltipContent>{wrap ? "Disable wrap" : "Enable wrap"}</TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger
@@ -83,9 +75,7 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
             >
               <WrapText className="size-3.5" />
             </TooltipTrigger>
-            <TooltipContent>
-              {wrap ? "Disable wrap" : "Enable wrap"}
-            </TooltipContent>
+            <TooltipContent>{wrap ? "Disable wrap" : "Enable wrap"}</TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger

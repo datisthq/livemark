@@ -5,13 +5,7 @@ import { cn } from "../utils/style.ts"
 export function LinkButton(props: {
   href: string
   label: string
-  variant?:
-    | "default"
-    | "outline"
-    | "secondary"
-    | "ghost"
-    | "destructive"
-    | "link"
+  variant?: "default" | "outline" | "secondary" | "ghost" | "destructive" | "link"
   size?: "default" | "sm" | "lg"
 }) {
   return (

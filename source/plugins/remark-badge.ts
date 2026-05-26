@@ -8,9 +8,7 @@ export function transformBadgeDirectives(tree: Root) {
   visit(tree, "textDirective", (node: TextDirective, index, parent) => {
     if (node.name !== "badge" || index === undefined || !parent) return
 
-    const label = node.children
-      .map(c => ("value" in c ? String(c.value) : ""))
-      .join("")
+    const label = node.children.map(c => ("value" in c ? String(c.value) : "")).join("")
 
     const variant = node.attributes?.variant
 

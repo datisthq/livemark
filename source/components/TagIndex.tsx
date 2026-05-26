@@ -30,9 +30,7 @@ export function TagIndex(props: { sectionPrefix: string; tag: string }) {
       const parts = [`## ${post.title}`]
       if (post.date) parts.push(formatDate(post.date))
       if (post.author) {
-        parts.push(
-          Array.isArray(post.author) ? post.author.join(", ") : post.author,
-        )
+        parts.push(Array.isArray(post.author) ? post.author.join(", ") : post.author)
       }
       if (post.description) parts.push("", post.description)
       return parts.join("\n")
@@ -76,16 +74,12 @@ export function TagIndex(props: { sectionPrefix: string; tag: string }) {
                   {post.date && <span>{formatDate(post.date)}</span>}
                   {post.author && (
                     <span>
-                      {Array.isArray(post.author)
-                        ? post.author.join(", ")
-                        : post.author}
+                      {Array.isArray(post.author) ? post.author.join(", ") : post.author}
                     </span>
                   )}
                 </p>
                 {post.description && (
-                  <p className="text-muted-foreground mt-2">
-                    {post.description}
-                  </p>
+                  <p className="text-muted-foreground mt-2">{post.description}</p>
                 )}
               </article>
             ))}

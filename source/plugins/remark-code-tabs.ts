@@ -23,9 +23,7 @@ export const remarkCodeTabs: Plugin<[], Root> = () => {
         continue
       }
 
-      const group: { name: string; code: Code }[] = [
-        { name: firstMatch[1]!, code: node },
-      ]
+      const group: { name: string; code: Code }[] = [{ name: firstMatch[1]!, code: node }]
 
       let j = i + 1
       while (j < children.length) {
@@ -47,10 +45,8 @@ export const remarkCodeTabs: Plugin<[], Root> = () => {
 
       for (const item of group) {
         item.code.meta =
-          item.code
-            .meta!.replace(TAB_PATTERN, "")
-            .replace(SYNC_PATTERN, "")
-            .trim() || null
+          item.code.meta!.replace(TAB_PATTERN, "").replace(SYNC_PATTERN, "").trim() ||
+          null
       }
 
       const codeTabsAttrs: {

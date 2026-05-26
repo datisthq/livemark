@@ -6,25 +6,21 @@ import { visit, SKIP } from "unist-util-visit"
 /** Remark plugin that converts consecutive :::column directives into a Columns grid */
 export const remarkColumns: Plugin<[], Root> = () => {
   return tree => {
-    visit(
-      tree,
-      "containerDirective",
-      (node: ContainerDirective, index, parent) => {
-        if (node.name !== "column" || index === undefined || !parent) return
+    visit(tree, "containerDirective", (node: ContainerDirective, index, parent) => {
+      if (node.name !== "column" || index === undefined || !parent) return
 
-        const jsxNode = {
-          type: "mdxJsxFlowElement" as const,
-          name: "Column",
-          attributes: [],
-          children: node.children,
-          data: { _mdxExplicitJsx: true },
-        }
+      const jsxNode = {
+        type: "mdxJsxFlowElement" as const,
+        name: "Column",
+        attributes: [],
+        children: node.children,
+        data: { _mdxExplicitJsx: true },
+      }
 
-        // @ts-expect-error mdxJsxFlowElement is not in mdast types
-        parent.children[index] = jsxNode
-        return SKIP
-      },
-    )
+      // @ts-expect-error mdxJsxFlowElement is not in mdast types
+      parent.children[index] = jsxNode
+      return SKIP
+    })
 
     const children = tree.children
     let i = 0

@@ -75,18 +75,14 @@ describe("transformHeadingAnnotations", () => {
   })
 
   it("should handle ids with hyphens and numbers", () => {
-    const tree = process(
-      makeTree(makeHeading(2, "Section 1 [#section-1-intro]")),
-    )
+    const tree = process(makeTree(makeHeading(2, "Section 1 [#section-1-intro]")))
     const heading = findHeading(tree, 0)
     expect(heading.data?.hProperties).toEqual({ id: "section-1-intro" })
     expect(headingText(heading)).toBe("Section 1")
   })
 
   it("should preserve inline formatting before the id", () => {
-    const tree = process(
-      makeTree(makeBoldHeading("Bold", " heading [#bold-heading]")),
-    )
+    const tree = process(makeTree(makeBoldHeading("Bold", " heading [#bold-heading]")))
     const heading = findHeading(tree, 0)
     expect(heading.data?.hProperties).toEqual({ id: "bold-heading" })
     expect(heading.children.some(c => c.type === "strong")).toBe(true)

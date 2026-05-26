@@ -47,9 +47,7 @@ describe("transformButtonDirectives", () => {
 
   it("should convert ::button with label attribute to LinkButton JSX element", () => {
     const tree = process(
-      makeTree(
-        makeLeafDirective("button", { href: "/docs", label: "Read Docs" }),
-      ),
+      makeTree(makeLeafDirective("button", { href: "/docs", label: "Read Docs" })),
     )
     const node = tree.children[0]
     expect(node).toMatchObject({
@@ -122,17 +120,13 @@ describe("transformButtonDirectives", () => {
   })
 
   it("should skip button directive without href", () => {
-    const tree = process(
-      makeTree(makeLeafDirective("button", { label: "No Link" })),
-    )
+    const tree = process(makeTree(makeLeafDirective("button", { label: "No Link" })))
     const node = tree.children[0]
     expect(node).toMatchObject({ type: "leafDirective", name: "button" })
   })
 
   it("should skip button directive without label or bracket text", () => {
-    const tree = process(
-      makeTree(makeLeafDirective("button", { href: "/no-label" })),
-    )
+    const tree = process(makeTree(makeLeafDirective("button", { href: "/no-label" })))
     const node = tree.children[0]
     expect(node).toMatchObject({ type: "leafDirective", name: "button" })
   })

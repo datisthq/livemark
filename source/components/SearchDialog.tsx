@@ -80,9 +80,7 @@ export function SearchDialog(props: {
       })
       setResults(
         hits.hits.map(hit => {
-          const article = sortedArticles.find(
-            a => a.title === hit.document.title,
-          )
+          const article = sortedArticles.find(a => a.title === hit.document.title)
           if (!article)
             return toResult(
               {
@@ -161,9 +159,7 @@ export function SearchDialog(props: {
                     <Icon className="size-5 shrink-0 mt-0.5 self-start opacity-60" />
                   )}
                   <div className="flex flex-col gap-0.5 min-w-0">
-                    <span className="text-base font-medium">
-                      {result.title}
-                    </span>
+                    <span className="text-base font-medium">{result.title}</span>
                     {result.snippet && (
                       <span className="text-sm text-muted-foreground line-clamp-1">
                         <HighlightedText text={result.snippet} term={query} />

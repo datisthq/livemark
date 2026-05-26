@@ -8,23 +8,14 @@ describe("resolveIncludes", () => {
   it("should replace include directive with file content", () => {
     const dir = temporaryDirectory()
     writeFileSync(join(dir, "snippet.md"), "Hello from snippet")
-    const result = resolveIncludes(
-      '::include{file="snippet.md"}',
-      join(dir, "main.md"),
-    )
+    const result = resolveIncludes('::include{file="snippet.md"}', join(dir, "main.md"))
     expect(result).toBe("Hello from snippet")
   })
 
   it("should strip frontmatter from included files", () => {
     const dir = temporaryDirectory()
-    writeFileSync(
-      join(dir, "snippet.md"),
-      "---\ntitle: Test\n---\nContent here",
-    )
-    const result = resolveIncludes(
-      '::include{file="snippet.md"}',
-      join(dir, "main.md"),
-    )
+    writeFileSync(join(dir, "snippet.md"), "---\ntitle: Test\n---\nContent here")
+    const result = resolveIncludes('::include{file="snippet.md"}', join(dir, "main.md"))
     expect(result).toBe("Content here")
   })
 
@@ -39,10 +30,7 @@ describe("resolveIncludes", () => {
   })
 
   it("should keep directive when file is missing", () => {
-    const result = resolveIncludes(
-      '::include{file="nonexistent.md"}',
-      "/tmp/main.md",
-    )
+    const result = resolveIncludes('::include{file="nonexistent.md"}', "/tmp/main.md")
     expect(result).toBe('::include{file="nonexistent.md"}')
   })
 
@@ -50,20 +38,14 @@ describe("resolveIncludes", () => {
     const dir = temporaryDirectory()
     writeFileSync(join(dir, "inner.md"), "Inner content")
     writeFileSync(join(dir, "outer.md"), '::include{file="inner.md"}')
-    const result = resolveIncludes(
-      '::include{file="outer.md"}',
-      join(dir, "main.md"),
-    )
+    const result = resolveIncludes('::include{file="outer.md"}', join(dir, "main.md"))
     expect(result).toBe("Inner content")
   })
 
   it("should limit recursion depth", () => {
     const dir = temporaryDirectory()
     writeFileSync(join(dir, "recursive.md"), '::include{file="recursive.md"}')
-    const result = resolveIncludes(
-      '::include{file="recursive.md"}',
-      join(dir, "main.md"),
-    )
+    const result = resolveIncludes('::include{file="recursive.md"}', join(dir, "main.md"))
     expect(result).toBe('::include{file="recursive.md"}')
   })
 
@@ -72,10 +54,7 @@ describe("resolveIncludes", () => {
     mkdirSync(join(dir, "sub"))
     writeFileSync(join(dir, "sub", "child.md"), "Child content")
     writeFileSync(join(dir, "parent.md"), '::include{file="sub/child.md"}')
-    const result = resolveIncludes(
-      '::include{file="parent.md"}',
-      join(dir, "main.md"),
-    )
+    const result = resolveIncludes('::include{file="parent.md"}', join(dir, "main.md"))
     expect(result).toBe("Child content")
   })
 
@@ -93,10 +72,7 @@ describe("resolveIncludes", () => {
   it("should wrap code files in fenced blocks", () => {
     const dir = temporaryDirectory()
     writeFileSync(join(dir, "example.ts"), 'const x = 1\nconst y = "hello"')
-    const result = resolveIncludes(
-      '::include{file="example.ts"}',
-      join(dir, "main.md"),
-    )
+    const result = resolveIncludes('::include{file="example.ts"}', join(dir, "main.md"))
     expect(result).toBe(
       '```typescript title="example.ts"\nconst x = 1\nconst y = "hello"\n```',
     )
@@ -117,10 +93,7 @@ describe("resolveIncludes", () => {
   it("should treat unknown extensions as markdown", () => {
     const dir = temporaryDirectory()
     writeFileSync(join(dir, "notes.txt"), "Plain text")
-    const result = resolveIncludes(
-      '::include{file="notes.txt"}',
-      join(dir, "main.md"),
-    )
+    const result = resolveIncludes('::include{file="notes.txt"}', join(dir, "main.md"))
     expect(result).toBe("Plain text")
   })
 })

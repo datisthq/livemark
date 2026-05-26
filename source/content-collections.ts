@@ -53,15 +53,12 @@ import { extractToc } from "./helpers/toc.ts"
 
 const config = await loadConfig()
 
-const changelogSections =
-  config.sections?.filter(s => s.type === "changelog") ?? []
+const changelogSections = config.sections?.filter(s => s.type === "changelog") ?? []
 for (const section of changelogSections) {
   await buildChangelog(section, config)
 }
 
-const configInclude = Array.isArray(config.include)
-  ? config.include
-  : [config.include]
+const configInclude = Array.isArray(config.include) ? config.include : [config.include]
 const include = changelogSections.length
   ? [...configInclude, cacheIncludeGlob(config)]
   : configInclude

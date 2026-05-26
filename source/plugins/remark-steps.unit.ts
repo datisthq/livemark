@@ -30,9 +30,7 @@ describe("transformStepHeadings", () => {
   }
 
   it("should strip [step] and set data-step attribute", () => {
-    const tree = process(
-      makeTree(makeHeading(3, "Install Dependencies [step]")),
-    )
+    const tree = process(makeTree(makeHeading(3, "Install Dependencies [step]")))
     const heading = findHeading(tree, 0)
     expect(heading.data?.hProperties).toEqual({ "data-step": 1 })
     expect(headingText(heading)).toBe("Install Dependencies")
@@ -75,10 +73,7 @@ describe("transformStepHeadings", () => {
 
   it("should handle different heading depths", () => {
     const tree = process(
-      makeTree(
-        makeHeading(2, "Big Step [step]"),
-        makeHeading(4, "Small Step [step]"),
-      ),
+      makeTree(makeHeading(2, "Big Step [step]"), makeHeading(4, "Small Step [step]")),
     )
 
     expect(findHeading(tree, 0).data?.hProperties).toEqual({ "data-step": 1 })

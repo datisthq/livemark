@@ -33,9 +33,7 @@ function detectCommand() {
  * hash, watcher) still has a stable per-project key.
  */
 export async function loadConfig(path?: string): Promise<Config> {
-  const configIndex = process.argv.findIndex(
-    a => a === "-c" || a === "--config",
-  )
+  const configIndex = process.argv.findIndex(a => a === "-c" || a === "--config")
   const cliPath = configIndex !== -1 ? process.argv[configIndex + 1] : undefined
   const explicit = path ?? cliPath
   const resolved = resolve(explicit ?? "livemark.config.ts")

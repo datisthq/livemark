@@ -6,9 +6,7 @@ import { loadConfig } from "./load.ts"
 
 describe("loadConfig", () => {
   it("should throw when an explicit path points at a missing file", async () => {
-    await expect(loadConfig("/nonexistent/config.ts")).rejects.toThrow(
-      /not found/,
-    )
+    await expect(loadConfig("/nonexistent/config.ts")).rejects.toThrow(/not found/)
   })
 
   it("should return defaults when no path is given and cwd has no config", () =>
@@ -29,10 +27,7 @@ describe("loadConfig", () => {
   it("should load config from explicit path", () =>
     temporaryDirectoryTask(async tmpDir => {
       const configPath = join(tmpDir, "livemark.config.ts")
-      fs.writeFileSync(
-        configPath,
-        'export default { include: "articles/**/*.mdx" }\n',
-      )
+      fs.writeFileSync(configPath, 'export default { include: "articles/**/*.mdx" }\n')
       const config = await loadConfig(configPath)
       expect(config.include).toBe("articles/**/*.mdx")
       expect(config.root).toBe(tmpDir)

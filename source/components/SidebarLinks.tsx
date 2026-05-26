@@ -19,9 +19,7 @@ export function SidebarLinks() {
   const pathname = useLocation({ select: l => l.pathname })
   const section = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
   const links =
-    config.links?.filter(
-      link => !link.prefix || link.prefix === section?.prefix,
-    ) ?? []
+    config.links?.filter(link => !link.prefix || link.prefix === section?.prefix) ?? []
 
   if (!links.length) return null
   const hasDesktopItems = links.some(l => l.position === "sidebar")
@@ -44,9 +42,7 @@ export function SidebarLinks() {
                   className="text-muted-foreground"
                   render={<a href={prefixUrl(link.url, config.base)} />}
                 >
-                  {link.icon && (
-                    <DynamicIcon name={link.icon} className="size-4" />
-                  )}
+                  {link.icon && <DynamicIcon name={link.icon} className="size-4" />}
                   <span>{link.title}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>

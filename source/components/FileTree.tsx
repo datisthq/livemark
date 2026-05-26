@@ -21,11 +21,7 @@ function TreeItems(props: { items: TreeItem[]; depth: number }) {
   return (
     <ul className={props.depth > 0 ? "ml-4 border-l border-border pl-2" : ""}>
       {props.items.map((item, index) => (
-        <TreeNode
-          key={`${item.name}-${index}`}
-          item={item}
-          depth={props.depth}
-        />
+        <TreeNode key={`${item.name}-${index}`} item={item} depth={props.depth} />
       ))}
     </ul>
   )

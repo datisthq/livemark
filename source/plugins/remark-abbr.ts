@@ -8,9 +8,7 @@ export function transformAbbrDirectives(tree: Root) {
   visit(tree, "textDirective", (node: TextDirective, index, parent) => {
     if (node.name !== "abbr" || index === undefined || !parent) return
 
-    const text = node.children
-      .map(c => ("value" in c ? String(c.value) : ""))
-      .join("")
+    const text = node.children.map(c => ("value" in c ? String(c.value) : "")).join("")
 
     const title = node.attributes?.title ?? ""
 

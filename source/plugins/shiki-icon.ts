@@ -4,10 +4,7 @@ interface HastElement {
 
 interface ShikiTransformer {
   name: string
-  pre: (
-    this: { options: { lang?: string } },
-    pre: HastElement,
-  ) => HastElement | void
+  pre: (this: { options: { lang?: string } }, pre: HastElement) => HastElement | void
 }
 
 type Icon = { viewBox: string; fill: string; d: string }

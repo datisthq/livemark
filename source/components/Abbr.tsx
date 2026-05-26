@@ -1,8 +1,4 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "../elements/tooltip.tsx"
+import { Tooltip, TooltipContent, TooltipTrigger } from "../elements/tooltip.tsx"
 
 /** Renders an abbreviation with a shadcn tooltip showing its full form */
 export function Abbr(props: { text: string; title: string }) {

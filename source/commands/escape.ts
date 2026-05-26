@@ -29,14 +29,11 @@ export const escape = new Command("escape")
   .action((relPath?: string) => {
     if (!relPath) {
       for (const file of listEscapable()) console.log(file)
-      console.log(
-        pc.dim("\nRun 'livemark escape <path>' to copy a file into .livemark/"),
-      )
+      console.log(pc.dim("\nRun 'livemark escape <path>' to copy a file into .livemark/"))
       return
     }
 
-    const isTopLevelFile =
-      !relPath.includes("/") && ESCAPABLE_FILES.includes(relPath)
+    const isTopLevelFile = !relPath.includes("/") && ESCAPABLE_FILES.includes(relPath)
     const [first] = relPath.split("/")
     const isFolderPath =
       !!first && ESCAPABLE_FOLDERS.includes(first) && !relPath.includes("..")
@@ -63,9 +60,7 @@ export const escape = new Command("escape")
 
     mkdirSync(dirname(dest), { recursive: true })
     writeFileSync(dest, readFileSync(src))
-    console.log(
-      `Copied ${pc.dim(relPath)} → ${pc.green(`.livemark/${relPath}`)}`,
-    )
+    console.log(`Copied ${pc.dim(relPath)} → ${pc.green(`.livemark/${relPath}`)}`)
   })
 
 function listEscapable() {

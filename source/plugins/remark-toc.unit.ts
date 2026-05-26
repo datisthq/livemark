@@ -37,9 +37,7 @@ describe("transformTocDirectives", () => {
   })
 
   it("should ignore unrelated leaf directives", () => {
-    const tree = process(
-      makeTree(makeLeafDirective("video", { type: "youtube" })),
-    )
+    const tree = process(makeTree(makeLeafDirective("video", { type: "youtube" })))
     const node = tree.children[0]
     expect(node).toMatchObject({ type: "leafDirective", name: "video" })
   })

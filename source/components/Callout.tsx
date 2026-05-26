@@ -54,12 +54,7 @@ export function Callout(props: {
   const title = props.title ?? config.label
 
   return (
-    <aside
-      className={cn(
-        "not-prose my-4 rounded-xl border px-4 py-3",
-        config.classes,
-      )}
-    >
+    <aside className={cn("not-prose my-4 rounded-xl border px-4 py-3", config.classes)}>
       <div className="flex items-center gap-2 font-semibold text-sm mb-2">
         <Icon className="size-4 shrink-0" />
         <span>{title}</span>

@@ -11,10 +11,7 @@ interface HastElement {
 
 interface ShikiTransformer {
   name: string
-  preprocess?: (
-    this: { options: { meta?: { __raw?: string } } },
-    code: string,
-  ) => void
+  preprocess?: (this: { options: { meta?: { __raw?: string } } }, code: string) => void
   pre?: (pre: HastElement) => HastElement | void
   line?: (line: HastElement, lineNumber: number) => HastElement | void
   span?: (span: HastElement) => HastElement | void
@@ -67,8 +64,7 @@ function spanContainsWord(span: HastElement, word: string): boolean {
   return false
 }
 
-const NOTATION_RE =
-  /\/\/\s*\[!code\s+(highlight|focus|\+\+|--|error|warning)\]\s*$/
+const NOTATION_RE = /\/\/\s*\[!code\s+(highlight|focus|\+\+|--|error|warning)\]\s*$/
 const NOTATION_BLOCK_RE =
   /\/\*\s*\[!code\s+(highlight|focus|\+\+|--|error|warning)\]\s*\*\/\s*$/
 
@@ -79,8 +75,7 @@ function stripNotationFromLine(line: HastElement): string | undefined {
       if (result !== undefined) return result
     }
     if (child.type === "text") {
-      const match =
-        child.value.match(NOTATION_RE) ?? child.value.match(NOTATION_BLOCK_RE)
+      const match = child.value.match(NOTATION_RE) ?? child.value.match(NOTATION_BLOCK_RE)
       if (match) {
         child.value = child.value.slice(0, match.index).trimEnd()
         return match[1]!
@@ -158,9 +153,7 @@ export function transformerLineHighlight(): ShikiTransformer {
         line.properties["data-highlighted"] = ""
       }
       if (lineNumbers.enabled) {
-        line.properties["data-line-number"] = String(
-          lineNumber - 1 + lineNumbers.start,
-        )
+        line.properties["data-line-number"] = String(lineNumber - 1 + lineNumbers.start)
       }
       return line
     },

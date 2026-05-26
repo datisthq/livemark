@@ -1,11 +1,4 @@
-import {
-  access,
-  mkdir,
-  readFile,
-  readdir,
-  rm,
-  writeFile,
-} from "node:fs/promises"
+import { access, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises"
 import { dirname, join, resolve } from "node:path"
 import slugify from "@sindresorhus/slugify"
 import type { Root, RootContent } from "mdast"
@@ -61,10 +54,7 @@ export function cacheIncludeGlob(config: Config) {
  *  `cache/changelog/`: the rendered `.md` entries plus a `meta.json`
  *  holding the etag for conditional GETs. On refresh we wipe only the
  *  `.md` files, leaving meta intact. */
-export async function buildChangelog(
-  section: ChangelogSection,
-  config: Config,
-) {
+export async function buildChangelog(section: ChangelogSection, config: Config) {
   const targetDir = targetDirFor(config.configPath)
   const cacheDir = join(targetDir, CACHE_SUBDIR)
   const metaPath = join(cacheDir, "meta.json")
@@ -160,9 +150,7 @@ function escapeMdxAngles(markdown: string) {
         return line
       }
       if (inFence) return line
-      return line.replace(/`[^`]*`|</g, match =>
-        match === "<" ? "\\<" : match,
-      )
+      return line.replace(/`[^`]*`|</g, match => (match === "<" ? "\\<" : match))
     })
     .join("\n")
 }
@@ -230,11 +218,7 @@ async function buildFromGitHub(
 }
 
 function wrapFrontmatter(entry: ChangelogEntry, section: ChangelogSection) {
-  const lines = [
-    "---",
-    `title: ${entry.title}`,
-    `path: ${section.prefix}${entry.slug}/`,
-  ]
+  const lines = ["---", `title: ${entry.title}`, `path: ${section.prefix}${entry.slug}/`]
   if (entry.date) lines.push(`date: ${entry.date}`)
   if (entry.sourceUrl) {
     lines.push(`sourceUrl: ${entry.sourceUrl}`, "sourceAction: view")

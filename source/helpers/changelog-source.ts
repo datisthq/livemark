@@ -5,9 +5,7 @@ export function isGitHubUrl(source: string) {
 
 /** Extract `{ owner, repo }` from a GitHub URL. Returns undefined if unparseable */
 export function parseGitHubRepo(source: string) {
-  const match = source.match(
-    /^(?:https?:\/\/)?(?:www\.)?github\.com\/([^/]+)\/([^/#?]+)/,
-  )
+  const match = source.match(/^(?:https?:\/\/)?(?:www\.)?github\.com\/([^/]+)\/([^/#?]+)/)
   if (!match) return undefined
   const owner = match[1]
   const repo = match[2]?.replace(/\.git$/, "")

@@ -9,8 +9,7 @@ export const remarkDeflist: Plugin<[], Root> = () => {
       if (index === undefined || !parent) return
 
       const children = node.children.map(child => {
-        const name =
-          child.type === "defListTerm" ? "DefinitionTerm" : "DefinitionDetail"
+        const name = child.type === "defListTerm" ? "DefinitionTerm" : "DefinitionDetail"
         return {
           type: "mdxJsxFlowElement" as const,
           name,

@@ -19,9 +19,7 @@ describe("renderRobots", () => {
   })
 
   it("includes the base path so the URL matches the build mount", () => {
-    expect(
-      renderRobots({ site: "https://user.github.io", base: "/repo" }),
-    ).toBe(
+    expect(renderRobots({ site: "https://user.github.io", base: "/repo" })).toBe(
       "User-agent: *\nAllow: /\n\nSitemap: https://user.github.io/repo/sitemap.xml\n",
     )
   })
