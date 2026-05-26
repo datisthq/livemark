@@ -1,6 +1,8 @@
 import { useState, useCallback } from "react"
 import { Eye, Pencil, Copy, Check, ExternalLink } from "lucide-react"
 
+const LLM_PROMPT = "Read {url}, I want to ask questions about it."
+
 /** Toolbar with action buttons displayed for the article content */
 export function PageToolbar(props: {
   file?: string
@@ -24,13 +26,11 @@ export function PageToolbar(props: {
     setTimeout(() => setCopied(false), 2000)
   }, [props.content])
 
-  const handleOpenIn = useCallback(
-    (url: string) => {
-      navigator.clipboard.writeText(props.content)
-      window.open(url, "_blank", "noopener,noreferrer")
-    },
-    [props.content],
-  )
+  const openIn = (base: string, extra?: Record<string, string>) => {
+    const q = LLM_PROMPT.replace("{url}", window.location.href)
+    const params = new URLSearchParams({ ...extra, q })
+    window.open(`${base}?${params}`, "_blank", "noopener,noreferrer")
+  }
 
   const buttonClass =
     "flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -68,7 +68,7 @@ export function PageToolbar(props: {
         </button>
         <button
           type="button"
-          onClick={() => handleOpenIn("https://chatgpt.com/")}
+          onClick={() => openIn("https://chatgpt.com/", { hints: "search" })}
           className={buttonClass}
         >
           <ExternalLink className="size-3.5" />
@@ -76,7 +76,7 @@ export function PageToolbar(props: {
         </button>
         <button
           type="button"
-          onClick={() => handleOpenIn("https://claude.ai/")}
+          onClick={() => openIn("https://claude.ai/new")}
           className={buttonClass}
         >
           <ExternalLink className="size-3.5" />
