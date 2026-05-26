@@ -44,6 +44,14 @@ Python-based docs generator; Material is the de-facto theme.
 Go single-binary general-purpose static site generator.
 :::
 
+:::card{title="Docsify vs Livemark" href="/comparison/docsify/" icon="wind"}
+No-build docs tool that fetches and renders Markdown in the browser at runtime.
+:::
+
+:::card{title="GitBook vs Livemark" href="/comparison/gitbook/" icon="notebook-pen"}
+Hosted SaaS with a block editor, Git Sync mirror, and built-in API reference.
+:::
+
 ## What every comparison covers
 
 - **At a glance** — language, framework, build tool, content format, license, output model.
