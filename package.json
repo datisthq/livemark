@@ -105,7 +105,7 @@
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0",
     "vaul": "1.1.2",
-    "vite": "8.0.13",
+    "vite": "8.0.16",
     "vite-plugin-svgr": "5.2.0",
     "zod": "4.3.6"
   },
@@ -123,7 +123,7 @@
     "react-dom": "19.2.4",
     "semantic-release": "24.2.9",
     "tempy": "3.2.0",
-    "vite-plus": "0.1.24",
+    "vite-plus": "0.2.1",
     "wrangler": "4.85.0"
   },
   "peerDependencies": {
