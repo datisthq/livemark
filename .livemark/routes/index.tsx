@@ -25,7 +25,7 @@ function Landing() {
       <Features />
       <Showcase />
       <FinalCta />
-      <Stack />
+      <Datist />
     </div>
   )
 }
@@ -339,36 +339,25 @@ function Showcase() {
   )
 }
 
-/* ─────────────────────────── Stack ─────────────────────────── */
+/* ─────────────────────────── Datist ─────────────────────────── */
 
-const stackItems = [
-  "React 19",
-  "TanStack Start",
-  "MDX 2",
-  "Shiki",
-  "Tailwind v4",
-  "Mermaid",
-]
-
-function Stack() {
+function Datist() {
   return (
-    <section className="border-t border-border bg-muted/30">
-      <div className="mx-auto max-w-5xl px-6 py-16">
+    <section className="border-t border-border">
+      <div className="mx-auto max-w-5xl px-6 py-10">
         <Reveal>
-          <div className="flex flex-col items-center gap-6 text-center">
+          <div className="flex flex-col items-center gap-3 text-center">
             <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-              Built on modern, battle-tested foundations
+              Built by
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
-              {stackItems.map(item => (
-                <span
-                  key={item}
-                  className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
+            <a
+              href="https://datist.io"
+              target="_blank"
+              rel="noopener"
+              className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors no-underline"
+            >
+              Datist — Software development, end to end.
+            </a>
           </div>
         </Reveal>
       </div>
