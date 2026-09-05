@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: Livemark
+abstract: Markdown site generator that turns a folder of Markdown files into a deployable documentation site.
+authors:
+  - family-names: Karev
+    given-names: Evgeny
+    email: evgeny.karev@datist.io
+url: "https://livemark.dev"
+repository-code: "https://github.com/datisthq/livemark"
+license: MIT
+keywords:
+  - markdown
+  - documentation
+  - static-site-generator
+  - livemark
+  - react
+  - vite
