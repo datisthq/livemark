@@ -28,7 +28,7 @@
     "deps": "ncu -u",
     "docs:build": "node source/entrypoints/main.ts build",
     "docs:start": "node source/entrypoints/main.ts start",
-    "format": "vp fmt",
+    "format": "vp fmt --no-error-on-unmatched-pattern",
     "leaks": "gitleaks git --config=.gitleaks.toml --verbose --redact",
     "lint": "vp fmt --check && vp lint",
     "prepare": "lefthook install",
