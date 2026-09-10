@@ -1,4 +1,4 @@
-import { cn } from "../utils/style.ts"
+import { cn } from "cn"
 
 function Kbd({ className, ...props }: React.ComponentProps<"kbd">) {
   return (

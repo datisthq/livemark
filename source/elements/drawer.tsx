@@ -1,5 +1,5 @@
 import { Drawer as DrawerPrimitive } from "vaul"
-import { cn } from "../utils/style.ts"
+import { cn } from "cn"
 
 function Drawer({ ...props }: React.ComponentProps<typeof DrawerPrimitive.Root>) {
   return <DrawerPrimitive.Root data-slot="drawer" {...props} />

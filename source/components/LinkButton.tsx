@@ -1,5 +1,5 @@
 import { buttonVariants } from "../elements/button.tsx"
-import { cn } from "../utils/style.ts"
+import { cn } from "cn"
 
 /** Styled link button rendered from ::button leaf directives */
 export function LinkButton(props: {

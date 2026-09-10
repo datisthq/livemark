@@ -2,7 +2,7 @@ import * as React from "react"
 import { Command as CommandPrimitive } from "cmdk"
 import { CheckIcon, SearchIcon, XIcon } from "lucide-react"
 
-import { cn } from "../utils/style.ts"
+import { cn } from "cn"
 import {
   Dialog,
   DialogContent,

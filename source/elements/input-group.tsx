@@ -1,5 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "../utils/style.ts"
+import { cn } from "cn"
 import { Button } from "./button.tsx"
 import { Input } from "./input.tsx"
 import { Textarea } from "./textarea.tsx"

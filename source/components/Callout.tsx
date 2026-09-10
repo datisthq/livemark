@@ -1,5 +1,5 @@
 import { AlertTriangle, Flame, Info, Lightbulb } from "lucide-react"
-import { cn } from "../utils/style.ts"
+import { cn } from "cn"
 
 type CalloutType = "note" | "tip" | "info" | "warning" | "danger"
 
