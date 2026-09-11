@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vite-plus/test"
-import { splitLocalChangelog } from "./build.ts"
+import { escapeMdxAngles, splitLocalChangelog } from "./build.ts"
 
 describe("splitLocalChangelog", () => {
   it("splits by h2 headings", () => {
@@ -65,5 +65,31 @@ Release notes.
     expect(entries[0]?.title).toBe("v1.2.3")
     expect(entries[0]?.slug).toBe("v1-2-3")
     expect(entries[0]?.date).toBeUndefined()
+  })
+})
+
+describe("escapeMdxAngles", () => {
+  it("escapes a bare angle placeholder as an HTML entity", () => {
+    // `\<` is honoured by remark but NOT by MDX's JSX-aware parser, which still
+    // reads `\<name>` as an unclosed tag. Only the entity survives both.
+    expect(escapeMdxAngles("a <name> b")).toBe("a &lt;name> b")
+  })
+
+  it("escapes a placeholder that follows a bare URL", () => {
+    const input = "See https://fairspec.org/profiles/latest/<name>.json, ok."
+    expect(escapeMdxAngles(input)).toBe(
+      "See https://fairspec.org/profiles/latest/&lt;name>.json, ok.",
+    )
+  })
+
+  it("leaves inline code spans alone", () => {
+    expect(escapeMdxAngles("use `--resource <name>` here")).toBe(
+      "use `--resource <name>` here",
+    )
+  })
+
+  it("leaves fenced code blocks alone", () => {
+    const input = "```sh\nfoo <bar>\n```"
+    expect(escapeMdxAngles(input)).toBe(input)
   })
 })
