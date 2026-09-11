@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.24.1](https://github.com/datisthq/livemark/compare/v0.24.0...v0.24.1) (2026-09-11)
+
+
+### Bug Fixes
+
+* **release:** keep the v-prefixed tag format ([43249b0](https://github.com/datisthq/livemark/commit/43249b04d267cecce5344769ad925e25f00dffc8))
+
 ## [0.24.0](https://github.com/datisthq/livemark/compare/v0.23.0...v0.24.0) (2026-08-29)
 
 ### Features
