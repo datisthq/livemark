@@ -29,3 +29,19 @@ allowBuilds:
   msw: true
   sharp: true
   workerd: true
+peerDependencyRules:
+  allowedVersions:
+    "@content-collections/vite>vite": "8"
+    vite: "*"
+    vitest: "*"
+  allowAny:
+    - vite
+    - vitest
+catalog:
+  vite: npm:@voidzero-dev/vite-plus-core@0.3.0
+  vitest: 4.1.11
+  vite-plus: 0.3.0
+  "@vitest/coverage-v8": 4.1.11
+overrides:
+  vite@*: "catalog:"
+  vitest@*: "catalog:"
