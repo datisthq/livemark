@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.24.1](https://github.com/datisthq/livemark/compare/v0.24.0...v0.24.1) (2026-10-06)
+
+
+### Bug Fixes
+
+* **changelog:** escape MDX angles as an entity so placeholders after a URL render ([224b11e](https://github.com/datisthq/livemark/commit/224b11e9ec25e46643cbde612363444ab26caf10))
+* **ci:** look up the release PR instead of reading the action output ([de8eae5](https://github.com/datisthq/livemark/commit/de8eae5036a5709f57f23a04d7ecad37f8dacc91))
+
 ## [0.24.0](https://github.com/datisthq/livemark/compare/v0.23.0...v0.24.0) (2026-08-29)
 
 ### Features
