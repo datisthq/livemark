@@ -64,7 +64,7 @@ dist/
 messages.js
 .user/
 tmuxp.yaml
-/.claude/settings.local.json
+/.claude/
 .content-collections/
 .tanstack/
 /.playwright-mcp/
