@@ -42,6 +42,11 @@ catalog:
   vitest: 5.0.1
   vite-plus: 1.0.0
   "@vitest/coverage-v8": 5.0.1
+  katex: 0.18.9
 overrides:
   vite@*: "catalog:"
   vitest@*: "catalog:"
+  # rehype-katex, mermaid and micromark-extension-math still pin katex ^0.16, but the stylesheet
+  # comes from our direct katex dep and katex 0.18 prefixed its CSS classes. Render everywhere with
+  # the same katex the CSS ships from.
+  katex@*: "catalog:"
