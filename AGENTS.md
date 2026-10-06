@@ -17,16 +17,16 @@ This file provides guidance to coding agents when working with code in this repo
 
 ## Skills
 
-Depth lives in `skills/` (reached by Claude Code through the `.claude/skills` symlink), so
+Depth lives in `.agents/skills/` (reached by Claude Code through the `.claude/skills` symlink), so
 this file carries invariants and the skills carry procedure. Reach for one before working in
-its area:
+its area. Each is named `<subject>-<facet>`, subject first (`change-review`):
 
-| skill            | when                                                          |
-| ---------------- | ------------------------------------------------------------- |
-| `authoring`      | adding or editing Markdown articles in a Livemark project     |
-| `configuration`  | changing a Livemark project's configuration                   |
-| `customization`  | theming or otherwise customising a Livemark site              |
-| `review-changes` | reviewing a pull request — also what the review workflow runs |
+| skill                    | when                                                          |
+| ------------------------ | ------------------------------------------------------------- |
+| `livemark-authoring`     | adding or editing Markdown articles in a Livemark project     |
+| `livemark-configuration` | changing a Livemark project's configuration                   |
+| `livemark-customization` | theming or otherwise customising a Livemark site              |
+| `change-review`          | reviewing a pull request — also what the review workflow runs |
 
 ## Commands
 
