@@ -46,6 +46,7 @@ catalog:
 overrides:
   vite@*: "catalog:"
   vitest@*: "catalog:"
-  # rehype-katex 7 still pins katex ^0.16, but the stylesheet comes from our direct katex dep and
-  # katex 0.18 prefixed its CSS classes. Render with the same katex the CSS ships from.
-  "rehype-katex>katex": "catalog:"
+  # rehype-katex, mermaid and micromark-extension-math still pin katex ^0.16, but the stylesheet
+  # comes from our direct katex dep and katex 0.18 prefixed its CSS classes. Render everywhere with
+  # the same katex the CSS ships from.
+  katex@*: "catalog:"
