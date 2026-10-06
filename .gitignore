@@ -68,3 +68,4 @@ tmuxp.yaml
 .content-collections/
 .tanstack/
 /.playwright-mcp/
+.vitest/
