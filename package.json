@@ -73,7 +73,7 @@
     "es-toolkit": "1.44.0",
     "github-slugger": "^2.0.0",
     "input-otp": "1.4.2",
-    "katex": "^0.18.2",
+    "katex": "catalog:",
     "lucide-react": "0.577.0",
     "mdast-util-directive": "^3.1.0",
     "mdast-util-to-string": "^4.0.0",

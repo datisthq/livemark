@@ -9,6 +9,9 @@ catalogs:
     '@vitest/coverage-v8':
       specifier: 5.0.1
       version: 5.0.1
+    katex:
+      specifier: 0.18.9
+      version: 0.18.9
     vite-plus:
       specifier: 1.0.0
       version: 1.0.0
@@ -19,6 +22,7 @@ catalogs:
 overrides:
   vite@*: npm:@voidzero-dev/vite-plus-core@1.0.0
   vitest@*: 5.0.1
+  rehype-katex>katex: 0.18.9
 
 importers:
 
@@ -124,8 +128,8 @@ importers:
         specifier: 1.4.2
         version: 1.4.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       katex:
-        specifier: ^0.18.2
-        version: 0.18.11
+        specifier: 'catalog:'
+        version: 0.18.9
       lucide-react:
         specifier: 0.577.0
         version: 0.577.0(react@19.2.4)
@@ -4397,9 +4401,8 @@ packages:
     resolution: {integrity: sha512-pQpZbdBu7wCTmQUh7ufPmLr0pFoObnGUoL/yhtwJDgmmQpbkg/0HSVti25Fu4rmd1oCR6NGWe9vqTWuWv3GcNA==}
     hasBin: true
 
-  katex@0.18.11:
-    resolution: {integrity: sha512-yvyz/2VMKqoho/35Hat5w37wIEdWJ5ElVMidTAlWrxr5uW4aBGsEpveTmKh18/zw08v/7lGswCPon4OhqmqrTA==}
-    deprecated: Accidentally published with breaking changes. Use 0.19.0 instead.
+  katex@0.18.9:
+    resolution: {integrity: sha512-8ad9RyoKsb/g8/yLFE+KAlP+DhbCTRUNi/V9XGsxn0R+trJJltNwzcDNo0q/DEkOy5fQUQTAQyCXCYSE+OakTQ==}
     hasBin: true
 
   khroma@2.1.0:
@@ -10065,7 +10068,7 @@ snapshots:
     dependencies:
       commander: 8.3.0
 
-  katex@0.18.11:
+  katex@0.18.9:
     dependencies:
       commander: 15.0.0
 
@@ -11374,7 +11377,7 @@ snapshots:
       '@types/katex': 0.16.8
       hast-util-from-html-isomorphic: 2.0.0
       hast-util-to-text: 4.0.2
-      katex: 0.16.45
+      katex: 0.18.9
       unist-util-visit-parents: 6.0.2
       vfile: 6.0.3
 
