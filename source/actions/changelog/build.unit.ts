@@ -1,5 +1,5 @@
 import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises"
-import { join } from "node:path"
+import { basename, dirname, join } from "node:path"
 import { temporaryDirectoryTask } from "tempy"
 import { describe, expect, it } from "vite-plus/test"
 import { partitionBySection } from "../../helpers/section.ts"
@@ -49,12 +49,11 @@ describe("buildChangelog", () => {
 
         const standardDir = changelogCacheDir(standard, config)
         const pythonDir = changelogCacheDir(python, config)
-        expect(standardDir).toBe(
-          join(targetDirFor(configPath), "cache/changelog/changelog"),
-        )
-        expect(pythonDir).toBe(
-          join(targetDirFor(configPath), "cache/changelog/python-changelog"),
-        )
+        const cacheRoot = join(targetDirFor(configPath), "cache/changelog")
+        expect(dirname(standardDir)).toBe(cacheRoot)
+        expect(dirname(pythonDir)).toBe(cacheRoot)
+        expect(basename(standardDir)).toMatch(/^changelog-[0-9a-f]{8}$/)
+        expect(basename(pythonDir)).toMatch(/^python-changelog-[0-9a-f]{8}$/)
         expect(cacheIncludeGlob(python, config)).toBe(join(pythonDir, "*.md"))
 
         expect((await readdir(standardDir)).sort()).toEqual(["0-1-0.md", "0-2-0.md"])
@@ -114,6 +113,42 @@ describe("buildChangelog", () => {
 
         expect(await readdir(changelogCacheDir(standard, config))).toEqual(["0-4-0.md"])
         expect(await readdir(changelogCacheDir(python, config))).toEqual(["0-3-0.md"])
+      } finally {
+        await rm(targetDirFor(configPath), { recursive: true, force: true })
+      }
+    }))
+
+  it("keeps sections apart when their prefixes slugify to the same key", () =>
+    temporaryDirectoryTask(async root => {
+      const configPath = join(root, "livemark.config.ts")
+      const nested: ChangelogSection = {
+        type: "changelog",
+        title: "Changelog",
+        prefix: "/python/changelog/",
+        source: "nested/CHANGELOG.md",
+        position: "sidebar",
+      }
+      const flat: ChangelogSection = {
+        type: "changelog",
+        title: "Changelog",
+        prefix: "/python-changelog/",
+        source: "flat/CHANGELOG.md",
+        position: "sidebar",
+      }
+      const config = makeConfig(root, [nested, flat])
+
+      await writeChangelog(root, "nested", "## 0.1.0\n\nNested one.\n")
+      await writeChangelog(root, "flat", "## 0.2.0\n\nFlat two.\n")
+
+      try {
+        await buildChangelog(nested, config)
+        await buildChangelog(flat, config)
+
+        const nestedDir = changelogCacheDir(nested, config)
+        const flatDir = changelogCacheDir(flat, config)
+        expect(nestedDir).not.toBe(flatDir)
+        expect(await readdir(nestedDir)).toEqual(["0-1-0.md"])
+        expect(await readdir(flatDir)).toEqual(["0-2-0.md"])
       } finally {
         await rm(targetDirFor(configPath), { recursive: true, force: true })
       }

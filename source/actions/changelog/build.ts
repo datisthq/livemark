@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto"
 import { access, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises"
 import { dirname, join, resolve } from "node:path"
 import slugify from "@sindresorhus/slugify"
@@ -52,11 +53,14 @@ export function cacheIncludeGlob(section: ChangelogSection, config: Config) {
 /** Directory holding one changelog section's cache state: the rendered
  *  `.md` entries plus a `meta.json` holding the etag for conditional
  *  GETs. Each section gets its own subdirectory of `cache/changelog/`,
- *  keyed by its prefix (`/python/changelog/` → `python-changelog`), so
- *  several changelogs never overwrite each other's entries. */
+ *  keyed by its prefix's slug plus a hash of the raw prefix
+ *  (`/python/changelog/` → `python-changelog-<hash>`), so several
+ *  changelogs never overwrite each other's entries even when their
+ *  prefixes slugify alike. */
 export function changelogCacheDir(section: ChangelogSection, config: Config) {
-  const key = slugify(section.prefix) || "index"
-  return join(targetDirFor(config.configPath), CACHE_SUBDIR, key)
+  const slug = slugify(section.prefix) || "index"
+  const hash = createHash("sha256").update(section.prefix).digest("hex").slice(0, 8)
+  return join(targetDirFor(config.configPath), CACHE_SUBDIR, `${slug}-${hash}`)
 }
 
 /** Build the per-version changelog cache files of one changelog section
