@@ -42,21 +42,28 @@ const stringifier = unified().use(remarkStringify, {
   emphasis: "_",
 })
 
-/** Glob (absolute path) covering all cached changelog markdown files for
- *  a given consumer. Used by content-collections to include them in the
- *  article scan. */
-export function cacheIncludeGlob(config: Config) {
-  return join(targetDirFor(config.configPath), CACHE_SUBDIR, "**", "*.md")
+/** Glob (absolute path) covering the cached changelog markdown files of
+ *  one changelog section. Used by content-collections to include them in
+ *  the article scan. */
+export function cacheIncludeGlob(section: ChangelogSection, config: Config) {
+  return join(changelogCacheDir(section, config), "*.md")
 }
 
-/** Build the per-version changelog cache files. Livemark allows one
- *  changelog per project, so all cache state lives in a single
- *  `cache/changelog/`: the rendered `.md` entries plus a `meta.json`
- *  holding the etag for conditional GETs. On refresh we wipe only the
- *  `.md` files, leaving meta intact. */
+/** Directory holding one changelog section's cache state: the rendered
+ *  `.md` entries plus a `meta.json` holding the etag for conditional
+ *  GETs. Each section gets its own subdirectory of `cache/changelog/`,
+ *  keyed by its prefix (`/python/changelog/` → `python-changelog`), so
+ *  several changelogs never overwrite each other's entries. */
+export function changelogCacheDir(section: ChangelogSection, config: Config) {
+  const key = slugify(section.prefix) || "index"
+  return join(targetDirFor(config.configPath), CACHE_SUBDIR, key)
+}
+
+/** Build the per-version changelog cache files of one changelog section
+ *  into its own cache directory. On refresh we wipe only that
+ *  directory's `.md` files, leaving meta intact. */
 export async function buildChangelog(section: ChangelogSection, config: Config) {
-  const targetDir = targetDirFor(config.configPath)
-  const cacheDir = join(targetDir, CACHE_SUBDIR)
+  const cacheDir = changelogCacheDir(section, config)
   const metaPath = join(cacheDir, "meta.json")
 
   const entries = isGitHubUrl(section.source)
