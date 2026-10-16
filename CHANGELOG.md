@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.25.0](https://github.com/datisthq/livemark/compare/v0.24.1...v0.25.0) (2026-10-16)
+
+
+### Features
+
+* multiple changelogs ([#51](https://github.com/datisthq/livemark/issues/51)) ([ff1d1a5](https://github.com/datisthq/livemark/commit/ff1d1a505fcfe63dea081357736aa394b0d3ba55))
+
 ## [0.24.1](https://github.com/datisthq/livemark/compare/v0.24.0...v0.24.1) (2026-10-06)
 
 
