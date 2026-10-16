@@ -100,6 +100,25 @@ A changelog section reads from a `source` file. When `version: true`, Livemark s
 
 With `version: true`, top-level semver headings like `## 0.3.0 — 2026-04-01` become individual articles at `/changelog/0-3-0/`. The section header in the site chrome shows the latest version in parentheses.
 
+A site can declare several changelog sections — for example one per package in a monorepo — as long as each has its own `prefix`. Each renders its own release pages under its prefix, its own releases list in the sidebar, and its own latest version, so two changelogs that both contain `0.2.0` produce `/changelog/0-2-0/` and `/python/changelog/0-2-0/` side by side.
+
+```typescript
+sections: [
+  {
+    title: "Changelog",
+    prefix: "/changelog/",
+    type: "changelog",
+    source: "CHANGELOG.md",
+  },
+  {
+    title: "Python Changelog",
+    prefix: "/python/changelog/",
+    type: "changelog",
+    source: "python/CHANGELOG.md",
+  },
+]
+```
+
 Changelog-specific fields:
 
 | Field     | Type      | Default | Purpose                                                           |

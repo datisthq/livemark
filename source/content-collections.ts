@@ -59,9 +59,10 @@ for (const section of changelogSections) {
 }
 
 const configInclude = Array.isArray(config.include) ? config.include : [config.include]
-const include = changelogSections.length
-  ? [...configInclude, cacheIncludeGlob(config)]
-  : configInclude
+const include = [
+  ...configInclude,
+  ...changelogSections.map(section => cacheIncludeGlob(section, config)),
+]
 
 const userExclude = config.exclude
   ? Array.isArray(config.exclude)
