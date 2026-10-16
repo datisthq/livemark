@@ -49,6 +49,13 @@ export const Route = createRootRoute({
         { property: "og:site_name", content: config.title },
         { property: "og:type", content: "website" },
         {
+          property: "og:image",
+          content: prefixUrl("/social-preview.png", config.base),
+        },
+        { property: "og:image:width", content: "1200" },
+        { property: "og:image:height", content: "630" },
+        { name: "twitter:card", content: "summary_large_image" },
+        {
           name: "viewport",
           content: "width=device-width, initial-scale=1",
         },
