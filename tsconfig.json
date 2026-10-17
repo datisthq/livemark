@@ -5,7 +5,8 @@
     "${configDir}/**/*.ts",
     "${configDir}/**/*.tsx",
     "${configDir}/.livemark/**/*.ts",
-    "${configDir}/.livemark/**/*.tsx"
+    "${configDir}/.livemark/**/*.tsx",
+    "${configDir}/.scripts/**/*.ts"
   ],
   "exclude": ["${configDir}/**/build/", "${configDir}/**/targets/"],
 

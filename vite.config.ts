@@ -18,7 +18,7 @@ export default defineConfig({
     },
   },
   test: {
-    include: ["**/*.unit.(ts|tsx)"],
+    include: ["**/*.unit.(ts|tsx)", ".scripts/-test/*.unit.ts"],
     exclude: ["**/node_modules/**", "**/build/**"],
     env: { NODE_OPTIONS: "--no-warnings" },
     testTimeout: 60 * 1000,
