@@ -48,7 +48,7 @@ export function Layout(props: { withSidebar?: boolean; children?: React.ReactNod
   const header = (
     <header className="sticky top-0 z-20 flex h-16 shrink-0 items-center border-b bg-background">
       <div
-        className={`flex items-center self-stretch pl-4 ${props.withSidebar ? "pr-4" : "lg:pr-20"}`}
+        className={`flex shrink-0 items-center self-stretch pl-4 ${props.withSidebar ? "pr-4" : "lg:w-[calc(var(--sidebar-width)+4rem)]"}`}
       >
         {props.withSidebar ? (
           <>
