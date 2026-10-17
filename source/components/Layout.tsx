@@ -150,7 +150,7 @@ export function Layout(props: { withSidebar?: boolean; children?: React.ReactNod
             </a>
           ))}
       </div>
-      <div className="ml-auto flex shrink-0 items-center gap-1 pr-2 lg:pr-4">
+      <div className="ml-auto flex shrink-0 items-center gap-1 pr-2 lg:pr-1">
         <Search />
         <Theme />
         <div className="lg:hidden">

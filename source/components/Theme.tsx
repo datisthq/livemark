@@ -16,7 +16,7 @@ export function Theme() {
   return (
     <Button
       variant="ghost"
-      size="icon"
+      size="icon-sm"
       onClick={handleToggle}
       title="Change theme"
       aria-label="Change theme"
