@@ -87,7 +87,7 @@ description: What's new in 0.3, in 400 words.
 
 After authoring, run:
 
-- `pnpm docs:build` — confirms the file prerenders without error.
+- `npx livemark build` — confirms the file prerenders without error.
 - Grep built HTML (`.livemark/build/client/<path>/index.html`) to confirm title and metadata land as intended.
 
 ## References

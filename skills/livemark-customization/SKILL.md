@@ -1,6 +1,6 @@
 ---
 name: livemark-customization
-description: Use when overriding Livemark's built-in UI or adding custom routes — drop same-named files under .livemark/{components,elements,styles} to shadow defaults, author .livemark/routes/*.tsx for new pages, or copy defaults with the `livemark escape` command.
+description: Use when overriding Livemark's built-in UI or adding custom routes — shadow defaults with same-named files under .livemark/{components,elements,styles}, add .livemark/routes/*.tsx pages, or copy defaults with `livemark escape`.
 ---
 
 # Livemark Customization
@@ -106,8 +106,8 @@ Custom routes win over the Markdown catch-all at exact URLs. Don't create a rout
 
 ## Verification
 
-- `pnpm type` — confirms overrides typecheck.
-- `pnpm docs:build` — smoke-test the override lands in the bundle.
+- The project's type check (e.g. `npx tsc --noEmit`) — confirms overrides typecheck.
+- `npx livemark build` — smoke-test the override lands in the bundle.
 - Browser: load an article page with the dev server; custom Footer/Sidebar/etc. should render without a full reload.
 
 ## References

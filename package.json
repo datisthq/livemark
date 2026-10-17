@@ -11,7 +11,7 @@
   "files": [
     "build",
     "source",
-    ".agents/skills"
+    "skills"
   ],
   "type": "module",
   "sideEffects": false,

@@ -102,12 +102,12 @@ Any [Shiki theme](https://shiki.style/themes) name works. Defaults keep the catp
 
 ## Autoreload
 
-The dev server watches `livemark.config.ts` and restarts on edit. No need to kill `pnpm docs:start` after tweaking the config.
+The dev server watches `livemark.config.ts` and restarts on edit. No need to kill `npx livemark start` after tweaking the config.
 
 ## Verification
 
-- `pnpm type` — catches schema mismatches.
-- `pnpm docs:build` — prerenders with the new config; the output listing shows whether section routes resolved.
+- The project's type check (e.g. `npx tsc --noEmit`) — catches schema mismatches.
+- `npx livemark build` — prerenders with the new config; the output listing shows whether section routes resolved.
 
 ## References
 
