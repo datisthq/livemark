@@ -56,6 +56,10 @@ The command refuses to overwrite an existing override. Delete the override first
    import { Button } from "livemark/elements/button"
    ```
 
+## Typical workflow: announcement banner
+
+`Banner` renders nothing by default. Override `components/Banner.tsx` to show a strip across the full page width, above both the sidebar and the sticky header — it scrolls away while the sidebar and header pin to the top (the sidebar container is `sticky`, not `fixed`, for this). Keep it one line (`truncate` with `min-w-0`) and, for a whole-strip click target, a single link stretched with `after:absolute after:inset-0` inside a `group relative` wrapper. Search and the theme toggle sit at the right of the header, not in the sidebar.
+
 ## Typical workflow: rebrand
 
 1. `livemark escape styles/general.css`.

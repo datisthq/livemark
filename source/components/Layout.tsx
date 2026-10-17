@@ -18,9 +18,11 @@ import {
 } from "../elements/sidebar.tsx"
 import { BackToTop } from "./BackToTop.tsx"
 import { Banner } from "./Banner.tsx"
+import { Search } from "./Search.tsx"
 import { Sidebar } from "./Sidebar.tsx"
 import { SiteLink } from "./SiteLink.tsx"
 import { SiteTitle } from "./SiteTitle.tsx"
+import { Theme } from "./Theme.tsx"
 
 function splatFor(pathname: string) {
   return { _splat: pathname.replace(/^\/|\/$/g, "") }
@@ -147,23 +149,29 @@ export function Layout(props: { withSidebar?: boolean; children?: React.ReactNod
               {link.title}
             </a>
           ))}
-        <Banner />
       </div>
-      <div className="lg:hidden ml-auto pr-2">
-        <SidebarTrigger />
+      <div className="ml-auto flex shrink-0 items-center gap-1 pr-2 lg:pr-4">
+        <Search />
+        <Theme />
+        <div className="lg:hidden">
+          <SidebarTrigger />
+        </div>
       </div>
     </header>
   )
 
   return (
-    <SidebarProvider
-      key={props.withSidebar ? "sidebar" : "mini"}
-      defaultOpen={!!props.withSidebar}
-    >
-      <SidebarShell withSidebar={props.withSidebar} header={header}>
-        {props.children}
-      </SidebarShell>
-    </SidebarProvider>
+    <>
+      <Banner />
+      <SidebarProvider
+        key={props.withSidebar ? "sidebar" : "mini"}
+        defaultOpen={!!props.withSidebar}
+      >
+        <SidebarShell withSidebar={props.withSidebar} header={header}>
+          {props.children}
+        </SidebarShell>
+      </SidebarProvider>
+    </>
   )
 }
 

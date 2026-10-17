@@ -14,11 +14,13 @@ export function Search() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex w-full items-center gap-2 rounded-xl border border-border bg-sidebar-accent/70 px-3 py-2 text-sm text-muted-foreground shadow-xs hover:bg-background transition-colors cursor-pointer"
+        aria-label="Search"
+        title="Search"
+        className="flex h-9 items-center gap-2 rounded-md border border-border bg-muted/50 px-2.5 text-sm text-muted-foreground shadow-xs hover:bg-muted transition-colors cursor-pointer sm:w-56"
       >
         <SearchIcon className="size-4" />
-        <span className="flex-1 text-left">Search...</span>
-        <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] font-mono">
+        <span className="hidden flex-1 text-left sm:inline">Search...</span>
+        <kbd className="hidden rounded border border-border bg-background px-1.5 py-0.5 text-[10px] font-mono sm:inline">
           /
         </kbd>
       </button>

@@ -6,7 +6,6 @@ import { activeSiteLink } from "../helpers/section.ts"
 import {
   Sidebar as SidebarRoot,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -14,7 +13,6 @@ import {
   SidebarRail,
   useSidebar,
 } from "../elements/sidebar.tsx"
-import { Search } from "./Search.tsx"
 import { SidebarArticles } from "./SidebarArticles.tsx"
 import { SidebarLinks } from "./SidebarLinks.tsx"
 import { SidebarPosts } from "./SidebarPosts.tsx"
@@ -22,7 +20,6 @@ import { SidebarReleases } from "./SidebarReleases.tsx"
 import { SidebarSections } from "./SidebarSections.tsx"
 import { SiteLink } from "./SiteLink.tsx"
 import { SiteTitle } from "./SiteTitle.tsx"
-import { Theme } from "./Theme.tsx"
 
 /** Application sidebar shell: header, body slot picked by section.type, footer */
 export function Sidebar(props: { withSidebar?: boolean }) {
@@ -59,10 +56,6 @@ export function Sidebar(props: { withSidebar?: boolean }) {
           section?.type !== "changelog" && <SidebarArticles />}
         <SidebarLinks />
       </SidebarContent>
-      <SidebarFooter className="p-4 space-y-2">
-        <Search />
-        <Theme />
-      </SidebarFooter>
       <SidebarRail />
     </SidebarRoot>
   )
