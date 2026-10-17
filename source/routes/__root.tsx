@@ -13,6 +13,7 @@ import type * as React from "react"
 import { Layout } from "../components/Layout.tsx"
 import { DefaultCatchBoundary } from "../components/DefaultCatchBoundary.tsx"
 import { NotFound } from "../components/NotFound.tsx"
+import { useHydrated } from "../hooks/hydrated.ts"
 import { Toaster } from "../elements/sonner.tsx"
 import { faviconType } from "../helpers/favicon.ts"
 import { prefixUrl } from "../helpers/prefix-url.ts"
@@ -82,6 +83,10 @@ export const Route = createRootRoute({
 function Document(props: { children: React.ReactNode }) {
   const articleRoute = useMatch({ from: "/$", shouldThrow: false })
   const withSidebar = articleRoute?.loaderData?.sidebar
+  // Off the raw URL, not the router's parsed search: a route whose validateSearch
+  // does not declare this key strips it.
+  const hydrated = useHydrated()
+  const devtools = hydrated && window.location.search.includes("tanstack-devtools")
 
   return (
     <html lang="en">
@@ -91,21 +96,26 @@ function Document(props: { children: React.ReactNode }) {
       <body>
         <Layout withSidebar={withSidebar}>{props.children}</Layout>
         <Toaster position="top-center" />
-        <TanStackDevtools
-          config={{ hideUntilHover: true, position: "bottom-left" }}
-          plugins={[
-            {
-              name: "TanStack Query",
-              render: <ReactQueryDevtoolsPanel />,
-              defaultOpen: true,
-            },
-            {
-              name: "TanStack Router",
-              render: <TanStackRouterDevtoolsPanel />,
-              defaultOpen: false,
-            },
-          ]}
-        />
+        {/* Gated here, not by the devtools' own `requireUrlFlag`: that setting seeds
+            localStorage on a browser's first run and is read from there afterwards,
+            so a browser that loaded the site before it was set keeps the trigger. */}
+        {devtools && (
+          <TanStackDevtools
+            config={{ requireUrlFlag: true, position: "bottom-left" }}
+            plugins={[
+              {
+                name: "TanStack Query",
+                render: <ReactQueryDevtoolsPanel />,
+                defaultOpen: true,
+              },
+              {
+                name: "TanStack Router",
+                render: <TanStackRouterDevtoolsPanel />,
+                defaultOpen: false,
+              },
+            ]}
+          />
+        )}
         <Scripts />
       </body>
     </html>

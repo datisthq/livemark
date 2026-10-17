@@ -94,21 +94,118 @@ function Hero() {
 function BackgroundGrid() {
   return (
     <>
+      <style href="livemark-hero-background" precedence="default">
+        {BACKGROUND_GRID_CSS}
+      </style>
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,black_55%,transparent_98%)]">
+          <div className="strata strata-drift absolute inset-y-0 -inset-x-11 opacity-50" />
+          <div className="hero-scan-x from-primary/0 via-primary/16 to-primary/0 absolute inset-y-0 w-[40%] bg-gradient-to-r" />
+          <div className="hero-scan-y from-(--hero-scan-accent)/0 via-(--hero-scan-accent)/16 to-(--hero-scan-accent)/0 absolute inset-x-0 h-[40%] bg-gradient-to-b" />
+        </div>
+      </div>
       <div
         aria-hidden
-        className="absolute inset-0 [background-image:repeating-linear-gradient(90deg,var(--color-border)_0,var(--color-border)_1px,transparent_1px,transparent_8px)] opacity-25 [mask-image:linear-gradient(to_top,black_10%,transparent_85%)]"
-      />
-      <div
-        aria-hidden
-        className="absolute -bottom-40 -left-40 h-[36rem] w-[36rem] rounded-full bg-blue-400/30 dark:bg-blue-500/25 blur-[110px] pointer-events-none"
-      />
-      <div
-        aria-hidden
-        className="absolute -top-32 -right-32 h-[32rem] w-[32rem] rounded-full bg-sky-400/25 dark:bg-sky-500/20 blur-[110px] pointer-events-none"
+        className="hero-drift bg-primary/15 pointer-events-none absolute -top-40 -right-40 size-[32rem] rounded-full blur-3xl"
       />
     </>
   )
 }
+
+const BACKGROUND_GRID_CSS = `
+:root {
+  --hero-scan-accent: oklch(0.4432 0.2356 292.9);
+}
+.dark {
+  --hero-scan-accent: oklch(0.7889 0.0983 295.7);
+}
+
+@keyframes hero-scan-x {
+  0% {
+    transform: translateX(-55%);
+    opacity: 0;
+  }
+  5%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    transform: translateX(155%);
+    opacity: 0;
+  }
+}
+
+@keyframes hero-scan-y {
+  0%,
+  50% {
+    transform: translateY(-55%);
+    opacity: 0;
+  }
+  55%,
+  95% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(155%);
+    opacity: 0;
+  }
+}
+
+@keyframes strata-drift {
+  to {
+    transform: translateX(44px);
+  }
+}
+
+@keyframes hero-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(6%, -8%, 0) scale(1.08);
+  }
+}
+
+.strata {
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--color-border) 0,
+    var(--color-border) 1px,
+    transparent 1px,
+    transparent 44px
+  );
+}
+
+.strata-drift {
+  animation: strata-drift 14s linear infinite;
+}
+
+.hero-scan-x {
+  animation: hero-scan-x 18s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.hero-scan-y {
+  animation: hero-scan-y 18s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.hero-drift {
+  animation: hero-drift 18s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-scan-x,
+  .hero-scan-y {
+    animation: none;
+    opacity: 0;
+  }
+  .strata-drift,
+  .hero-drift {
+    animation: none;
+  }
+}
+`
 
 /* ─────────────────────────── Features ─────────────────────────── */
 
@@ -343,7 +440,7 @@ function Showcase() {
 
 function Datist() {
   return (
-    <section className="border-t border-border">
+    <section className="border-t border-border bg-sidebar">
       <div className="mx-auto max-w-5xl px-6 py-10">
         <Reveal>
           <div className="flex flex-col items-center gap-3 text-center">

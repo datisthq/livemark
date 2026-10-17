@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react"
 /** Technical preview announcement strip displayed above the header */
 export function Banner() {
   return (
-    <div className="bg-secondary text-secondary-foreground">
+    <div className="bg-banner text-banner-foreground">
       <div className="group relative flex items-center justify-center gap-2 px-4 py-2 text-center font-mono text-xs tracking-wide sm:px-6">
         <span className="min-w-0 truncate opacity-80">
           Livemark is in technical preview
