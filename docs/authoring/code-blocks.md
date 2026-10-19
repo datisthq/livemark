@@ -7,7 +7,7 @@ order: 7
 
 # Code Blocks
 
-Fenced code blocks are syntax-highlighted with Shiki using catppuccin themes. Each code block includes a word wrap toggle button that switches between horizontal scrolling and wrapped lines.
+Fenced code blocks are syntax-highlighted with Shiki using catppuccin themes. Each code block includes a word wrap toggle button that switches between horizontal scrolling and wrapped lines. A block with no language, or one Shiki does not know, renders as plain text with the same styling.
 
 ## Titles
 
