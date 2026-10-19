@@ -13,7 +13,7 @@ TypeScript package and CLI that turns a folder of Markdown into a static documen
 
 ## Rules
 
-- **Never commit unless asked to.** When asked, commit with a pathspec: `git commit -m "…" -- <your paths>`.
+- **Never commit unless asked to** — except that a session working directly on `main` commits each task once done. The root's index is shared, so always commit with a pathspec: `git commit -m "…" -- <your paths>`.
 - **Never add co-authored by Claude Code to commits!**
 - **Never mark a commit breaking** — no `!` and no `BREAKING CHANGE:` footer; release-please turns either into a major bump.
 - **Never push main or pull requests to origin unless asked to.**
