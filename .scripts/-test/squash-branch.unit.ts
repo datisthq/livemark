@@ -25,6 +25,8 @@ beforeEach(() => {
   runGit(root, "init", "-q", "-b", "main")
   runGit(root, "config", "user.email", "test@example.com")
   runGit(root, "config", "user.name", "test")
+  // Windows runners default to autocrlf, which checks the worktree out with CRLF.
+  runGit(root, "config", "core.autocrlf", "false")
   writeFile(root, "shared.txt", "base\n")
   writeFile(root, "gone.txt", "base\n")
   writeFile(root, "other.txt", "base\n")
