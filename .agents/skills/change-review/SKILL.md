@@ -62,7 +62,8 @@ If the change is good, say so briefly and stop. Do not manufacture findings to j
 
 ## Reviewing locally
 
-With no pull request — a person running `/change-review` in a checkout — the change is everything
-this branch adds over `main`: `git diff main...HEAD` plus the uncommitted and untracked files.
-Judge it by the same rules, then print the findings in the terminal, worst first, each with its
-`file:line`. Post nothing, and edit nothing unless the caller asks for the fixes.
+With no pull request — a person running `/change-review` in a checkout, or `issue-resolution` before
+it commits — the change is everything this branch adds over `main`: `git diff main...HEAD` plus the
+uncommitted and untracked files. Judge it by the same rules, then print the findings in the terminal,
+worst first, each with its `file:line`. Post nothing, and edit nothing unless the caller asks for the
+fixes.

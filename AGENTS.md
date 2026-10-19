@@ -21,7 +21,7 @@ TypeScript package and CLI that turns a folder of Markdown into a static documen
 - **Never change code unless asked to.** Usually just answer.
 - When resolving a TODO, follow its instructions literally. Prefer LSP capabilities where available.
 - Start a plan from a summary of the new or changed API (models and signatures) and the hardest points.
-- **Every plan ends by asking how to work it** (`AskUserQuestion`, before finalising): **the current branch** or **a `.worktrees/<name>` branch**.
+- **Every plan ends by asking how to work it** (`AskUserQuestion`, before finalising): **the current branch** or **a `.worktrees/<name>` branch** (**`worktree-workflow`**).
 - **The escape contract is public API.** `ESCAPABLE_FOLDERS` and `ESCAPABLE_FILES` in `source/settings.ts` name what a project may shadow under `.livemark/`; renaming or moving a file there silently drops a project's override. Treat it like an export change (**`change-review`**).
 - Use full relative import paths with the `.ts` / `.tsx` extension. No barrel re-export files — `source/index.ts` is the one public façade.
 - Each `actions/<entity>/<verb>.ts` holds one action, named after its verb (`actions/config/load.ts` exports `loadConfig`); a new action gets its own file.
@@ -42,6 +42,8 @@ Repo skills live in `.agents/skills/` (reached by Claude Code through the `.clau
 | `change-review`       | reviewing a pull request or the working diff — also what CI review runs |
 | `change-verification` | checking a change works — the smallest lint/type/unit slice and a look  |
 | `human-documentation` | the docs-truth pass before a commit, and where a fact belongs           |
+| `issue-resolution`    | taking one issue or bug report to one tested commit in a worktree       |
+| `worktree-workflow`   | starting, running and landing a `.worktrees/<name>` branch              |
 
 Shipped skills live in `skills/` and are published in the package for people who install Livemark. Read the matching one before changing the behaviour it describes, and update it in the same commit:
 
@@ -64,6 +66,7 @@ Shipped skills live in `skills/` and are published in the package for people who
 - `pnpm scan:leaks` / `pnpm scan:vulns` / `pnpm scan` — gitleaks / semgrep / both
 - `pnpm update:deps` — bump dependencies past a 7-day cooldown
 - `pnpm release` — publish to npm; run by the release workflow only
+- `pnpm squash <branch> -m "<subject>"` — land a worktree branch on local `main` as one commit (**`worktree-workflow`**)
 
 ## Code structure
 

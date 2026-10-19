@@ -6,7 +6,7 @@ description: Use when checking a change works before calling it done — the sma
 # Verifying a change
 
 **Verify the diff, not the repo.** `pnpm test` is lint + type + unit over everything: about
-50 s and 170 core-seconds. A CSS fix in a component cannot break the changelog action, so
+20 s and 70 core-seconds. A CSS fix in a component cannot break the changelog action, so
 running every unit test checks nothing. While iterating, run the **slice** that could catch this
 diff breaking. The full gate belongs to the lefthook pre-push hook and CI. A local session runs
 `pnpm test` only for a build-shaped diff (rung 4); a commit runs the **commit gate** below.
@@ -25,7 +25,7 @@ diff breaking. The full gate belongs to the lefthook pre-push hook and CI. A loc
 | `pnpm check:types`                           | ~7 s  | ~11    | types everywhere (one package)        |
 | `vp test <file or dir>`                      | ~6 s  | ~10    | the tests named                       |
 | `vp test related <files> --run`              | ~7 s  | ~8     | every test importing the files        |
-| `pnpm test:unit`                             | 35 s  | 133    | every unit test, including the guards |
+| `pnpm test:unit`                             | ~7 s  | ~42    | every unit test, including the guards |
 | `pnpm build`                                 | ~4 s  | ~11    | the `tsgo` emit consumers' Node loads |
 | `pnpm build:docs`                            | 53 s  | 66     | the real build over this repo's docs  |
 
@@ -69,15 +69,15 @@ pnpm check:types
 ```
 
 Then look at a warning callout in Chrome under `pnpm start`, on both a light and a dark page.
-That is about 10 s of checks plus a look, against about 50 s for `pnpm test`, and only the look
+That is about 10 s of checks plus a look, against about 20 s for `pnpm test`, and only the look
 can tell whether the colour is right.
 
 ## The commit gate
 
-A commit — on `main` or on a worktree branch — runs the **commit gate** once, at the end: `pnpm check`
-always, then a unit half **you choose**.
+A commit on `main`, and landing a worktree branch (**`worktree-workflow`**), run the **commit
+gate** once, at the end: `pnpm check` always, then a unit half **you choose**.
 
-- `pnpm check` = `check:lint` + `check:types`, about 14 s over the whole package.
+- `pnpm check` = `check:lint` + `check:types`, 5–15 s over the whole package.
 - **`pnpm test:unit`** when the diff is build-shaped, changes shared code many modules import
   (`settings.ts`, a model, a helper), or you are unsure.
 - **Cherry-pick** otherwise: `vp test related <files> --run` plus every guard above the diff
