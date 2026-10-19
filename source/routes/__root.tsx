@@ -16,56 +16,18 @@ import { DefaultCatchBoundary } from "../components/DefaultCatchBoundary.tsx"
 import { NotFound } from "../components/NotFound.tsx"
 import { useHydrated } from "../hooks/hydrated.ts"
 import { Toaster } from "../elements/sonner.tsx"
-import { faviconType } from "../helpers/favicon.ts"
-import { buildThemeScript, startTheme } from "../helpers/theme.ts"
-import { prefixUrl } from "../helpers/prefix-url.ts"
+import { buildRootHead } from "../helpers/head.ts"
+import { startTheme } from "../helpers/theme.ts"
+import { customizeHead } from "../head.ts"
 import defaultFavicon from "../assets/logo.svg"
 import generalCss from "../styles/general.css?url"
 import markdownCss from "../styles/markdown.css?url"
 
 export const Route = createRootRoute({
-  head: () => {
-    const favicon = prefixUrl(
-      config.favicon ?? config.logo ?? defaultFavicon,
-      config.base,
-    )
-    const feedLinks = config.site
-      ? (config.sections ?? [])
-          .filter(s => s.type === "blog")
-          .map(s => ({
-            rel: "alternate",
-            type: "application/rss+xml",
-            title: `${s.siteTitle ?? s.title} RSS Feed`,
-            href: prefixUrl(`${s.prefix}rss.xml`, config.base),
-          }))
-      : []
-    return {
-      meta: [
-        { charSet: "utf-8" },
-        { title: config.title },
-        { name: "description", content: config.description },
-        { property: "og:title", content: config.title },
-        {
-          property: "og:description",
-          content: config.description,
-        },
-        { property: "og:site_name", content: config.title },
-        { property: "og:type", content: "website" },
-        {
-          name: "viewport",
-          content: "width=device-width, initial-scale=1",
-        },
-      ],
-      links: [
-        { rel: "icon", href: favicon, type: faviconType(favicon) },
-        { rel: "shortcut icon", href: favicon, type: faviconType(favicon) },
-        { rel: "stylesheet", href: generalCss },
-        { rel: "stylesheet", href: markdownCss },
-        ...feedLinks,
-      ],
-      scripts: [{ children: buildThemeScript() }],
-    }
-  },
+  head: () =>
+    customizeHead(
+      buildRootHead({ config, defaultFavicon, stylesheets: [generalCss, markdownCss] }),
+    ),
   notFoundComponent: () => <NotFound />,
   errorComponent: props => {
     return (

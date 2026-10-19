@@ -14,6 +14,7 @@ export const ESCAPABLE_FILES: readonly string[] = [
   "client.tsx",
   "server.ts",
   "router.tsx",
+  "head.ts",
 ]
 
 /** Glob patterns auto-excluded from content scanning when the consumer's

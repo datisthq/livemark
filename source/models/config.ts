@@ -22,6 +22,15 @@ export type ViteOverride =
  *  resolves it to a string before any runtime sees it. */
 export type Base = string | ((command: "build" | "serve") => string | undefined)
 
+/** Extra site-wide `<head>` tags, appended after Livemark's defaults. A meta tag
+ *  sharing a default's `name` or `property` replaces it. */
+export type Head = z.infer<typeof Head>
+export const Head = z.object({
+  meta: z.array(z.record(z.string(), z.string())).optional(),
+  links: z.array(z.record(z.string(), z.string())).optional(),
+  scripts: z.array(z.record(z.string(), z.string())).optional(),
+})
+
 /**
  * User-provided configuration for Livemark.
  *
@@ -54,6 +63,7 @@ export const UserConfig = z.object({
   links: z.array(Link).optional(),
   sections: z.array(Section).optional(),
   patches: z.array(Patch).optional(),
+  head: Head.optional(),
   // Stored as `unknown` in the schema (zod can't type a Vite UserConfig
   // or a function returning one meaningfully); the public TypeScript
   // surface above lifts it back to ViteOverride for editor support.
@@ -73,6 +83,7 @@ export const WebsiteConfig = UserConfig.pick({
   banner: true,
   links: true,
   sections: true,
+  head: true,
 }).extend({
   base: z.string().optional(),
 })

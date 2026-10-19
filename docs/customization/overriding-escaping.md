@@ -14,6 +14,7 @@ Livemark ships a library of React components, shadcn-style primitives, and a bas
 | `website/components/<Name>.tsx` | `.livemark/components/<Name>.tsx` |
 | `website/elements/<name>.tsx`   | `.livemark/elements/<name>.tsx`   |
 | `website/styles/<name>.css`     | `.livemark/styles/<name>.css`     |
+| `website/head.ts`               | `.livemark/head.ts`               |
 
 No import changes are needed. The rest of Livemark picks up the overridden file automatically.
 

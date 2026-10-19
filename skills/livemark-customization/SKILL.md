@@ -25,6 +25,7 @@ Invoke when the user asks to:
 | Replace a default component/style | Drop a file at `.livemark/components/<Name>.tsx` etc. |
 | Add a new page at an exact URL    | Create `.livemark/routes/<path>.tsx`                  |
 | Serve a static asset at `/<path>` | Put the file in `.livemark/public/<path>`             |
+| Rewrite site-wide `<head>` tags   | `.livemark/head.ts` exporting `customizeHead(head)`   |
 
 None require config changes. The Vite plugin (`website/plugins/vite-livemark.ts`) watches `.livemark/**` and hot-reloads.
 
@@ -108,6 +109,10 @@ Custom routes win over the Markdown catch-all at exact URLs. Don't create a rout
 5. **Static files belong in `.livemark/public/`**, which Vite exposes at the site root.
 6. **Removing an override needs `npx livemark clear`** when the dev server is not running — the cached target only re-applies files that exist, so a deleted override keeps rendering.
 7. **Keyboard shortcuts live in the component they drive** — bare keys through `@tanstack/react-hotkeys`, ignored while typing: `L` sidebar (`Sidebar`), `S` search (`Search`), `T` theme (`Theme`), `J`/`K` scroll (`Layout`), `B` back to top (`BackToTop`). Overriding one of these drops its key unless the copy keeps the `useHotkey` call; register a key in a component that mounts once, or one press fires twice.
+
+## Head tags
+
+Add tags with the config `head` field (`livemark-configuration`); escape `head.ts` only to drop or rewrite defaults. `customizeHead` receives the finished `RootHead` (`meta`, `links`, `scripts`, typed from `livemark`) and returns it — mutate or filter, never rebuild, or later Livemark defaults are lost. Per-page `title`, `description`, `og:*` and canonical come from the article route and win over root meta with the same `name`/`property`.
 
 ## What's NOT overridable
 

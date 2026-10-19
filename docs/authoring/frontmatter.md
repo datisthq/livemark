@@ -28,7 +28,7 @@ Identity and presentation of the article.
 | `label`       | `string`             | `title`                          | Short variant used in sidebar/breadcrumbs when `title` is long.                                     |
 | `description` | `string`             | —                                | `<meta name="description">` and Open Graph description.                                             |
 | `icon`        | `string`             | —                                | Lucide icon name (e.g. `rocket`, `book-open`). Articles without an icon render with no icon at all. |
-| `image`       | `string`             | —                                | Open Graph / social card image. Relative paths resolve against the file.                            |
+| `image`       | `string`             | —                                | Open Graph / social card image (needs `site`). Relative paths resolve against the file.             |
 | `author`      | `string \| string[]` | —                                | One or more author names.                                                                           |
 | `date`        | `string`             | —                                | ISO date. Drives sort order in blog sections.                                                       |
 | `tags`        | `string[]`           | —                                | Used by blog sections to build `/tags/<tag>/` pages.                                                |

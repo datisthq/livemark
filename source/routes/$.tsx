@@ -1,3 +1,4 @@
+import { config } from "livemark:virtual"
 import { createFileRoute, notFound, redirect } from "@tanstack/react-router"
 import {
   currentSection,
@@ -6,6 +7,7 @@ import {
   sortedArticles,
 } from "../content/article.ts"
 import { sectionTags } from "../content/tag.ts"
+import { buildPageHead } from "../helpers/head.ts"
 import { Article } from "../components/Article.tsx"
 import { BlogIndex } from "../components/BlogIndex.tsx"
 import { ChangelogIndex } from "../components/ChangelogIndex.tsx"
@@ -62,14 +64,16 @@ export const Route = createFileRoute("/$")({
 
     throw notFound()
   },
-  head: ({ loaderData }) => ({
-    meta: [
-      ...(loaderData ? [{ title: loaderData.title }] : []),
-      ...("description" in loaderData && loaderData.description
-        ? [{ name: "description", content: loaderData.description }]
-        : []),
-    ],
-  }),
+  head: ({ loaderData, params }) =>
+    buildPageHead({
+      config,
+      path: params._splat ? `/${params._splat}/` : "/",
+      title: loaderData?.title,
+      description:
+        loaderData && "description" in loaderData ? loaderData.description : undefined,
+      image: loaderData && "image" in loaderData ? loaderData.image : undefined,
+      isArticle: loaderData && "file" in loaderData,
+    }),
   component: Component,
 })
 

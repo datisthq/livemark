@@ -75,7 +75,7 @@ Everything the package runs is under `source/`; Node loads `build/*.js`, while V
 - `routes/` — TanStack Start routes, escapable · `plugins/` — remark, rehype, shiki and Vite plugins
 - `models/<entity>.ts` — zod schemas plus derived types · `content/` — content-collections derivations
 - `helpers/<name>.ts` — internal utilities · `utils/` and `hooks/` — utilities and React hooks exposed through `exports`
-- Root files are single-concern: `settings.ts`, `program.ts`, `client.tsx`, `server.ts`, `router.tsx`, `content-collections.ts`, `vite.config.ts`, `index.ts`. `routeTree.gen.ts` is generated
+- Root files are single-concern: `settings.ts`, `program.ts`, `client.tsx`, `server.ts`, `router.tsx`, `head.ts`, `content-collections.ts`, `vite.config.ts`, `index.ts`. `routeTree.gen.ts` is generated
 - Unit tests sit beside their module as `<module>.unit.ts`; snapshots land in a sibling `fixtures/generated/`
 
 Dot-directories hold non-package code: `.agents/` repo skills, `.scripts/` repo-wide guards, `.livemark/` the docs site's own escapes, `.release/` release-please config. Globs skip dot-directories, so `.scripts/-test/` is named explicitly in `vite.config.ts` and `tsconfig.json`.

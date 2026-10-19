@@ -35,6 +35,12 @@ export default defineConfig({
   logo: "/logo.svg", // header mark; also default favicon
   favicon: "/favicon.ico", // browser tab icon
   banner: "v2 is out · [Notes](/blog/v2/)", // inline Markdown strip above the header; raw HTML dropped
+  head: {
+    // extra <head> tags after the defaults; a meta sharing name/property replaces one
+    meta: [{ name: "twitter:site", content: "@me" }],
+    links: [{ rel: "me", href: "https://mastodon.social/@me" }],
+    scripts: [{ src: "https://example.com/analytics.js", defer: "" }],
+  },
 
   // Optional: content selection
   exclude: "docs/drafts/**", // string | string[]

@@ -36,7 +36,7 @@ group: Docs # sidebar section label
 path: /getting-started/ # default: slugified filename + leading/trailing slashes
 sidebar: true # false hides from nav but keeps URL reachable
 toc: true # false suppresses right-hand TOC
-image: ./cover.png # OG/social card; relative resolves against the file
+image: ./cover.png # og:image (needs `site`); relative resolves against the file
 author: Ada Lovelace # or [Ada Lovelace, Grace Hopper]
 date: 2026-04-20 # ISO — drives blog section sort order
 tags: [release, announcement] # blog-section tag pages /prefix/tags/<tag>/
