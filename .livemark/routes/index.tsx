@@ -81,7 +81,7 @@ function Hero() {
           </a>
         </div>
 
-        <div className="mt-10 hidden sm:inline-flex items-center gap-3 rounded-lg border border-border bg-card/50 backdrop-blur px-4 py-2.5 font-mono text-sm text-muted-foreground">
+        <div className="mt-10 hidden sm:inline-flex items-center gap-3 rounded-control border border-border bg-card/50 backdrop-blur px-4 py-2.5 font-mono text-sm text-muted-foreground">
           <span className="text-primary select-none">$</span>
           <span>
             <span className="text-foreground">npm install</span> livemark
@@ -284,7 +284,7 @@ function Features() {
 
 function FeatureCard({ icon: Icon, title, description }: Feature) {
   return (
-    <div className="h-full group relative rounded-xl border border-border bg-card p-6 transition-all duration-200 hover:border-primary/40 hover:-translate-y-0.5 hover:shadow-lg">
+    <div className="h-full group relative rounded-card border border-border bg-card p-6 transition-all duration-200 hover:border-primary/40 hover:-translate-y-0.5 hover:shadow-lg">
       <div className="inline-flex items-center justify-center size-10 rounded-lg bg-primary/10 text-primary mb-4 group-hover:bg-primary/15 transition-colors">
         <Icon className="size-5" />
       </div>
@@ -378,7 +378,7 @@ function Showcase() {
         </Reveal>
         <Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-            <div className="rounded-xl border border-primary/20 bg-card overflow-hidden">
+            <div className="rounded-card border border-primary/20 bg-card overflow-hidden">
               <div className="flex items-center gap-2 border-b border-primary/20 px-4 py-2 bg-muted/50">
                 <div className="size-2.5 rounded-full bg-red-400/60" />
                 <div className="size-2.5 rounded-full bg-yellow-400/60" />
@@ -389,7 +389,7 @@ function Showcase() {
               </div>
               <MarkdownSample />
             </div>
-            <div className="rounded-xl border border-primary/20 bg-card overflow-hidden">
+            <div className="rounded-card border border-primary/20 bg-card overflow-hidden">
               <div className="flex items-center gap-2 border-b border-primary/20 px-4 py-2 bg-muted/50">
                 <div className="size-2.5 rounded-full bg-red-400/60" />
                 <div className="size-2.5 rounded-full bg-yellow-400/60" />
@@ -441,7 +441,7 @@ function Showcase() {
 
 function Datist() {
   return (
-    <section className="border-t border-border bg-sidebar">
+    <section className="border-t border-border bg-muted">
       <div className="mx-auto max-w-5xl px-6 py-10">
         <Reveal>
           <div className="flex flex-col items-center gap-3 text-center">

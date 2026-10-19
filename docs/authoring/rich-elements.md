@@ -271,12 +271,14 @@ This page documents all markdown features.
 Inline status badges using the `:badge` directive:
 
 ```md
-:badge[Beta] :badge[Deprecated]{variant="destructive"} :badge[New]{variant="secondary"}
+:badge[Beta] :badge[Stable]{variant="positive"} :badge[Experimental]{variant="warning"} :badge[Deprecated]{variant="destructive"} :badge[New]{variant="secondary"}
 ```
 
 Renders as:
 
-:badge[Beta] :badge[Deprecated]{variant="destructive"} :badge[New]{variant="secondary"}
+:badge[Beta] :badge[Stable]{variant="positive"} :badge[Experimental]{variant="warning"} :badge[Deprecated]{variant="destructive"} :badge[New]{variant="secondary"}
+
+Available variants: `default`, `secondary`, `positive`, `warning`, `destructive`, `outline`, `ghost`, `link`.
 
 ## Buttons
 
@@ -306,7 +308,7 @@ Renders as:
 ::button[Configuration]{href="/customization/config-file/" variant="outline"}
 ::button[View Source]{href="https://github.com/datisthq/livemark" variant="secondary" size="sm"}
 
-Available variants: `default`, `outline`, `secondary`, `ghost`, `destructive`, `link`. Available sizes: `default`, `sm`, `lg`.
+Available variants: `default`, `outline`, `secondary`, `ghost`, `positive`, `warning`, `destructive`, `link`. Available sizes: `default`, `sm`, `lg`.
 
 ## Icons
 
@@ -323,12 +325,12 @@ Renders as:
 With Tailwind colors:
 
 ```md
-:icon{name="check" className="text-green-500"} Pass :icon{name="x" className="text-red-500"} Fail :icon{name="star" className="text-yellow-500"} Star
+:icon{name="check" className="text-positive"} Pass :icon{name="x" className="text-destructive"} Fail :icon{name="star" className="text-warning"} Star
 ```
 
 Renders as:
 
-:icon{name="check" className="text-green-500"} Pass :icon{name="x" className="text-red-500"} Fail :icon{name="star" className="text-yellow-500"} Star
+:icon{name="check" className="text-positive"} Pass :icon{name="x" className="text-destructive"} Fail :icon{name="star" className="text-warning"} Star
 
 ## File Tree
 
