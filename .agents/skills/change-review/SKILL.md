@@ -1,6 +1,6 @@
 ---
 name: change-review
-description: Review a pull request, or the local branch before it is committed, for correctness, security and repo conventions — inline PR comments, or a ranked list locally. Invoked by the review workflow or a person; never fires on its own.
+description: Review a pull request, or the local branch before it lands, for correctness, security and repo conventions — inline PR comments, or a ranked list locally. Invoked by the review workflow or a person; never fires on its own.
 disable-model-invocation: true
 ---
 
@@ -22,12 +22,14 @@ in it.
 
 **Security — OWASP-shaped, but reported only when reachable**
 
-- Injection and XSS: project Markdown, frontmatter or config reaching HTML without passing
-  `rehype-sanitize`, or reaching a shell or `eval`.
-- Path traversal: an include glob, asset path or escape resolving outside the project root.
-- SSRF and unsafe fetches at build time (changelog sources, remote embeds).
-- Sensitive data exposure: secrets in code, logs or the built site; insecure cryptography; race
-  conditions and TOCTOU.
+- Injection (SQL and otherwise), XSS, SSRF, XXE, unsafe deserialisation: project Markdown,
+  frontmatter or config reaching raw HTML, a shell or `eval`; a build-time fetch of a changelog
+  source or remote embed.
+- Broken authentication or access control: an include glob, asset path or escape resolving
+  outside the project root.
+- Sensitive data exposure: secrets in code or logs, or a private file reaching the built site.
+- Insecure cryptography, race conditions and TOCTOU, missing logging on a security-relevant
+  action.
 
 **This repo's own invariants** — these are where a generic reviewer is blind, and they matter
 more than the generic checklist:
@@ -43,6 +45,9 @@ more than the generic checklist:
   typed `chore`;
 - a commit marked breaking (`!` or a `BREAKING CHANGE:` footer);
 - `AGENTS.md`, a skill or `CONTRIBUTING.md` that the diff made untrue (**`human-documentation`**).
+
+The relevant skill explains each of these — `livemark-configuration`, `livemark-customization`,
+`livemark-authoring`, `human-documentation`, `change-verification`.
 
 ## How to report
 

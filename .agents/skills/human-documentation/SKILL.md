@@ -36,6 +36,9 @@ Work through the diff asking each of these:
   enforced by a test and a rule enforced by hope read identically on the page.
 - **A removed mechanism.** Search the docs for the thing you deleted. A paragraph explaining why
   we do X is worse than useless once X is gone.
+- **A generated artefact.** `source/routeTree.gen.ts` is committed and can go stale quietly
+  until the next `pnpm start` or `pnpm build:docs` rewrites it — treat it as documentation for
+  this purpose and regenerate it.
 
 ### Where to look
 
