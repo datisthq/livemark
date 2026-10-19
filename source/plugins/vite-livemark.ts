@@ -1,6 +1,5 @@
 import { cpSync, existsSync, rmSync, statSync } from "node:fs"
 import { join, sep } from "node:path"
-import { watch as chokidarWatch } from "chokidar"
 import type { ConfigEnv, Plugin, UserConfig as ViteUserConfig } from "vite"
 import { mergeConfig } from "vite"
 import packageJson from "../../package.json" with { type: "json" }
@@ -94,30 +93,22 @@ export function livemark(opts: LivemarkOptions): Plugin {
       ].join("\n")
     },
     configureServer(server) {
-      // Vite's own watcher only covers its root (the target); paths added
-      // to it from outside the root never fire, so the sources of the
-      // target get a watcher of their own. `.livemark/` always exists
-      // here because the target lives inside it.
-      const paths = [opts.config.configPath, overridesRoot]
-      if (!IS_INSTALLED) paths.push(SOURCE_DIR)
-      const watcher = chokidarWatch(paths, {
-        ignoreInitial: true,
-        ignorePermissionErrors: true,
-        ignored: path => isWithin(path, targetDir) || isWithin(path, outDir),
-      })
-      watcher.on("change", file => onChange(file, "change"))
-      watcher.on("add", file => onChange(file, "add"))
-      watcher.on("unlink", file => onChange(file, "unlink"))
-      watcher.on("unlinkDir", file => onChange(file, "unlink"))
-      server.httpServer?.once("close", () => {
-        watcher.close()
-      })
+      // Vite watches only its root (the target); the files the target is
+      // copied from join its watcher here. `.livemark/` always exists
+      // because the target lives inside it.
+      server.watcher.add([opts.config.configPath, overridesRoot])
+      if (!IS_INSTALLED) server.watcher.add(SOURCE_DIR)
+      server.watcher.on("change", file => onChange(file, "change"))
+      server.watcher.on("add", file => onChange(file, "add"))
+      server.watcher.on("unlink", file => onChange(file, "unlink"))
+      server.watcher.on("unlinkDir", file => onChange(file, "unlink"))
 
       function onChange(file: string, kind: "change" | "add" | "unlink") {
         if (file === opts.config.configPath) {
           server.restart()
           return
         }
+        if (isWithin(file, targetDir) || isWithin(file, outDir)) return
         const overlayHit = matchPath(file, overridesRoot)
         if (overlayHit) {
           syncOverlay(overlayHit, kind, targetDir, overridesRoot)
