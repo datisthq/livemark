@@ -37,7 +37,7 @@ In a terminal, `livemark escape` opens a picker: type to filter, <kbd>Tab</kbd> 
 
 `livemark escape` refuses to overwrite an existing file. Delete the override first if you want to start over.
 
-Deleting an override while the dev server runs restores the default at once. If you delete one while it is stopped, run `livemark clear` before the next `start` or `build` — otherwise the cached copy of your override keeps winning.
+Deleting an override restores the default — at once while the dev server runs, otherwise on the next `start` or `build`.
 
 ## Example: custom footer
 
@@ -86,7 +86,7 @@ Edit the `:root` block in `.livemark/styles/general.css` to rebrand:
 Inside an override, import other Livemark modules from the `livemark/<subdir>/*` subpath exports:
 
 ```tsx title=".livemark/components/Footer.tsx"
-import { cn } from "livemark/helpers/style"
+import { cn } from "cn"
 import { Button } from "livemark/elements/button"
 ```
 

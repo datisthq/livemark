@@ -66,10 +66,10 @@ Welcome!
 npx livemark start    # dev server with HMR at http://localhost:8000
 npx livemark build    # production build to .livemark/build/
 npx livemark preview  # serve the production build locally
-npx livemark clear    # wipe the cached runtime target (stop the dev server first)
+npx livemark clear    # wipe the generated .livemark/.target/ (stop the dev server first)
 ```
 
-That's the whole loop.
+That's the whole loop. Add `.livemark/build/` and `.livemark/.target/` to your `.gitignore`.
 
 ## Project structure
 

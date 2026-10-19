@@ -8,7 +8,7 @@
     "${configDir}/.livemark/**/*.tsx",
     "${configDir}/.scripts/**/*.ts"
   ],
-  "exclude": ["${configDir}/**/build/", "${configDir}/**/targets/"],
+  "exclude": ["${configDir}/**/build/", "${configDir}/.livemark/.target/"],
 
   "compilerOptions": {
     "target": "ES2024",

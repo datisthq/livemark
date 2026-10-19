@@ -19,7 +19,7 @@ export default defineConfig({
   },
   test: {
     include: ["**/*.unit.(ts|tsx)", ".scripts/-test/*.unit.ts"],
-    exclude: ["**/node_modules/**", "**/build/**", "**/.worktrees/**"],
+    exclude: ["**/node_modules/**", "**/build/**", "**/.worktrees/**", "**/.target/**"],
     env: { NODE_OPTIONS: "--no-warnings" },
     testTimeout: 60 * 1000,
     passWithNoTests: true,

@@ -1,10 +1,12 @@
-import { cpSync, existsSync, rmSync } from "node:fs"
+import { cpSync, existsSync, rmSync, statSync } from "node:fs"
 import { join, sep } from "node:path"
 import { watch as chokidarWatch } from "chokidar"
-import type { ConfigEnv, Plugin, UserConfig as ViteUserConfig, ViteDevServer } from "vite"
+import type { ConfigEnv, Plugin, UserConfig as ViteUserConfig } from "vite"
 import { mergeConfig } from "vite"
+import packageJson from "../../package.json" with { type: "json" }
 import { buildTarget } from "../actions/target/build.ts"
 import { renderInlineMarkdown } from "../helpers/render-inline-markdown.ts"
+import { resolveTargetExport } from "../helpers/target-export.ts"
 import type { Config } from "../models/config.ts"
 import { WebsiteConfig } from "../models/config.ts"
 import { ESCAPABLE_FILES, ESCAPABLE_FOLDERS } from "../settings.ts"
@@ -14,6 +16,7 @@ export interface LivemarkOptions {
 }
 
 const SOURCE_DIR = join(import.meta.dirname, "..")
+const IS_INSTALLED = SOURCE_DIR.includes(`${sep}node_modules${sep}`)
 
 /** Single virtual module exposing livemark's runtime values to consumer
  *  override files via named exports:
@@ -31,33 +34,36 @@ const SOURCE_DIR = join(import.meta.dirname, "..")
 const VIRTUAL_ID = "livemark:virtual"
 const VIRTUAL_RESOLVED_ID = `\0${VIRTUAL_ID}`
 
-/** Owns the per-consumer `targets/<hash>/` mount: synthesizes it via
+/** Owns the project's `.livemark/.target/` mount: synthesizes it via
  *  `buildTarget()`, returns the Vite config that anchors there, and
- *  watches the consumer's `.livemark/` (plus livemark's `source/` in
- *  dev) for changes that need to be re-copied into the target. The
- *  override mechanism is pure file-system (full copies) — no resolveId
- *  redirection, no realpath surprises. */
+ *  copies `.livemark/` edits (plus livemark's `source/` in its own dev)
+ *  into the target. Vite watches the target natively, so its own HMR
+ *  decides between Fast Refresh, CSS updates and a page reload. */
 export function livemark(opts: LivemarkOptions): Plugin {
   const overridesRoot = join(opts.config.root, ".livemark")
+  const outDir = join(overridesRoot, "build")
   let targetDir = ""
   return {
     name: "livemark",
     enforce: "pre",
     async config(_, env) {
-      targetDir = buildTarget(opts.config.configPath)
+      targetDir = buildTarget({
+        configPath: opts.config.configPath,
+        sourceDir: SOURCE_DIR,
+      })
       const base: ViteUserConfig = {
         root: targetDir,
+        // The default `<root>/node_modules/.vite` would land inside the
+        // dependency link, i.e. in livemark's shared install.
+        cacheDir: join(targetDir, ".vite"),
         // Mount everything (asset URLs, modulepreloads, dev server) under
         // `config.base` so the same build works at root or at a sub-path
         // (e.g. GitHub Pages `https://user.github.io/repo/`). The router
         // and asset-path resolver mirror this at runtime.
         base: opts.config.base ? `${opts.config.base}/` : "/",
-        // outDir lives outside the target root (in the consumer's
-        // .livemark/) so the consumer can find their deployable output
-        // without digging into node_modules. Vite's default refusal to
-        // empty out-of-root directories doesn't apply here because the
-        // target/ root is livemark's, not the consumer's.
-        build: { outDir: join(overridesRoot, "build"), emptyOutDir: true },
+        // outDir lives outside the target root, so Vite's refusal to
+        // empty out-of-root directories needs `emptyOutDir`.
+        build: { outDir, emptyOutDir: true },
         resolve: { dedupe: ["react", "react-dom"] },
         // For the SSR build only, inline every node_modules dep into
         // server.js. The prerender step (which runs server.js with
@@ -74,7 +80,7 @@ export function livemark(opts: LivemarkOptions): Plugin {
     },
     resolveId(id) {
       if (id === VIRTUAL_ID) return VIRTUAL_RESOLVED_ID
-      return null
+      return resolveTargetExport({ id, targetDir, exports: packageJson.exports }) ?? null
     },
     load(id) {
       if (id !== VIRTUAL_RESOLVED_ID) return null
@@ -88,54 +94,38 @@ export function livemark(opts: LivemarkOptions): Plugin {
       ].join("\n")
     },
     configureServer(server) {
-      // Two reasons we don't use Vite's own `server.watcher`:
-      //   1. Vite 8 bundles chokidar 3 with `disableGlobbing: true`, and
-      //      paths added via `server.watcher.add()` for surfaces outside
-      //      Vite's root never fire — getWatched() reports them but no
-      //      events arrive for external editors.
-      //   2. Vite's chokidar ignores `**\/node_modules/**` by default, so
-      //      even if (1) were fixed, our targetDir (which lives inside
-      //      livemark's own node_modules in consumer projects) would be
-      //      silently filtered. We emit the change event manually onto
-      //      `server.watcher` after cpSync — see {@link notifyVite}.
-      // A dedicated chokidar 5 watcher set up directly on these paths
-      // fires reliably; we forward events into Vite's HMR pipeline below.
-      const overlayPaths: string[] = []
-      for (const folder of ESCAPABLE_FOLDERS) {
-        overlayPaths.push(join(overridesRoot, folder))
-      }
-      for (const file of ESCAPABLE_FILES) {
-        overlayPaths.push(join(overridesRoot, file))
-      }
-      const watcher = chokidarWatch(
-        [opts.config.configPath, ...overlayPaths, SOURCE_DIR],
-        { ignoreInitial: true, ignorePermissionErrors: true },
-      )
+      // Vite's own watcher only covers its root (the target); paths added
+      // to it from outside the root never fire, so the sources of the
+      // target get a watcher of their own. `.livemark/` always exists
+      // here because the target lives inside it.
+      const paths = [opts.config.configPath, overridesRoot]
+      if (!IS_INSTALLED) paths.push(SOURCE_DIR)
+      const watcher = chokidarWatch(paths, {
+        ignoreInitial: true,
+        ignorePermissionErrors: true,
+        ignored: path => isWithin(path, targetDir) || isWithin(path, outDir),
+      })
       watcher.on("change", file => onChange(file, "change"))
       watcher.on("add", file => onChange(file, "add"))
       watcher.on("unlink", file => onChange(file, "unlink"))
-      const closeWatcher = () => {
+      watcher.on("unlinkDir", file => onChange(file, "unlink"))
+      server.httpServer?.once("close", () => {
         watcher.close()
-      }
-      server.httpServer?.once("close", closeWatcher)
+      })
 
       function onChange(file: string, kind: "change" | "add" | "unlink") {
         if (file === opts.config.configPath) {
           server.restart()
           return
         }
-        const overlayHit = matchOverlay(file, overridesRoot)
+        const overlayHit = matchPath(file, overridesRoot)
         if (overlayHit) {
           syncOverlay(overlayHit, kind, targetDir, overridesRoot)
-          notifyVite(server, join(targetDir, overlayHit.rel), kind)
-          if (kind !== "change") fullReload(server)
           return
         }
-        const sourceHit = matchSource(file)
-        if (sourceHit) {
+        const sourceHit = matchPath(file, SOURCE_DIR)
+        if (sourceHit && !sourceHit.rel.includes("routeTree.gen.ts")) {
           syncSource(sourceHit, kind, targetDir, overridesRoot)
-          notifyVite(server, join(targetDir, sourceHit.rel), kind)
-          if (kind !== "change") fullReload(server)
         }
       }
     },
@@ -147,21 +137,14 @@ interface Hit {
   category: "folder" | "file" | null
 }
 
-function matchOverlay(file: string, overridesRoot: string): Hit | null {
-  const prefix = `${overridesRoot}${sep}`
-  if (!file.startsWith(prefix)) return null
-  const rel = file.slice(prefix.length)
+function matchPath(file: string, root: string): Hit | null {
+  if (!isWithin(file, root) || file === root) return null
+  const rel = file.slice(root.length + sep.length)
   return { rel, category: classify(rel) }
 }
 
-function matchSource(file: string): Hit | null {
-  const prefix = `${SOURCE_DIR}${sep}`
-  if (!file.startsWith(prefix)) return null
-  // Skip the targets/ output dir itself (sibling of source/) and any
-  // `.gen.ts` files that downstream tools regenerate inside the target.
-  const rel = file.slice(prefix.length)
-  if (rel === "" || rel.includes("routeTree.gen.ts")) return null
-  return { rel, category: classify(rel) }
+function isWithin(file: string, dir: string) {
+  return file === dir || file.startsWith(`${dir}${sep}`)
 }
 
 function classify(rel: string): "folder" | "file" | null {
@@ -183,7 +166,11 @@ function syncOverlay(
   const dest = join(targetDir, hit.rel)
   const source = join(SOURCE_DIR, hit.rel)
   if (kind === "unlink") {
-    rmSync(dest, { force: true, recursive: true })
+    // Copy a file's default over the escape in one write: an unlink then
+    // an add reaches Vite as two events and costs a page reload.
+    if (!existsSync(source) || statSync(source).isDirectory()) {
+      rmSync(dest, { force: true, recursive: true })
+    }
     if (existsSync(source)) cpSync(source, dest, { recursive: true, force: true })
     return
   }
@@ -207,33 +194,6 @@ function syncSource(
     return
   }
   if (existsSync(source)) cpSync(source, dest, { recursive: true, force: true })
-}
-
-function fullReload(server: ViteDevServer) {
-  server.ws.send({ type: "full-reload" })
-}
-
-/** Drive Vite's HMR pipeline manually for a target file we just synced.
- *  Vite's chokidar ignores `**\/node_modules/**` by default and our
- *  targetDir lives inside livemark's own node_modules in consumer
- *  projects, so cpSync writes there are silently filtered out.
- *
- *  Emitting on `server.watcher` runs Vite's HMR analysis per environment
- *  (CSS gets `hmr update`, route modules trigger `(ssr) page reload`).
- *  But `(ssr) page reload` only sends `full-reload` on the SSR
- *  environment's hot channel — the browser is connected to the *client*
- *  channel and never sees it. So we also fire `full-reload` on the
- *  client hot directly, which is what TanStack Start needs for route
- *  edits to actually refresh the page. CSS HMR still works because
- *  Vite's analysis runs first and updates already-flushed before our
- *  reload. */
-function notifyVite(
-  server: ViteDevServer,
-  targetFile: string,
-  kind: "change" | "add" | "unlink",
-) {
-  server.watcher.emit(kind, targetFile)
-  server.environments.client.hot.send({ type: "full-reload" })
 }
 
 /** Resolve livemark.config.ts's `vite` field — either a config object

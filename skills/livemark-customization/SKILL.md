@@ -27,7 +27,7 @@ Invoke when the user asks to:
 | Serve a static asset at `/<path>` | Put the file in `.livemark/public/<path>`             |
 | Rewrite site-wide `<head>` tags   | `.livemark/head.ts` exporting `customizeHead(head)`   |
 
-None require config changes. The Vite plugin (`website/plugins/vite-livemark.ts`) watches `.livemark/**` and hot-reloads.
+None require config changes. The Vite plugin (`source/plugins/vite-livemark.ts`) watches `.livemark/**` and hot-reloads.
 
 ## Discovering what's overridable
 
@@ -52,7 +52,7 @@ The command refuses to overwrite an existing override (and exits 1 after copying
 2. Edit `.livemark/components/Footer.tsx`. All the site's Footer renders shift to the new file on save.
 3. Inside the override, import other Livemark modules from the `livemark/<subdir>/*` subpath exports:
    ```tsx
-   import { cn } from "livemark/helpers/style"
+   import { cn } from "cn"
    import { Button } from "livemark/elements/button"
    ```
 
@@ -104,9 +104,9 @@ Custom routes win over the Markdown catch-all at exact URLs. Don't create a rout
 1. **Don't fork the repo** for routine customization. Use `.livemark/` first — it reliably survives Livemark upgrades.
 2. **Same filename, same path under `.livemark/`.** The override plugin is case-sensitive and mirrors the subdirectory structure exactly.
 3. **Override files are full replacements**, not diffs. Copy the default first (via `escape`), then edit.
-4. **Import Livemark internals via `livemark/*`**, not via relative paths — the plugin routes those through the override resolver, so chained overrides (e.g., your Layout using your Sidebar) compose correctly.
+4. **Import Livemark internals via `livemark/*`**, not via relative paths — the plugin resolves those to the project's copy, so chained overrides (e.g., your Layout using your Sidebar) compose correctly.
 5. **Static files belong in `.livemark/public/`**, which Vite exposes at the site root.
-6. **Removing an override needs `npx livemark clear`** when the dev server is not running — the cached target only re-applies files that exist, so a deleted override keeps rendering.
+6. **Never edit `.livemark/.target/`** — it is the generated mount Vite runs (Livemark's source with your overrides copied in), rebuilt on every run, so stack traces point there but edits are lost. Gitignore it alongside `.livemark/build/`.
 7. **Keyboard shortcuts live in the component they drive** — bare keys through `@tanstack/react-hotkeys`, ignored while typing: `L` sidebar (`Sidebar`), `S` search (`Search`), `T` theme (`Theme`), `J`/`K` scroll (`Layout`), `B` back to top (`BackToTop`). Overriding one of these drops its key unless the copy keeps the `useHotkey` call; register a key in a component that mounts once, or one press fires twice.
 8. **Search highlights live in `Article`** — picking a result opens the page with `?highlight=<query>`, and `Article` passes it to `useSearchHighlight` with a ref on its `.prose` wrapper. An overridden `components/Article.tsx` must keep that call and ref, or matches stop being marked. Theme the mark through the `--highlight` and `--highlight-foreground` tokens; code blocks are never marked.
 
@@ -129,6 +129,6 @@ Add tags with the config `head` field (`livemark-configuration`); escape `head.t
 ## References
 
 - Narrative docs: `docs/customization/file-overrides.md`, `docs/customization/custom-routes.md`.
-- Plugin implementation: `website/plugins/vite-livemark.ts`.
+- Plugin implementation: `source/plugins/vite-livemark.ts`.
 - Escape command: `commands/escape.ts`; list and copy logic in `actions/escape/`.
 - Subpath exports: `package.json` `exports` block.

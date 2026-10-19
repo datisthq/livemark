@@ -4,10 +4,10 @@ import { loadConfig } from "../actions/config/load.ts"
 import { clearTarget } from "../actions/target/clear.ts"
 
 /**
- * Wipe the cached runtime target dir.
+ * Wipe the generated `.livemark/.target/` mount.
  */
 export const clear = new Command("clear")
-  .description("Wipe the cached runtime target dir")
+  .description("Wipe the generated .livemark/.target/ mount")
   .action(async () => {
     const config = await loadConfig()
     const targetDir = clearTarget(config.configPath)

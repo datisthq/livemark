@@ -44,7 +44,7 @@ Reuse the same components Livemark uses internally via the `livemark/*` subpath 
 ```tsx title=".livemark/routes/about.tsx"
 import { Link } from "@tanstack/react-router"
 import { Button, buttonVariants } from "livemark/elements/button"
-import { cn } from "livemark/helpers/style"
+import { cn } from "cn"
 
 export const Route = createFileRoute("/about")({ component: About })
 
