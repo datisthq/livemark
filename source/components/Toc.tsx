@@ -1,6 +1,9 @@
-import { ChevronDown } from "lucide-react"
-import { useEffect, useRef, useState, type ReactNode } from "react"
+import { ChevronUp } from "lucide-react"
+import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../elements/tabs.tsx"
 import type { TocItem } from "../models/toc.ts"
+import { ChoiceList, type Choice } from "./ChoiceList.tsx"
+import { SheetPanel } from "./SheetPanel.tsx"
 
 export function Toc(props: { items: TocItem[]; children?: ReactNode }) {
   const activeId = useActiveHeading(props.items)
@@ -10,7 +13,12 @@ export function Toc(props: { items: TocItem[]; children?: ReactNode }) {
   return (
     <aside className="hidden xl:block w-56 shrink-0">
       <div className="sticky top-20 max-h-[calc(100vh-5rem)] overflow-auto [scrollbar-width:none]">
-        {props.children}
+        {props.children && (
+          <div className="mb-6">
+            <p className="text-sm font-medium mb-3">Actions</p>
+            {props.children}
+          </div>
+        )}
         {props.items.length > 0 && (
           <nav>
             <p className="text-sm font-medium mb-3">Contents</p>
@@ -34,74 +42,83 @@ export function Toc(props: { items: TocItem[]; children?: ReactNode }) {
   )
 }
 
-/** Mobile-only sticky secondary bar showing the active heading and an
- * overlay dropdown with the Contents + page Actions. */
+const SHEET_ACTIONS =
+  "[&_[data-slot=page-toolbar]]:-mx-2 [&_[data-slot=page-toolbar]]:gap-0.5 [&_[data-slot=page-action]]:h-10 [&_[data-slot=page-action]]:gap-2.5 [&_[data-slot=page-action]]:rounded-control [&_[data-slot=page-action]]:px-2 [&_[data-slot=page-action]]:text-base [&_[data-slot=page-action]]:text-foreground [&_[data-slot=page-action]:hover]:bg-muted [&_[data-slot=page-action]_svg]:size-[18px]"
+
+/** Mobile-only sticky secondary bar showing the active heading; it opens a
+ * bottom sheet with the page Actions and Contents as two tabs. */
 export function MobileToc(props: { items: TocItem[]; children?: ReactNode }) {
   const activeId = useActiveHeading(props.items)
   const [open, setOpen] = useState(false)
-  const wrapperRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (!open) return
-    const onPointerDown = (event: MouseEvent) => {
-      if (!wrapperRef.current?.contains(event.target as Node)) setOpen(false)
-    }
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false)
-    }
-    document.addEventListener("mousedown", onPointerDown)
-    document.addEventListener("keydown", onKey)
-    return () => {
-      document.removeEventListener("mousedown", onPointerDown)
-      document.removeEventListener("keydown", onKey)
-    }
-  }, [open])
+  const [tab, setTab] = useState(props.items.length > 0 ? "contents" : "actions")
+  const pendingUrl = useRef<string | null>(null)
 
   if (props.items.length === 0 && !props.children) return null
 
   const active = props.items.find(item => item.url.slice(1) === activeId)
   const title = active?.title ?? props.items[0]?.title ?? "Contents"
+  const choices: Choice[] = props.items.map(item => ({
+    id: item.url.slice(1),
+    label: item.title,
+    href: item.url,
+    depth: Math.max(0, item.depth - 2),
+  }))
+
+  // The sheet locks page scroll until it has closed, which swallows a native hash
+  // jump made from inside it; navigate once the close has finished.
+  const handleSelect = (choice: Choice, event: MouseEvent<HTMLElement>) => {
+    event.preventDefault()
+    pendingUrl.current = choice.href ?? null
+    setOpen(false)
+  }
+
+  const handleOpenChangeComplete = (isOpen: boolean) => {
+    const url = pendingUrl.current
+    if (isOpen || !url) return
+    pendingUrl.current = null
+    history.pushState(null, "", url)
+    document.getElementById(url.slice(1))?.scrollIntoView()
+  }
+
+  const contents = (
+    <ChoiceList choices={choices} selectedId={activeId} onSelect={handleSelect} />
+  )
 
   return (
-    <div ref={wrapperRef} className="xl:hidden sticky top-16 z-20 border-b bg-background">
+    <div className="xl:hidden sticky top-16 z-20 border-b bg-background">
       <button
         type="button"
-        onClick={() => setOpen(v => !v)}
-        aria-expanded={open}
+        onClick={() => setOpen(true)}
+        aria-haspopup="dialog"
         className="flex w-full items-center gap-3 px-4 py-3 text-sm text-muted-foreground"
       >
         <ScrollProgressRing />
         <span className="truncate flex-1 text-left">{title}</span>
-        <ChevronDown
-          className={`size-4 shrink-0 transition-transform ${open ? "rotate-180" : ""}`}
-        />
+        <ChevronUp className="size-4 shrink-0" />
       </button>
-      {open && (
-        <div className="absolute top-full left-0 right-0 mt-px max-h-[calc(100vh-8rem)] overflow-auto border-b bg-background shadow-md animate-in slide-in-from-top-2 fade-in-0 duration-200">
-          <div className="space-y-4 px-4 pt-4 pb-4">
-            {props.children}
-            {props.items.length > 0 && (
-              <nav>
-                <p className="mb-2 text-sm font-medium">Contents</p>
-                <ul className="border-l border-border text-sm">
-                  {props.items.map(item => (
-                    <li key={item.url}>
-                      <a
-                        href={item.url}
-                        data-active={activeId === item.url.slice(1) || undefined}
-                        onClick={() => setOpen(false)}
-                        className={`-ms-px block border-l border-transparent py-1.5 text-muted-foreground transition-colors hover:text-foreground data-[active]:border-primary data-[active]:font-medium data-[active]:text-primary ${item.depth <= 2 ? "ps-3" : item.depth === 3 ? "ps-6" : "ps-8"}`}
-                      >
-                        {item.title}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            )}
-          </div>
-        </div>
-      )}
+      <SheetPanel
+        open={open}
+        onOpenChange={setOpen}
+        onOpenChangeComplete={handleOpenChangeComplete}
+        title={title}
+      >
+        {props.children && props.items.length > 0 ? (
+          <Tabs value={tab} onValueChange={value => setTab(String(value))}>
+            <TabsList className="mb-2 w-full">
+              <TabsTrigger value="actions">Actions</TabsTrigger>
+              <TabsTrigger value="contents">Contents</TabsTrigger>
+            </TabsList>
+            <TabsContent value="actions" className={SHEET_ACTIONS}>
+              {props.children}
+            </TabsContent>
+            <TabsContent value="contents">{contents}</TabsContent>
+          </Tabs>
+        ) : props.children ? (
+          <div className={SHEET_ACTIONS}>{props.children}</div>
+        ) : (
+          contents
+        )}
+      </SheetPanel>
     </div>
   )
 }

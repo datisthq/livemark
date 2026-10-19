@@ -37,13 +37,13 @@ export function PageToolbar(props: {
 
   return (
     <>
-      <div className="mb-6 flex flex-col gap-2 text-sm">
-        <p className="text-sm font-medium mb-1">Actions</p>
+      <div data-slot="page-toolbar" className="flex flex-col gap-2 text-sm">
         {sourceHref ? (
           <a
             href={sourceHref}
             target="_blank"
             rel="noopener noreferrer"
+            data-slot="page-action"
             className={buttonClass}
           >
             <SourceIcon className="size-3.5" />
@@ -51,6 +51,7 @@ export function PageToolbar(props: {
           </a>
         ) : (
           <span
+            data-slot="page-action"
             className={`${buttonClass} opacity-50 cursor-not-allowed hover:text-muted-foreground`}
             aria-disabled="true"
           >
@@ -58,13 +59,19 @@ export function PageToolbar(props: {
             {sourceLabel}
           </span>
         )}
-        <button type="button" onClick={handleCopy} className={buttonClass}>
+        <button
+          type="button"
+          onClick={handleCopy}
+          data-slot="page-action"
+          className={buttonClass}
+        >
           {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
           Copy Markdown
         </button>
         <button
           type="button"
           onClick={() => openIn("https://chatgpt.com/", { hints: "search" })}
+          data-slot="page-action"
           className={buttonClass}
         >
           <ExternalLink className="size-3.5" />
@@ -73,6 +80,7 @@ export function PageToolbar(props: {
         <button
           type="button"
           onClick={() => openIn("https://claude.ai/new")}
+          data-slot="page-action"
           className={buttonClass}
         >
           <ExternalLink className="size-3.5" />
