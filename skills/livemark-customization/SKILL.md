@@ -58,7 +58,7 @@ The command refuses to overwrite an existing override. Delete the override first
 
 ## Typical workflow: announcement banner
 
-`Banner` renders nothing by default. Override `components/Banner.tsx` to show a strip across the full page width, above both the sidebar and the sticky header — it scrolls away while the sidebar and header pin to the top (the sidebar container is `sticky`, not `fixed`, for this). Keep it one line (`truncate` with `min-w-0`) and, for a whole-strip click target, a single link stretched with `after:absolute after:inset-0` inside a `group relative` wrapper. Search and the theme toggle sit at the right of the header, not in the sidebar.
+`Banner` renders nothing by default. Override `components/Banner.tsx` to show a strip across the full page width, above both the sidebar and the sticky header — it scrolls away while the sidebar and header pin to the top (the sidebar container is `sticky`, not `fixed`, for this). Keep it one line (`truncate` with `min-w-0`) and, for a whole-strip click target, a single link stretched with `after:absolute after:inset-0` inside a `group relative` wrapper. Search and the theme toggle sit at the right of the header, not in the sidebar. Below `lg`, `Search` opens `components/HeaderSearch.tsx` instead of the dialog: a field that covers the whole header bar, with results dropping full-width beneath it — positioned `absolute` against the sticky header, so an override must stay inside `<header>`.
 
 ## Sidebar escapes
 
