@@ -1,11 +1,12 @@
 import { Link, createFileRoute } from "@tanstack/react-router"
 import {
-  ArrowRight,
+  BookOpen,
   Braces,
   Code,
   Github,
   LayoutPanelLeft,
   Moon,
+  Rocket,
   Search,
   Workflow,
 } from "lucide-react"
@@ -63,8 +64,8 @@ function Hero() {
               "px-5 no-underline",
             )}
           >
+            <Rocket className="size-4" />
             Get started
-            <ArrowRight className="size-4" />
           </Link>
           <a
             href="https://github.com/datisthq/livemark"
@@ -485,8 +486,8 @@ function FinalCta() {
                 "px-5 no-underline",
               )}
             >
+              <BookOpen className="size-4" />
               Read the docs
-              <ArrowRight className="size-4" />
             </Link>
             <Link
               to="/$"
