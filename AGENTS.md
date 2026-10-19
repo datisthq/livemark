@@ -53,7 +53,7 @@ Shipped skills live in `skills/` and are published in the package for people who
 | `livemark-configuration` | changing a Livemark project's configuration               |
 | `livemark-customization` | theming or otherwise customising a Livemark site          |
 
-**There is exactly one `AGENTS.md`, at the root.** `.scripts/-test/docs.unit.ts` enforces that, along with every path and `pnpm` command these documents name and the two tables above.
+**There is exactly one `AGENTS.md`, at the root.** `scripts/-test/docs.unit.ts` enforces that, along with every path and `pnpm` command these documents name and the two tables above.
 
 ## Commands
 
@@ -81,7 +81,7 @@ Everything the package runs is under `source/`; Node loads `build/*.js`, while V
 - Root files are single-concern: `settings.ts`, `program.ts`, `client.tsx`, `server.ts`, `router.tsx`, `head.ts`, `content-collections.ts`, `vite.config.ts`, `index.ts`. `routeTree.gen.ts` is generated
 - Unit tests sit beside their module as `<module>.unit.ts`; snapshots land in a sibling `fixtures/generated/`
 
-Dot-directories hold non-package code: `.agents/` repo skills, `.scripts/` repo-wide guards, `.livemark/` the docs site's own escapes, `.release/` release-please config. Globs skip dot-directories, so `.scripts/-test/` is named explicitly in `vite.config.ts` and `tsconfig.json`.
+Non-package code: `scripts/` repo tooling and repo-wide guards, and the dot-directories `.agents/` repo skills, `.livemark/` the docs site's own escapes, `.release/` release-please config.
 
 ## Conventions
 
