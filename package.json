@@ -29,7 +29,7 @@
     "check:lint": "vp fmt --check && vp lint",
     "check:types": "tsgo --noEmit",
     "format": "vp fmt --no-error-on-unmatched-pattern",
-    "prepare": "lefthook install && mkdir -p .claude && ln -sfn ../.agents/skills .claude/skills",
+    "prepare": "lefthook install && node .scripts/link-skills.ts",
     "release": "pnpm publish --access public --ignore-scripts --no-git-checks",
     "scan": "pnpm scan:leaks && pnpm scan:vulns",
     "scan:leaks": "gitleaks git --config=.gitleaks.toml --verbose --redact",
