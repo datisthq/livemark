@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vite-plus/test"
-import { buildTwinFileName, renderLlmsText, renderMarkdownTwin } from "./llms.ts"
+import type { RoutedSection } from "../models/section.ts"
+import {
+  buildTwinFileName,
+  renderLlmsText,
+  renderMarkdownTwin,
+  renderSectionIndex,
+} from "./llms.ts"
 
 const config = { title: "Docs", description: "Blurb" }
 
@@ -65,6 +71,29 @@ describe("renderLlmsText", () => {
       ].join("\n"),
     )
     expect(text).not.toContain("GitHub")
+  })
+})
+
+describe("renderSectionIndex", () => {
+  it("lists only the section's articles, newest first", () => {
+    const blog: RoutedSection = {
+      title: "Blog",
+      prefix: "/blog/",
+      type: "blog",
+      position: "header",
+    }
+    const text = renderSectionIndex({
+      config: { sections: [blog] },
+      section: blog,
+      articles: [
+        { path: "/intro/", title: "Intro" },
+        { path: "/blog/old/", title: "Old", date: "2026-01-01" },
+        { path: "/blog/new/", title: "New", date: "2026-02-01", description: "Fresh" },
+      ],
+    })
+    expect(text).toBe(
+      "# Blog\n\n- [New](/blog/new/index.md): Fresh\n- [Old](/blog/old/index.md)\n",
+    )
   })
 })
 

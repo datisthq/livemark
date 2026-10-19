@@ -103,28 +103,26 @@ The Livemark repo's own `wrangler.jsonc` is a working reference — see the [pro
 
 ## Markdown for agents
 
-AI agents ask for a page as Markdown by sending `Accept: text/markdown`. Static assets alone always answer with HTML, so Livemark ships a small Worker that serves the page's [Markdown twin](/customization/ai-agents/) to those requests and passes everything else through:
+AI agents ask for a page as Markdown by sending `Accept: text/markdown`. Static assets always answer with HTML, so add a URL Rewrite Rule to your zone that points those requests at the page's [Markdown twin](/customization/ai-agents/). URL Rewrite Rules are available on every plan, including Free, and the site stays fully static.
 
-```jsonc title="wrangler.jsonc"
-{
-  "name": "my-docs",
-  "main": "node_modules/livemark/build/entrypoints/worker.js",
-  "compatibility_date": "2026-04-01",
-  "assets": {
-    "directory": ".livemark/build/client",
-    "binding": "ASSETS",
-    "run_worker_first": ["/*", "!/assets/*"],
-  },
-}
+In the dashboard, open your domain, go to **Rules → Overview → Create rule → URL Rewrite Rule**, and fill in:
+
+| Field                      | Value                                                                  |
+| -------------------------- | ---------------------------------------------------------------------- |
+| Rule name                  | `Markdown for agents`                                                  |
+| If incoming requests match | Custom filter expression (below)                                       |
+| Path                       | Rewrite to → **Dynamic** → `concat(http.request.uri.path, "index.md")` |
+| Query                      | Preserve                                                               |
+
+```txt title="Filter expression"
+any(http.request.headers["accept"][*] contains "text/markdown") and ends_with(http.request.uri.path, "/")
 ```
 
-| Field                     | Purpose                                                                   |
-| ------------------------- | ------------------------------------------------------------------------- |
-| `main`                    | The Worker. It falls back to the HTML page when the page has no twin.     |
-| `assets.binding`          | Gives the Worker the static assets as `ASSETS`.                           |
-| `assets.run_worker_first` | Sends page requests through the Worker. Hashed `/assets/*` files skip it. |
+Page URLs end in `/`, so the rule only touches pages. A request for `/guide` is redirected to `/guide/` first and then rewritten. Static assets serve `.md` files as `text/markdown`, so the response type needs no extra rule.
 
-The `_headers` rules still apply. Every page request served through the Worker counts toward your Workers request quota, which static asset requests do not.
+:::warning
+Deploy a build that contains the twins before enabling the rule. Otherwise an agent asking for Markdown gets a 404.
+:::
 
 ## See also
 

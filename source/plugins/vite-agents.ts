@@ -8,7 +8,12 @@ import {
   loadAgentSkills,
   renderSkillsIndex,
 } from "../helpers/agent-skills.ts"
-import { buildTwinFileName, renderLlmsText, renderMarkdownTwin } from "../helpers/llms.ts"
+import {
+  buildTwinFileName,
+  renderLlmsText,
+  renderMarkdownTwin,
+  renderSectionIndex,
+} from "../helpers/llms.ts"
 import { resolveIncludes } from "../helpers/resolve-includes.ts"
 import type { Config } from "../models/config.ts"
 
@@ -29,7 +34,7 @@ const GeneratedArticles = z.array(
 )
 
 /** Emit what AI agents look for into the client build: a Markdown twin of
- *  every article at `<path>index.md`, `llms.txt`, the Agent Skills index for
+ *  every article and section listing at `<path>index.md`, `llms.txt`, the Agent Skills index for
  *  `config.skills`, and a `_headers` file whose `Link` points agents at them. */
 export function agents(opts: AgentsOptions): Plugin {
   const publicDir = join(opts.config.root, ".livemark", "public")
@@ -61,7 +66,17 @@ export function agents(opts: AgentsOptions): Plugin {
 
       const llms = renderLlmsText({ config: opts.config, articles })
       emit("llms.txt", llms)
-      if (!articles.some(a => a.path === "/")) emit("index.md", llms)
+      const hasTwin = (path: string) => articles.some(a => a.path === path)
+      if (!hasTwin("/")) emit("index.md", llms)
+      // A rewrite to a missing twin is a 404, so every listing page needs one too.
+      for (const section of opts.config.sections ?? []) {
+        if (section.type === "custom" || section.prefix === "/") continue
+        if (hasTwin(section.prefix)) continue
+        emit(
+          buildTwinFileName(section.prefix),
+          renderSectionIndex({ config: opts.config, section, articles }),
+        )
+      }
 
       const patterns = opts.config.skills ?? []
       const skills = loadAgentSkills({

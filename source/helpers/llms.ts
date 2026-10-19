@@ -23,34 +23,26 @@ export function renderLlmsText(props: {
   config: Pick<Config, "title" | "description" | "site" | "base" | "sections">
   articles: LlmsArticle[]
 }) {
-  const config = props.config
-  const sections =
-    config.sections?.filter((s): s is RoutedSection => s.type !== "custom") ?? []
-  const buckets = partitionBySection(
-    [...props.articles].sort(compareArticleOrder),
-    sections,
-  )
-  const groups = [
-    ...sections.map(s => ({ section: s, title: s.title })),
-    { section: undefined, title: sections.length ? "Other" : "Pages" },
-  ]
-
-  const lines = [`# ${config.title}`, "", `> ${config.description}`]
-  for (const group of groups) {
-    const bucket = buckets.get(group.section?.prefix ?? "__default__")
-    if (!bucket?.length) continue
-    const dated = group.section?.type === "blog" || group.section?.type === "changelog"
-    const ordered = dated
-      ? [...bucket].sort(compareArticleDate)
-      : flattenArticleTree(buildArticleTree(bucket)).flatMap(
-          path => bucket.find(a => a.path === path) ?? [],
-        )
-    lines.push("", `## ${group.title}`, "")
-    for (const article of ordered) {
-      const link = `[${article.title}](${buildTwinUrl(config, article.path)})`
-      lines.push(article.description ? `- ${link}: ${article.description}` : `- ${link}`)
-    }
+  const lines = [`# ${props.config.title}`, "", `> ${props.config.description}`]
+  for (const group of groupArticles(props)) {
+    lines.push("", `## ${group.title}`, "", ...renderLinks(props.config, group.articles))
   }
+  return `${lines.join("\n")}\n`
+}
+
+/** Render the Markdown twin of a section's index page (a blog or changelog
+ *  listing), which has no article of its own: links to the section's articles. */
+export function renderSectionIndex(props: {
+  config: Pick<Config, "site" | "base" | "sections">
+  section: RoutedSection
+  articles: LlmsArticle[]
+}) {
+  const group = groupArticles(props).find(g => g.prefix === props.section.prefix)
+  const lines = [
+    `# ${props.section.title}`,
+    "",
+    ...renderLinks(props.config, group?.articles ?? []),
+  ]
   return `${lines.join("\n")}\n`
 }
 
@@ -77,4 +69,41 @@ export function stripLeadingH1(content: string) {
 function buildTwinUrl(config: Pick<Config, "site" | "base">, path: string) {
   const host = config.site?.replace(/\/+$/, "") ?? ""
   return `${host}${config.base ?? ""}${path}index.md`
+}
+
+function groupArticles(props: {
+  config: Pick<Config, "sections">
+  articles: LlmsArticle[]
+}) {
+  const sections =
+    props.config.sections?.filter((s): s is RoutedSection => s.type !== "custom") ?? []
+  const buckets = partitionBySection(
+    [...props.articles].sort(compareArticleOrder),
+    sections,
+  )
+  const groups = [
+    ...sections.map(s => ({
+      prefix: s.prefix,
+      title: s.title,
+      dated: s.type !== "article",
+    })),
+    { prefix: "__default__", title: sections.length ? "Other" : "Pages", dated: false },
+  ]
+  return groups.flatMap(group => {
+    const bucket = buckets.get(group.prefix)
+    if (!bucket?.length) return []
+    const articles = group.dated
+      ? [...bucket].sort(compareArticleDate)
+      : flattenArticleTree(buildArticleTree(bucket)).flatMap(
+          path => bucket.find(a => a.path === path) ?? [],
+        )
+    return [{ prefix: group.prefix, title: group.title, articles }]
+  })
+}
+
+function renderLinks(config: Pick<Config, "site" | "base">, articles: LlmsArticle[]) {
+  return articles.map(article => {
+    const link = `[${article.title}](${buildTwinUrl(config, article.path)})`
+    return article.description ? `- ${link}: ${article.description}` : `- ${link}`
+  })
 }

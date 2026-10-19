@@ -14,7 +14,7 @@ Every `livemark build` publishes your site in the forms AI agents look for, next
 
 | File                                   | Purpose                                                                                  |
 | -------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `<page>/index.md`                      | A Markdown twin of every article, beside its `index.html`, with includes resolved        |
+| `<page>/index.md`                      | A Markdown twin of every article and section listing, beside its `index.html`            |
 | `/llms.txt`                            | An [llms.txt](https://llmstxt.org/) index linking every twin, grouped by section         |
 | `/index.md`                            | The home page's twin, or a copy of `llms.txt` when no article sits at `/`                |
 | `/robots.txt`                          | Gains a `Content-Signal` line stating how automated systems may use your content         |
@@ -55,7 +55,7 @@ Each matched skill is published at `/.well-known/agent-skills/<name>/SKILL.md` a
 
 ## Markdown on request
 
-Agents ask for Markdown by sending `Accept: text/markdown`. A static host can't answer that on its own. On Cloudflare, Livemark ships a Worker that serves the twin to those requests and the HTML to everyone else. See [Cloudflare → Markdown for agents](/deployment/cloudflare/#markdown-for-agents).
+Agents ask for Markdown by sending `Accept: text/markdown` to the page URL. A static host can't answer that on its own, but a rewrite on your CDN can serve `<page>/index.md` for those requests and leave the HTML for everyone else. Every article and section listing has a twin, so the rewrite never points at a missing file. For a ready-made rule, see [Cloudflare → Markdown for agents](/deployment/cloudflare/#markdown-for-agents).
 
 ## See also
 
