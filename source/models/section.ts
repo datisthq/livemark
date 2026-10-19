@@ -62,3 +62,6 @@ export const Section = z.preprocess(
     CustomSection,
   ]),
 )
+
+/** A section that owns a URL prefix — every type except `custom`. */
+export type RoutedSection = Exclude<Section, CustomSection>

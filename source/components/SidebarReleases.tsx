@@ -16,12 +16,13 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "../elements/sidebar.tsx"
+import type { RoutedSection } from "../models/section.ts"
 
 /** Changelog body slot for the Sidebar shell: All Releases / Recent Releases */
-export function SidebarReleases() {
+export function SidebarReleases(props: { section?: RoutedSection }) {
   const pathname = useLocation({ select: l => l.pathname })
 
-  const section = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
+  const section = props.section ?? currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
   const flat = section ? (sectionFlatArticles.get(section.prefix) ?? []) : []
   const entries = flat
     .map(p => sortedArticles.find(a => a.path === p))

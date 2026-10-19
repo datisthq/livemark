@@ -60,6 +60,10 @@ The command refuses to overwrite an existing override. Delete the override first
 
 `Banner` renders nothing by default. Override `components/Banner.tsx` to show a strip across the full page width, above both the sidebar and the sticky header — it scrolls away while the sidebar and header pin to the top (the sidebar container is `sticky`, not `fixed`, for this). Keep it one line (`truncate` with `min-w-0`) and, for a whole-strip click target, a single link stretched with `after:absolute after:inset-0` inside a `group relative` wrapper. Search and the theme toggle sit at the right of the header, not in the sidebar.
 
+## Sidebar escapes
+
+`Sidebar` picks the body slot (`SidebarArticles`, `SidebarPosts`, `SidebarReleases`) and passes each, plus `SidebarLinks`, the section to show as an optional `section` prop. On mobile inside a section it swaps the Sections list for `SidebarSectionPicker`, which changes that prop without navigating — an escaped body slot must read `props.section` before falling back to the route's section, or the picker stops working.
+
 ## Typical workflow: rebrand
 
 1. `livemark escape styles/general.css`.

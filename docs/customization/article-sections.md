@@ -49,6 +49,8 @@ Every section, regardless of type, accepts:
 | `icon`     | `string`                             | type-based  | Lucide icon shown next to the title.                                                            |
 | `position` | `"header" \| "sidebar"`              | `"header"`  | Where the section tab renders.                                                                  |
 
+On mobile, every section collapses into the sidebar. Inside a section they become a dropdown: picking one shows that section's articles, posts or releases in the sidebar without leaving the current page.
+
 ## Article sections
 
 Plain docs. Sidebar shows the article tree. This is the default — you can omit `type` entirely:

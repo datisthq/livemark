@@ -20,13 +20,14 @@ import {
 } from "../elements/sidebar.tsx"
 import { resolveArticleIcon } from "../helpers/article-icon.ts"
 import type { ArticleNode } from "../models/article.ts"
+import type { RoutedSection } from "../models/section.ts"
 
 /** Article-tree body slot for the Sidebar shell */
-export function SidebarArticles() {
+export function SidebarArticles(props: { section?: RoutedSection }) {
   const pathname = useLocation({ select: l => l.pathname })
 
   const configSections = config.sections
-  const section = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
+  const section = props.section ?? currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
   const tree = configSections?.length
     ? (sectionArticleTrees.get(section?.prefix ?? "__default__") ?? articleTree)
     : articleTree

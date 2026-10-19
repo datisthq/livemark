@@ -11,13 +11,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "../elements/sidebar.tsx"
+import type { RoutedSection } from "../models/section.ts"
 
 /** Shared Links group. Renders sidebar-positioned links always, and
  * header-positioned links only on mobile (mobile collapses all chrome
  * links into the sidebar since the header strip is hidden below `md`). */
-export function SidebarLinks() {
+export function SidebarLinks(props: { section?: RoutedSection }) {
   const pathname = useLocation({ select: l => l.pathname })
-  const section = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
+  const section = props.section ?? currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
   const links =
     config.links?.filter(link => !link.prefix || link.prefix === section?.prefix) ?? []
 
