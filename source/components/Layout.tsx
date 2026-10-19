@@ -1,15 +1,9 @@
 import { config } from "livemark:virtual"
-import { Link, useLocation, useMatch } from "@tanstack/react-router"
+import { useLocation, useMatch } from "@tanstack/react-router"
 import { useHotkey } from "@tanstack/react-hotkeys"
-import {
-  currentSection,
-  sectionFirstArticle,
-  sectionFlatArticles,
-  sortedArticles,
-} from "../content/article.ts"
-import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
-import { prefixUrl } from "../helpers/prefix-url.ts"
-import { activeSiteLink, customSectionActive } from "../helpers/section.ts"
+import { useState } from "react"
+import { currentSection } from "../content/article.ts"
+import { activeSiteLink } from "../helpers/section.ts"
 import {
   SidebarInset,
   SidebarProvider,
@@ -18,15 +12,12 @@ import {
 } from "../elements/sidebar.tsx"
 import { BackToTop } from "./BackToTop.tsx"
 import { Banner } from "./Banner.tsx"
+import { HeaderNav } from "./HeaderNav.tsx"
 import { Search } from "./Search.tsx"
 import { Sidebar } from "./Sidebar.tsx"
 import { SiteLink } from "./SiteLink.tsx"
 import { SiteTitle } from "./SiteTitle.tsx"
 import { Theme } from "./Theme.tsx"
-
-function splatFor(pathname: string) {
-  return { _splat: pathname.replace(/^\/|\/$/g, "") }
-}
 
 export function Layout(props: { withSidebar?: boolean; children?: React.ReactNode }) {
   const pathname = useLocation({ select: l => l.pathname })
@@ -43,7 +34,7 @@ export function Layout(props: { withSidebar?: boolean; children?: React.ReactNod
     window.scrollBy({ top: -window.innerHeight * 0.8, behavior: "smooth" }),
   )
 
-  const sections = config.sections
+  const [compactSearch, setCompactSearch] = useState(false)
 
   const header = (
     <header className="sticky top-0 z-20 flex has-[[data-header-search]]:z-40 h-16 shrink-0 items-center border-b bg-background">
@@ -68,93 +59,12 @@ export function Layout(props: { withSidebar?: boolean; children?: React.ReactNod
           </SiteLink>
         )}
       </div>
-      <div className="hidden lg:flex flex-1 items-center gap-8 self-stretch px-6 text-sm">
-        {sections?.length ? (
-          sections
-            .filter(section => section.position === "header")
-            .map(section => {
-              const icon = section.icon
-              if (section.type === "custom") {
-                const isActive = customSectionActive(section.url, pathname)
-                return (
-                  <a
-                    key={section.url}
-                    href={prefixUrl(section.url, config.base)}
-                    className={`inline-flex items-center gap-1.5 text-foreground ${
-                      isActive
-                        ? "font-medium border-b-2 border-foreground pb-0.5 -mb-0.5"
-                        : "opacity-80 hover:opacity-100 transition-opacity"
-                    }`}
-                  >
-                    {icon && <DynamicIcon name={icon} className="size-3.5" />}
-                    <span>{section.title}</span>
-                  </a>
-                )
-              }
-              const isActive = activeSection?.prefix === section.prefix
-              const target =
-                section.type === "blog" || section.type === "changelog"
-                  ? section.prefix
-                  : sectionFirstArticle.get(section.prefix)
-              const latestVersion =
-                section.type === "changelog" && section.version
-                  ? sortedArticles.find(
-                      a => a.path === sectionFlatArticles.get(section.prefix)?.[0],
-                    )?.title
-                  : undefined
-              return (
-                <Link
-                  key={section.prefix}
-                  to={target === "/" ? "/" : "/$"}
-                  params={target && target !== "/" ? splatFor(target) : {}}
-                  className={`inline-flex items-center gap-1.5 text-foreground ${
-                    isActive
-                      ? "font-medium border-b-2 border-foreground pb-0.5 -mb-0.5"
-                      : "opacity-80 hover:opacity-100 transition-opacity"
-                  }`}
-                >
-                  {icon && <DynamicIcon name={icon} className="size-3.5" />}
-                  <span>
-                    {section.title}
-                    {latestVersion && (
-                      <span className="opacity-80"> ({latestVersion})</span>
-                    )}
-                  </span>
-                </Link>
-              )
-            })
-        ) : (
-          <Link
-            to="/"
-            className="text-foreground font-medium underline underline-offset-4"
-          >
-            Docs
-          </Link>
-        )}
-        {config.links
-          ?.filter(
-            link =>
-              link.position === "header" &&
-              (!link.prefix || link.prefix === activeSection?.prefix),
-          )
-          .map(link => (
-            <a
-              key={link.url}
-              href={prefixUrl(link.url, config.base)}
-              className="text-foreground opacity-80 hover:opacity-100 transition-opacity"
-            >
-              {link.icon && (
-                <DynamicIcon
-                  name={link.icon}
-                  className="inline size-3.5 align-[-0.125em]"
-                />
-              )}{" "}
-              {link.title}
-            </a>
-          ))}
-      </div>
+      <HeaderNav
+        activePrefix={activeSection?.prefix}
+        onCompactChange={setCompactSearch}
+      />
       <div className="ml-auto flex shrink-0 items-center gap-1 pr-2 lg:pr-1">
-        <Search />
+        <Search compact={compactSearch} />
         <Theme />
         <div className="lg:hidden">
           <SidebarTrigger />

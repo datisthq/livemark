@@ -1,12 +1,14 @@
 import { useState } from "react"
 import { useHotkey } from "@tanstack/react-hotkeys"
 import { Search as SearchIcon } from "lucide-react"
+import { cn } from "cn"
 import { isMobileNow } from "../hooks/media.ts"
 import { HeaderSearch } from "./HeaderSearch.tsx"
 import { SearchDialog } from "./SearchDialog.tsx"
 
-/** Search button with "S" keyboard shortcut: a command palette from `lg`, an in-header field below */
-export function Search() {
+/** Search button with "S" keyboard shortcut: a command palette from `lg`, an in-header field below.
+ * `compact` keeps it an icon from `lg` too, when header sections need the room */
+export function Search(props: { compact?: boolean }) {
   const [open, setOpen] = useState(false)
   const [headerOpen, setHeaderOpen] = useState(false)
   const openSearch = () => (isMobileNow() ? setHeaderOpen(true) : setOpen(true))
@@ -21,11 +23,21 @@ export function Search() {
         aria-label="Search"
         aria-keyshortcuts="S"
         title="Search"
-        className="flex h-9 items-center gap-2 rounded-control border border-border bg-muted/50 px-2.5 text-sm text-muted-foreground shadow-xs hover:bg-muted transition-colors cursor-pointer lg:w-56"
+        className={cn(
+          "flex h-9 items-center gap-2 rounded-control border border-border bg-muted/50 px-2.5 text-sm text-muted-foreground shadow-xs hover:bg-muted transition-colors cursor-pointer",
+          !props.compact && "lg:w-56",
+        )}
       >
         <SearchIcon className="size-4" />
-        <span className="hidden flex-1 text-left lg:inline">Search...</span>
-        <kbd className="hidden rounded border border-border bg-background px-1.5 py-0.5 text-[10px] font-mono lg:inline">
+        <span className={cn("hidden flex-1 text-left", !props.compact && "lg:inline")}>
+          Search...
+        </span>
+        <kbd
+          className={cn(
+            "hidden rounded border border-border bg-background px-1.5 py-0.5 text-[10px] font-mono",
+            !props.compact && "lg:inline",
+          )}
+        >
           S
         </kbd>
       </button>

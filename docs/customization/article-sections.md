@@ -49,6 +49,8 @@ Every section, regardless of type, accepts:
 | `icon`     | `string`                             | type-based  | Lucide icon shown next to the title.                                                            |
 | `position` | `"header" \| "sidebar"`              | `"header"`  | Where the section tab renders.                                                                  |
 
+When header sections and links outgrow the header, the search field shrinks to an icon, then the ones that still don't fit fold into a **More** menu.
+
 On mobile, every section collapses into the sidebar. Inside a section they become a picker that opens a bottom sheet: choosing one shows that section's articles, posts or releases in the sidebar without leaving the current page.
 
 ## Article sections
