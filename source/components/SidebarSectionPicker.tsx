@@ -1,25 +1,25 @@
 import { config } from "livemark:virtual"
+import { ChevronDownIcon } from "lucide-react"
 import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
 import { prefixUrl } from "../helpers/prefix-url.ts"
-import { NativeSelect, NativeSelectOption } from "../elements/native-select.tsx"
 import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
 } from "../elements/sidebar.tsx"
 import type { RoutedSection, Section } from "../models/section.ts"
+import { MenuSheet } from "./MenuSheet.tsx"
 
-/** Mobile Sections group: a dropdown that swaps the sidebar body to another
- * section without navigating; custom sections still navigate to their URL. */
+/** Mobile Sections group: a select-like trigger opening a bottom sheet that swaps the
+ * sidebar body to another section without navigating; custom sections still navigate
+ * to their URL. */
 export function SidebarSectionPicker(props: {
   section: RoutedSection
   onSelect: (section: RoutedSection) => void
 }) {
   const sections = config.sections ?? []
 
-  const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const picked = sections.find(s => sectionKey(s) === event.target.value)
-    if (!picked) return
+  const selectSection = (picked: Section) => {
     if (picked.type === "custom") {
       window.location.assign(prefixUrl(picked.url, config.base))
       return
@@ -32,22 +32,34 @@ export function SidebarSectionPicker(props: {
       <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
         Sections
       </SidebarGroupLabel>
-      <SidebarGroupContent className="flex items-center gap-2 px-2">
-        {props.section.icon && (
-          <DynamicIcon name={props.section.icon} className="size-4 shrink-0" />
-        )}
-        <NativeSelect
-          aria-label="Section"
-          className="w-full"
-          value={props.section.prefix}
-          onChange={onChange}
+      <SidebarGroupContent>
+        <MenuSheet
+          title="Choose section"
+          items={sections.map(s => ({
+            id: sectionKey(s),
+            label: s.title,
+            icon: s.icon ? <DynamicIcon name={s.icon} className="size-4" /> : undefined,
+            active: s.type !== "custom" && s.prefix === props.section.prefix,
+            onSelect: () => selectSection(s),
+          }))}
+          trigger={
+            <button
+              type="button"
+              aria-label="Section"
+              aria-haspopup="dialog"
+              className="flex h-9 w-full min-w-0 cursor-pointer items-center gap-2 rounded-control border border-input bg-transparent px-[7px] text-left text-sm shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30 dark:hover:bg-input/50"
+            />
+          }
         >
-          {sections.map(s => (
-            <NativeSelectOption key={sectionKey(s)} value={sectionKey(s)}>
-              {s.title}
-            </NativeSelectOption>
-          ))}
-        </NativeSelect>
+          {props.section.icon && (
+            <DynamicIcon name={props.section.icon} className="size-4 shrink-0" />
+          )}
+          <span className="flex-1 truncate">{props.section.title}</span>
+          <ChevronDownIcon
+            className="size-4 shrink-0 text-muted-foreground"
+            aria-hidden="true"
+          />
+        </MenuSheet>
       </SidebarGroupContent>
     </SidebarGroup>
   )
