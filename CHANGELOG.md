@@ -1,5 +1,42 @@
 # Changelog
 
+## [0.26.0](https://github.com/datisthq/livemark/compare/v0.25.0...v0.26.0) (2026-10-19)
+
+
+### Features
+
+* add a livemark clear command in place of --clear ([fccbca5](https://github.com/datisthq/livemark/commit/fccbca57b808ebe8c64e2c009a20c05ce792f759)), closes [#35](https://github.com/datisthq/livemark/issues/35)
+* add system theme preference following the OS by default ([b0a8012](https://github.com/datisthq/livemark/commit/b0a80125f46a5665873e4564e38198b7a36b86fa))
+* align header search with the article rail ([8fea0de](https://github.com/datisthq/livemark/commit/8fea0de9f0ba55e8cb1578b69f348eea344856dd))
+* collapse mobile sidebar sections into a dropdown that browses without navigating ([f4bc108](https://github.com/datisthq/livemark/commit/f4bc1080b23172c260b6e1f26b3ae3733fd1aeb4))
+* fold overflowing header sections into a More menu and compact search ([65d1923](https://github.com/datisthq/livemark/commit/65d19230be62600047f5651283398beb07d42d26))
+* highlight search matches on the target page ([b3cd302](https://github.com/datisthq/livemark/commit/b3cd30279dc58dae3da645049795490fa583c11c)), closes [#4](https://github.com/datisthq/livemark/issues/4)
+* interactive picker and multiple paths for livemark escape ([622b9d7](https://github.com/datisthq/livemark/commit/622b9d79df80c4260db66348f1b08cfeee14ba10)), closes [#55](https://github.com/datisthq/livemark/issues/55)
+* let custom routes choose their chrome with Root, Header and Layout ([83a0ea4](https://github.com/datisthq/livemark/commit/83a0ea4e7fcf7be661c82da30a279aa2df116df6)), closes [#56](https://github.com/datisthq/livemark/issues/56)
+* let projects extend site head tags via config and an escapable head.ts ([fbd9aa1](https://github.com/datisthq/livemark/commit/fbd9aa1f933afd99129eb4ced04da28dd8f7303e)), closes [#26](https://github.com/datisthq/livemark/issues/26)
+* move search and theme to the header and render the banner full width ([208493b](https://github.com/datisthq/livemark/commit/208493b83eb8a98d6987a325ae52b1b2e1710a16))
+* open mobile search in the header with a full-height results panel ([4a4275e](https://github.com/datisthq/livemark/commit/4a4275e37aa46a7af0cde3f04ccc5de29ea1f82a))
+* open the header search from the search button below lg ([2c75464](https://github.com/datisthq/livemark/commit/2c7546482ecfd459aba2d547f27721a1547bab9d))
+* open the mobile page menu as a tabbed bottom sheet ([5136b52](https://github.com/datisthq/livemark/commit/5136b52a8686b1524b8ebe36079c6653587ffc42))
+* open the mobile section picker as a bottom sheet with its icon inside ([8f1b4d3](https://github.com/datisthq/livemark/commit/8f1b4d3c947d7c631d0577e22691d1c32d942b3b))
+* open the theme menu as a bottom sheet on phones ([698b366](https://github.com/datisthq/livemark/commit/698b3665d8262824434715a6c713a3fac6f197d9))
+* pill-shaped controls and status color tokens ([017b9e8](https://github.com/datisthq/livemark/commit/017b9e8ffc04fa7edad54e400bfb494abe4b5f60))
+* roomier padding in the sidebar section picker and items ([c1cb84e](https://github.com/datisthq/livemark/commit/c1cb84ee83ae0382e7ffade1b1779b6190c1ae08))
+* set the announcement banner from config as inline Markdown ([ce96950](https://github.com/datisthq/livemark/commit/ce9695032953fdca25fbd691a8793ac87234dfbe))
+* title the mobile page sheet after the page and open on contents ([300042b](https://github.com/datisthq/livemark/commit/300042b6a204acb035718c37247bdf26fc6ffe2a))
+* violet secondary color, banner token and aligned landing header nav ([7c3e453](https://github.com/datisthq/livemark/commit/7c3e453e91dfa3b9356d5a8470034016ef940276))
+
+
+### Bug Fixes
+
+* keep the root route valid when the build strips devtools ([fc1cd26](https://github.com/datisthq/livemark/commit/fc1cd26936543bd6f396d3c82b07e5e42e5c590b))
+* mount the site at .livemark/.target so escapes get native HMR ([c58f6e8](https://github.com/datisthq/livemark/commit/c58f6e8e12dd51a60879d8b70dead19e940231ce)), closes [#24](https://github.com/datisthq/livemark/issues/24)
+* serialize Mermaid renders so React 19.3 dev runs do not reject ([56648a2](https://github.com/datisthq/livemark/commit/56648a2d76447743d88d589db2e1b253f74ba84f))
+* ship consumer skills from skills/ instead of .agents/ ([7c71421](https://github.com/datisthq/livemark/commit/7c714217a8cca96c74e74230b9741435e49f1587))
+* stop the header and long URLs from widening the page on phones ([4046747](https://github.com/datisthq/livemark/commit/40467473cd4be8a3686ea6c7a55bd6e300e1ba61))
+* style code blocks without a language ([6c875dd](https://github.com/datisthq/livemark/commit/6c875dda3f433ff0f53bcd14d3b44c4d1a29bf15))
+* watch escapes through Vite's own watcher and drop chokidar ([9d608d0](https://github.com/datisthq/livemark/commit/9d608d02a1f99dc7159403be651d42adb54fc013))
+
 ## [0.25.0](https://github.com/datisthq/livemark/compare/v0.24.1...v0.25.0) (2026-10-16)
 
 
