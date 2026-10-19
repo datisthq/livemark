@@ -104,22 +104,26 @@ function Document(props: { children: React.ReactNode }) {
         {/* Gated here, not by the devtools' own `requireUrlFlag`: that setting seeds
             localStorage on a browser's first run and is read from there afterwards,
             so a browser that loaded the site before it was set keeps the trigger. */}
+        {/* The build strips the devtools element alone; the fragment keeps
+            `devtools && (<></>)` valid instead of the syntax error `&& ()`. */}
         {devtools && (
-          <TanStackDevtools
-            config={{ requireUrlFlag: true, position: "bottom-left" }}
-            plugins={[
-              {
-                name: "TanStack Query",
-                render: <ReactQueryDevtoolsPanel />,
-                defaultOpen: true,
-              },
-              {
-                name: "TanStack Router",
-                render: <TanStackRouterDevtoolsPanel />,
-                defaultOpen: false,
-              },
-            ]}
-          />
+          <>
+            <TanStackDevtools
+              config={{ requireUrlFlag: true, position: "bottom-left" }}
+              plugins={[
+                {
+                  name: "TanStack Query",
+                  render: <ReactQueryDevtoolsPanel />,
+                  defaultOpen: true,
+                },
+                {
+                  name: "TanStack Router",
+                  render: <TanStackRouterDevtoolsPanel />,
+                  defaultOpen: false,
+                },
+              ]}
+            />
+          </>
         )}
         <Scripts />
       </body>
