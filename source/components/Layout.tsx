@@ -48,19 +48,22 @@ export function Layout(props: { withSidebar?: boolean; children?: React.ReactNod
   const header = (
     <header className="sticky top-0 z-20 flex h-16 shrink-0 items-center border-b bg-background">
       <div
-        className={`flex shrink-0 items-center self-stretch pl-4 ${props.withSidebar ? "pr-4" : "lg:w-[calc(var(--sidebar-width)+4rem)]"}`}
+        className={`flex min-w-0 items-center self-stretch pl-4 lg:shrink-0 ${props.withSidebar ? "pr-4" : "lg:w-[calc(var(--sidebar-width)+4rem)]"}`}
       >
         {props.withSidebar ? (
           <>
             <div className="hidden lg:flex">
               <SidebarTrigger />
             </div>
-            <SiteLink to={siteLinkTarget} className="lg:hidden flex items-center gap-2">
+            <SiteLink
+              to={siteLinkTarget}
+              className="lg:hidden flex min-w-0 items-center gap-2"
+            >
               <SiteTitle />
             </SiteLink>
           </>
         ) : (
-          <SiteLink to={siteLinkTarget} className="flex items-center gap-2">
+          <SiteLink to={siteLinkTarget} className="flex min-w-0 items-center gap-2">
             <SiteTitle />
           </SiteLink>
         )}

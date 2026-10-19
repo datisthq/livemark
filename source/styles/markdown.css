@@ -2,6 +2,12 @@
 @reference "./general.css";
 
 @layer components {
+  /* A bare URL or long inline code is one unbreakable word that widens the whole
+     page on a phone, so it scrolls sideways. */
+  .prose {
+    overflow-wrap: break-word;
+  }
+
   .prose :is(h1, h2, h3, h4, h5, h6) {
     @apply scroll-mt-28 md:scroll-mt-20;
   }
