@@ -31,4 +31,13 @@ describe("defineConfig", () => {
     const config = defineConfig({})
     expect(config.include).toBe("**/*.md")
   })
+
+  it("should accept an inline Markdown banner", () => {
+    const config = defineConfig({ banner: "Hi · [x](/y/)" })
+    expect(config.banner).toBe("Hi · [x](/y/)")
+  })
+
+  it("should leave banner unset by default", () => {
+    expect(defineConfig({}).banner).toBeUndefined()
+  })
 })

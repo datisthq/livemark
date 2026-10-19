@@ -1,4 +1,14 @@
-/** Optional announcement strip above the header. Empty by default; shadow via `.livemark/components/Banner.tsx` to render content. */
+import { bannerHtml } from "livemark:virtual"
+
+/** Announcement strip above the header, rendered from the `banner` config option. */
 export function Banner() {
-  return null
+  if (!bannerHtml) return null
+  return (
+    <div className="bg-banner text-banner-foreground">
+      <div
+        className="min-w-0 px-4 py-2 text-center font-mono text-xs tracking-wide text-balance sm:px-6 [&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:no-underline [&_code]:font-semibold"
+        dangerouslySetInnerHTML={{ __html: bannerHtml }}
+      />
+    </div>
+  )
 }

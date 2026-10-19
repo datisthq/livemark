@@ -1,5 +1,6 @@
 declare module "livemark:virtual" {
   export const config: import("./models/config.ts").WebsiteConfig
+  export const bannerHtml: string | undefined
 }
 
 declare module "content-collections" {

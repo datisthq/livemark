@@ -11,7 +11,7 @@ Guidance for editing `livemark.config.ts` at the project root.
 
 Invoke when the user asks to:
 
-- Set the site title, description, canonical URL, logo, favicon.
+- Set the site title, description, canonical URL, logo, favicon, announcement banner.
 - Change which files are included or excluded.
 - Switch code-block syntax highlighting themes.
 - Add, reorder, or retype a section (docs/blog/changelog).
@@ -34,6 +34,7 @@ export default defineConfig({
   description: "Short blurb.", // <meta description>, og:description
   logo: "/logo.svg", // header mark; also default favicon
   favicon: "/favicon.ico", // browser tab icon
+  banner: "v2 is out · [Notes](/blog/v2/)", // inline Markdown strip above the header; raw HTML dropped
 
   // Optional: content selection
   exclude: "docs/drafts/**", // string | string[]

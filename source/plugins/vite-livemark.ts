@@ -4,6 +4,7 @@ import { watch as chokidarWatch } from "chokidar"
 import type { ConfigEnv, Plugin, UserConfig as ViteUserConfig, ViteDevServer } from "vite"
 import { mergeConfig } from "vite"
 import { buildTarget } from "../actions/target/build.ts"
+import { renderInlineMarkdown } from "../helpers/render-inline-markdown.ts"
 import type { Config } from "../models/config.ts"
 import { WebsiteConfig } from "../models/config.ts"
 import { ESCAPABLE_FILES, ESCAPABLE_FOLDERS } from "../settings.ts"
@@ -19,7 +20,8 @@ const SOURCE_DIR = join(import.meta.dirname, "..")
  *
  *      import { config } from "livemark:virtual"
  *
- *  Currently exports `config` (validated `WebsiteConfig`); future
+ *  Currently exports `config` (validated `WebsiteConfig`) and `bannerHtml`
+ *  (`config.banner` rendered from inline Markdown at build time); future
  *  additions (e.g. `articles`, `sections`) land here as new named
  *  exports without consumers changing their import statements.
  *
@@ -77,7 +79,13 @@ export function livemark(opts: LivemarkOptions): Plugin {
     load(id) {
       if (id !== VIRTUAL_RESOLVED_ID) return null
       const config = WebsiteConfig.parse(opts.config)
-      return `export const config = ${JSON.stringify(config)}`
+      const bannerHtml = config.banner
+        ? renderInlineMarkdown(config.banner, config.base)
+        : undefined
+      return [
+        `export const config = ${JSON.stringify(config)}`,
+        `export const bannerHtml = ${JSON.stringify(bannerHtml)}`,
+      ].join("\n")
     },
     configureServer(server) {
       // Two reasons we don't use Vite's own `server.watcher`:

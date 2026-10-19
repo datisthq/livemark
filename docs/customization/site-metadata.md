@@ -1,6 +1,6 @@
 ---
 title: Site Metadata
-description: Set site title, description, URL, logo, and favicon.
+description: Set site title, description, URL, logo, favicon, and banner.
 path: /customization/site-metadata/
 icon: globe
 order: 2
@@ -22,6 +22,7 @@ export default defineConfig({
   description: "Everything you need to build things.",
   logo: "/logo.svg",
   favicon: "/favicon.ico",
+  banner: "v2 is out · [Read the release notes](/blog/v2/)",
 })
 ```
 
@@ -32,6 +33,7 @@ export default defineConfig({
 | `description` | `string` | `"Markdown site generator"` | `<meta name="description">`, `og:description`                             |
 | `logo`        | `string` | —                           | Image shown next to the site title in the header (and as favicon default) |
 | `favicon`     | `string` | `logo ?? bundled default`   | Browser tab icon                                                          |
+| `banner`      | `string` | —                           | Announcement strip above the header on every page                         |
 
 ## Sitemap and `site`
 
@@ -46,6 +48,18 @@ If `site` is set, Livemark builds a `sitemap.xml` at the root of your output dur
 :::tip
 Keep the `logo` file small (an SVG is ideal). It inlines into the header on every page.
 :::
+
+## Banner
+
+`banner` shows a full-width strip above the header on every page; it scrolls away while the header stays pinned. The value is inline Markdown — links, `**bold**`, `_emphasis_` and `` `code` `` — so a one-line announcement needs no custom component:
+
+```typescript title="livemark.config.ts"
+banner: "Livemark is in technical preview · [Share feedback →](https://github.com/datisthq/livemark/discussions)",
+```
+
+- Absolute links open in a new tab; root-relative links get your `base` prefix.
+- Raw HTML tags are dropped. For icons or custom markup, escape `components/Banner.tsx` instead ([Overriding/Escaping](/customization/overriding-escaping/)).
+- The strip uses the `--banner` and `--banner-foreground` color tokens.
 
 ## See also
 
