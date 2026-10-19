@@ -31,21 +31,20 @@ None require config changes. The Vite plugin (`website/plugins/vite-livemark.ts`
 
 ## Discovering what's overridable
 
-Run the `escape` command. No arg lists every overridable file:
+Run the `escape` command with `--list` to print every overridable file:
 
 ```bash
-livemark escape
+livemark escape --list
 ```
 
-Output is a flat `<subdir>/<file>` list across `components/`, `elements/`, and `styles/`. With an argument, the command copies the default into `.livemark/`:
+Output is a flat `<subdir>/<file>` list across `components/`, `elements/`, and `styles/`. Without arguments in a terminal the command opens an interactive picker instead — agents should pass `--list` or explicit paths. With paths, it copies each default into `.livemark/`:
 
 ```bash
 livemark escape components/Footer.tsx   # → .livemark/components/Footer.tsx
-livemark escape elements/button.tsx     # → .livemark/elements/button.tsx
-livemark escape styles/general.css      # → .livemark/styles/general.css
+livemark escape elements/button.tsx styles/general.css   # several at once
 ```
 
-The command refuses to overwrite an existing override. Delete the override first if you want a fresh start.
+The command refuses to overwrite an existing override (and exits 1 after copying the rest). Delete the override first if you want a fresh start.
 
 ## Typical workflow: override a component
 
@@ -130,5 +129,5 @@ Add tags with the config `head` field (`livemark-configuration`); escape `head.t
 
 - Narrative docs: `docs/customization/file-overrides.md`, `docs/customization/custom-routes.md`.
 - Plugin implementation: `website/plugins/vite-livemark.ts`.
-- Escape command: `commands/escape.ts`.
+- Escape command: `commands/escape.ts`; list and copy logic in `actions/escape/`.
 - Subpath exports: `package.json` `exports` block.

@@ -23,12 +23,17 @@ No import changes are needed. The rest of Livemark picks up the overridden file 
 Finding and copying a default file to override is automated:
 
 ```bash
-# List every overridable file:
+# Pick files from a searchable list:
 livemark escape
 
-# Copy a specific default into .livemark/:
-livemark escape components/Footer.tsx
+# Print every overridable file:
+livemark escape --list
+
+# Copy specific defaults into .livemark/:
+livemark escape components/Footer.tsx elements/button.tsx
 ```
+
+In a terminal, `livemark escape` opens a picker: type to filter, <kbd>Tab</kbd> to select, <kbd>Enter</kbd> to copy. Files you already override are shown but can't be picked. Outside a terminal (a pipe, CI) it prints the list, as `--list` does.
 
 `livemark escape` refuses to overwrite an existing file. Delete the override first if you want to start over.
 

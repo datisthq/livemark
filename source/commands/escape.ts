@@ -1,79 +1,62 @@
-import {
-  existsSync,
-  mkdirSync,
-  readdirSync,
-  readFileSync,
-  statSync,
-  writeFileSync,
-} from "node:fs"
-import { dirname, join } from "node:path"
+import { join } from "node:path"
+import { autocompleteMultiselect, cancel, isCancel } from "@clack/prompts"
 import { Command } from "commander"
 import pc from "picocolors"
-import { ESCAPABLE_FILES, ESCAPABLE_FOLDERS } from "../settings.ts"
+import { copyEscape } from "../actions/escape/copy.ts"
+import { listEscapes } from "../actions/escape/list.ts"
 
-const defaultsRoot = join(import.meta.dirname, "..", "..", "source")
+const sourceRoot = join(import.meta.dirname, "..", "..", "source")
 
 /**
- * List or copy escapable livemark files into `.livemark/`.
+ * Pick, list or copy escapable livemark files into `.livemark/`.
  *
- * Without an argument, prints every file you can shadow. With a path, copies
- * the default from the livemark package into `.livemark/<path>`; fails if the
+ * Without an argument, opens a searchable picker in a terminal and prints every
+ * file you can shadow otherwise (or with `--list`). With paths, copies each
+ * default from the livemark package into `.livemark/<path>`; fails if a
  * destination already exists.
  */
 export const escape = new Command("escape")
-  .description("List or copy escapable livemark files into .livemark/")
+  .description("Pick, list or copy escapable livemark files into .livemark/")
   .argument(
-    "[path]",
-    "path relative to .livemark/ (e.g. components/Footer.tsx, client.tsx)",
+    "[paths...]",
+    "paths relative to .livemark/ (e.g. components/Footer.tsx, client.tsx)",
   )
-  .action((relPath?: string) => {
-    if (!relPath) {
-      for (const file of listEscapable()) console.log(file)
+  .option("-l, --list", "print every escapable file instead of opening the picker")
+  .action(async (paths: string[], options: { list?: boolean }) => {
+    const root = process.cwd()
+    if (paths.length) return copyPaths(root, paths)
+
+    const escapes = listEscapes({ root, sourceRoot })
+    if (options.list || !process.stdin.isTTY || !process.stdout.isTTY) {
+      for (const escape of escapes) console.log(escape.path)
       console.log(pc.dim("\nRun 'livemark escape <path>' to copy a file into .livemark/"))
       return
     }
 
-    const isTopLevelFile = !relPath.includes("/") && ESCAPABLE_FILES.includes(relPath)
-    const [first] = relPath.split("/")
-    const isFolderPath =
-      !!first && ESCAPABLE_FOLDERS.includes(first) && !relPath.includes("..")
-    if (!isTopLevelFile && !isFolderPath) {
-      console.error(
-        pc.red(
-          `Error: '${relPath}' is not escapable (folders: ${ESCAPABLE_FOLDERS.join(", ")}; files: ${ESCAPABLE_FILES.join(", ")})`,
-        ),
-      )
-      process.exit(1)
-    }
-
-    const src = join(defaultsRoot, relPath)
-    if (!existsSync(src) || !statSync(src).isFile()) {
-      console.error(pc.red(`Error: '${relPath}' is not a livemark file`))
-      process.exit(1)
-    }
-
-    const dest = join(process.cwd(), ".livemark", relPath)
-    if (existsSync(dest)) {
-      console.error(pc.red(`Error: .livemark/${relPath} already exists`))
-      process.exit(1)
-    }
-
-    mkdirSync(dirname(dest), { recursive: true })
-    writeFileSync(dest, readFileSync(src))
-    console.log(`Copied ${pc.dim(relPath)} → ${pc.green(`.livemark/${relPath}`)}`)
+    const selected = await autocompleteMultiselect({
+      message: "Select files to escape into .livemark/",
+      placeholder: "Type to search...",
+      options: escapes.map(escape => ({
+        value: escape.path,
+        label: escape.path,
+        hint: escape.escaped ? "already escaped" : undefined,
+        disabled: escape.escaped,
+      })),
+      required: false,
+    })
+    if (isCancel(selected)) return cancel("Nothing copied")
+    copyPaths(root, selected)
   })
 
-function listEscapable() {
-  const files: string[] = []
-  for (const folder of ESCAPABLE_FOLDERS) {
-    const dir = join(defaultsRoot, folder)
-    if (!existsSync(dir)) continue
-    for (const entry of readdirSync(dir)) {
-      if (statSync(join(dir, entry)).isFile()) files.push(`${folder}/${entry}`)
+function copyPaths(root: string, paths: string[]) {
+  for (const path of paths) {
+    try {
+      copyEscape({ root, sourceRoot, path })
+      console.log(`Copied ${pc.dim(path)} → ${pc.green(`.livemark/${path}`)}`)
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error)
+      console.error(pc.red(`Error: ${message}`))
+      process.exitCode = 1
     }
   }
-  for (const file of ESCAPABLE_FILES) {
-    if (existsSync(join(defaultsRoot, file))) files.push(file)
-  }
-  return files.sort()
 }
