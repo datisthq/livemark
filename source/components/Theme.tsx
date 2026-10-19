@@ -51,6 +51,7 @@ export function Theme() {
           size="icon-sm"
           title="Change theme"
           aria-label="Change theme"
+          aria-keyshortcuts="T"
           className="cursor-pointer text-muted-foreground"
         />
       }

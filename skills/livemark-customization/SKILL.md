@@ -106,6 +106,7 @@ Custom routes win over the Markdown catch-all at exact URLs. Don't create a rout
 3. **Override files are full replacements**, not diffs. Copy the default first (via `escape`), then edit.
 4. **Import Livemark internals via `livemark/*`**, not via relative paths — the plugin routes those through the override resolver, so chained overrides (e.g., your Layout using your Sidebar) compose correctly.
 5. **Static files belong in `.livemark/public/`**, which Vite exposes at the site root.
+6. **Keyboard shortcuts live in the component they drive** — bare keys through `@tanstack/react-hotkeys`, ignored while typing: `L` sidebar (`Sidebar`), `S` search (`Search`), `T` theme (`Theme`), `J`/`K` scroll (`Layout`), `B` back to top (`BackToTop`). Overriding one of these drops its key unless the copy keeps the `useHotkey` call; register a key in a component that mounts once, or one press fires twice.
 
 ## What's NOT overridable
 
