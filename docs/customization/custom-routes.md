@@ -14,6 +14,7 @@ Livemark builds on [TanStack Router](https://tanstack.com/router). Any `.tsx` fi
 
 ```tsx title=".livemark/routes/about.tsx"
 import { createFileRoute } from "@tanstack/react-router"
+import { Layout } from "livemark/components/Layout"
 
 export const Route = createFileRoute("/about")({
   component: About,
@@ -21,15 +22,48 @@ export const Route = createFileRoute("/about")({
 
 function About() {
   return (
-    <main className="mx-auto max-w-3xl px-6 py-16 prose">
-      <h1>About</h1>
-      <p>Anything you'd write in a normal React page, here.</p>
-    </main>
+    <Layout>
+      <div className="mx-auto max-w-3xl px-6 py-16 prose">
+        <h1>About</h1>
+        <p>Anything you'd write in a normal React page, here.</p>
+      </div>
+    </Layout>
   )
 }
 ```
 
-Save and visit `/about/`. The page renders inside the default layout (header + sidebar chrome), so the site title, navigation links, and dark-mode toggle all work automatically.
+Save and visit `/about/`. `Layout` gives the page the same chrome as an article — banner, header, navigation and dark-mode toggle.
+
+## Choosing the chrome
+
+A custom route starts **bare**: nothing is drawn around it until you add it. Compose as much as the page needs:
+
+| You render                  | You get                                                        |
+| --------------------------- | -------------------------------------------------------------- |
+| `<Layout>`                  | banner, header, phone navigation sheet, back-to-top            |
+| `<Layout withSidebar>`      | the above plus the article sidebar                             |
+| `<Banner />` + `<Header />` | the banner and header alone — on phones a menu of the sections |
+| nothing                     | a blank page, all yours                                        |
+
+A landing page usually wants just the header:
+
+```tsx title=".livemark/routes/index.tsx"
+import { createFileRoute } from "@tanstack/react-router"
+import { Banner } from "livemark/components/Banner"
+import { Header } from "livemark/components/Header"
+
+export const Route = createFileRoute("/")({ component: Landing })
+
+function Landing() {
+  return (
+    <>
+      <Banner />
+      <Header />
+      <main>{/* your hero */}</main>
+    </>
+  )
+}
+```
 
 ## How it fits with the rest of the site
 

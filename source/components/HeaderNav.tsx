@@ -1,16 +1,7 @@
-import { config } from "livemark:virtual"
-import { Link, useLocation } from "@tanstack/react-router"
 import { ChevronDown } from "lucide-react"
 import { useLayoutEffect, useRef, useState } from "react"
 import { cn } from "cn"
-import {
-  sectionFirstArticle,
-  sectionFlatArticles,
-  sortedArticles,
-} from "../content/article.ts"
-import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
-import { prefixUrl } from "../helpers/prefix-url.ts"
-import { customSectionActive } from "../helpers/section.ts"
+import { type NavItem, renderNavAnchor, useNavItems } from "../helpers/nav-items.tsx"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,16 +11,6 @@ import {
 
 // The `lg:w-56` Search field minus its 36px icon-only form
 const SEARCH_COMPACT_SAVING = 188
-
-type NavItem = {
-  key: string
-  title: string
-  icon?: string
-  suffix?: string
-  active: boolean
-  href?: string
-  target?: string
-}
 
 /** Header sections and links from `lg`: once they outgrow the bar, Search turns
  * compact and the rest fold into a "More" menu */
@@ -158,88 +139,6 @@ function HeaderNavMoreTrigger(
       <ChevronDown className="size-3.5" />
     </button>
   )
-}
-
-function renderNavAnchor(item: NavItem, className?: string) {
-  const children = (
-    <>
-      {item.icon && <DynamicIcon name={item.icon} className="size-3.5" />}
-      <span>
-        {item.title}
-        {item.suffix && <span className="opacity-80"> ({item.suffix})</span>}
-      </span>
-    </>
-  )
-  if (item.href) {
-    return (
-      <a href={prefixUrl(item.href, config.base)} className={className}>
-        {children}
-      </a>
-    )
-  }
-  return (
-    <Link
-      to={item.target === "/" ? "/" : "/$"}
-      params={item.target && item.target !== "/" ? splatFor(item.target) : {}}
-      className={className}
-    >
-      {children}
-    </Link>
-  )
-}
-
-function useNavItems(activePrefix?: string) {
-  const pathname = useLocation({ select: l => l.pathname })
-  const sections = config.sections ?? []
-  const items: NavItem[] = sections
-    .filter(section => section.position === "header")
-    .map(section => {
-      if (section.type === "custom") {
-        return {
-          key: section.url,
-          title: section.title,
-          icon: section.icon,
-          active: customSectionActive(section.url, pathname),
-          href: section.url,
-        }
-      }
-      const suffix =
-        section.type === "changelog" && section.version
-          ? sortedArticles.find(
-              a => a.path === sectionFlatArticles.get(section.prefix)?.[0],
-            )?.title
-          : undefined
-      return {
-        key: section.prefix,
-        title: section.title,
-        icon: section.icon,
-        suffix,
-        active: activePrefix === section.prefix,
-        target:
-          section.type === "blog" || section.type === "changelog"
-            ? section.prefix
-            : sectionFirstArticle.get(section.prefix),
-      }
-    })
-  if (!sections.length) {
-    items.push({ key: "/", title: "Docs", active: true, target: "/" })
-  }
-  for (const link of config.links ?? []) {
-    if (link.position !== "header") continue
-    if (link.prefix && link.prefix !== activePrefix) continue
-    items.push({
-      key: link.url,
-      title: link.title,
-      icon: link.icon,
-      active: false,
-      href: link.url,
-    })
-  }
-  return items
-}
-
-function splatFor(pathname: string) {
-  return { _splat: pathname.replace(/^\/|\/$/g, "") }
 }
 
 const ACTIVE = "font-medium border-b-2 border-foreground pb-0.5 -mb-0.5"

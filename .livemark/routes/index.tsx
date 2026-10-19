@@ -24,6 +24,9 @@ import {
   useRef,
   useState,
 } from "react"
+import { BackToTop } from "livemark/components/BackToTop"
+import { Banner } from "livemark/components/Banner"
+import { Header } from "livemark/components/Header"
 import { buttonVariants } from "livemark/elements/button"
 import { useInView } from "livemark/hooks/in-view"
 import { cn } from "cn"
@@ -34,14 +37,19 @@ export const Route = createFileRoute("/")({
 
 function Landing() {
   return (
-    <div className="flex flex-col">
-      <Hero />
-      <Freedom />
-      <Features />
-      <Showcase />
-      <FinalCta />
-      <Datist />
-    </div>
+    <>
+      <Banner />
+      <Header />
+      <main className="flex flex-col">
+        <Hero />
+        <Freedom />
+        <Features />
+        <Showcase />
+        <FinalCta />
+        <Datist />
+      </main>
+      <BackToTop />
+    </>
   )
 }
 

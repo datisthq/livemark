@@ -1,17 +1,12 @@
 import { config } from "livemark:virtual"
 import { TanStackDevtools } from "@tanstack/react-devtools"
 import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools"
-import {
-  createRootRoute,
-  HeadContent,
-  Outlet,
-  Scripts,
-  useMatch,
-} from "@tanstack/react-router"
+import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import type * as React from "react"
 import { useEffect } from "react"
 import { Layout } from "../components/Layout.tsx"
+import { Root } from "../components/Root.tsx"
 import { DefaultCatchBoundary } from "../components/DefaultCatchBoundary.tsx"
 import { NotFound } from "../components/NotFound.tsx"
 import { useHydrated } from "../hooks/hydrated.ts"
@@ -28,11 +23,17 @@ export const Route = createRootRoute({
     customizeHead(
       buildRootHead({ config, defaultFavicon, stylesheets: [generalCss, markdownCss] }),
     ),
-  notFoundComponent: () => <NotFound />,
+  notFoundComponent: () => (
+    <Layout>
+      <NotFound />
+    </Layout>
+  ),
   errorComponent: props => {
     return (
       <Document>
-        <DefaultCatchBoundary {...props} />
+        <Layout>
+          <DefaultCatchBoundary {...props} />
+        </Layout>
       </Document>
     )
   },
@@ -46,8 +47,6 @@ export const Route = createRootRoute({
 })
 
 function Document(props: { children: React.ReactNode }) {
-  const articleRoute = useMatch({ from: "/$", shouldThrow: false })
-  const withSidebar = articleRoute?.loaderData?.sidebar
   // Off the raw URL, not the router's parsed search: a route whose validateSearch
   // does not declare this key strips it.
   const hydrated = useHydrated()
@@ -61,7 +60,7 @@ function Document(props: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <Layout withSidebar={withSidebar}>{props.children}</Layout>
+        <Root>{props.children}</Root>
         <Toaster position="top-center" />
         {/* Gated here, not by the devtools' own `requireUrlFlag`: that setting seeds
             localStorage on a browser's first run and is read from there afterwards,

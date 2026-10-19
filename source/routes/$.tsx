@@ -12,6 +12,7 @@ import { buildPageHead } from "../helpers/head.ts"
 import { Article } from "../components/Article.tsx"
 import { BlogIndex } from "../components/BlogIndex.tsx"
 import { ChangelogIndex } from "../components/ChangelogIndex.tsx"
+import { Layout } from "../components/Layout.tsx"
 import { TagIndex } from "../components/TagIndex.tsx"
 
 export const Route = createFileRoute("/$")({
@@ -81,6 +82,15 @@ export const Route = createFileRoute("/$")({
 })
 
 function Component() {
+  const data = Route.useLoaderData()
+  return (
+    <Layout withSidebar={data.sidebar}>
+      <Page />
+    </Layout>
+  )
+}
+
+function Page() {
   const data = Route.useLoaderData()
   const search = Route.useSearch()
   if ("blogIndex" in data) {
