@@ -42,6 +42,10 @@ export default defineConfig({
     scripts: [{ src: "https://example.com/analytics.js", defer: "" }],
   },
 
+  // Optional: AI agents (llms.txt and Markdown twins are always emitted)
+  contentSignals: { search: true, aiInput: true, aiTrain: true }, // robots.txt Content-Signal; all default true
+  skills: "skills/*/SKILL.md", // publish skills at /.well-known/agent-skills/
+
   // Optional: content selection
   exclude: "docs/drafts/**", // string | string[]
 

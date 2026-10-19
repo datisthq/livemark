@@ -6,6 +6,7 @@ import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 import svgr from "vite-plugin-svgr"
 import { loadConfig } from "./actions/config/load.ts"
+import { agents } from "./plugins/vite-agents.ts"
 import { livemark } from "./plugins/vite-livemark.ts"
 import { robots } from "./plugins/vite-robots.ts"
 
@@ -28,6 +29,7 @@ export default defineConfig({
   plugins: [
     livemark({ config }),
     robots({ config }),
+    agents({ config }),
     devtools(),
     tailwind(),
     contentCollections({ configPath: "content-collections.ts" }),

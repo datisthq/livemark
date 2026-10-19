@@ -25,6 +25,7 @@ Invoke when the user asks to:
 | Replace a default component/style | Drop a file at `.livemark/components/<Name>.tsx` etc. |
 | Add a new page at an exact URL    | Create `.livemark/routes/<path>.tsx`                  |
 | Serve a static asset at `/<path>` | Put the file in `.livemark/public/<path>`             |
+| Extend the generated `_headers`   | `.livemark/public/_headers` — kept, `Link` appended   |
 | Rewrite site-wide `<head>` tags   | `.livemark/head.ts` exporting `customizeHead(head)`   |
 
 None require config changes. The Vite plugin (`source/plugins/vite-livemark.ts`) watches `.livemark/**` and hot-reloads.

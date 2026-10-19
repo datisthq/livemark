@@ -50,3 +50,20 @@ export function flattenArticleTree(nodes: ArticleNode[]) {
   }
   return result
 }
+
+/** Sort comparator on frontmatter `order`: positive ascending, then unordered,
+ *  then negative (so `order: -1` lands last) */
+export function compareArticleOrder(a: { order?: number }, b: { order?: number }) {
+  return orderKey(a.order) - orderKey(b.order)
+}
+
+/** Sort comparator putting the newest `date` first, as blog and changelog list */
+export function compareArticleDate(a: { date?: string }, b: { date?: string }) {
+  return new Date(b.date ?? 0).getTime() - new Date(a.date ?? 0).getTime()
+}
+
+function orderKey(order?: number) {
+  if (order === undefined) return Number.MAX_SAFE_INTEGER / 2
+  if (order < 0) return Number.MAX_SAFE_INTEGER + order
+  return order
+}

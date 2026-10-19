@@ -1,6 +1,7 @@
 {
   "name": "livemark",
   "$schema": "node_modules/wrangler/config-schema.json",
+  "main": "source/entrypoints/worker.ts",
   "compatibility_date": "2026-04-01",
   "preview_urls": true,
   "workers_dev": true,
@@ -9,6 +10,8 @@
   },
   "assets": {
     "directory": ".livemark/build/client",
+    "binding": "ASSETS",
+    "run_worker_first": ["/*", "!/assets/*"],
   },
   "routes": [
     {

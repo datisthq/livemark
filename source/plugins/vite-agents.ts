@@ -1,0 +1,120 @@
+import { existsSync, readFileSync } from "node:fs"
+import { join, resolve } from "node:path"
+import { pathToFileURL } from "node:url"
+import type { Plugin } from "vite"
+import { z } from "zod"
+import {
+  buildSkillFileName,
+  loadAgentSkills,
+  renderSkillsIndex,
+} from "../helpers/agent-skills.ts"
+import { buildTwinFileName, renderLlmsText, renderMarkdownTwin } from "../helpers/llms.ts"
+import { resolveIncludes } from "../helpers/resolve-includes.ts"
+import type { Config } from "../models/config.ts"
+
+export interface AgentsOptions {
+  config: Config
+}
+
+const GeneratedArticles = z.array(
+  z.object({
+    path: z.string(),
+    title: z.string(),
+    description: z.string().optional(),
+    order: z.number().optional(),
+    date: z.string().optional(),
+    file: z.string(),
+    content: z.string(),
+  }),
+)
+
+/** Emit what AI agents look for into the client build: a Markdown twin of
+ *  every article at `<path>index.md`, `llms.txt`, the Agent Skills index for
+ *  `config.skills`, and a `_headers` file whose `Link` points agents at them. */
+export function agents(opts: AgentsOptions): Plugin {
+  const publicDir = join(opts.config.root, ".livemark", "public")
+  let root = ""
+  return {
+    name: "livemark:agents",
+    applyToEnvironment(env) {
+      return env.name === "client"
+    },
+    configResolved(resolved) {
+      root = resolved.root
+    },
+    async generateBundle() {
+      // Vite copies the publicDir before writeBundle, so emitting a file the
+      // project ships under `.livemark/public/` would silently replace it.
+      const emit = (fileName: string, source: string | Buffer) => {
+        if (existsSync(join(publicDir, fileName))) return
+        this.emitFile({ type: "asset", fileName, source })
+      }
+
+      const articles = await loadGeneratedArticles(root)
+      for (const article of articles) {
+        const content = resolveIncludes(
+          article.content,
+          resolve(opts.config.root, article.file),
+        )
+        emit(buildTwinFileName(article.path), renderMarkdownTwin({ article, content }))
+      }
+
+      const llms = renderLlmsText({ config: opts.config, articles })
+      emit("llms.txt", llms)
+      if (!articles.some(a => a.path === "/")) emit("index.md", llms)
+
+      const patterns = opts.config.skills ?? []
+      const skills = loadAgentSkills({
+        root: opts.config.root,
+        patterns: Array.isArray(patterns) ? patterns : [patterns],
+      })
+      for (const skill of skills) emit(buildSkillFileName(skill.name), skill.source)
+      if (skills.length) {
+        emit(
+          ".well-known/agent-skills/index.json",
+          renderSkillsIndex({ skills, base: opts.config.base }),
+        )
+      }
+
+      const headersFile = join(publicDir, "_headers")
+      this.emitFile({
+        type: "asset",
+        fileName: "_headers",
+        source: renderHeaders({
+          base: opts.config.base,
+          hasSkills: skills.length > 0,
+          existing: existsSync(headersFile) ? readFileSync(headersFile, "utf-8") : "",
+        }),
+      })
+    },
+  }
+}
+
+/** Render `_headers` (Cloudflare, Netlify): a `Link` on the home page naming
+ *  `llms.txt`, its Markdown twin and the skills index, after any rules the
+ *  project ships itself. */
+export function renderHeaders(props: {
+  base?: string
+  hasSkills: boolean
+  existing?: string
+}) {
+  const base = props.base ?? ""
+  const links = [
+    `<${base}/llms.txt>; rel="describedby"; type="text/plain"`,
+    `<${base}/index.md>; rel="alternate"; type="text/markdown"`,
+  ]
+  if (props.hasSkills) {
+    links.push(
+      `<${base}/.well-known/agent-skills/index.json>; rel="describedby"; type="application/json"`,
+    )
+  }
+  const rule = `${base}/\n  Link: ${links.join(", ")}\n`
+  const existing = props.existing?.trimEnd()
+  return existing ? `${existing}\n\n${rule}` : rule
+}
+
+async function loadGeneratedArticles(root: string) {
+  const file = join(root, ".content-collections", "generated", "allArticles.js")
+  const module: { default: unknown } = await import(pathToFileURL(file).href)
+  return GeneratedArticles.parse(module.default)
+}

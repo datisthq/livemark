@@ -9,6 +9,7 @@ export default defineConfig({
     "Livemark is in technical preview · [Share feedback →](https://github.com/datisthq/livemark/discussions)",
   favicon: "/logo.png",
   include: ["docs/**/*.md", "blog/**/*.md", "README.md", "CONTRIBUTING.md"],
+  skills: "skills/*/SKILL.md",
   exclude: ["docs/**/includes/**"],
   sections: [
     { title: "Docs", prefix: "/", icon: "book-open" },

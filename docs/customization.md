@@ -43,3 +43,7 @@ Shadow any Livemark component, element, or stylesheet via `.livemark/`.
 :::card{title="Custom Routes" href="/customization/custom-routes/" icon="route"}
 Author new pages in `.livemark/routes/` alongside your markdown.
 :::
+
+:::card{title="AI Agents" href="/customization/ai-agents/" icon="bot"}
+Markdown twins, `llms.txt`, content signals, and agent skills for AI agents.
+:::

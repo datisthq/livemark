@@ -1,7 +1,12 @@
 import { config } from "livemark:virtual"
 import { allArticles } from "content-collections"
 import type { ArticleNode } from "../models/article.ts"
-import { buildArticleTree, flattenArticleTree } from "../helpers/article.ts"
+import {
+  buildArticleTree,
+  compareArticleDate,
+  compareArticleOrder,
+  flattenArticleTree,
+} from "../helpers/article.ts"
 import { matchSection, partitionBySection } from "../helpers/section.ts"
 
 /**
@@ -9,9 +14,7 @@ import { matchSection, partitionBySection } from "../helpers/section.ts"
  * positive values first (ascending), then unordered, then negative values
  * (so `order: -1` lands at the very end, `-2` just before it, and so on).
  */
-export const sortedArticles = [...allArticles].sort(
-  (a, b) => orderKey(a.order) - orderKey(b.order),
-)
+export const sortedArticles = [...allArticles].sort(compareArticleOrder)
 
 /** The article whose path is `/`, if any (rendered in place at the root) */
 export const homeArticle = sortedArticles.find(a => a.path === "/")
@@ -24,12 +27,6 @@ export const flatArticles = flattenArticleTree(articleTree)
 
 /** The first article in sidebar order, used as the default landing page */
 export const firstArticle = sortedArticles.find(a => a.path === flatArticles[0])
-
-function orderKey(order?: number) {
-  if (order === undefined) return Number.MAX_SAFE_INTEGER / 2
-  if (order < 0) return Number.MAX_SAFE_INTEGER + order
-  return order
-}
 
 const configSections = config.sections
 
@@ -53,9 +50,7 @@ if (routedSections.length) {
     const section = sectionByPrefix.get(key)
     const sorted =
       section?.type === "blog" || section?.type === "changelog"
-        ? [...bucket].sort(
-            (a, b) => new Date(b.date ?? 0).getTime() - new Date(a.date ?? 0).getTime(),
-          )
+        ? [...bucket].sort(compareArticleDate)
         : bucket
     const tree = buildArticleTree(sorted)
     const flat = flattenArticleTree(tree)

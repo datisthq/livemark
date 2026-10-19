@@ -223,6 +223,9 @@ importers:
       vite-plugin-svgr:
         specifier: 5.2.0
         version: 5.2.0(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(supports-color@10.2.2)(typescript@5.9.3)
+      yaml:
+        specifier: ^2.9.1
+        version: 2.9.1
       zod:
         specifier: 4.6.6
         version: 4.6.6

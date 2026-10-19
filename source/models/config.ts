@@ -31,6 +31,15 @@ export const Head = z.object({
   scripts: z.array(z.record(z.string(), z.string())).optional(),
 })
 
+/** How automated systems may use the site's content, published as a
+ *  `Content-Signal` line in the generated `robots.txt`. */
+export type ContentSignals = z.infer<typeof ContentSignals>
+export const ContentSignals = z.object({
+  search: z.boolean().default(true),
+  aiInput: z.boolean().default(true),
+  aiTrain: z.boolean().default(true),
+})
+
 /**
  * User-provided configuration for Livemark.
  *
@@ -64,6 +73,8 @@ export const UserConfig = z.object({
   sections: z.array(Section).optional(),
   patches: z.array(Patch).optional(),
   head: Head.optional(),
+  contentSignals: ContentSignals.prefault({}),
+  skills: z.union([z.string(), z.array(z.string())]).optional(),
   // Stored as `unknown` in the schema (zod can't type a Vite UserConfig
   // or a function returning one meaningfully); the public TypeScript
   // surface above lifts it back to ViteOverride for editor support.

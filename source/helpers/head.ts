@@ -83,7 +83,18 @@ export function buildPageHead(props: {
       ...(url ? [{ property: "og:url", content: url }] : []),
       ...(image ? [{ property: "og:image", content: image }] : []),
     ],
-    links: url ? [{ rel: "canonical", href: url }] : [],
+    links: [
+      ...(url ? [{ rel: "canonical", href: url }] : []),
+      ...(props.isArticle
+        ? [
+            {
+              rel: "alternate",
+              type: "text/markdown",
+              href: prefixUrl(`${props.path}index.md`, props.config.base),
+            },
+          ]
+        : []),
+    ],
   }
 }
 

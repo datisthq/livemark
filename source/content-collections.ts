@@ -49,6 +49,7 @@ import { transformerIcon } from "./plugins/shiki-icon.ts"
 import { resolveAssetPath } from "./helpers/resolve-asset-path.ts"
 import { resolveIncludes } from "./helpers/resolve-includes.ts"
 import { extractSearchText } from "./helpers/search-text.ts"
+import { stripLeadingH1 } from "./helpers/llms.ts"
 import { extractToc } from "./helpers/toc.ts"
 
 const config = await loadConfig()
@@ -96,10 +97,6 @@ function getLastUpdated(filePath: string) {
   } catch {
     return undefined
   }
-}
-
-function stripLeadingH1(content: string) {
-  return content.replace(/^[ \t]*#\s+[^\n]*\n+/, "")
 }
 
 function extractTitle(content: string, path: string) {

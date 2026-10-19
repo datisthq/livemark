@@ -8,7 +8,7 @@ order: 4
 
 # Deployment
 
-`livemark build` produces a fully static site in `.livemark/build/client/` — `index.html` files for every route, plus `sitemap.xml`, `robots.txt`, RSS feeds (when configured), and your assets. Drop that directory on any static host and you're live.
+`livemark build` produces a fully static site in `.livemark/build/client/` — `index.html` files for every route, plus `sitemap.xml`, `robots.txt`, RSS feeds (when configured), [Markdown twins and `llms.txt`](/customization/ai-agents/), and your assets. Drop that directory on any static host and you're live.
 
 These guides walk through the most common targets. Pick one — every guide is self-contained and shows both the manual command and a CI workflow.
 

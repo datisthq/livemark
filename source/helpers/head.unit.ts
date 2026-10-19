@@ -79,7 +79,9 @@ describe("buildPageHead", () => {
       { property: "og:description", content: "How to" },
       { property: "og:type", content: "article" },
     ])
-    expect(head.links).toEqual([])
+    expect(head.links).toEqual([
+      { rel: "alternate", type: "text/markdown", href: "/guide/index.md" },
+    ])
   })
 
   it("adds absolute url, canonical and image when site is set", () => {

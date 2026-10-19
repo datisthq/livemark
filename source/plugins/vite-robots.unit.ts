@@ -27,4 +27,11 @@ describe("renderRobots", () => {
   it("ignores base when site is not set", () => {
     expect(renderRobots({ base: "/repo" })).toBe("User-agent: *\nAllow: /\n")
   })
+
+  it("puts the content signals inside the wildcard group", () => {
+    const contentSignals = { search: true, aiInput: true, aiTrain: false }
+    expect(renderRobots({ contentSignals })).toBe(
+      "User-agent: *\nContent-Signal: search=yes, ai-input=yes, ai-train=no\nAllow: /\n",
+    )
+  })
 })

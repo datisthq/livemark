@@ -101,7 +101,34 @@ Add a `routes` block once your zone is on Cloudflare:
 The Livemark repo's own `wrangler.jsonc` is a working reference — see the [project root](https://github.com/datisthq/livemark/blob/main/wrangler.jsonc).
 :::
 
+## Markdown for agents
+
+AI agents ask for a page as Markdown by sending `Accept: text/markdown`. Static assets alone always answer with HTML, so Livemark ships a small Worker that serves the page's [Markdown twin](/customization/ai-agents/) to those requests and passes everything else through:
+
+```jsonc title="wrangler.jsonc"
+{
+  "name": "my-docs",
+  "main": "node_modules/livemark/build/entrypoints/worker.js",
+  "compatibility_date": "2026-04-01",
+  "assets": {
+    "directory": ".livemark/build/client",
+    "binding": "ASSETS",
+    "run_worker_first": ["/*", "!/assets/*"],
+  },
+}
+```
+
+| Field                     | Purpose                                                                   |
+| ------------------------- | ------------------------------------------------------------------------- |
+| `main`                    | The Worker. It falls back to the HTML page when the page has no twin.     |
+| `assets.binding`          | Gives the Worker the static assets as `ASSETS`.                           |
+| `assets.run_worker_first` | Sends page requests through the Worker. Hashed `/assets/*` files skip it. |
+
+The `_headers` rules still apply. Every page request served through the Worker counts toward your Workers request quota, which static asset requests do not.
+
 ## See also
+
+- [AI Agents](/customization/ai-agents/) — what the build publishes for agents.
 
 - [Site Metadata](/customization/site-metadata/) — `site` powers absolute URLs and feed generation.
 - [Deployment](/deployment/) — back to the host index.
