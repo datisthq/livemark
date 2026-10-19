@@ -31,6 +31,8 @@ livemark escape components/Footer.tsx
 
 `livemark escape` refuses to overwrite an existing file. Delete the override first if you want to start over.
 
+Deleting an override while the dev server runs restores the default at once. If you delete one while it is stopped, run `livemark clear` before the next `start` or `build` — otherwise the cached copy of your override keeps winning.
+
 ## Example: custom footer
 
 ```bash

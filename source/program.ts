@@ -1,5 +1,6 @@
 import { Command } from "commander"
 import { build } from "./commands/build.ts"
+import { clear } from "./commands/clear.ts"
 import { escape } from "./commands/escape.ts"
 import { preview } from "./commands/preview.ts"
 import { start } from "./commands/start.ts"
@@ -16,3 +17,4 @@ export const program = new Command()
   .addCommand(build)
   .addCommand(preview)
   .addCommand(escape)
+  .addCommand(clear)

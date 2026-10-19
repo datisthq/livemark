@@ -66,6 +66,7 @@ Welcome!
 npx livemark start    # dev server with HMR at http://localhost:8000
 npx livemark build    # production build to .livemark/build/
 npx livemark preview  # serve the production build locally
+npx livemark clear    # wipe the cached runtime target (stop the dev server first)
 ```
 
 That's the whole loop.

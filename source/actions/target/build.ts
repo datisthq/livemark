@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto"
-import { cpSync, existsSync, mkdirSync, readdirSync, rmSync } from "node:fs"
+import { cpSync, existsSync, mkdirSync, readdirSync } from "node:fs"
 import { dirname, join } from "node:path"
 import { ESCAPABLE_FILES, ESCAPABLE_FOLDERS } from "../../settings.ts"
 
@@ -40,19 +40,14 @@ function findLivemarkPkg(start: string) {
  *   installed mode; in livemark's own dev the watcher keeps the target
  *   in sync. Only the `.livemark/` overlay is re-applied each time —
  *   cheap, and may have changed between runs.
- * - With `--clear` in argv: wipe the entire target dir (including
- *   downstream caches like `.vite/`, `.content-collections/`,
- *   `cache/`, `routeTree.gen.ts`) and rebuild from scratch. Use this
- *   to recover from a stale or corrupted cache.
+ * - `livemark clear` (`clearTarget`) wipes the whole dir to recover
+ *   from a stale or corrupted cache.
  *
  * Returns the absolute path to the target dir.
  */
 export function buildTarget(configPath: string) {
   const targetDir = targetDirFor(configPath)
   const overridesRoot = join(dirname(configPath), ".livemark")
-  const clear = process.argv.includes("--clear")
-
-  if (clear) rmSync(targetDir, { recursive: true, force: true })
 
   if (!existsSync(targetDir)) {
     mkdirSync(targetDir, { recursive: true })

@@ -9,7 +9,6 @@ const configFile = join(import.meta.dirname, "..", "..", "source", "vite.config.
  */
 export const preview = new Command("preview")
   .description("Preview the production build locally")
-  .option("--clear", "Wipe and fully rebuild the runtime target dir")
   .action(async () => {
     const server = await vitePreview({
       configFile,
