@@ -348,7 +348,7 @@ Display file and directory structures using the `:::filetree` directive. Directo
   - index.ts
 - package.json
 - tsconfig.json
-  :::
+:::
 ```
 
 Renders as:

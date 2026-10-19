@@ -80,7 +80,7 @@ Renders as:
 ## Horizontal Rules
 
 ```md
----
+***
 ```
 
 ---
