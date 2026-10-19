@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto"
 import { globSync, readFileSync } from "node:fs"
-import { resolve } from "node:path"
+import { resolve, sep } from "node:path"
 import { parse } from "yaml"
 import { z } from "zod"
 
@@ -24,7 +24,9 @@ export interface AgentSkill {
 
 /** Read every `SKILL.md` the `skills` globs match, in a stable order. */
 export function loadAgentSkills(props: { root: string; patterns: string[] }) {
+  // Windows globs with `\`, which would leak into messages and change the sort.
   return globSync(props.patterns, { cwd: props.root })
+    .map(file => file.split(sep).join("/"))
     .sort()
     .map(file => {
       const source = readFileSync(resolve(props.root, file))
