@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.27.0](https://github.com/datisthq/livemark/compare/v0.26.0...v0.27.0) (2026-10-19)
+
+
+### Features
+
+* publish markdown twins, llms.txt, content signals and agent skills for AI agents ([132ead8](https://github.com/datisthq/livemark/commit/132ead852e5c419cb99f9eb52b24856758294183))
+* serve markdown twins statically through a zone rewrite rule instead of a worker ([467cfbe](https://github.com/datisthq/livemark/commit/467cfbee7fe783a7fe9eed151613bd17fd15414c))
+
+
+### Bug Fixes
+
+* report skill paths with forward slashes on Windows ([dd64261](https://github.com/datisthq/livemark/commit/dd642612591a0c9e3233cf065eeea792b104e7b6))
+
 ## [0.26.0](https://github.com/datisthq/livemark/compare/v0.25.0...v0.26.0) (2026-10-19)
 
 
