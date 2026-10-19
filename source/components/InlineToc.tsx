@@ -9,7 +9,7 @@ export function InlineToc(props: { maxLevel?: string }) {
   if (items.length === 0) return null
 
   return (
-    <nav className="not-prose my-8 rounded-xl border border-border bg-card p-6">
+    <nav className="not-prose my-8 rounded-card border border-border bg-card p-6">
       <p className="text-base font-semibold mb-4">Table of Contents</p>
       <ul className="text-base space-y-2.5">
         {items.map(item => (

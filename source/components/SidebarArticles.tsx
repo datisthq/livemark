@@ -88,7 +88,7 @@ function NavNode(props: { node: ArticleNode; currentPath: string; depth?: number
         </Button>
         <CollapsibleTrigger
           aria-label={`Toggle ${node.label ?? node.title} submenu`}
-          className="absolute right-1 top-1.5 p-1 rounded-md hover:bg-sidebar-accent"
+          className="absolute right-1 top-1.5 p-1 rounded-control hover:bg-sidebar-accent"
         >
           <ChevronRight className="size-3.5 transition-transform group-data-[open]/collapsible:rotate-90" />
         </CollapsibleTrigger>

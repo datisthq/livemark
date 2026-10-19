@@ -28,7 +28,7 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
 
   return (
     <figure
-      className="shiki not-prose my-4 relative rounded-xl border shadow-sm overflow-hidden text-sm bg-sidebar dark:bg-sidebar"
+      className="shiki not-prose my-4 relative rounded-card border shadow-sm overflow-hidden text-sm bg-sidebar dark:bg-sidebar"
       style={{ ...style, backgroundColor: undefined }}
     >
       {title ? (
@@ -44,7 +44,7 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
             <TooltipTrigger
               onClick={handleWrapToggle}
               aria-label={wrap ? "Disable wrap" : "Enable wrap"}
-              className={`-me-2 p-1.5 rounded-md hover:text-foreground transition-colors ${wrap ? "text-foreground" : ""}`}
+              className={`-me-2 p-1.5 rounded-control hover:text-foreground transition-colors ${wrap ? "text-foreground" : ""}`}
             >
               <WrapText className="size-3.5" />
             </TooltipTrigger>
@@ -54,7 +54,7 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
             <TooltipTrigger
               onClick={handleCopy}
               aria-label={copied ? "Copied" : "Copy code"}
-              className="-me-2 p-1.5 rounded-md hover:text-foreground transition-colors"
+              className="-me-2 p-1.5 rounded-control hover:text-foreground transition-colors"
             >
               {copied ? (
                 <Check className="size-3.5" />
@@ -66,12 +66,12 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
           </Tooltip>
         </div>
       ) : (
-        <div className="empty:hidden absolute top-2 right-2 z-10 backdrop-blur-lg rounded-lg text-muted-foreground">
+        <div className="empty:hidden absolute top-2 right-2 z-10 backdrop-blur-lg rounded-control text-muted-foreground">
           <Tooltip>
             <TooltipTrigger
               onClick={handleWrapToggle}
               aria-label={wrap ? "Disable wrap" : "Enable wrap"}
-              className={`p-1.5 rounded-md hover:text-foreground transition-colors ${wrap ? "text-foreground" : ""}`}
+              className={`p-1.5 rounded-control hover:text-foreground transition-colors ${wrap ? "text-foreground" : ""}`}
             >
               <WrapText className="size-3.5" />
             </TooltipTrigger>
@@ -81,7 +81,7 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
             <TooltipTrigger
               onClick={handleCopy}
               aria-label={copied ? "Copied" : "Copy code"}
-              className="p-1.5 rounded-md hover:text-foreground transition-colors"
+              className="p-1.5 rounded-control hover:text-foreground transition-colors"
             >
               {copied ? (
                 <Check className="size-3.5" />

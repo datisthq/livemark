@@ -17,7 +17,7 @@ function Command({ className, ...props }: React.ComponentProps<typeof CommandPri
     <CommandPrimitive
       data-slot="command"
       className={cn(
-        "flex size-full flex-col overflow-hidden rounded-xl! bg-popover p-1 text-popover-foreground",
+        "flex size-full flex-col overflow-hidden rounded-menu! bg-popover p-1 text-popover-foreground",
         className,
       )}
       {...props}
@@ -50,7 +50,10 @@ function CommandDialog({
         <DialogDescription>{description}</DialogDescription>
       </DialogHeader>
       <DialogContent
-        className={cn("top-1/3 translate-y-0 overflow-hidden rounded-xl! p-0", className)}
+        className={cn(
+          "top-1/3 translate-y-0 overflow-hidden rounded-panel! p-0",
+          className,
+        )}
         showCloseButton={showCloseButton}
       >
         <Command shouldFilter={shouldFilter} loop={loop}>
@@ -71,7 +74,7 @@ function CommandInput({
   const showClear = !!props.value
   return (
     <div data-slot="command-input-wrapper" className="p-1 pb-2">
-      <InputGroup className="h-12! rounded-lg! border-input/30 bg-input/30 shadow-none! *:data-[slot=input-group-addon]:pl-3!">
+      <InputGroup className="h-12! rounded-control! border-input/30 bg-input/30 shadow-none! *:data-[slot=input-group-addon]:pl-3!">
         <CommandPrimitive.Input
           data-slot="command-input"
           className={cn(
@@ -164,7 +167,7 @@ function CommandItem({
     <CommandPrimitive.Item
       data-slot="command-item"
       className={cn(
-        "group/command-item relative flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none bg-muted/50 in-data-[slot=dialog-content]:rounded-lg! data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-[selected=true]:bg-primary/10 data-[selected=true]:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-[selected=true]:**:[svg]:text-foreground",
+        "group/command-item relative flex cursor-pointer items-center gap-2 rounded-menu-item px-2 py-1.5 text-sm outline-hidden select-none bg-muted/50 in-data-[slot=dialog-content]:rounded-menu-item! data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-[selected=true]:bg-primary/10 data-[selected=true]:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-[selected=true]:**:[svg]:text-foreground",
         className,
       )}
       {...props}

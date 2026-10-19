@@ -11,7 +11,7 @@ export function FileTree(props: { tree: string }) {
   const items: TreeItem[] = JSON.parse(props.tree)
 
   return (
-    <div className="not-prose my-4 rounded-xl border border-border bg-card p-4 font-mono text-sm">
+    <div className="not-prose my-4 rounded-card border border-border bg-card p-4 font-mono text-sm">
       <TreeItems items={items} depth={0} />
     </div>
   )

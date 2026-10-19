@@ -45,7 +45,7 @@ export function ContentTabs(props: { sync?: string; children: React.ReactNode })
   }, [props.sync, titles])
 
   return (
-    <div className="not-prose my-4 rounded-xl border bg-card">
+    <div className="not-prose my-4 rounded-card border bg-card">
       <div className="flex border-b">
         {titles.map((title, i) => (
           <button

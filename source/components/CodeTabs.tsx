@@ -47,7 +47,7 @@ export function CodeTabs(props: {
   }, [props.sync, names])
 
   return (
-    <div className="not-prose my-4 rounded-xl border shadow-sm overflow-hidden text-sm bg-sidebar dark:bg-sidebar">
+    <div className="not-prose my-4 rounded-card border shadow-sm overflow-hidden text-sm bg-sidebar dark:bg-sidebar">
       <div className="flex border-b">
         {names.map((name, i) => (
           <button

@@ -16,7 +16,7 @@ export function Search() {
         onClick={() => setOpen(true)}
         aria-label="Search"
         title="Search"
-        className="flex h-9 items-center gap-2 rounded-md border border-border bg-muted/50 px-2.5 text-sm text-muted-foreground shadow-xs hover:bg-muted transition-colors cursor-pointer sm:w-56"
+        className="flex h-9 items-center gap-2 rounded-control border border-border bg-muted/50 px-2.5 text-sm text-muted-foreground shadow-xs hover:bg-muted transition-colors cursor-pointer sm:w-56"
       >
         <SearchIcon className="size-4" />
         <span className="hidden flex-1 text-left sm:inline">Search...</span>

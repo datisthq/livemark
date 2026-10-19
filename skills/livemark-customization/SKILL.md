@@ -65,7 +65,8 @@ The command refuses to overwrite an existing override. Delete the override first
 1. `livemark escape styles/general.css`.
 2. Edit the `:root` and `.dark` blocks in `.livemark/styles/general.css`:
    - `--primary` — brand accent (Tailwind-flavoured oklch values work).
-   - `--radius` — corner roundness base.
+   - `--positive`, `--warning`, `--destructive` — status tones, each with a `-foreground` for text on the fill and a `-tint` / `-tint-foreground` pair for soft surfaces (callouts, diff lines, badge and button variants).
+   - `--radius` — the `rounded-sm`…`rounded-xl` scale only. Element corners are named tokens in `styles/shape.css` (`rounded-control` pills, `rounded-card`/`rounded-row`/`rounded-menu` 1rem, `rounded-panel` 1.5rem); escape that file to change them, and use those names rather than raw `rounded-md` in new elements.
    - Sidebar / chart tokens if you want deeper tweaks.
 3. Save — the dev server applies immediately.
 

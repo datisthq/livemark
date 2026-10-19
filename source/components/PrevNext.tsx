@@ -29,7 +29,7 @@ export function PrevNext(props: { path: string }) {
         <Link
           to="/$"
           params={{ _splat: prev.path.replace(/^\/|\/$/g, "") }}
-          className="flex-1 rounded-xl border shadow-sm p-4 hover:bg-muted/50 transition-colors"
+          className="flex-1 rounded-card border shadow-sm p-4 hover:bg-muted/50 transition-colors"
         >
           <span className="flex items-center gap-1 text-sm text-muted-foreground">
             <ChevronLeft className="size-4" />
@@ -42,7 +42,7 @@ export function PrevNext(props: { path: string }) {
         <Link
           to="/$"
           params={{ _splat: next.path.replace(/^\/|\/$/g, "") }}
-          className="flex-1 rounded-xl border shadow-sm p-4 hover:bg-muted/50 transition-colors text-right"
+          className="flex-1 rounded-card border shadow-sm p-4 hover:bg-muted/50 transition-colors text-right"
         >
           <span className="flex items-center justify-end gap-1 text-sm text-muted-foreground">
             Next

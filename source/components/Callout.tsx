@@ -25,20 +25,18 @@ const configs: Record<CalloutType, CalloutConfig> = {
   tip: {
     icon: Lightbulb,
     label: "Tip",
-    classes:
-      "border-green-500/30 bg-green-50/50 text-green-900 dark:bg-green-950/30 dark:text-green-200",
+    classes: "border-positive/30 bg-positive-tint/50 text-positive-tint-foreground",
   },
   warning: {
     icon: AlertTriangle,
     label: "Warning",
-    classes:
-      "border-yellow-500/30 bg-yellow-50/50 text-yellow-900 dark:bg-yellow-950/30 dark:text-yellow-200",
+    classes: "border-warning/30 bg-warning-tint/50 text-warning-tint-foreground",
   },
   danger: {
     icon: Flame,
     label: "Danger",
     classes:
-      "border-red-500/30 bg-red-50/50 text-red-900 dark:bg-red-950/30 dark:text-red-200",
+      "border-destructive/30 bg-destructive-tint/50 text-destructive-tint-foreground",
   },
 }
 
@@ -54,7 +52,7 @@ export function Callout(props: {
   const title = props.title ?? config.label
 
   return (
-    <aside className={cn("not-prose my-4 rounded-xl border px-4 py-3", config.classes)}>
+    <aside className={cn("not-prose my-4 rounded-card border px-4 py-3", config.classes)}>
       <div className="flex items-center gap-2 font-semibold text-sm mb-2">
         <Icon className="size-4 shrink-0" />
         <span>{title}</span>

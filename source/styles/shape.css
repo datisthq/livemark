@@ -1,0 +1,14 @@
+/* Elements name these, never a raw `rounded-md`: controls are pills, rows and cards 1rem,
+   panels 1.5rem. Pills ignore `--radius`; only the `sm`…`xl` scale follows it. */
+@theme inline {
+  --radius-control: 9999px;
+  --radius-control-sm: 9999px;
+  --radius-control-xs: 9999px;
+  --radius-control-inset: 9999px;
+  --radius-textarea: 1rem;
+  --radius-row: 1rem;
+  --radius-card: 1rem;
+  --radius-panel: 1.5rem;
+  --radius-menu: 1rem;
+  --radius-menu-item: calc(1rem - 4px);
+}

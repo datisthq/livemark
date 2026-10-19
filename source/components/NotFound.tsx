@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router"
+import { buttonVariants } from "../elements/button.tsx"
 
 export function NotFound({ children }: { children?: any }) {
   return (
@@ -11,14 +12,11 @@ export function NotFound({ children }: { children?: any }) {
         <button
           type="button"
           onClick={() => window.history.back()}
-          className="bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:bg-primary/80 transition-colors"
+          className={buttonVariants({ size: "lg" })}
         >
           Go Back
         </button>
-        <Link
-          to="/"
-          className="border border-border px-4 py-2 text-sm font-medium hover:bg-card transition-colors"
-        >
+        <Link to="/" className={buttonVariants({ variant: "outline", size: "lg" })}>
           Home
         </Link>
       </div>

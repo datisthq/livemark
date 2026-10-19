@@ -14,7 +14,7 @@ export function Details(props: { summary: string; children: React.ReactNode }) {
     <Collapsible
       open={open}
       onOpenChange={setOpen}
-      className="not-prose my-4 rounded-xl border border-border bg-card px-4 py-3"
+      className="not-prose my-4 rounded-card border border-border bg-card px-4 py-3"
     >
       <CollapsibleTrigger className="flex w-full cursor-pointer items-center gap-2 text-sm font-semibold select-none">
         <ChevronRight

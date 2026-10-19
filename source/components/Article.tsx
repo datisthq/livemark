@@ -97,7 +97,7 @@ export function Article(props: { article: ArticleView }) {
               <img
                 src={article.image}
                 alt=""
-                className="!mt-0 !mb-6 w-full rounded-xl border shadow-sm"
+                className="!mt-0 !mb-6 w-full rounded-card border shadow-sm"
               />
             )}
             <MDXContent

@@ -1,7 +1,7 @@
 /** Renders a responsive YouTube iframe embed */
 export function YouTube(props: { id: string }) {
   return (
-    <div className="not-prose my-4 overflow-hidden rounded-lg border">
+    <div className="not-prose my-4 overflow-hidden rounded-card border">
       <div className="aspect-video">
         <iframe
           className="h-full w-full"

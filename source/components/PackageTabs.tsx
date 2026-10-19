@@ -31,7 +31,7 @@ export function PackageTabs(props: PackageTabsProps) {
   }
 
   return (
-    <figure className="not-prose my-4 relative rounded-xl border shadow-sm overflow-hidden text-sm bg-sidebar dark:bg-sidebar">
+    <figure className="not-prose my-4 relative rounded-card border shadow-sm overflow-hidden text-sm bg-sidebar dark:bg-sidebar">
       <div className="flex items-center border-b">
         <div className="flex flex-1 items-center">
           {managers.map(pm => (
@@ -52,7 +52,7 @@ export function PackageTabs(props: PackageTabsProps) {
         <button
           type="button"
           onClick={handleCopy}
-          className="me-2 p-1 rounded-md text-muted-foreground hover:text-foreground transition-colors"
+          className="me-2 p-1 rounded-control text-muted-foreground hover:text-foreground transition-colors"
           aria-label="Copy code"
         >
           {copied ? <Check className="size-3.5" /> : <Clipboard className="size-3.5" />}

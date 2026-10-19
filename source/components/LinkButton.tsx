@@ -5,7 +5,15 @@ import { cn } from "cn"
 export function LinkButton(props: {
   href: string
   label: string
-  variant?: "default" | "outline" | "secondary" | "ghost" | "destructive" | "link"
+  variant?:
+    | "default"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "positive"
+    | "warning"
+    | "destructive"
+    | "link"
   size?: "default" | "sm" | "lg"
 }) {
   return (

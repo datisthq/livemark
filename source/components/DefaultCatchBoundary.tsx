@@ -6,6 +6,7 @@ import {
   useMatch,
   useRouter,
 } from "@tanstack/react-router"
+import { buttonVariants } from "../elements/button.tsx"
 
 export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
   const router = useRouter()
@@ -25,21 +26,18 @@ export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
           onClick={() => {
             router.invalidate()
           }}
-          className="bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:bg-primary/80 transition-colors"
+          className={buttonVariants({ size: "lg" })}
         >
           Try Again
         </button>
         {isRoot ? (
-          <Link
-            to="/"
-            className="border border-border px-4 py-2 text-sm font-medium hover:bg-card transition-colors"
-          >
+          <Link to="/" className={buttonVariants({ variant: "outline", size: "lg" })}>
             Home
           </Link>
         ) : (
           <Link
             to="/"
-            className="border border-border px-4 py-2 text-sm font-medium hover:bg-card transition-colors"
+            className={buttonVariants({ variant: "outline", size: "lg" })}
             onClick={(e: any) => {
               e.preventDefault()
               window.history.back()
