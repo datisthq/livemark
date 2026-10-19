@@ -10,12 +10,14 @@ import {
 } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import type * as React from "react"
+import { useEffect } from "react"
 import { Layout } from "../components/Layout.tsx"
 import { DefaultCatchBoundary } from "../components/DefaultCatchBoundary.tsx"
 import { NotFound } from "../components/NotFound.tsx"
 import { useHydrated } from "../hooks/hydrated.ts"
 import { Toaster } from "../elements/sonner.tsx"
 import { faviconType } from "../helpers/favicon.ts"
+import { buildThemeScript, startTheme } from "../helpers/theme.ts"
 import { prefixUrl } from "../helpers/prefix-url.ts"
 import defaultFavicon from "../assets/logo.svg"
 import generalCss from "../styles/general.css?url"
@@ -61,6 +63,7 @@ export const Route = createRootRoute({
         { rel: "stylesheet", href: markdownCss },
         ...feedLinks,
       ],
+      scripts: [{ children: buildThemeScript() }],
     }
   },
   notFoundComponent: () => <NotFound />,
@@ -88,8 +91,10 @@ function Document(props: { children: React.ReactNode }) {
   const hydrated = useHydrated()
   const devtools = hydrated && window.location.search.includes("tanstack-devtools")
 
+  useEffect(startTheme, [])
+
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>

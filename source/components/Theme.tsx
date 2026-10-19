@@ -1,29 +1,64 @@
-import { Moon, Sun } from "lucide-react"
+import { Moon, Sun, SunMoon } from "lucide-react"
 import { useHotkey } from "@tanstack/react-hotkeys"
+import { useState } from "react"
 import { Button } from "../elements/button.tsx"
-import { getCurrentTheme, setTheme } from "../helpers/theme.ts"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "../elements/dropdown-menu.tsx"
+import type { ThemePref } from "../helpers/theme.ts"
+import { getCurrentTheme, getThemePref, setTheme } from "../helpers/theme.ts"
 
-/** Sun/moon header button with "T" keyboard shortcut that flips light and dark themes */
+/** Header menu choosing light, dark or system theme; "T" flips light and dark */
 export function Theme() {
-  const handleToggle = () => {
-    const oldTheme = getCurrentTheme()
-    const newTheme = oldTheme === "light" ? "dark" : "light"
-    setTheme(newTheme)
-  }
+  // Read as the menu opens: on the server there is no stored preference to read.
+  const [current, setCurrent] = useState<ThemePref>("system")
 
-  useHotkey("T", handleToggle)
+  useHotkey("T", () => setTheme(getCurrentTheme() === "light" ? "dark" : "light"))
 
   return (
-    <Button
-      variant="ghost"
-      size="icon-sm"
-      onClick={handleToggle}
-      title="Change theme"
-      aria-label="Change theme"
-      className="cursor-pointer text-muted-foreground"
-    >
-      <Sun className="size-4 dark:hidden" />
-      <Moon className="hidden size-4 dark:block" />
-    </Button>
+    <DropdownMenu onOpenChange={open => open && setCurrent(getThemePref())}>
+      <DropdownMenuTrigger
+        render={
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            title="Change theme"
+            aria-label="Change theme"
+            className="cursor-pointer text-muted-foreground"
+          />
+        }
+      >
+        {/* Swapped on the `.dark` class rather than on state, so the server render
+            matches: no hydration mismatch, no wrong-icon flash. */}
+        <Sun className="size-4 dark:hidden" />
+        <Moon className="hidden size-4 dark:block" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-32">
+        <DropdownMenuRadioGroup
+          value={current}
+          onValueChange={value => {
+            setCurrent(value)
+            setTheme(value)
+          }}
+        >
+          <DropdownMenuRadioItem value="light" className="cursor-pointer">
+            <Sun />
+            Light
+          </DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="dark" className="cursor-pointer">
+            <Moon />
+            Dark
+          </DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="system" className="cursor-pointer">
+            <SunMoon />
+            System
+          </DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
