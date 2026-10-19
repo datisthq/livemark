@@ -3,12 +3,18 @@ import {
   BookOpen,
   Braces,
   Code,
+  FileCode,
+  FolderTree,
   Github,
+  Layers,
   LayoutPanelLeft,
+  ListChecks,
   Moon,
   Rocket,
   Search,
+  Smartphone,
   Workflow,
+  Zap,
 } from "lucide-react"
 import type { ComponentType, ReactNode, SVGProps } from "react"
 import { buttonVariants } from "livemark/elements/button"
@@ -23,6 +29,7 @@ function Landing() {
   return (
     <div className="flex flex-col">
       <Hero />
+      <Freedom />
       <Features />
       <Showcase />
       <FinalCta />
@@ -39,7 +46,7 @@ function Hero() {
       <BackgroundGrid />
       <div className="relative w-full mx-auto max-w-5xl px-6 py-16 text-center animate-in fade-in-0 slide-in-from-bottom-4 duration-700 ease-out">
         <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-foreground">
-          Beautiful docs from{" "}
+          Beautiful sites from{" "}
           <span className="relative inline-block">
             <span className="relative z-10">plain Markdown</span>
             <span
@@ -50,9 +57,10 @@ function Hero() {
         </h1>
 
         <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-          Livemark turns your <code className="font-mono text-foreground">.md</code> files
-          into a fast, modern documentation site, blog and changelog sections, all built
-          in.
+          The Markdown site generator that stays out of your way — keep your files where
+          they are, add real TanStack Start pages or escape any built-in piece when you
+          need to, and get a docs site, blog and changelog that look great on every
+          screen.
         </p>
 
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -208,6 +216,142 @@ const BACKGROUND_GRID_CSS = `
 }
 `
 
+/* ─────────────────────────── Freedom ─────────────────────────── */
+
+interface FreedomPoint {
+  icon: ComponentType<SVGProps<SVGSVGElement>>
+  title: string
+  description: ReactNode
+}
+
+const freedoms: FreedomPoint[] = [
+  {
+    icon: FolderTree,
+    title: "Any file layout",
+    description: (
+      <>
+        Point <code className="font-mono text-foreground">include</code> globs at the
+        Markdown you already have. README, CONTRIBUTING and CHANGELOG become pages too.
+      </>
+    ),
+  },
+  {
+    icon: FileCode,
+    title: "Real TanStack Start pages",
+    description: (
+      <>
+        Drop a <code className="font-mono text-foreground">.tsx</code> file into{" "}
+        <code className="font-mono text-foreground">.livemark/routes/</code> for pricing,
+        dashboards or anything else. This landing page is one.
+      </>
+    ),
+  },
+  {
+    icon: Layers,
+    title: "Escape any piece",
+    description: (
+      <>
+        Shadow a component, element or stylesheet under{" "}
+        <code className="font-mono text-foreground">.livemark/</code> and it{" "}
+        <Link
+          to="/$"
+          params={{ _splat: "customization/overriding-escaping" }}
+          className="text-primary underline-offset-4 hover:underline"
+        >
+          replaces the built-in one
+        </Link>
+        .
+      </>
+    ),
+  },
+]
+
+function Freedom() {
+  return (
+    <section className="border-b border-border">
+      <div className="mx-auto max-w-6xl px-6 py-24">
+        <Reveal>
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+              Stays out of your way
+            </h2>
+            <p className="mt-4 text-muted-foreground text-lg">
+              No required folder structure, no lock-in. Livemark adapts to your repo, not
+              the other way round.
+            </p>
+          </div>
+        </Reveal>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 items-center">
+          <ul className="space-y-8">
+            {freedoms.map((f, i) => (
+              <li key={f.title}>
+                <Reveal delayMs={i * 60}>
+                  <div className="flex gap-4">
+                    <div className="shrink-0 inline-flex items-center justify-center size-10 rounded-lg bg-primary/10 text-primary">
+                      <f.icon className="size-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-foreground">{f.title}</h3>
+                      <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
+                        {f.description}
+                      </p>
+                    </div>
+                  </div>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+          <Reveal>
+            <WindowCard label="your-repo">
+              <RepoTree />
+            </WindowCard>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function RepoTree() {
+  return (
+    <pre className="p-5 text-sm leading-relaxed font-mono overflow-x-auto">
+      <code className={tk.body}>
+        <span className={tk.directive}>.livemark/</span>
+        {"\n"}
+        <span className={tk.dim}>└─ </span>
+        <span className={tk.directive}>routes/</span>
+        {"\n"}
+        <span className={tk.dim}>{"   ├─ "}</span>
+        <span className={tk.head}>pricing.tsx</span>
+        <span className={cn(tk.dim, "hidden sm:inline")}>{"   ← a React page"}</span>
+        {"\n"}
+        <span className={tk.dim}>{"   └─ "}</span>
+        <span className={tk.head}>dashboard.tsx</span>
+        {"\n"}
+        <span className={tk.directive}>guides/</span>
+        {"\n"}
+        <span className={tk.dim}>├─ </span>
+        <span className={tk.str}>setup.md</span>
+        {"\n"}
+        <span className={tk.dim}>└─ </span>
+        <span className={tk.str}>faq.md</span>
+        {"\n"}
+        <span className={tk.directive}>src/</span>
+        <span className={cn(tk.dim, "hidden sm:inline")}>
+          {"               ← your code, untouched"}
+        </span>
+        {"\n"}
+        <span className={tk.str}>README.md</span>
+        <span className={cn(tk.dim, "hidden sm:inline")}>{"          ← a page too"}</span>
+        {"\n"}
+        <span className={tk.str}>CHANGELOG.md</span>
+        {"\n"}
+        <span className={tk.key}>livemark.config.ts</span>
+      </code>
+    </pre>
+  )
+}
+
 /* ─────────────────────────── Features ─────────────────────────── */
 
 interface Feature {
@@ -230,10 +374,22 @@ const features: Feature[] = [
       "Mermaid flowcharts and KaTeX equations, theme-aware, zero config. Just write them in your Markdown.",
   },
   {
+    icon: ListChecks,
+    title: "Rich Markdown syntax",
+    description:
+      "Callouts, tabs, steps, cards, file trees, badges and more — plain directives, no JSX required.",
+  },
+  {
     icon: Braces,
     title: "MDX components",
     description:
       "Drop JSX components into Markdown when you need power — stay plain when you don't.",
+  },
+  {
+    icon: Smartphone,
+    title: "Perfect on mobile",
+    description:
+      "Bottom-sheet navigation, page contents a tap away, and no sideways scroll on any phone.",
   },
   {
     icon: LayoutPanelLeft,
@@ -253,6 +409,12 @@ const features: Feature[] = [
     description:
       "Built-in dark mode, image variants for light/dark, and fully customizable Shiki themes.",
   },
+  {
+    icon: Zap,
+    title: "Fast static output",
+    description:
+      "A fully static build with sitemap, robots and RSS — ready for any host in seconds.",
+  },
 ]
 
 function Features() {
@@ -262,11 +424,11 @@ function Features() {
         <Reveal>
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-              Everything a modern doc site needs
+              Beautiful by default
             </h2>
             <p className="mt-4 text-muted-foreground text-lg">
-              Opinionated defaults, zero config to start, fully customizable when you need
-              it.
+              Rich Markdown, a polished mobile experience and sensible defaults. Customize
+              only what you want.
             </p>
           </div>
         </Reveal>
@@ -378,26 +540,10 @@ function Showcase() {
         </Reveal>
         <Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-            <div className="rounded-card border border-primary/20 bg-card overflow-hidden">
-              <div className="flex items-center gap-2 border-b border-primary/20 px-4 py-2 bg-muted/50">
-                <div className="size-2.5 rounded-full bg-red-400/60" />
-                <div className="size-2.5 rounded-full bg-yellow-400/60" />
-                <div className="size-2.5 rounded-full bg-green-400/60" />
-                <span className="ml-2 text-xs font-mono text-muted-foreground">
-                  quickstart.md
-                </span>
-              </div>
+            <WindowCard label="quickstart.md">
               <MarkdownSample />
-            </div>
-            <div className="rounded-card border border-primary/20 bg-card overflow-hidden">
-              <div className="flex items-center gap-2 border-b border-primary/20 px-4 py-2 bg-muted/50">
-                <div className="size-2.5 rounded-full bg-red-400/60" />
-                <div className="size-2.5 rounded-full bg-yellow-400/60" />
-                <div className="size-2.5 rounded-full bg-green-400/60" />
-                <span className="ml-2 text-xs font-mono text-muted-foreground">
-                  rendered
-                </span>
-              </div>
+            </WindowCard>
+            <WindowCard label="rendered">
               <div className="p-6">
                 <h3 className="text-2xl font-bold">Quickstart</h3>
                 <p className="mt-3 text-sm text-muted-foreground">Install the package:</p>
@@ -429,11 +575,27 @@ function Showcase() {
                   </li>
                 </ul>
               </div>
-            </div>
+            </WindowCard>
           </div>
         </Reveal>
       </div>
     </section>
+  )
+}
+
+function WindowCard(props: { label: string; children: ReactNode }) {
+  return (
+    <div className="rounded-card border border-primary/20 bg-card overflow-hidden">
+      <div className="flex items-center gap-2 border-b border-primary/20 px-4 py-2 bg-muted/50">
+        <div className="size-2.5 rounded-full bg-red-400/60" />
+        <div className="size-2.5 rounded-full bg-yellow-400/60" />
+        <div className="size-2.5 rounded-full bg-green-400/60" />
+        <span className="ml-2 text-xs font-mono text-muted-foreground">
+          {props.label}
+        </span>
+      </div>
+      {props.children}
+    </div>
   )
 }
 
@@ -475,7 +637,8 @@ function FinalCta() {
             <span className="text-primary">Let Livemark handle the rest.</span>
           </h2>
           <p className="mt-6 text-lg text-muted-foreground">
-            Install, point to a folder of Markdown, deploy. That's the whole setup.
+            Point Livemark at the Markdown you already have, add pages when you need them,
+            deploy. That's the whole setup.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
