@@ -1,6 +1,8 @@
+import { useRef } from "react"
 import { MDXContent } from "@content-collections/mdx/react"
 import { Calendar, History, User } from "lucide-react"
 import type { ArticleView } from "../models/article.ts"
+import { useSearchHighlight } from "../helpers/search-highlight.ts"
 import { TocContext } from "../helpers/toc-context.ts"
 import { Abbr } from "./Abbr.tsx"
 import { AnsiCode } from "./AnsiCode.tsx"
@@ -42,8 +44,10 @@ import { ZoomImage } from "./ZoomImage.tsx"
 import { Separator } from "../elements/separator.tsx"
 
 /** Full-page article layout: MDX content, table of contents, toolbar, prev/next, footer */
-export function Article(props: { article: ArticleView }) {
+export function Article(props: { article: ArticleView; highlight?: string }) {
   const { article } = props
+  const prose = useRef<HTMLDivElement>(null)
+  useSearchHighlight(prose, article.path, props.highlight)
   const lastUpdated = formatDate(article.lastUpdated)
   const publishedDate = formatDate(article.date)
   const authors = article.author
@@ -67,7 +71,7 @@ export function Article(props: { article: ArticleView }) {
       )}
       <div className="flex flex-1 gap-10 p-4 pt-8 md:p-10">
         <div className="flex-1 min-w-0 mx-auto max-w-3xl">
-          <div className="prose dark:prose-invert max-w-none">
+          <div ref={prose} className="prose dark:prose-invert max-w-none">
             <h1 id="top">
               <a href="#top">{article.title}</a>
             </h1>

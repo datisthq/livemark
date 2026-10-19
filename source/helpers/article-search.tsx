@@ -3,6 +3,7 @@ import { useNavigate } from "@tanstack/react-router"
 import { create, insertMultiple, search } from "@orama/orama"
 import { sortedArticles } from "../content/article.ts"
 import { resolveArticleIcon } from "./article-icon.ts"
+import { buildHighlightPattern, findTextMatches } from "./search-highlight.ts"
 import { CommandGroup, CommandItem } from "../elements/command.tsx"
 
 interface SearchResult {
@@ -83,9 +84,10 @@ export function useArticleSearch() {
       navigate({
         to: "/$",
         params: { _splat: path.replace(/^\/|\/$/g, "") },
+        search: { highlight: query.trim() || undefined },
       })
     },
-    [navigate],
+    [navigate, query],
   )
 
   const grouped = useMemo(() => {
@@ -160,32 +162,31 @@ function groupFor(pathname: string) {
 }
 
 function extractSnippet(text: string, term: string) {
-  const lower = text.toLowerCase()
-  const idx = lower.indexOf(term.toLowerCase())
-  if (idx === -1) return text.slice(0, 120)
-  const start = Math.max(0, idx - 40)
-  const end = Math.min(text.length, idx + term.length + 80)
+  const pattern = buildHighlightPattern(term)
+  const [match] = pattern ? findTextMatches(text, pattern) : []
+  if (!match) return text.slice(0, 120)
+  const [matchStart, matchEnd] = match
+  const start = Math.max(0, matchStart - 40)
+  const end = Math.min(text.length, matchEnd + 80)
   const prefix = start > 0 ? "…" : ""
   const suffix = end < text.length ? "…" : ""
   return `${prefix}${text.slice(start, end)}${suffix}`
 }
 
 function HighlightedText(props: { text: string; term: string }) {
-  if (!props.term.trim()) return <>{props.text}</>
-  const escaped = props.term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-  const regex = new RegExp(`(${escaped})`, "gi")
-  const parts = props.text.split(regex)
-  return (
-    <>
-      {parts.map((part, i) =>
-        regex.test(part) ? (
-          <span key={i} className="text-foreground font-medium">
-            {part}
-          </span>
-        ) : (
-          part
-        ),
-      )}
-    </>
-  )
+  const pattern = buildHighlightPattern(props.term)
+  if (!pattern) return <>{props.text}</>
+  const parts: React.ReactNode[] = []
+  let cursor = 0
+  for (const [start, end] of findTextMatches(props.text, pattern)) {
+    parts.push(props.text.slice(cursor, start))
+    parts.push(
+      <span key={start} className="text-foreground font-medium">
+        {props.text.slice(start, end)}
+      </span>,
+    )
+    cursor = end
+  }
+  parts.push(props.text.slice(cursor))
+  return <>{parts}</>
 }

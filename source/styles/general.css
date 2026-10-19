@@ -30,6 +30,8 @@
   --warning-foreground: oklch(0.205 0 0);
   --warning-tint: oklch(97.3% 0.071 103.193);
   --warning-tint-foreground: oklch(47.6% 0.114 61.907);
+  --highlight: oklch(90.5% 0.182 98.111);
+  --highlight-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.55 0.2 25);
   --destructive-foreground: oklch(0.985 0 0);
   --destructive-tint: oklch(93.6% 0.032 17.717);
@@ -78,6 +80,8 @@
   --warning-foreground: oklch(0.22 0.04 70);
   --warning-tint: oklch(28.6% 0.066 53.813);
   --warning-tint-foreground: oklch(85.2% 0.199 91.936);
+  --highlight: oklch(55.4% 0.135 66.442);
+  --highlight-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.7 0.17 25);
   --destructive-foreground: oklch(0.2 0.03 25);
   --destructive-tint: oklch(25.8% 0.092 26.042);
@@ -125,6 +129,8 @@
   --color-warning-foreground: var(--warning-foreground);
   --color-warning-tint: var(--warning-tint);
   --color-warning-tint-foreground: var(--warning-tint-foreground);
+  --color-highlight: var(--highlight);
+  --color-highlight-foreground: var(--highlight-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-destructive-tint: var(--destructive-tint);
@@ -157,6 +163,11 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  ::highlight(search-match) {
+    background-color: var(--highlight);
+    color: var(--highlight-foreground);
   }
 
   html {

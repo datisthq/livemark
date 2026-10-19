@@ -108,6 +108,7 @@ Custom routes win over the Markdown catch-all at exact URLs. Don't create a rout
 5. **Static files belong in `.livemark/public/`**, which Vite exposes at the site root.
 6. **Removing an override needs `npx livemark clear`** when the dev server is not running — the cached target only re-applies files that exist, so a deleted override keeps rendering.
 7. **Keyboard shortcuts live in the component they drive** — bare keys through `@tanstack/react-hotkeys`, ignored while typing: `L` sidebar (`Sidebar`), `S` search (`Search`), `T` theme (`Theme`), `J`/`K` scroll (`Layout`), `B` back to top (`BackToTop`). Overriding one of these drops its key unless the copy keeps the `useHotkey` call; register a key in a component that mounts once, or one press fires twice.
+8. **Search highlights live in `Article`** — picking a result opens the page with `?highlight=<query>`, and `Article` passes it to `useSearchHighlight` with a ref on its `.prose` wrapper. An overridden `components/Article.tsx` must keep that call and ref, or matches stop being marked. Theme the mark through the `--highlight` and `--highlight-foreground` tokens; code blocks are never marked.
 
 ## Head tags
 

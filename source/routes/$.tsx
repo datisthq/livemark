@@ -1,5 +1,6 @@
 import { config } from "livemark:virtual"
 import { createFileRoute, notFound, redirect } from "@tanstack/react-router"
+import { z } from "zod"
 import {
   currentSection,
   firstArticle,
@@ -14,6 +15,8 @@ import { ChangelogIndex } from "../components/ChangelogIndex.tsx"
 import { TagIndex } from "../components/TagIndex.tsx"
 
 export const Route = createFileRoute("/$")({
+  // Loose, so keys this route does not own (UTM tags, devtools flags) survive.
+  validateSearch: z.looseObject({ highlight: z.string().optional().catch(undefined) }),
   loader: ({ params }) => {
     if (!params._splat) {
       if (homeArticle) return { ...homeArticle, sidebar: homeArticle.sidebar }
@@ -79,6 +82,7 @@ export const Route = createFileRoute("/$")({
 
 function Component() {
   const data = Route.useLoaderData()
+  const search = Route.useSearch()
   if ("blogIndex" in data) {
     return <BlogIndex sectionPrefix={data.sectionPrefix} />
   }
@@ -88,5 +92,5 @@ function Component() {
   if ("tagPage" in data) {
     return <TagIndex sectionPrefix={data.sectionPrefix} tag={data.tag} />
   }
-  return <Article article={data} />
+  return <Article article={data} highlight={search.highlight} />
 }
