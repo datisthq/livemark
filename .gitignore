@@ -70,3 +70,4 @@ tmuxp.yaml
 .tanstack/
 /.playwright-mcp/
 .vitest/
+.worktrees/

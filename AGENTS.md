@@ -21,6 +21,7 @@ TypeScript package and CLI that turns a folder of Markdown into a static documen
 - **Never change code unless asked to.** Usually just answer.
 - When resolving a TODO, follow its instructions literally. Prefer LSP capabilities where available.
 - Start a plan from a summary of the new or changed API (models and signatures) and the hardest points.
+- **Every plan ends by asking how to work it** (`AskUserQuestion`, before finalising): **the current branch** or **a `.worktrees/<name>` branch**.
 - **The escape contract is public API.** `ESCAPABLE_FOLDERS` and `ESCAPABLE_FILES` in `source/settings.ts` name what a project may shadow under `.livemark/`; renaming or moving a file there silently drops a project's override. Treat it like an export change (**`change-review`**).
 - Use full relative import paths with the `.ts` / `.tsx` extension. No barrel re-export files — `source/index.ts` is the one public façade.
 - Each `actions/<entity>/<verb>.ts` holds one action, named after its verb (`actions/config/load.ts` exports `loadConfig`); a new action gets its own file.
