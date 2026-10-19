@@ -56,7 +56,7 @@ export function Article(props: { article: ArticleView }) {
   return (
     <TocContext.Provider value={article.tocItems}>
       {article.toc !== false && (
-        <MobileToc items={article.tocItems}>
+        <MobileToc items={article.tocItems} title={article.title}>
           <PageToolbar
             file={article.file}
             sourceUrl={article.sourceUrl}

@@ -46,8 +46,12 @@ const SHEET_ACTIONS =
   "[&_[data-slot=page-toolbar]]:-mx-2 [&_[data-slot=page-toolbar]]:gap-0.5 [&_[data-slot=page-action]]:h-10 [&_[data-slot=page-action]]:gap-2.5 [&_[data-slot=page-action]]:rounded-control [&_[data-slot=page-action]]:px-2 [&_[data-slot=page-action]]:text-base [&_[data-slot=page-action]]:text-foreground [&_[data-slot=page-action]:hover]:bg-muted [&_[data-slot=page-action]_svg]:size-[18px]"
 
 /** Mobile-only sticky secondary bar showing the active heading; it opens a
- * bottom sheet with the page Actions and Contents as two tabs. */
-export function MobileToc(props: { items: TocItem[]; children?: ReactNode }) {
+ * bottom sheet with the Contents and page Actions as two tabs. */
+export function MobileToc(props: {
+  items: TocItem[]
+  title?: string
+  children?: ReactNode
+}) {
   const activeId = useActiveHeading(props.items)
   const [open, setOpen] = useState(false)
   const [tab, setTab] = useState(props.items.length > 0 ? "contents" : "actions")
@@ -100,18 +104,18 @@ export function MobileToc(props: { items: TocItem[]; children?: ReactNode }) {
         open={open}
         onOpenChange={setOpen}
         onOpenChangeComplete={handleOpenChangeComplete}
-        title={title}
+        title={props.title ?? "On this page"}
       >
         {props.children && props.items.length > 0 ? (
           <Tabs value={tab} onValueChange={value => setTab(String(value))}>
             <TabsList className="mb-2 w-full">
-              <TabsTrigger value="actions">Actions</TabsTrigger>
               <TabsTrigger value="contents">Contents</TabsTrigger>
+              <TabsTrigger value="actions">Actions</TabsTrigger>
             </TabsList>
+            <TabsContent value="contents">{contents}</TabsContent>
             <TabsContent value="actions" className={SHEET_ACTIONS}>
               {props.children}
             </TabsContent>
-            <TabsContent value="contents">{contents}</TabsContent>
           </Tabs>
         ) : props.children ? (
           <div className={SHEET_ACTIONS}>{props.children}</div>

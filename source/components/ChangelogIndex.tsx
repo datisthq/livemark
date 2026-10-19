@@ -37,7 +37,7 @@ export function ChangelogIndex(props: { sectionPrefix: string }) {
 
   return (
     <TocContext.Provider value={tocItems}>
-      <MobileToc items={tocItems}>
+      <MobileToc items={tocItems} title={section?.title ?? "Changelog"}>
         <PageToolbar content={content} />
       </MobileToc>
       <div className="flex flex-1 gap-10 p-4 pt-8 md:p-10">

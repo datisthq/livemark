@@ -39,7 +39,7 @@ export function TagIndex(props: { sectionPrefix: string; tag: string }) {
 
   return (
     <TocContext.Provider value={tocItems}>
-      <MobileToc items={tocItems}>
+      <MobileToc items={tocItems} title={title}>
         <PageToolbar content={content} />
       </MobileToc>
       <div className="flex flex-1 gap-10 p-4 pt-8 md:p-10">
