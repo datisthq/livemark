@@ -47,7 +47,7 @@ export function SidebarSectionPicker(props: {
               type="button"
               aria-label="Section"
               aria-haspopup="dialog"
-              className="flex h-9 w-full min-w-0 cursor-pointer items-center gap-2 rounded-control border border-input bg-transparent px-[7px] text-left text-sm shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30 dark:hover:bg-input/50"
+              className="flex h-9 w-full min-w-0 cursor-pointer items-center gap-2 rounded-control border border-input bg-transparent px-3 text-left text-sm shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30 dark:hover:bg-input/50"
             />
           }
         >
