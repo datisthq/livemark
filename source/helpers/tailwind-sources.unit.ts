@@ -1,13 +1,14 @@
 import { describe, expect, it } from "vite-plus/test"
-import { excludeDependencySources } from "./tailwind-sources.ts"
+import { excludeTailwindSources } from "./tailwind-sources.ts"
 
 const targetDir = "/project/.livemark/.target"
 
-describe("excludeDependencySources", () => {
-  it("excludes the dependency link from a Tailwind entry", () => {
+describe("excludeTailwindSources", () => {
+  it("excludes the dependency link and the content cache from a Tailwind entry", () => {
     const css = `@import "tailwindcss";\n@import "./shape.css";`
-    expect(excludeDependencySources({ css, targetDir })).toBe(
-      `${css}\n@source not "/project/.livemark/.target/node_modules";\n`,
+    expect(excludeTailwindSources({ css, targetDir })).toBe(
+      `${css}\n@source not "/project/.livemark/.target/node_modules";\n` +
+        `@source not "/project/.livemark/.target/.content-collections/cache";\n`,
     )
   })
 
@@ -16,16 +17,16 @@ describe("excludeDependencySources", () => {
       `@import 'tailwindcss' source(none);`,
       `@import "tailwindcss/utilities" layer(utilities);`,
     ]) {
-      expect(excludeDependencySources({ css, targetDir })).toContain("@source not")
+      expect(excludeTailwindSources({ css, targetDir })).toContain("@source not")
     }
   })
 
   it("leaves other stylesheets alone", () => {
     expect(
-      excludeDependencySources({ css: `@import "tw-animate-css";`, targetDir }),
+      excludeTailwindSources({ css: `@import "tw-animate-css";`, targetDir }),
     ).toBeUndefined()
     expect(
-      excludeDependencySources({ css: `@import "tailwindcss/theme";`, targetDir }),
+      excludeTailwindSources({ css: `@import "tailwindcss/theme";`, targetDir }),
     ).toBeUndefined()
   })
 })

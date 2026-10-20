@@ -83,6 +83,9 @@ export const Route = createFileRoute("/$")({
 
 function Component() {
   const data = Route.useLoaderData()
+  // Undefined for one render when HMR reloads a deleted article, before the root's
+  // not-found takes over.
+  if (!data) return null
   return (
     <Layout withSidebar={data.sidebar}>
       <Page />

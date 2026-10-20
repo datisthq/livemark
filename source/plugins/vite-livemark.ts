@@ -5,7 +5,7 @@ import { mergeConfig } from "vite"
 import packageJson from "../../package.json" with { type: "json" }
 import { buildTarget } from "../actions/target/build.ts"
 import { renderInlineMarkdown } from "../helpers/render-inline-markdown.ts"
-import { excludeDependencySources } from "../helpers/tailwind-sources.ts"
+import { excludeTailwindSources } from "../helpers/tailwind-sources.ts"
 import { resolveTargetExport } from "../helpers/target-export.ts"
 import type { Config } from "../models/config.ts"
 import { WebsiteConfig } from "../models/config.ts"
@@ -83,7 +83,7 @@ export function livemark(opts: LivemarkOptions): Plugin {
     transform: {
       filter: { id: /\.css(\?|$)/ },
       handler(css) {
-        return excludeDependencySources({ css, targetDir })
+        return excludeTailwindSources({ css, targetDir })
       },
     },
     resolveId(id) {

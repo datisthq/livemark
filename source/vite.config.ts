@@ -30,7 +30,9 @@ export default defineConfig({
     livemark({ config }),
     robots({ config }),
     agents({ config }),
-    devtools(),
+    // Its server-to-browser console piping and Vite's browser-to-server forwarding echo
+    // any browser error back and forth forever.
+    devtools({ consolePiping: { enabled: false } }),
     tailwind(),
     contentCollections({ configPath: "content-collections.ts" }),
     tanstackStart({

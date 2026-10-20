@@ -26,6 +26,12 @@ export function getRouter() {
     queryClient,
   })
 
+  // Route HMR swaps a route's options but keeps its loader data, so an edited article
+  // would stay stale until a full page reload.
+  if (import.meta.hot && typeof window !== "undefined") {
+    import.meta.hot.on("vite:afterUpdate", () => router.invalidate())
+  }
+
   return router
 }
 

@@ -121,6 +121,7 @@ Custom routes win over the Markdown catch-all at exact URLs. Don't create a rout
 6. **Never edit `.livemark/.target/`** — it is the generated mount Vite runs (Livemark's source with your overrides copied in), rebuilt on every run, so stack traces point there but edits are lost. Gitignore it alongside `.livemark/build/`.
 7. **Keyboard shortcuts live in the component they drive** — bare keys through `@tanstack/react-hotkeys`, ignored while typing: `L` sidebar (`Sidebar`), `S` search (`Search`), `T` theme (`Theme`), `J`/`K` scroll (`Root`), `B` back to top (`BackToTop`). Overriding one of these drops its key unless the copy keeps the `useHotkey` call; register a key in a component that mounts once, or one press fires twice.
 8. **Search highlights live in `Article`** — picking a result opens the page with `?highlight=<query>`, and `Article` passes it to `useSearchHighlight` with a ref on its `.prose` wrapper. An overridden `components/Article.tsx` must keep that call and ref, or matches stop being marked. Theme the mark through the `--highlight` and `--highlight-foreground` tokens; code blocks are never marked.
+9. **Edited Markdown reaches the page through `router.tsx`** — articles are route loader data, and route HMR keeps loader data, so `getRouter` re-runs loaders on Vite's `vite:afterUpdate`. An overridden `router.tsx` must keep that hook, or Markdown edits show only after a reload.
 
 ## Head tags
 
