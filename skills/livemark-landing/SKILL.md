@@ -54,8 +54,8 @@ The reference runs Hero → a differentiator ("Stays out of your way") → a fea
 
 ## Patterns from the reference
 
-- **Section shell** — `<section className="border-b border-border">` around `mx-auto max-w-6xl px-6 py-24`, a centred heading block (`max-w-2xl`, `h2` at `text-3xl md:text-4xl`), and one showcase section tinted with `bg-primary/5` to break the rhythm. Two-column sections pair a text list with a visual: `grid grid-cols-1 md:grid-cols-2`.
-- **Hero** — a small uppercase eyebrow in `text-primary`, a short `h1`, a lede capped at `max-w-[52ch]`, then two actions: a primary button to the docs and an outline one to the source. Buttons are `buttonVariants` from `livemark/elements/button` on a `Link` or `<a>`, plus `no-underline`.
+- **Section shell** — `<section className="border-b border-border">` around `mx-auto max-w-6xl px-6 py-16 md:py-24`, a centred heading block (`max-w-2xl`, `mb-10 md:mb-16`, `h2` at `text-3xl md:text-4xl`), and one showcase section tinted with `bg-primary/5` to break the rhythm. Two-column sections pair a text list with a visual: `grid grid-cols-1 md:grid-cols-2`.
+- **Hero** — a small uppercase eyebrow in `text-primary`, a short `h1`, a lede capped at `max-w-[52ch]`, then two actions: a primary button to the docs and an outline one to the source. Buttons are `buttonVariants` from `livemark/elements/button` on a `Link` or `<a>`, plus `no-underline`. On phones give each `flex-1 px-3 sm:flex-none sm:px-5`: the pair shares one row, and when it cannot, wraps into two equal full-width buttons instead of two ragged ones.
 - **Internal links** go through `<Link to="/$" params={{ _splat: "introduction" }}>`, so `base` and client navigation keep working; external links get `target="_blank" rel="noopener noreferrer"`.
 - **Show the product** — real screenshots, not stock art. Each shot ships light and dark as two `<img>`, toggled with `dark:hidden` / `hidden dark:block`: the theme is a class on `<html>`, which `<picture media>` cannot see. Put them in `.livemark/public/` and reference them from `/`.
 - **Window cards** — a bordered `rounded-card` frame with a title bar and a mono file label (`WindowCard`) makes code, file trees and rendered output read as the real thing.
@@ -66,7 +66,7 @@ The reference runs Hero → a differentiator ("Stays out of your way") → a fea
 ## Rules of thumb
 
 1. **Every animation honours reduced motion** — `motion-reduce:` utilities or a `@media (prefers-reduced-motion: reduce)` block, as the reference's carousel and background do.
-2. **Phone first.** Grids start at one column, action rows `flex-wrap`, secondary labels are `hidden sm:inline`. Check 375px wide: no horizontal scroll.
+2. **Phone first.** Grids start at one column, action rows `flex-wrap`, secondary labels are `hidden sm:inline`. Check 375px wide, then again with the root font at 125% — Android text scaling grows every rem, padding included: no horizontal scroll, the `h1` and the action row still fit.
 3. **Prerender-safe.** `/` is rendered at build time, so nothing touches `window` or `document` during render — only in effects and handlers.
 4. **Import via `livemark/*`** (`components`, `elements`, `hooks`), never relative paths into `node_modules`, so escaped components compose.
 5. **One file is fine.** Keep the landing in `index.tsx`; move a piece to `.livemark/components/` only when another route reuses it.
