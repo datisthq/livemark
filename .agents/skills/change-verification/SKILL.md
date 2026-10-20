@@ -27,7 +27,7 @@ diff breaking. The full gate belongs to the lefthook pre-push hook and CI. A loc
 | `vp test related <files> --run`              | ~7 s  | ~8     | every test importing the files        |
 | `pnpm test:unit`                             | ~4 s  | ~12    | every unit test, including the guards |
 | `pnpm build`                                 | ~4 s  | ~11    | the `tsgo` emit consumers' Node loads |
-| `pnpm build:docs`                            | 53 s  | 66     | the real build over this repo's docs  |
+| `pnpm build:docs`                            | ~13 s | ~24    | the real build over this repo's docs  |
 
 All of these run from the repo root (or the worktree root). Raw `vitest` fails to collect
 `vite-plus/test` suites. The changed files come from `git diff --name-only main...` plus

@@ -1,0 +1,13 @@
+import { join, sep } from "node:path"
+
+const TAILWIND_IMPORT = /@import\s+(["'])tailwindcss(\/utilities)?\1/
+
+/**
+ * Keep Tailwind's source scan out of the target's dependency link, which reaches the
+ * whole install (and, through a self-link, the whole project) from inside the Vite root.
+ */
+export function excludeDependencySources(props: { css: string; targetDir: string }) {
+  if (!TAILWIND_IMPORT.test(props.css)) return undefined
+  const link = join(props.targetDir, "node_modules").split(sep).join("/")
+  return `${props.css}\n@source not "${link}";\n`
+}

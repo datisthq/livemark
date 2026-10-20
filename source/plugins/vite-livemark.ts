@@ -5,6 +5,7 @@ import { mergeConfig } from "vite"
 import packageJson from "../../package.json" with { type: "json" }
 import { buildTarget } from "../actions/target/build.ts"
 import { renderInlineMarkdown } from "../helpers/render-inline-markdown.ts"
+import { excludeDependencySources } from "../helpers/tailwind-sources.ts"
 import { resolveTargetExport } from "../helpers/target-export.ts"
 import type { Config } from "../models/config.ts"
 import { WebsiteConfig } from "../models/config.ts"
@@ -76,6 +77,14 @@ export function livemark(opts: LivemarkOptions): Plugin {
       }
       const override = await resolveViteOverride(opts.config.vite, env)
       return override ? mergeConfig(base, override) : base
+    },
+    // Here, not in `styles/general.css`, so an escaped stylesheet keeps it. Works only
+    // while this plugin precedes `tailwind()`: both are `pre`, so array order decides.
+    transform: {
+      filter: { id: /\.css(\?|$)/ },
+      handler(css) {
+        return excludeDependencySources({ css, targetDir })
+      },
     },
     resolveId(id) {
       if (id === VIRTUAL_ID) return VIRTUAL_RESOLVED_ID
