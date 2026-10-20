@@ -92,3 +92,6 @@ gate** once, at the end: `pnpm check` always, then a unit half **you choose**.
   rung; do not narrow the slice until it passes.
 - **Generated artefacts.** A route change regenerates `source/routeTree.gen.ts`; slice after
   regenerating, not before.
+- **A change meant to alter no output** — a build speed-up or refactor. Copy
+  `.livemark/build/client` aside before it, `pnpm build:docs` after, and diff the HTML with
+  `/assets/` hashes masked. The gate stays green when a code block quietly loses highlighting.

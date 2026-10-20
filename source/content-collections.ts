@@ -1,4 +1,4 @@
-import { execSync } from "node:child_process"
+import { execFileSync } from "node:child_process"
 import { existsSync } from "node:fs"
 import { basename, relative, resolve } from "node:path"
 import { DEFAULT_EXCLUDES } from "./settings.ts"
@@ -48,6 +48,7 @@ import { rehypeTaskListA11y } from "./plugins/rehype-task-list-a11y.ts"
 import { transformerIcon } from "./plugins/shiki-icon.ts"
 import { resolveAssetPath } from "./helpers/resolve-asset-path.ts"
 import { resolveIncludes } from "./helpers/resolve-includes.ts"
+import { collectFenceLanguages } from "./helpers/fence-languages.ts"
 import { extractSearchText } from "./helpers/search-text.ts"
 import { stripLeadingH1 } from "./helpers/llms.ts"
 import { extractToc } from "./helpers/toc.ts"
@@ -87,15 +88,38 @@ function toPath(filePath: string) {
   return slugify(name)
 }
 
-function getLastUpdated(filePath: string) {
+const lastUpdatedByFile = readLastUpdatedDates()
+
+// One `git log` for every file: a spawn per article blocks the build ~30 ms each, and
+// isn't cached across builds like the MDX is.
+function readLastUpdatedDates() {
+  const dates = new Map<string, string>()
   try {
-    const timestamp = execSync(`git log -1 --format=%cI -- "${filePath}"`, {
-      cwd: config.root,
-      encoding: "utf-8",
-    }).trim()
-    return timestamp || undefined
+    const log = execFileSync(
+      "git",
+      [
+        "-c",
+        "core.quotePath=false",
+        "log",
+        "--format=%x00%cI",
+        "--name-only",
+        "--relative",
+      ],
+      {
+        cwd: config.root,
+        encoding: "utf-8",
+        maxBuffer: 256 * 1024 * 1024,
+        stdio: ["ignore", "pipe", "ignore"],
+      },
+    )
+    let date: string | undefined
+    for (const line of log.split("\n")) {
+      if (line.startsWith("\0")) date = line.slice(1)
+      else if (line && date && !dates.has(line)) dates.set(line, date)
+    }
+    return dates
   } catch {
-    return undefined
+    return dates
   }
 }
 
@@ -184,6 +208,10 @@ const articles = defineCollection({
               // renders without line padding, theme colours or transformers.
               defaultLanguage: "text",
               fallbackLanguage: "text",
+              // Without `langs`, Shiki compiles all ~360 bundled grammars up front (~4 s).
+              // `lazy` covers fences a remark plugin generates, which the scan cannot see.
+              langs: await collectFenceLanguages(bodyContent),
+              lazy: true,
               // Darken catppuccin-latte's green (the colour used for strings and
               // some comments) — the theme default #40A02B lands at 3.2:1 on the
               // code-block background, below the WCAG AA 4.5:1 threshold.
@@ -210,7 +238,7 @@ const articles = defineCollection({
     )
     const tocItems = extractToc(content)
     const searchText = extractSearchText(content)
-    const lastUpdated = getLastUpdated(doc._meta.filePath)
+    const lastUpdated = lastUpdatedByFile.get(doc._meta.filePath)
     const image = doc.image
       ? resolveAssetPath(doc.image, filePath, config.root, config.base)
       : undefined
