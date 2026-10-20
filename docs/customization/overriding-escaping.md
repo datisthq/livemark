@@ -92,6 +92,16 @@ import { Button } from "livemark/elements/button"
 
 Those paths resolve at build time and go through the same override lookup — if you've also overridden `button`, your override wins there too.
 
+### Type checking overrides
+
+Livemark's modules ship as TypeScript source, so your type check covers them too, including the `livemark:virtual` module they read the site config from. Its types load with the `livemark` package: any program that includes `livemark.config.ts` already has them. A program that doesn't adds one line to a `.d.ts` file:
+
+```ts title=".livemark/env.d.ts"
+/// <reference types="livemark/env" />
+```
+
+Don't declare `livemark:virtual` yourself: a hand-written declaration drifts from the real config type.
+
 ## What you can't override this way
 
 - **Custom routes** — use [`.livemark/routes/`](/customization/custom-routes/) instead.

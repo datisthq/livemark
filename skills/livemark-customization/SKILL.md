@@ -135,7 +135,7 @@ Add tags with the config `head` field (`livemark-configuration`); escape `head.t
 
 ## Verification
 
-- The project's type check (e.g. `npx tsc --noEmit`) — confirms overrides typecheck.
+- The project's type check (e.g. `npx tsc --noEmit`) — confirms overrides typecheck. `livemark:virtual` types load through `livemark.config.ts`'s import of `livemark`; a program without that file adds `/// <reference types="livemark/env" />`. Never hand-declare the module.
 - `npx livemark build` — smoke-test the override lands in the bundle.
 - Browser: load an article page with the dev server; custom Footer/Sidebar/etc. should render without a full reload.
 

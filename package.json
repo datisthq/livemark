@@ -20,7 +20,8 @@
     "./components/*": "./source/components/*.tsx",
     "./elements/*": "./source/elements/*.tsx",
     "./hooks/*": "./source/hooks/*.ts",
-    "./styles/*": "./source/styles/*.css"
+    "./styles/*": "./source/styles/*.css",
+    "./env": "./source/env.d.ts"
   },
   "scripts": {
     "build": "tsgo --project tsconfig.build.json",
