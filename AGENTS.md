@@ -52,6 +52,7 @@ Shipped skills live in `skills/` and are published in the package for people who
 | `livemark-authoring`     | adding or editing Markdown articles in a Livemark project |
 | `livemark-configuration` | changing a Livemark project's configuration               |
 | `livemark-customization` | theming or otherwise customising a Livemark site          |
+| `livemark-landing`       | designing a Livemark project's landing page               |
 | `livemark-deployment`    | building and publishing a Livemark site to a host         |
 
 **There is exactly one `AGENTS.md`, at the root.** `scripts/-test/docs.unit.ts` enforces that, along with every path and `pnpm` command these documents name and the two tables above.

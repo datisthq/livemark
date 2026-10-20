@@ -8,13 +8,14 @@ order: 2
 
 # Agent Skills
 
-Livemark ships [Agent Skills](https://agentskills.io/) that tell coding agents such as Claude Code, Cursor and Codex how a Livemark project works. Once installed, your agent knows where articles go, which config options exist, how to override the UI and how to deploy the site. You don't have to explain any of it in the prompt.
+Livemark ships [Agent Skills](https://agentskills.io/) that tell coding agents such as Claude Code, Cursor and Codex how a Livemark project works. Once installed, your agent knows where articles go, which config options exist, how to override the UI, how to design a landing page and how to deploy the site. You don't have to explain any of it in the prompt.
 
 | Skill                    | Your agent uses it when                                              |
 | ------------------------ | -------------------------------------------------------------------- |
 | `livemark-authoring`     | adding or editing Markdown articles, frontmatter, images and patches |
 | `livemark-configuration` | editing `livemark.config.ts`: metadata, globs, sections, navigation  |
 | `livemark-customization` | theming, escaping components or adding custom routes                 |
+| `livemark-landing`       | designing the landing page, taking livemark.dev's as the reference   |
 | `livemark-deployment`    | publishing the build to Cloudflare, GitHub Pages, Vercel or Netlify  |
 
 ## Install from the website

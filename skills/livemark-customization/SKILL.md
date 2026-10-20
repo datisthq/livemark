@@ -107,7 +107,7 @@ A custom route renders **bare**: the root wraps every route in the headless `com
 
 Filename maps to URL path: `.livemark/routes/pricing.tsx` → `/pricing/`. Nested paths work via nested folders.
 
-An `index.tsx` in `.livemark/routes/` **replaces** Livemark's default landing at `/`.
+An `index.tsx` in `.livemark/routes/` **replaces** Livemark's default landing at `/`. For what to put on it, load `livemark-landing`.
 
 Custom routes win over the Markdown catch-all at exact URLs. Don't create a route that collides with an article URL unless you intend to hide the article.
 
