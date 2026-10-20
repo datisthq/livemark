@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.27.1](https://github.com/datisthq/livemark/compare/v0.27.0...v0.27.1) (2026-10-20)
+
+
+### Performance Improvements
+
+* read included files in parallel instead of blocking on each one ([d0f996c](https://github.com/datisthq/livemark/commit/d0f996cb29409141e1451da9d892ac11f8bc493a))
+
 ## [0.27.0](https://github.com/datisthq/livemark/compare/v0.26.0...v0.27.0) (2026-10-19)
 
 
