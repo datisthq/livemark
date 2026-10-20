@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.28.1](https://github.com/datisthq/livemark/compare/v0.28.0...v0.28.1) (2026-10-20)
+
+
+### Bug Fixes
+
+* teach the landing and customization skills text scaling and one-line banners ([acf6abe](https://github.com/datisthq/livemark/commit/acf6abe93844bb8bdd61ab2a47b531049aeec5a6))
+
 ## [0.28.0](https://github.com/datisthq/livemark/compare/v0.27.2...v0.28.0) (2026-10-20)
 
 
