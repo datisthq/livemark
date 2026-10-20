@@ -1,4 +1,5 @@
-import { SearchResultGroups, useArticleSearch } from "../helpers/article-search.tsx"
+import { useArticleSearch } from "../helpers/article-search.ts"
+import { SearchResultGroups } from "./SearchResultGroups.tsx"
 import {
   CommandDialog,
   CommandEmpty,

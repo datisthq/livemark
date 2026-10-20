@@ -2,11 +2,9 @@ import { useState, useRef, useCallback, useMemo } from "react"
 import { useNavigate } from "@tanstack/react-router"
 import { create, insertMultiple, search } from "@orama/orama"
 import { sortedArticles } from "../content/article.ts"
-import { resolveArticleIcon } from "./article-icon.ts"
 import { buildHighlightPattern, findTextMatches } from "./search-highlight.ts"
-import { CommandGroup, CommandItem } from "../elements/command.tsx"
 
-interface SearchResult {
+export interface SearchResult {
   title: string
   path: string
   icon?: string
@@ -103,38 +101,6 @@ export function useArticleSearch() {
   return { query, grouped, searchArticles, selectArticle }
 }
 
-export function SearchResultGroups(props: {
-  query: string
-  grouped: Map<string, SearchResult[]>
-  onSelect: (path: string) => void
-}) {
-  return [...props.grouped.entries()].map(([group, items]) => (
-    <CommandGroup key={group} heading={group}>
-      {items.map(result => {
-        const Icon = resolveArticleIcon(result.icon)
-        return (
-          <CommandItem
-            key={result.path}
-            value={result.path}
-            onSelect={() => props.onSelect(result.path)}
-            className="py-2.5"
-          >
-            {Icon && <Icon className="size-5 shrink-0 mt-0.5 self-start opacity-60" />}
-            <div className="flex flex-col gap-0.5 min-w-0">
-              <span className="text-base font-medium">{result.title}</span>
-              {result.snippet && (
-                <span className="text-sm text-muted-foreground line-clamp-1">
-                  <HighlightedText text={result.snippet} term={props.query} />
-                </span>
-              )}
-            </div>
-          </CommandItem>
-        )
-      })}
-    </CommandGroup>
-  ))
-}
-
 function toResult(article: (typeof sortedArticles)[number], term: string): SearchResult {
   return {
     title: article.title,
@@ -171,22 +137,4 @@ function extractSnippet(text: string, term: string) {
   const prefix = start > 0 ? "…" : ""
   const suffix = end < text.length ? "…" : ""
   return `${prefix}${text.slice(start, end)}${suffix}`
-}
-
-function HighlightedText(props: { text: string; term: string }) {
-  const pattern = buildHighlightPattern(props.term)
-  if (!pattern) return <>{props.text}</>
-  const parts: React.ReactNode[] = []
-  let cursor = 0
-  for (const [start, end] of findTextMatches(props.text, pattern)) {
-    parts.push(props.text.slice(cursor, start))
-    parts.push(
-      <span key={start} className="text-foreground font-medium">
-        {props.text.slice(start, end)}
-      </span>,
-    )
-    cursor = end
-  }
-  parts.push(props.text.slice(cursor))
-  return <>{parts}</>
 }

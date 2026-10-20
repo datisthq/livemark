@@ -89,6 +89,7 @@ Non-package code: `scripts/` repo tooling and repo-wide guards, and the dot-dire
 ## Conventions
 
 - pnpm `^11`, Node `^24`, ES Modules; vite-plus format and lint (2-space, LF, UTF-8, no semicolons, 90 columns)
+- A `.tsx` module exports only components — a hook or value beside them makes Vite drop Fast Refresh for the file; put it in a `.ts` under `helpers/` or `hooks/`
 - Strict TypeScript with null checks; no explicit return types. Never use `any`, an `as` cast or `!` without permission
 - PascalCase types, interfaces and components; camelCase values. Function names are **verbNoun** (`resolveAssetPath`), never a bare verb or noun; factories are `create*` / `build*` / `make*`
 - `package.json` script names are `verb[:object]` (`check:lint`, `build:docs`), never noun-first; a `verb:x` script is a part or a scoped run of `verb`

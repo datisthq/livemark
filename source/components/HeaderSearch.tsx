@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef, useState } from "react"
 import { X } from "lucide-react"
-import { SearchResultGroups, useArticleSearch } from "../helpers/article-search.tsx"
+import { useArticleSearch } from "../helpers/article-search.ts"
+import { SearchResultGroups } from "./SearchResultGroups.tsx"
 import { Command, CommandEmpty, CommandInput, CommandList } from "../elements/command.tsx"
 
 /** Search field that takes over the header below `lg`, with results dropping under it */
