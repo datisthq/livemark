@@ -83,19 +83,19 @@ function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-border">
       <BackgroundGrid />
-      <div className="relative mx-auto w-full max-w-6xl px-6 py-20 md:py-28 lg:grid lg:grid-cols-[27rem_minmax(0,1fr)] lg:items-center lg:gap-14">
+      <div className="relative mx-auto w-full max-w-6xl px-6 py-12 sm:py-20 md:py-28 lg:grid lg:grid-cols-[27rem_minmax(0,1fr)] lg:items-center lg:gap-14">
         <div className="animate-in fade-in-0 slide-in-from-bottom-4 duration-700 ease-out">
           <p className="text-primary text-xs font-semibold tracking-[0.18em] uppercase">
             Beautiful out of the box
           </p>
-          <h1 className="mt-5 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-5xl">
+          <h1 className="mt-5 text-[2rem] font-semibold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-5xl">
             Markdown sites,
             <br />
             <span className="box-decoration-clone bg-linear-to-r from-primary/20 to-primary/20 bg-size-[100%_0.3em] bg-position-[0_88%] bg-no-repeat">
               your way.
             </span>
           </h1>
-          <p className="mt-6 max-w-[52ch] text-lg leading-relaxed text-muted-foreground md:text-xl">
+          <p className="mt-6 max-w-[52ch] text-base leading-relaxed text-muted-foreground sm:text-lg md:text-xl">
             Keep your files where they are, add TanStack Start pages, restyle everything
             with Tailwind, and get docs, a blog and a changelog that shine on every
             screen.
@@ -112,13 +112,13 @@ function Hero() {
 
 function HeroActions() {
   return (
-    <div className="mt-10 flex flex-wrap gap-3">
+    <div className="mt-8 flex flex-wrap gap-3 sm:mt-10">
       <Link
         to="/$"
         params={{ _splat: "introduction" }}
         className={cn(
           buttonVariants({ variant: "default", size: "lg" }),
-          "px-5 no-underline",
+          "flex-1 px-3 no-underline sm:flex-none sm:px-5",
         )}
       >
         <Rocket className="size-4" />
@@ -130,7 +130,7 @@ function HeroActions() {
         rel="noopener noreferrer"
         className={cn(
           buttonVariants({ variant: "outline", size: "lg" }),
-          "px-5 no-underline",
+          "flex-1 px-3 no-underline sm:flex-none sm:px-5",
         )}
       >
         <Github className="size-4" />
@@ -633,9 +633,9 @@ const freedoms: FreedomPoint[] = [
 function Freedom() {
   return (
     <section className="border-b border-border">
-      <div className="mx-auto max-w-6xl px-6 py-24">
+      <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
         <Reveal>
-          <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-16">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
               Stays out of your way
             </h2>
@@ -784,9 +784,9 @@ const features: Feature[] = [
 function Features() {
   return (
     <section className="border-b border-border">
-      <div className="mx-auto max-w-6xl px-6 py-24">
+      <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
         <Reveal>
-          <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-16">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
               Beautiful by default
             </h2>
@@ -871,9 +871,9 @@ function MarkdownSample() {
 function Showcase() {
   return (
     <section className="border-b border-border bg-primary/5">
-      <div className="mx-auto max-w-6xl px-6 py-24">
+      <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
         <Reveal>
-          <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-16">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
               Write Markdown. Ship a website.
             </h2>
@@ -1018,9 +1018,9 @@ const agentPoints: FreedomPoint[] = [
 function Agents() {
   return (
     <section className="border-b border-border">
-      <div className="mx-auto max-w-6xl px-6 py-24">
+      <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
         <Reveal>
-          <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-16">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
               Ready for AI agents
             </h2>
@@ -1057,7 +1057,7 @@ function Agents() {
           </ul>
         </div>
         <Reveal>
-          <div className="mt-12 text-center">
+          <div className="mt-10 text-center md:mt-12">
             <Link
               to="/$"
               params={{ _splat: "customization/ai-agents" }}
@@ -1141,7 +1141,7 @@ function Datist() {
 function FinalCta() {
   return (
     <section className="relative overflow-hidden">
-      <div className="relative mx-auto max-w-3xl px-6 py-24 text-center">
+      <div className="relative mx-auto max-w-3xl px-6 py-16 text-center md:py-24">
         <Reveal>
           <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">
             Start writing.{" "}
@@ -1151,13 +1151,13 @@ function FinalCta() {
             Point Livemark at the Markdown you already have, add pages when you need them,
             deploy. That's the whole setup.
           </p>
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <div className="mt-8 flex flex-wrap justify-center gap-3 sm:mt-10">
             <Link
               to="/$"
               params={{ _splat: "introduction" }}
               className={cn(
                 buttonVariants({ variant: "default", size: "lg" }),
-                "px-5 no-underline",
+                "flex-1 px-3 no-underline sm:flex-none sm:px-5",
               )}
             >
               <BookOpen className="size-4" />
@@ -1168,7 +1168,7 @@ function FinalCta() {
               params={{ _splat: "changelog" }}
               className={cn(
                 buttonVariants({ variant: "ghost", size: "lg" }),
-                "px-5 no-underline",
+                "flex-1 px-3 no-underline sm:flex-none sm:px-5",
               )}
             >
               See what's new
