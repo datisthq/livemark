@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.28.2](https://github.com/datisthq/livemark/compare/v0.28.1...v0.28.2) (2026-10-20)
+
+
+### Bug Fixes
+
+* export livemark:virtual types so consumer overrides type-check ([0b1a732](https://github.com/datisthq/livemark/commit/0b1a732909a7dccb2cbe608ea40f193387161b91)), closes [#25](https://github.com/datisthq/livemark/issues/25)
+
 ## [0.28.1](https://github.com/datisthq/livemark/compare/v0.28.0...v0.28.1) (2026-10-20)
 
 
