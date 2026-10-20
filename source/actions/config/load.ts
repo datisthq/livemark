@@ -1,6 +1,6 @@
 import { existsSync } from "node:fs"
 import { dirname, resolve } from "node:path"
-import { pathToFileURL } from "node:url"
+import { runnerImport } from "vite"
 import type { Config, UserConfig } from "../../models/config.ts"
 import { resolveBase } from "../../helpers/resolve-base.ts"
 import { defineConfig } from "./define.ts"
@@ -38,11 +38,13 @@ export async function loadConfig(path?: string): Promise<Config> {
   const explicit = path ?? cliPath
   const resolved = resolve(explicit ?? "livemark.config.ts")
   let input: UserConfig = {}
+  let configDependencies: string[] = []
   if (existsSync(resolved)) {
-    // Cache-bust the ESM import so dev-server restart reloads edits on disk.
-    const url = `${pathToFileURL(resolved).href}?t=${Date.now()}`
-    const module: Record<string, unknown> = await import(url)
-    input = (module.default as UserConfig) ?? {}
+    // Not `import()`: Node caches the files a config imports for the process lifetime,
+    // so a dev-server restart would keep their old contents.
+    const result = await runnerImport<{ default?: UserConfig }>(resolved)
+    input = result.module.default ?? {}
+    configDependencies = result.dependencies
   } else if (explicit) {
     throw new Error(`Config file not found: ${resolved}`)
   }
@@ -51,5 +53,11 @@ export async function loadConfig(path?: string): Promise<Config> {
   // CLI verb. Downstream consumers (Vite plugin, content-collections,
   // runtime) get a plain string|undefined and never see the function.
   const base = resolveBase(validated.base, detectCommand())
-  return { ...validated, base, root: dirname(resolved), configPath: resolved }
+  return {
+    ...validated,
+    base,
+    root: dirname(resolved),
+    configPath: resolved,
+    configDependencies,
+  }
 }

@@ -113,7 +113,7 @@ Any [Shiki theme](https://shiki.style/themes) name works. Defaults keep the catp
 
 ## Autoreload
 
-The dev server watches `livemark.config.ts` and restarts on edit. No need to kill `npx livemark start` after tweaking the config.
+The dev server watches `livemark.config.ts` and every local file it imports, and restarts on edit. No need to kill `npx livemark start` after tweaking the config. A broken config only pauses it: the error prints, and the next save retries. Upgrading `livemark` itself is the one change that needs a manual restart; the server prints a notice when it sees one.
 
 ## Verification
 

@@ -1,9 +1,10 @@
-import { cpSync, existsSync, rmSync, statSync } from "node:fs"
-import { join, sep } from "node:path"
-import type { ConfigEnv, Plugin, UserConfig as ViteUserConfig } from "vite"
+import { cpSync, existsSync, readFileSync, rmSync, statSync } from "node:fs"
+import { dirname, join, sep } from "node:path"
+import type { ConfigEnv, Plugin, UserConfig as ViteUserConfig, ViteDevServer } from "vite"
 import { mergeConfig } from "vite"
 import packageJson from "../../package.json" with { type: "json" }
 import { buildTarget } from "../actions/target/build.ts"
+import { collectLocalImports } from "../helpers/local-imports.ts"
 import { renderInlineMarkdown } from "../helpers/render-inline-markdown.ts"
 import { excludeTailwindSources } from "../helpers/tailwind-sources.ts"
 import { resolveTargetExport } from "../helpers/target-export.ts"
@@ -17,6 +18,13 @@ export interface LivemarkOptions {
 
 const SOURCE_DIR = join(import.meta.dirname, "..")
 const IS_INSTALLED = SOURCE_DIR.includes(`${sep}node_modules${sep}`)
+const LOCKFILES = [
+  "pnpm-lock.yaml",
+  "package-lock.json",
+  "yarn.lock",
+  "bun.lock",
+  "bun.lockb",
+]
 
 /** Single virtual module exposing livemark's runtime values to consumer
  *  override files via named exports:
@@ -102,18 +110,29 @@ export function livemark(opts: LivemarkOptions): Plugin {
       ].join("\n")
     },
     configureServer(server) {
+      // Vite restarts only for its own config's imports; the project config's
+      // imports and, in livemark's own dev, the content-collections config's
+      // imports need it too. A restart rebuilds the target, so no sync is lost.
+      const restartFiles = new Set([
+        opts.config.configPath,
+        ...opts.config.configDependencies,
+        ...(IS_INSTALLED
+          ? []
+          : collectLocalImports(join(SOURCE_DIR, "content-collections.ts"))),
+      ])
       // Vite watches only its root (the target); the files the target is
       // copied from join its watcher here. `.livemark/` always exists
       // because the target lives inside it.
-      server.watcher.add([opts.config.configPath, overridesRoot])
-      if (!IS_INSTALLED) server.watcher.add(SOURCE_DIR)
+      server.watcher.add([...restartFiles, overridesRoot])
+      if (IS_INSTALLED) watchInstalledVersion(server, opts.config.root)
+      else server.watcher.add(SOURCE_DIR)
       server.watcher.on("change", file => onChange(file, "change"))
       server.watcher.on("add", file => onChange(file, "add"))
       server.watcher.on("unlink", file => onChange(file, "unlink"))
       server.watcher.on("unlinkDir", file => onChange(file, "unlink"))
 
       function onChange(file: string, kind: "change" | "add" | "unlink") {
-        if (file === opts.config.configPath) {
+        if (restartFiles.has(file)) {
           server.restart()
           return
         }
@@ -194,6 +213,53 @@ function syncSource(
     return
   }
   if (existsSync(source)) cpSync(source, dest, { recursive: true, force: true })
+}
+
+// A running server keeps the livemark it started with: an in-process restart cannot
+// reload the package's own modules, so an upgrade is reported instead.
+function watchInstalledVersion(server: ViteDevServer, root: string) {
+  const packageDir = findInstalledPackageDir(root)
+  if (!packageDir) return
+  // Vite's watcher ignores node_modules, so the lockfile is what signals an install.
+  const projectDir = dirname(dirname(packageDir))
+  const manifest = join(packageDir, "package.json")
+  const watched = LOCKFILES.map(name => join(projectDir, name))
+  server.watcher.add(watched)
+  let timer: NodeJS.Timeout | undefined
+  server.watcher.on("all", (_, file) => {
+    if (!watched.includes(file)) return
+    clearTimeout(timer)
+    // Let the package manager finish relinking after it writes the lockfile.
+    timer = setTimeout(reportUpgrade, 1000)
+  })
+
+  function reportUpgrade() {
+    const version = readPackageVersion(manifest)
+    if (!version || version === packageJson.version) return
+    server.config.logger.warn(
+      `livemark ${packageJson.version} → ${version} installed; restart the dev server to use it`,
+      { timestamp: true },
+    )
+  }
+}
+
+function findInstalledPackageDir(root: string) {
+  for (let dir = root; ; dir = dirname(dir)) {
+    const packageDir = join(dir, "node_modules", packageJson.name)
+    if (existsSync(packageDir)) return packageDir
+    if (dirname(dir) === dir) return undefined
+  }
+}
+
+function readPackageVersion(manifest: string) {
+  try {
+    const parsed: unknown = JSON.parse(readFileSync(manifest, "utf8"))
+    return isObject(parsed) && typeof parsed.version === "string"
+      ? parsed.version
+      : undefined
+  } catch {
+    return undefined
+  }
 }
 
 /** Resolve livemark.config.ts's `vite` field — either a config object

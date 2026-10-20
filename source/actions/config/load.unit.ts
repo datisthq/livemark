@@ -41,4 +41,21 @@ describe("loadConfig", () => {
       expect(config.include).toBe("**/*.md")
       expect(config.title).toBe("Livemark")
     }))
+
+  it("should reload the files a config imports and list them as dependencies", () =>
+    temporaryDirectoryTask(async tmpDir => {
+      const configPath = join(tmpDir, "livemark.config.ts")
+      const titlePath = join(tmpDir, "title.ts")
+      fs.writeFileSync(
+        configPath,
+        'import { title } from "./title.ts"\nexport default { title }\n',
+      )
+      fs.writeFileSync(titlePath, 'export const title = "First"\n')
+      const first = await loadConfig(configPath)
+      fs.writeFileSync(titlePath, 'export const title = "Second"\n')
+      const second = await loadConfig(configPath)
+      expect(first.title).toBe("First")
+      expect(second.title).toBe("Second")
+      expect(second.configDependencies).toContain(titlePath)
+    }))
 })
