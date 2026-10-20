@@ -775,9 +775,9 @@ const features: Feature[] = [
   },
   {
     icon: Zap,
-    title: "Fast static output",
+    title: "Instant preview, static output",
     description:
-      "A fully static build with sitemap, robots and RSS — ready for any host in seconds.",
+      "Edits show up in the browser as you save, no reload. Then a static build with sitemap, robots and RSS.",
   },
 ]
 
@@ -902,7 +902,7 @@ function Showcase() {
                   <p className="text-sm text-foreground">
                     Run{" "}
                     <code className="font-mono text-xs bg-muted px-1 py-0.5 rounded">
-                      livemark dev
+                      livemark start
                     </code>{" "}
                     and open the browser.
                   </p>
