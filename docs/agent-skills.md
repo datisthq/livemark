@@ -3,7 +3,7 @@ title: Agent Skills
 description: Teach your coding agent to write, configure and customize a Livemark site.
 path: /agent-skills/
 icon: sparkles
-order: 5
+order: 2
 ---
 
 # Agent Skills

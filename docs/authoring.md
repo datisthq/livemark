@@ -2,7 +2,7 @@
 title: Authoring
 path: /authoring/
 icon: file-code
-order: 2
+order: 3
 ---
 
 # Authoring

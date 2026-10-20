@@ -3,7 +3,7 @@ title: Deployment
 description: How to publish your built Livemark site to a host.
 path: /deployment/
 icon: cloud-upload
-order: 4
+order: 5
 ---
 
 # Deployment
