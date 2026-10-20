@@ -6,7 +6,7 @@ description: Use when checking a change works before calling it done — the sma
 # Verifying a change
 
 **Verify the diff, not the repo.** `pnpm test` is lint + type + unit over everything: about
-20 s and 70 core-seconds. A CSS fix in a component cannot break the changelog action, so
+20 s and 40 core-seconds. A CSS fix in a component cannot break the changelog action, so
 running every unit test checks nothing. While iterating, run the **slice** that could catch this
 diff breaking. The full gate belongs to the lefthook pre-push hook and CI. A local session runs
 `pnpm test` only for a build-shaped diff (rung 4); a commit runs the **commit gate** below.
@@ -25,7 +25,7 @@ diff breaking. The full gate belongs to the lefthook pre-push hook and CI. A loc
 | `pnpm check:types`                           | ~7 s  | ~11    | types everywhere (one package)        |
 | `vp test <file or dir>`                      | ~6 s  | ~10    | the tests named                       |
 | `vp test related <files> --run`              | ~7 s  | ~8     | every test importing the files        |
-| `pnpm test:unit`                             | ~7 s  | ~42    | every unit test, including the guards |
+| `pnpm test:unit`                             | ~4 s  | ~12    | every unit test, including the guards |
 | `pnpm build`                                 | ~4 s  | ~11    | the `tsgo` emit consumers' Node loads |
 | `pnpm build:docs`                            | 53 s  | 66     | the real build over this repo's docs  |
 
