@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.28.0](https://github.com/datisthq/livemark/compare/v0.27.2...v0.28.0) (2026-10-20)
+
+
+### Features
+
+* add a livemark-deployment skill ([1714b5f](https://github.com/datisthq/livemark/commit/1714b5f7f62c4312f9513d9c387eb3a60c654318))
+* add a livemark-landing skill ([28ce5c0](https://github.com/datisthq/livemark/commit/28ce5c024f64ffc4d6527fce6a3a349473ca9b5f))
+
+
+### Bug Fixes
+
+* refresh edited Markdown over HMR without a page reload ([7ae3963](https://github.com/datisthq/livemark/commit/7ae39638c64cbb610c878b5c9fbbd1d3c170cdc4))
+* split the article search hook from its result components so Fast Refresh applies ([ce505e0](https://github.com/datisthq/livemark/commit/ce505e0805bdc5a07cb007eb92a35897913aae6b))
+
+
+### Performance Improvements
+
+* read git dates in one log and load only the Shiki grammars fences use ([ec5da59](https://github.com/datisthq/livemark/commit/ec5da59c9bb369391187117466076e6a45fa09e3))
+
 ## [0.27.2](https://github.com/datisthq/livemark/compare/v0.27.1...v0.27.2) (2026-10-20)
 
 
