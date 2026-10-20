@@ -3,7 +3,7 @@ title: Comparison
 description: Side-by-side technical comparisons with other docs tools.
 path: /comparison/
 icon: scale
-order: 5
+order: 6
 ---
 
 # Comparison

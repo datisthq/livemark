@@ -59,5 +59,6 @@ Agents ask for Markdown by sending `Accept: text/markdown` to the page URL. A st
 
 ## See also
 
+- [Agent Skills](/agent-skills/) — install Livemark's own skills into your coding agent.
 - [Config File](/customization/config-file/) — every top-level option.
 - [Custom Routes](/customization/custom-routes/) — static files under `.livemark/public/`.

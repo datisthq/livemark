@@ -1,6 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router"
 import {
   BookOpen,
+  Bot,
   Braces,
   Code,
   FileCode,
@@ -989,6 +990,26 @@ const agentPoints: FreedomPoint[] = [
         <code className="font-mono text-foreground">SKILL.md</code> files and they are
         published under{" "}
         <code className="font-mono text-foreground">/.well-known/agent-skills/</code>.
+      </>
+    ),
+  },
+  {
+    icon: Bot,
+    title: "Skills for your coding agent",
+    description: (
+      <>
+        <code className="font-mono text-foreground">
+          npx skills add https://livemark.dev
+        </code>{" "}
+        teaches Claude Code, Cursor or Codex to{" "}
+        <Link
+          to="/$"
+          params={{ _splat: "agent-skills" }}
+          className="text-primary underline-offset-4 hover:underline"
+        >
+          write, configure and customize
+        </Link>{" "}
+        your Livemark site.
       </>
     ),
   },
