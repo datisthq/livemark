@@ -56,13 +56,15 @@ export function agents(opts: AgentsOptions): Plugin {
       }
 
       const articles = await loadGeneratedArticles(root)
-      for (const article of articles) {
-        const content = resolveIncludes(
-          article.content,
-          resolve(opts.config.root, article.file),
-        )
+      const contents = await Promise.all(
+        articles.map(article =>
+          resolveIncludes(article.content, resolve(opts.config.root, article.file)),
+        ),
+      )
+      articles.forEach((article, index) => {
+        const content = contents[index] ?? article.content
         emit(buildTwinFileName(article.path), renderMarkdownTwin({ article, content }))
-      }
+      })
 
       const llms = renderLlmsText({ config: opts.config, articles })
       emit("llms.txt", llms)

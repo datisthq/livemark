@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs"
+import { readFile } from "node:fs/promises"
 import { dirname, extname, resolve } from "node:path"
 
 const INCLUDE_RE = /^::include\{(.+)\}$/
@@ -56,18 +56,14 @@ function parseAttributes(raw: string): Record<string, string> {
   return attrs
 }
 
-function resolveDirective(
-  rawAttrs: string,
-  fileDir: string,
-  depth: number,
-): string | undefined {
+async function resolveDirective(rawAttrs: string, fileDir: string, depth: number) {
   const attrs = parseAttributes(rawAttrs)
   const file = attrs.file
   if (!file) return undefined
 
   const absolutePath = resolve(fileDir, file)
   try {
-    let included = readFileSync(absolutePath, "utf-8")
+    let included = await readFile(absolutePath, "utf-8")
 
     const ext = extname(file).toLowerCase()
     const lang = extToLang[ext]
@@ -87,12 +83,16 @@ function resolveDirective(
 }
 
 /** Resolves ::include{file="..."} directives by replacing them with referenced file contents */
-export function resolveIncludes(content: string, filePath: string, depth = 0): string {
+export async function resolveIncludes(
+  content: string,
+  filePath: string,
+  depth = 0,
+): Promise<string> {
   if (depth > 5) return content
 
   const fileDir = dirname(filePath)
   const lines = content.split("\n")
-  const result: string[] = []
+  const result: Array<string | Promise<string>> = []
   let fenceMarker: string | undefined
 
   for (const line of lines) {
@@ -114,12 +114,12 @@ export function resolveIncludes(content: string, filePath: string, depth = 0): s
 
     const includeMatch = INCLUDE_RE.exec(line)
     if (includeMatch) {
-      const resolved = resolveDirective(includeMatch[1]!, fileDir, depth)
-      result.push(resolved ?? line)
+      const directive = resolveDirective(includeMatch[1]!, fileDir, depth)
+      result.push(directive.then(resolved => resolved ?? line))
     } else {
       result.push(line)
     }
   }
 
-  return result.join("\n")
+  return (await Promise.all(result)).join("\n")
 }

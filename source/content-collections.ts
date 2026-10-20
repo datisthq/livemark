@@ -120,7 +120,7 @@ const articles = defineCollection({
     const patch = config.patches?.find(p => p.file === document._meta.filePath)
     const doc = patch ? { ...document, ...patch.article } : document
     const filePath = resolve(config.root, doc._meta.filePath)
-    const content = resolveIncludes(doc.content, filePath)
+    const content = await resolveIncludes(doc.content, filePath)
     const title = doc.title ?? extractTitle(content, doc._meta.path)
     const icon = doc.icon
     const path = doc.path ?? toPath(doc._meta.filePath)
