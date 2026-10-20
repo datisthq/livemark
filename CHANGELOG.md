@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.27.2](https://github.com/datisthq/livemark/compare/v0.27.1...v0.27.2) (2026-10-20)
+
+
+### Bug Fixes
+
+* keep Tailwind's source scan out of the target's dependency link ([67977b3](https://github.com/datisthq/livemark/commit/67977b331aeb4240a2184ae9135b97c62e9089f5))
+
 ## [0.27.1](https://github.com/datisthq/livemark/compare/v0.27.0...v0.27.1) (2026-10-20)
 
 
