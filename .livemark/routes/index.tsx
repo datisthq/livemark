@@ -12,8 +12,11 @@ import {
   Moon,
   Paintbrush,
   Rocket,
+  ScrollText,
   Search,
+  ShieldCheck,
   Smartphone,
+  Sparkles,
   Workflow,
   Zap,
 } from "lucide-react"
@@ -45,6 +48,7 @@ function Landing() {
         <Freedom />
         <Features />
         <Showcase />
+        <Agents />
         <FinalCta />
         <Datist />
       </main>
@@ -936,6 +940,144 @@ function WindowCard(props: { label: string; children: ReactNode }) {
       </div>
       {props.children}
     </div>
+  )
+}
+
+/* ─────────────────────────── Agents ─────────────────────────── */
+
+const agentPoints: FreedomPoint[] = [
+  {
+    icon: FileText,
+    title: "A Markdown twin of every page",
+    description: (
+      <>
+        Each page gets an <code className="font-mono text-foreground">index.md</code>{" "}
+        beside its HTML, linked from the page head. One CDN rule serves it to requests
+        that send <code className="font-mono text-foreground">Accept: text/markdown</code>
+        .
+      </>
+    ),
+  },
+  {
+    icon: ScrollText,
+    title: "llms.txt out of the box",
+    description: (
+      <>
+        An <code className="font-mono text-foreground">llms.txt</code> index of every
+        twin, grouped by section and advertised in a{" "}
+        <code className="font-mono text-foreground">Link</code> header on the home page.
+      </>
+    ),
+  },
+  {
+    icon: ShieldCheck,
+    title: "Content signals",
+    description: (
+      <>
+        <code className="font-mono text-foreground">robots.txt</code> states whether your
+        pages may be used for search, AI answers or model training. One config option
+        changes it.
+      </>
+    ),
+  },
+  {
+    icon: Sparkles,
+    title: "Agent skills",
+    description: (
+      <>
+        Point <code className="font-mono text-foreground">skills</code> at your{" "}
+        <code className="font-mono text-foreground">SKILL.md</code> files and they are
+        published under{" "}
+        <code className="font-mono text-foreground">/.well-known/agent-skills/</code>.
+      </>
+    ),
+  },
+]
+
+function Agents() {
+  return (
+    <section className="border-b border-border">
+      <div className="mx-auto max-w-6xl px-6 py-24">
+        <Reveal>
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+              Ready for AI agents
+            </h2>
+            <p className="mt-4 text-muted-foreground text-lg">
+              Every build publishes your site in the formats AI agents look for, alongside
+              the HTML for people. No configuration needed.
+            </p>
+          </div>
+        </Reveal>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 items-center">
+          <Reveal>
+            <WindowCard label="terminal">
+              <AgentRequest />
+            </WindowCard>
+          </Reveal>
+          <ul className="space-y-8">
+            {agentPoints.map((p, i) => (
+              <li key={p.title}>
+                <Reveal delayMs={i * 60}>
+                  <div className="flex gap-4">
+                    <div className="shrink-0 inline-flex items-center justify-center size-10 rounded-lg bg-primary/10 text-primary">
+                      <p.icon className="size-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-foreground">{p.title}</h3>
+                      <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
+                        {p.description}
+                      </p>
+                    </div>
+                  </div>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <Reveal>
+          <div className="mt-12 text-center">
+            <Link
+              to="/$"
+              params={{ _splat: "customization/ai-agents" }}
+              className="text-sm font-medium text-primary underline-offset-4 hover:underline"
+            >
+              How Livemark serves AI agents →
+            </Link>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
+function AgentRequest() {
+  return (
+    <pre className="p-5 text-sm leading-relaxed font-mono overflow-x-auto">
+      <code className={tk.body}>
+        <span className={tk.dim}>$ </span>
+        <span className={tk.key}>curl</span> <span className={tk.lang}>-H</span>{" "}
+        <span className={tk.str}>"Accept: text/markdown"</span> \{"\n"}
+        {"    "}livemark.dev/introduction/
+        {"\n\n"}
+        <span className={tk.dim}>HTTP/2 200</span>
+        {"\n"}
+        <span className={tk.dim}>content-type: text/markdown</span>
+        {"\n\n"}
+        <span className={tk.head}># Introduction</span>
+        {"\n\n"}
+        <span className={tk.directive}>{">"}</span> Learn how to set up your
+        {"\n"}
+        <span className={tk.directive}>{">"}</span> first Livemark project.
+        {"\n\n"}
+        <span className={tk.head}>## What you get</span>
+        {"\n\n"}
+        <span className={tk.dim}>-</span>{" "}
+        <span className={tk.bold}>**Just write Markdown.**</span>
+        {"\n"}
+        {"  "}GitHub-flavored Markdown works…
+      </code>
+    </pre>
   )
 }
 
