@@ -1096,7 +1096,15 @@ function AgentRequest() {
         <span className={tk.dim}>-</span>{" "}
         <span className={tk.bold}>**Just write Markdown.**</span>
         {"\n"}
-        {"  "}GitHub-flavored Markdown works…
+        {"  "}GitHub-flavored Markdown works out
+        {"\n"}
+        {"  "}of the box, with footnotes and gemoji.
+        {"\n\n"}
+        <span className={tk.directive}>:::tip</span>
+        {"\n"}
+        Every page has a twin like this one —{"\n"}
+        list them all at <span className={tk.code}>/llms.txt</span>.{"\n"}
+        <span className={tk.directive}>:::</span>
       </code>
     </pre>
   )
