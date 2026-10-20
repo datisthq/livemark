@@ -60,7 +60,7 @@ Run it with `vp test <path>` and watch it fail.
 
 Load the skill for the area you touch before editing it: `livemark-authoring` for Markdown and
 directives, `livemark-configuration` for config, `livemark-customization` for theming and
-escapes.
+escapes, `livemark-deployment` for build output and hosting.
 
 - Change only what the root cause needs. No drive-by refactors, renames or reformatting of code
   you did not otherwise change.
