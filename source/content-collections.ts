@@ -236,7 +236,7 @@ const articles = defineCollection({
         ],
       },
     )
-    const tocItems = extractToc(content)
+    const tocItems = extractToc(bodyContent)
     const searchText = extractSearchText(content)
     const lastUpdated = lastUpdatedByFile.get(doc._meta.filePath)
     const image = doc.image

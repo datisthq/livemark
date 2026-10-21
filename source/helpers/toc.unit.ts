@@ -60,6 +60,33 @@ describe("extractToc", () => {
     ])
   })
 
+  it("should render link and emphasis headings as plain text", () => {
+    const content =
+      "## [0.6.0](https://github.com/o/r/compare/v0.5.0...v0.6.0) (2026-10-20)\n\n" +
+      "### *Bug* ~~Fixes~~"
+    const toc = extractToc(content)
+    expect(toc).toEqual([
+      { url: "#060-2026-10-20", title: "0.6.0 (2026-10-20)", depth: 2 },
+      { url: "#bug-fixes", title: "Bug Fixes", depth: 3 },
+    ])
+  })
+
+  it("should number duplicate slugs counting hidden and h1 headings", () => {
+    const content =
+      "# Features\n\n## Features [!toc]\n\n## Features\n\n### Features [step]\n\n## Features"
+    const toc = extractToc(content)
+    expect(toc).toEqual([
+      { url: "#features-2", title: "Features", depth: 2 },
+      { url: "#features-4", title: "Features", depth: 2 },
+    ])
+  })
+
+  it("should ignore headings inside code fences", () => {
+    const content = "## Real\n\n```md\n## Fake\n```"
+    const toc = extractToc(content)
+    expect(toc).toEqual([{ url: "#real", title: "Real", depth: 2 }])
+  })
+
   it("should include [toc] headings with annotation stripped from title", () => {
     const content = "## Regular\n\n## TOC Only [toc]\n\n## Another"
     const toc = extractToc(content)
