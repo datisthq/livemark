@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.28.3](https://github.com/datisthq/livemark/compare/v0.28.2...v0.28.3) (2026-10-21)
+
+
+### Bug Fixes
+
+* build the table of contents from parsed headings so linked titles render as text and anchors match ([7040d39](https://github.com/datisthq/livemark/commit/7040d39fe9d50a22ccebbd6b9ec3caf733a5cbd0))
+* give empty code lines their height ([130cda5](https://github.com/datisthq/livemark/commit/130cda5b63c50d9e94777167c524aa02dcc8dd51))
+* match config imports to watcher paths on Windows ([cb403b8](https://github.com/datisthq/livemark/commit/cb403b86ef74bf73dc5d6e9728484fa5fcccbe80))
+* restart the dev server when config imports change and retry a failed start ([ea7a87f](https://github.com/datisthq/livemark/commit/ea7a87ff8f9f875f2139d8963929338056605a7e))
+
 ## [0.28.2](https://github.com/datisthq/livemark/compare/v0.28.1...v0.28.2) (2026-10-20)
 
 
