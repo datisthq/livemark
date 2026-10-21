@@ -44,7 +44,8 @@ export async function loadConfig(path?: string): Promise<Config> {
     // so a dev-server restart would keep their old contents.
     const result = await runnerImport<{ default?: UserConfig }>(resolved)
     input = result.module.default ?? {}
-    configDependencies = result.dependencies
+    // Vite ids use `/` even on Windows, where the watcher reports `\` paths.
+    configDependencies = result.dependencies.map(dependency => resolve(dependency))
   } else if (explicit) {
     throw new Error(`Config file not found: ${resolved}`)
   }
