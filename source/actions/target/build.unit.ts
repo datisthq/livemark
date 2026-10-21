@@ -14,12 +14,35 @@ describe("buildTarget", () => {
 
       const targetDir = buildTarget({ configPath, sourceDir })
 
-      expect(targetDir).toBe(join(root, "project/.livemark/.target"))
+      expect(targetDir).toBe(join(root, "project/.livemark/.serve"))
       expect(read(targetDir, "components/Footer.tsx")).toBe("escaped")
       expect(read(targetDir, "components/Header.tsx")).toBe("default")
       expect(read(targetDir, "head.ts")).toBe("escaped head")
       expect(read(targetDir, "helpers/util.ts")).toBe("util")
       expect(existsSync(join(targetDir, "helpers/util.unit.ts"))).toBe(false)
+    }))
+
+  it("mounts a production build apart from the dev server's target", () =>
+    temporaryDirectoryTask(async root => {
+      const { configPath, sourceDir } = await createFixture(root)
+
+      const targetDir = buildTarget({ configPath, sourceDir, command: "build" })
+
+      expect(targetDir).toBe(join(root, "project/.livemark/.build"))
+      expect(read(targetDir, "routes/index.tsx")).toBe("index")
+      expect(existsSync(targetDirFor(configPath))).toBe(false)
+    }))
+
+  it("ignores itself in git and removes the legacy .target mount", () =>
+    temporaryDirectoryTask(async root => {
+      const { configPath, sourceDir } = await createFixture(root)
+      const legacyDir = join(root, "project/.livemark/.target")
+      await put(join(legacyDir, "routes/index.tsx"), "stale")
+
+      const targetDir = buildTarget({ configPath, sourceDir })
+
+      expect(read(targetDir, ".gitignore")).toBe("*\n")
+      expect(existsSync(legacyDir)).toBe(false)
     }))
 
   it("drops escapes removed since the last run", () =>

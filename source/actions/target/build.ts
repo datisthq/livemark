@@ -1,18 +1,35 @@
-import { cpSync, existsSync, mkdirSync, readlinkSync, rmSync, symlinkSync } from "node:fs"
+import {
+  cpSync,
+  existsSync,
+  mkdirSync,
+  readlinkSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync,
+} from "node:fs"
 import { basename, dirname, join, relative, resolve } from "node:path"
 import { resolveDependencyDir } from "../../helpers/dependency-dir.ts"
+import { removeTargetDir } from "../../helpers/target-dir.ts"
 import { ESCAPABLE_FILES, ESCAPABLE_FOLDERS } from "../../settings.ts"
 
 /**
- * Synthesize the project's Vite mount at `.livemark/.target/`: livemark's `source/` with
- * the project's `.livemark/` escapes copied over it, plus a `node_modules` link to
- * livemark's dependencies. Escapable folders are rebuilt on every run, so a removed escape
- * never keeps rendering. Returns the target dir.
+ * Synthesize the project's Vite mount — `.livemark/.serve/` for the dev server,
+ * `.livemark/.build/` for a production build or preview: livemark's `source/` with the
+ * project's `.livemark/` escapes copied over it, plus a `node_modules` link to livemark's
+ * dependencies. Escapable folders are rebuilt on every run, so a removed escape never
+ * keeps rendering. Returns the target dir.
  */
-export function buildTarget(props: { configPath: string; sourceDir: string }) {
-  const targetDir = targetDirFor(props.configPath)
+export function buildTarget(props: {
+  configPath: string
+  sourceDir: string
+  command?: TargetCommand
+}) {
+  const targetDir = targetDirFor(props.configPath, props.command)
   const overridesRoot = dirname(targetDir)
+  // `.target/` was the mount before `.serve/` and `.build/`; an upgrade must not keep it.
+  removeTargetDir(join(overridesRoot, ".target"))
   mkdirSync(targetDir, { recursive: true })
+  writeFileSync(join(targetDir, ".gitignore"), "*\n")
 
   cpSync(props.sourceDir, targetDir, {
     recursive: true,
@@ -36,9 +53,12 @@ export function buildTarget(props: { configPath: string; sourceDir: string }) {
   return targetDir
 }
 
+/** Which mount a run uses: the dev server's, or the production build's. */
+export type TargetCommand = "serve" | "build"
+
 /** Locate the project's target dir without building it. */
-export function targetDirFor(configPath: string) {
-  return join(dirname(configPath), ".livemark", ".target")
+export function targetDirFor(configPath: string, command: TargetCommand = "serve") {
+  return join(dirname(configPath), ".livemark", `.${command}`)
 }
 
 function isPackageFile(src: string) {

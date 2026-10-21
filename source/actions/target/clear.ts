@@ -1,14 +1,15 @@
-import { rmSync } from "node:fs"
-import { join } from "node:path"
+import { cacheDirFor, removeTargetDir } from "../../helpers/target-dir.ts"
 import { targetDirFor } from "./build.ts"
 
 /**
- * Wipe the project's target dir so the next run rebuilds it from scratch.
+ * Wipe the project's target dirs and cache so the next run rebuilds them from scratch.
  */
 export function clearTarget(configPath: string) {
-  const targetDir = targetDirFor(configPath)
-  // Unlink the dependency link first so the recursive remove cannot reach the store.
-  rmSync(join(targetDir, "node_modules"), { force: true })
-  rmSync(targetDir, { recursive: true, force: true })
-  return targetDir
+  const targetDirs = [
+    targetDirFor(configPath, "serve"),
+    targetDirFor(configPath, "build"),
+    cacheDirFor(configPath),
+  ]
+  for (const targetDir of targetDirs) removeTargetDir(targetDir)
+  return targetDirs
 }

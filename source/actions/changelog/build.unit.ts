@@ -5,7 +5,7 @@ import { describe, expect, it } from "vite-plus/test"
 import { partitionBySection } from "../../helpers/section.ts"
 import { Config } from "../../models/config.ts"
 import type { ChangelogSection } from "../../models/section.ts"
-import { targetDirFor } from "../target/build.ts"
+import { cacheDirFor } from "../../helpers/target-dir.ts"
 import {
   buildChangelog,
   cacheIncludeGlob,
@@ -49,7 +49,7 @@ describe("buildChangelog", () => {
 
         const standardDir = changelogCacheDir(standard, config)
         const pythonDir = changelogCacheDir(python, config)
-        const cacheRoot = join(targetDirFor(configPath), "cache/changelog")
+        const cacheRoot = join(cacheDirFor(configPath), "changelog")
         expect(dirname(standardDir)).toBe(cacheRoot)
         expect(dirname(pythonDir)).toBe(cacheRoot)
         expect(basename(standardDir)).toMatch(/^changelog-[0-9a-f]{8}$/)
@@ -79,7 +79,7 @@ describe("buildChangelog", () => {
           "/python/changelog/0-2-0/",
         ])
       } finally {
-        await rm(targetDirFor(configPath), { recursive: true, force: true })
+        await rm(cacheDirFor(configPath), { recursive: true, force: true })
       }
     }))
 
@@ -114,7 +114,7 @@ describe("buildChangelog", () => {
         expect(await readdir(changelogCacheDir(standard, config))).toEqual(["0-4-0.md"])
         expect(await readdir(changelogCacheDir(python, config))).toEqual(["0-3-0.md"])
       } finally {
-        await rm(targetDirFor(configPath), { recursive: true, force: true })
+        await rm(cacheDirFor(configPath), { recursive: true, force: true })
       }
     }))
 
@@ -150,7 +150,7 @@ describe("buildChangelog", () => {
         expect(await readdir(nestedDir)).toEqual(["0-1-0.md"])
         expect(await readdir(flatDir)).toEqual(["0-2-0.md"])
       } finally {
-        await rm(targetDirFor(configPath), { recursive: true, force: true })
+        await rm(cacheDirFor(configPath), { recursive: true, force: true })
       }
     }))
 })

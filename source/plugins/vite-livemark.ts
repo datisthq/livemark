@@ -42,7 +42,8 @@ const LOCKFILES = [
 const VIRTUAL_ID = "livemark:virtual"
 const VIRTUAL_RESOLVED_ID = `\0${VIRTUAL_ID}`
 
-/** Owns the project's `.livemark/.target/` mount: synthesizes it via
+/** Owns the project's `.livemark/.serve/` mount (`.build/` when building, so a build
+ *  never rewrites a running dev server's files): synthesizes it via
  *  `buildTarget()`, returns the Vite config that anchors there, and
  *  copies `.livemark/` edits (plus livemark's `source/` in its own dev)
  *  into the target. Vite watches the target natively, so its own HMR
@@ -58,6 +59,7 @@ export function livemark(opts: LivemarkOptions): Plugin {
       targetDir = buildTarget({
         configPath: opts.config.configPath,
         sourceDir: SOURCE_DIR,
+        command: env.command === "build" || env.isPreview ? "build" : "serve",
       })
       const base: ViteUserConfig = {
         root: targetDir,
@@ -137,14 +139,22 @@ export function livemark(opts: LivemarkOptions): Plugin {
           return
         }
         if (isWithin(file, targetDir) || isWithin(file, outDir)) return
-        const overlayHit = matchPath(file, overridesRoot)
-        if (overlayHit) {
-          syncOverlay(overlayHit, kind, targetDir, overridesRoot)
-          return
-        }
-        const sourceHit = matchPath(file, SOURCE_DIR)
-        if (sourceHit && !sourceHit.rel.includes("routeTree.gen.ts")) {
-          syncSource(sourceHit, kind, targetDir, overridesRoot)
+        // A watcher callback that throws kills the server, and a copy racing another
+        // writer of the target (an editor's atomic save, `livemark clear`) fails.
+        try {
+          const overlayHit = matchPath(file, overridesRoot)
+          if (overlayHit) {
+            syncOverlay(overlayHit, kind, targetDir, overridesRoot)
+            return
+          }
+          const sourceHit = matchPath(file, SOURCE_DIR)
+          if (sourceHit && !sourceHit.rel.includes("routeTree.gen.ts")) {
+            syncSource(sourceHit, kind, targetDir, overridesRoot)
+          }
+        } catch (error) {
+          server.config.logger.error(`[livemark] failed to sync ${file}: ${error}`, {
+            error: error instanceof Error ? error : undefined,
+          })
         }
       }
     },

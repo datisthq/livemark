@@ -55,7 +55,6 @@ pids
 .vscode/
 .wrangler/
 build/
-.livemark/.target/
 compile/
 dist/
 .astro/

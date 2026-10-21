@@ -80,7 +80,7 @@ export default defineConfig({
 
 - **Article** (default when `type` is omitted): flat docs with a tree sidebar.
 - **Blog** (`type: "blog"`): auto-generated index at `prefix`, sorts by `date`, exposes `/prefix/tags/<tag>/` pages.
-- **Changelog** (`type: "changelog"`): reads `source` file; with `version: true`, splits on semver headings into per-version articles. Several changelog sections may coexist as long as their prefixes differ — each is cached in its own `cache/changelog/<slug-of-prefix>-<hash-of-prefix>/` directory (the hash keeps prefixes that slugify alike, like `/python/changelog/` and `/python-changelog/`, apart), so a version shared by two changelogs never collides. The `(version)` suffix only renders for `position: "header"` sections.
+- **Changelog** (`type: "changelog"`): reads `source` file; with `version: true`, splits on semver headings into per-version articles. Several changelog sections may coexist as long as their prefixes differ — each is cached in its own `.livemark/.cache/changelog/<slug-of-prefix>-<hash-of-prefix>/` directory (the hash keeps prefixes that slugify alike, like `/python/changelog/` and `/python-changelog/`, apart), so a version shared by two changelogs never collides. The `(version)` suffix only renders for `position: "header"` sections.
 
 Shared fields on every section: `title`, `prefix` (keep trailing-slashed), `type`, `icon` (lucide), `position` (`"header"` default, `"sidebar"` also available). Header sections and links never overflow: past the bar's width Search turns icon-only, then the rest fold into a "More" menu.
 

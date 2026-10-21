@@ -23,7 +23,7 @@ npx livemark build     # prerender every route into .livemark/build/client/
 npx livemark preview   # serve that build locally on port 8000
 ```
 
-`.livemark/build/client/` is the **only** directory to publish: an `index.html` per route plus assets, `sitemap.xml`, `robots.txt`, RSS feeds, Markdown twins, `llms.txt` and a `_headers` file. Not `dist/`, and not `.livemark/build/` itself — its `server/` sibling is the prerender bundle, not a site. Gitignore `.livemark/build/` and `.livemark/.target/`; both are regenerated on every build.
+`.livemark/build/client/` is the **only** directory to publish: an `index.html` per route plus assets, `sitemap.xml`, `robots.txt`, RSS feeds, Markdown twins, `llms.txt` and a `_headers` file. Not `dist/`, and not `.livemark/build/` itself — its `server/` sibling is the prerender bundle, not a site. Gitignore `.livemark/build/`; it is regenerated on every build.
 
 ## Config that affects deployment
 

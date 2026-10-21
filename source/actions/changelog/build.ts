@@ -11,7 +11,7 @@ import { visit } from "unist-util-visit"
 import type { Config } from "../../models/config.ts"
 import type { ChangelogSection } from "../../models/section.ts"
 import { isGitHubUrl, parseGitHubRepo } from "../../helpers/changelog-source.ts"
-import { targetDirFor } from "../target/build.ts"
+import { cacheDirFor } from "../../helpers/target-dir.ts"
 
 interface Release {
   tag_name: string
@@ -34,8 +34,6 @@ interface ChangelogEntry {
   sourceUrl?: string
 }
 
-const CACHE_SUBDIR = "cache/changelog"
-
 const parser = unified().use(remarkParse)
 const stringifier = unified().use(remarkStringify, {
   bullet: "-",
@@ -52,7 +50,7 @@ export function cacheIncludeGlob(section: ChangelogSection, config: Config) {
 
 /** Directory holding one changelog section's cache state: the rendered
  *  `.md` entries plus a `meta.json` holding the etag for conditional
- *  GETs. Each section gets its own subdirectory of `cache/changelog/`,
+ *  GETs. Each section gets its own subdirectory of `.livemark/.cache/changelog/`,
  *  keyed by its prefix's slug plus a hash of the raw prefix
  *  (`/python/changelog/` → `python-changelog-<hash>`), so several
  *  changelogs never overwrite each other's entries even when their
@@ -60,7 +58,7 @@ export function cacheIncludeGlob(section: ChangelogSection, config: Config) {
 export function changelogCacheDir(section: ChangelogSection, config: Config) {
   const slug = slugify(section.prefix) || "index"
   const hash = createHash("sha256").update(section.prefix).digest("hex").slice(0, 8)
-  return join(targetDirFor(config.configPath), CACHE_SUBDIR, `${slug}-${hash}`)
+  return join(cacheDirFor(config.configPath), "changelog", `${slug}-${hash}`)
 }
 
 /** Build the per-version changelog cache files of one changelog section
@@ -77,6 +75,7 @@ export async function buildChangelog(section: ChangelogSection, config: Config) 
   if (entries === undefined) return
 
   await mkdir(cacheDir, { recursive: true })
+  await writeFile(join(cacheDirFor(config.configPath), ".gitignore"), "*\n")
   for (const f of await readdir(cacheDir).catch(() => [])) {
     if (f.endsWith(".md")) await rm(join(cacheDir, f), { force: true })
   }

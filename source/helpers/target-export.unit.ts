@@ -3,7 +3,7 @@ import { describe, expect, it } from "vite-plus/test"
 import packageJson from "../../package.json" with { type: "json" }
 import { resolveTargetExport } from "./target-export.ts"
 
-const targetDir = "/project/.livemark/.target"
+const targetDir = "/project/.livemark/.serve"
 
 function resolveId(id: string) {
   return resolveTargetExport({ id, targetDir, exports: packageJson.exports })
