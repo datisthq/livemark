@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.28.4](https://github.com/datisthq/livemark/compare/v0.28.3...v0.28.4) (2026-10-21)
+
+
+### Bug Fixes
+
+* serialize content rebuilds so rapid Markdown edits stop tearing the generated articles ([07b092f](https://github.com/datisthq/livemark/commit/07b092fe8c976d044ad02b7af63bb6d9186aa90c))
+
 ## [0.28.3](https://github.com/datisthq/livemark/compare/v0.28.2...v0.28.3) (2026-10-21)
 
 
