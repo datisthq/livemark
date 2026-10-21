@@ -44,6 +44,11 @@
     @apply px-4;
   }
 
+  /* `code` is a flex column, where an empty line span collapses to no height */
+  .prose pre code .line:empty::before {
+    content: " ";
+  }
+
   .prose pre code .line[data-highlighted] {
     @apply bg-primary/10;
   }
