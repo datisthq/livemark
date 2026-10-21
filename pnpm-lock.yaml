@@ -37,12 +37,12 @@ importers:
       '@content-collections/core':
         specifier: 0.15.3
         version: 0.15.3(typescript@5.9.3)
+      '@content-collections/integrations':
+        specifier: 0.5.0
+        version: 0.5.0(@content-collections/core@0.15.3(typescript@5.9.3))
       '@content-collections/mdx':
         specifier: 0.2.2
         version: 0.2.2(@content-collections/core@0.15.3(typescript@5.9.3))(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(supports-color@10.2.2)
-      '@content-collections/vite':
-        specifier: 0.3.1
-        version: 0.3.1(@content-collections/core@0.15.3(typescript@5.9.3))(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))
       '@orama/orama':
         specifier: ^3.1.18
         version: 3.1.18
@@ -534,12 +534,6 @@ packages:
       '@content-collections/core': 0.x
       react: '>= 18'
       react-dom: '>= 18'
-
-  '@content-collections/vite@0.3.1':
-    resolution: {integrity: sha512-iDVLDAmihnXh1n2U8G/QV9Dd50tbd8IqRz4sYE2IiHte/YHWkQiTFuXLbYzwJz/ogxI8Pay2/vl3cxGWbPOWVg==}
-    peerDependencies:
-      '@content-collections/core': ^0.x
-      vite: ^6 || ^7 || ^8
 
   '@corvu/utils@0.4.2':
     resolution: {integrity: sha512-Ox2kYyxy7NoXdKWdHeDEjZxClwzO4SKM8plAaVwmAJPxHMqA0rLOoAsa+hBDwRLpctf+ZRnAd/ykguuJidnaTA==}
@@ -6564,12 +6558,6 @@ snapshots:
       unified: 11.0.5
     transitivePeerDependencies:
       - supports-color
-
-  '@content-collections/vite@0.3.1(@content-collections/core@0.15.3(typescript@5.9.3))(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))':
-    dependencies:
-      '@content-collections/core': 0.15.3(typescript@5.9.3)
-      '@content-collections/integrations': 0.5.0(@content-collections/core@0.15.3(typescript@5.9.3))
-      vite: '@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)'
 
   '@corvu/utils@0.4.2(solid-js@1.9.17)':
     dependencies:

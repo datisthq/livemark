@@ -1,4 +1,3 @@
-import contentCollections from "@content-collections/vite"
 import tailwind from "@tailwindcss/vite"
 import { devtools } from "@tanstack/devtools-vite"
 import { tanstackStart } from "@tanstack/react-start/plugin/vite"
@@ -7,6 +6,7 @@ import { defineConfig } from "vite"
 import svgr from "vite-plugin-svgr"
 import { loadConfig } from "./actions/config/load.ts"
 import { agents } from "./plugins/vite-agents.ts"
+import { content } from "./plugins/vite-content.ts"
 import { livemark } from "./plugins/vite-livemark.ts"
 import { robots } from "./plugins/vite-robots.ts"
 
@@ -34,7 +34,7 @@ export default defineConfig({
     // any browser error back and forth forever.
     devtools({ consolePiping: { enabled: false } }),
     tailwind(),
-    contentCollections({ configPath: "content-collections.ts" }),
+    content({ configPath: "content-collections.ts", contentDir: config.root }),
     tanstackStart({
       srcDirectory: ".",
       // Seed path must match what the crawler produces (router-emitted
