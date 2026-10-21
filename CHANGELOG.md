@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.28.5](https://github.com/datisthq/livemark/compare/v0.28.4...v0.28.5) (2026-10-21)
+
+
+### Bug Fixes
+
+* keep the dev server alive when a target sync fails and mount builds apart in .livemark/.build ([266dfdf](https://github.com/datisthq/livemark/commit/266dfdf222ae709ca8552cbc53ff45dbe6cfd0f1))
+
 ## [0.28.4](https://github.com/datisthq/livemark/compare/v0.28.3...v0.28.4) (2026-10-21)
 
 
