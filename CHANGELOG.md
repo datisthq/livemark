@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.28.6](https://github.com/datisthq/livemark/compare/v0.28.5...v0.28.6) (2026-10-23)
+
+
+### Bug Fixes
+
+* enable Node's compile cache so the CLI starts faster ([ad85d6d](https://github.com/datisthq/livemark/commit/ad85d6dd0c3dcf0fec162c25c1703d312b23e1a4))
+
 ## [0.28.5](https://github.com/datisthq/livemark/compare/v0.28.4...v0.28.5) (2026-10-21)
 
 
