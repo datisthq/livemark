@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+import { enableCompileCache } from "node:module"
+
+enableCompileCache()
 
 process.removeAllListeners("warning")
 process.on("warning", warning => {
