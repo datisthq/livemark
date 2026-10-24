@@ -83,8 +83,8 @@ function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-border">
       <BackgroundGrid />
-      <div className="relative mx-auto w-full max-w-6xl px-6 py-12 sm:py-20 md:py-28 lg:grid lg:grid-cols-[27rem_minmax(0,1fr)] lg:items-center lg:gap-14">
-        <div className="animate-in fade-in-0 slide-in-from-bottom-4 duration-700 ease-out">
+      <div className="relative mx-auto w-full max-w-6xl px-6 py-12 sm:py-20 md:py-28 lg:pt-8 lg:pb-14 lg:grid lg:grid-cols-[27rem_minmax(0,1fr)] lg:items-center lg:gap-14">
+        <div className="lg:self-start lg:pt-16 animate-in fade-in-0 slide-in-from-bottom-4 duration-700 ease-out">
           <p className="text-primary text-xs font-semibold tracking-[0.18em] uppercase">
             Beautiful out of the box
           </p>
@@ -388,7 +388,7 @@ function HeroCarousel(props: { slides: Slide[] }) {
           ))}
         </div>
       </figure>
-      <div className="mt-4 grid grid-cols-1 lg:absolute lg:top-[55%] lg:-left-10 lg:mt-0 lg:w-[22rem]">
+      <div className="mt-4 grid grid-cols-1 lg:absolute lg:-bottom-10 lg:-left-10 lg:mt-0 lg:w-[24rem]">
         {props.slides.map((slide, index) => (
           <div
             key={slide.id}
