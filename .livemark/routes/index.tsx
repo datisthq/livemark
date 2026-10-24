@@ -89,6 +89,8 @@ function Hero() {
             For TypeScript
           </p>
           <h1 className="mt-5 text-[2rem] font-semibold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-5xl">
+            Beautiful
+            <br />
             Markdown sites,
             <br />
             <span className="box-decoration-clone bg-linear-to-r from-primary/20 to-primary/20 bg-size-[100%_0.3em] bg-position-[0_88%] bg-no-repeat">
