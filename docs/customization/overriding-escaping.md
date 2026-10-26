@@ -6,7 +6,7 @@ order: 10
 path: /customization/overriding-escaping/
 ---
 
-# Overriding/Escaping
+# Escaping to Override Components
 
 Livemark ships a library of React components, shadcn-style primitives, and a base stylesheet. Each file can be overridden by placing a same-named file under `.livemark/`:
 
