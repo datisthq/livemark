@@ -42,18 +42,18 @@ Callouts/admonitions: VitePress uses `::: tip` / `::: warning` containers (same 
 
 ## Feature matrix
 
-| Capability                  | Livemark                              | VitePress                             |
-| --------------------------- | ------------------------------------- | ------------------------------------- |
-| Versioning                  | No                                    | No (community workarounds)            |
-| Internationalization (i18n) | No                                    | Yes (built-in)                        |
-| Search                      | Yes (Orama, client-side)              | Yes (local + Algolia)                 |
-| Blog                        | Yes (built-in section type)           | No (community plugins)                |
-| Changelog                   | Yes (section type)                    | No                                    |
-| Sitemap                     | Yes                                   | Yes                                   |
-| RSS                         | Yes (per blog section)                | No                                    |
-| Themes                      | Component overrides via `.livemark/`  | Custom themes via `.vitepress/theme/` |
-| Plugins                     | Vite plugins + remark/rehype          | Vite plugins + markdown-it plugins    |
-| Custom routes               | `.livemark/routes/` (TanStack Router) | Dynamic routes via `paths()`          |
+| Capability                  | Livemark                                 | VitePress                             |
+| --------------------------- | ---------------------------------------- | ------------------------------------- |
+| Versioning                  | Partial (sections or per-branch deploys) | No (community workarounds)            |
+| Internationalization (i18n) | No                                       | Yes (built-in)                        |
+| Search                      | Yes (Orama, client-side)                 | Yes (local + Algolia)                 |
+| Blog                        | Yes (built-in section type)              | No (community plugins)                |
+| Changelog                   | Yes (section type)                       | No                                    |
+| Sitemap                     | Yes                                      | Yes                                   |
+| RSS                         | Yes (per blog section)                   | No                                    |
+| Themes                      | Component overrides via `.livemark/`     | Custom themes via `.vitepress/theme/` |
+| Plugins                     | Vite plugins + remark/rehype             | Vite plugins + markdown-it plugins    |
+| Custom routes               | `.livemark/routes/` (TanStack Router)    | Dynamic routes via `paths()`          |
 
 ## Output & deployment
 

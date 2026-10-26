@@ -44,19 +44,19 @@ Frontmatter shape differs: Fumadocs uses `title`, `description`, `icon`, `full`.
 
 ## Feature matrix
 
-| Capability                  | Livemark                              | Fumadocs                                     |
-| --------------------------- | ------------------------------------- | -------------------------------------------- |
-| Versioning                  | No                                    | Partial (via separate content sources)       |
-| Internationalization (i18n) | No                                    | Yes (built-in)                               |
-| Search                      | Yes (Orama, client-side)              | Yes (Orama-based, optional Algolia)          |
-| OpenAPI rendering           | No                                    | Yes (`fumadocs-openapi`)                     |
-| Blog                        | Yes (built-in section type)           | No (use Next routes)                         |
-| Changelog                   | Yes (section type)                    | No                                           |
-| Sitemap                     | Yes                                   | Via Next.js `sitemap.ts`                     |
-| RSS                         | Yes (per blog section)                | Via Next.js routes                           |
-| Themes                      | Component overrides via `.livemark/`  | Swap `fumadocs-ui` or override per-component |
-| Custom routes               | `.livemark/routes/` (TanStack Router) | Any Next App Router page                     |
-| Standalone CLI              | Yes (`livemark build`)                | No (Next.js commands)                        |
+| Capability                  | Livemark                                 | Fumadocs                                     |
+| --------------------------- | ---------------------------------------- | -------------------------------------------- |
+| Versioning                  | Partial (sections or per-branch deploys) | Partial (via separate content sources)       |
+| Internationalization (i18n) | No                                       | Yes (built-in)                               |
+| Search                      | Yes (Orama, client-side)                 | Yes (Orama-based, optional Algolia)          |
+| OpenAPI rendering           | No                                       | Yes (`fumadocs-openapi`)                     |
+| Blog                        | Yes (built-in section type)              | No (use Next routes)                         |
+| Changelog                   | Yes (section type)                       | No                                           |
+| Sitemap                     | Yes                                      | Via Next.js `sitemap.ts`                     |
+| RSS                         | Yes (per blog section)                   | Via Next.js routes                           |
+| Themes                      | Component overrides via `.livemark/`     | Swap `fumadocs-ui` or override per-component |
+| Custom routes               | `.livemark/routes/` (TanStack Router)    | Any Next App Router page                     |
+| Standalone CLI              | Yes (`livemark build`)                   | No (Next.js commands)                        |
 
 ## Output & deployment
 

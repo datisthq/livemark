@@ -44,19 +44,19 @@ Frontmatter shape differs: Starlight uses `title`, `description`, `sidebar`, `ta
 
 ## Feature matrix
 
-| Capability                  | Livemark                              | Starlight                               |
-| --------------------------- | ------------------------------------- | --------------------------------------- |
-| Versioning                  | No                                    | No (community plugins)                  |
-| Internationalization (i18n) | No                                    | Yes (built-in)                          |
-| Search                      | Yes (Orama, client-side)              | Yes (Pagefind, built-in)                |
-| Zero-JS by default          | No (React hydrates)                   | Yes (islands architecture)              |
-| Blog                        | Yes (built-in section type)           | No (use Astro's content collections)    |
-| Changelog                   | Yes (section type)                    | No                                      |
-| Sitemap                     | Yes                                   | Yes                                     |
-| RSS                         | Yes (per blog section)                | Via `@astrojs/rss` integration          |
-| Themes                      | Component overrides via `.livemark/`  | Component overrides via Starlight slots |
-| Plugins                     | Vite plugins + remark/rehype          | Astro integrations + Starlight plugins  |
-| Custom routes               | `.livemark/routes/` (TanStack Router) | Astro pages alongside Starlight content |
+| Capability                  | Livemark                                 | Starlight                               |
+| --------------------------- | ---------------------------------------- | --------------------------------------- |
+| Versioning                  | Partial (sections or per-branch deploys) | No (community plugins)                  |
+| Internationalization (i18n) | No                                       | Yes (built-in)                          |
+| Search                      | Yes (Orama, client-side)                 | Yes (Pagefind, built-in)                |
+| Zero-JS by default          | No (React hydrates)                      | Yes (islands architecture)              |
+| Blog                        | Yes (built-in section type)              | No (use Astro's content collections)    |
+| Changelog                   | Yes (section type)                       | No                                      |
+| Sitemap                     | Yes                                      | Yes                                     |
+| RSS                         | Yes (per blog section)                   | Via `@astrojs/rss` integration          |
+| Themes                      | Component overrides via `.livemark/`     | Component overrides via Starlight slots |
+| Plugins                     | Vite plugins + remark/rehype             | Astro integrations + Starlight plugins  |
+| Custom routes               | `.livemark/routes/` (TanStack Router)    | Astro pages alongside Starlight content |
 
 ## Output & deployment
 

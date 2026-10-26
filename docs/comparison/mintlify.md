@@ -42,20 +42,20 @@ Mintlify's `mint.json` configures navigation, branding, and integrations in one 
 
 ## Feature matrix
 
-| Capability                  | Livemark                             | Mintlify                   |
-| --------------------------- | ------------------------------------ | -------------------------- |
-| Versioning                  | No                                   | Yes (built-in)             |
-| Internationalization (i18n) | No                                   | Yes (built-in)             |
-| Search                      | Yes (Orama, client-side)             | Yes (built-in, AI-powered) |
-| AI chat / agents            | No                                   | Yes (built-in)             |
-| Analytics                   | No (bring your own)                  | Yes (built-in dashboard)   |
-| OpenAPI rendering           | No                                   | Yes (built-in)             |
-| Blog                        | Yes (built-in section type)          | Yes (changelog/news pages) |
-| Sitemap                     | Yes                                  | Yes                        |
-| RSS                         | Yes (per blog section)               | Yes (changelog feeds)      |
-| Themes                      | Component overrides via `.livemark/` | Theming via `mint.json`    |
-| Custom routes               | `.livemark/routes/`                  | No (content-only)          |
-| Self-host                   | Yes                                  | No                         |
+| Capability                  | Livemark                                 | Mintlify                   |
+| --------------------------- | ---------------------------------------- | -------------------------- |
+| Versioning                  | Partial (sections or per-branch deploys) | Yes (built-in)             |
+| Internationalization (i18n) | No                                       | Yes (built-in)             |
+| Search                      | Yes (Orama, client-side)                 | Yes (built-in, AI-powered) |
+| AI chat / agents            | No                                       | Yes (built-in)             |
+| Analytics                   | No (bring your own)                      | Yes (built-in dashboard)   |
+| OpenAPI rendering           | No                                       | Yes (built-in)             |
+| Blog                        | Yes (built-in section type)              | Yes (changelog/news pages) |
+| Sitemap                     | Yes                                      | Yes                        |
+| RSS                         | Yes (per blog section)                   | Yes (changelog feeds)      |
+| Themes                      | Component overrides via `.livemark/`     | Theming via `mint.json`    |
+| Custom routes               | `.livemark/routes/`                      | No (content-only)          |
+| Self-host                   | Yes                                      | No                         |
 
 ## Output & deployment
 

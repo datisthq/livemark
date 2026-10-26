@@ -42,18 +42,18 @@ Frontmatter shape differs: Nextra uses `title`, `description`, `searchable`, `hi
 
 ## Feature matrix
 
-| Capability                  | Livemark                              | Nextra                                               |
-| --------------------------- | ------------------------------------- | ---------------------------------------------------- |
-| Versioning                  | No                                    | No (community workarounds)                           |
-| Internationalization (i18n) | No                                    | Yes (via Next i18n + Nextra hooks)                   |
-| Search                      | Yes (Orama, client-side)              | Yes (FlexSearch built-in, optional Algolia/Pagefind) |
-| Blog                        | Yes (built-in section type)           | Yes (`nextra-theme-blog`)                            |
-| Changelog                   | Yes (section type)                    | No (community plugins)                               |
-| Sitemap                     | Yes                                   | Via Next.js `sitemap.ts`                             |
-| RSS                         | Yes (per blog section)                | Yes (blog theme), via Next routes for docs           |
-| Themes                      | Component overrides via `.livemark/`  | Theme packages; customize via theme config           |
-| Custom routes               | `.livemark/routes/` (TanStack Router) | Any Next page/route                                  |
-| Standalone CLI              | Yes (`livemark build`)                | No (Next.js commands)                                |
+| Capability                  | Livemark                                 | Nextra                                               |
+| --------------------------- | ---------------------------------------- | ---------------------------------------------------- |
+| Versioning                  | Partial (sections or per-branch deploys) | No (community workarounds)                           |
+| Internationalization (i18n) | No                                       | Yes (via Next i18n + Nextra hooks)                   |
+| Search                      | Yes (Orama, client-side)                 | Yes (FlexSearch built-in, optional Algolia/Pagefind) |
+| Blog                        | Yes (built-in section type)              | Yes (`nextra-theme-blog`)                            |
+| Changelog                   | Yes (section type)                       | No (community plugins)                               |
+| Sitemap                     | Yes                                      | Via Next.js `sitemap.ts`                             |
+| RSS                         | Yes (per blog section)                   | Yes (blog theme), via Next routes for docs           |
+| Themes                      | Component overrides via `.livemark/`     | Theme packages; customize via theme config           |
+| Custom routes               | `.livemark/routes/` (TanStack Router)    | Any Next page/route                                  |
+| Standalone CLI              | Yes (`livemark build`)                   | No (Next.js commands)                                |
 
 ## Output & deployment
 

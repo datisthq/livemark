@@ -47,3 +47,7 @@ Author new pages in `.livemark/routes/` alongside your markdown.
 :::card{title="AI Agents" href="/customization/ai-agents/" icon="bot"}
 Markdown twins, `llms.txt`, content signals, and agent skills for AI agents.
 :::
+
+:::card{title="Versioning" href="/customization/versioning/" icon="git-branch"}
+Publish docs for several releases with a section or a deploy per version.
+:::

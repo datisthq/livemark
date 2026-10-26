@@ -42,19 +42,19 @@ Frontmatter shape differs: MkDocs reads `title`, `summary`, `tags` (with a plugi
 
 ## Feature matrix
 
-| Capability                  | Livemark                              | MkDocs (Material)                   |
-| --------------------------- | ------------------------------------- | ----------------------------------- |
-| Versioning                  | No                                    | Yes (via `mike` plugin)             |
-| Internationalization (i18n) | No                                    | Yes (Material's i18n plugin)        |
-| Search                      | Yes (Orama, client-side)              | Yes (built-in, client-side)         |
-| Blog                        | Yes (built-in section type)           | Yes (Material's blog plugin)        |
-| Changelog                   | Yes (section type)                    | No (manual)                         |
-| Sitemap                     | Yes                                   | Yes                                 |
-| RSS                         | Yes (per blog section)                | Via plugin                          |
-| Themes                      | Component overrides via `.livemark/`  | Theme packages + Jinja overrides    |
-| Plugins                     | Vite plugins + remark/rehype          | Python plugins (`mkdocs-*` on PyPI) |
-| Custom routes               | `.livemark/routes/` (TanStack Router) | No (content-only)                   |
-| Standalone toolchain        | Node + npm                            | Python + pip                        |
+| Capability                  | Livemark                                 | MkDocs (Material)                   |
+| --------------------------- | ---------------------------------------- | ----------------------------------- |
+| Versioning                  | Partial (sections or per-branch deploys) | Yes (via `mike` plugin)             |
+| Internationalization (i18n) | No                                       | Yes (Material's i18n plugin)        |
+| Search                      | Yes (Orama, client-side)                 | Yes (built-in, client-side)         |
+| Blog                        | Yes (built-in section type)              | Yes (Material's blog plugin)        |
+| Changelog                   | Yes (section type)                       | No (manual)                         |
+| Sitemap                     | Yes                                      | Yes                                 |
+| RSS                         | Yes (per blog section)                   | Via plugin                          |
+| Themes                      | Component overrides via `.livemark/`     | Theme packages + Jinja overrides    |
+| Plugins                     | Vite plugins + remark/rehype             | Python plugins (`mkdocs-*` on PyPI) |
+| Custom routes               | `.livemark/routes/` (TanStack Router)    | No (content-only)                   |
+| Standalone toolchain        | Node + npm                               | Python + pip                        |
 
 ## Output & deployment
 

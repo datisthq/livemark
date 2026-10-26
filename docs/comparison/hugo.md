@@ -44,20 +44,20 @@ Frontmatter shape differs: Hugo accepts TOML, YAML, or JSON frontmatter with fie
 
 ## Feature matrix
 
-| Capability                  | Livemark                              | Hugo                                      |
-| --------------------------- | ------------------------------------- | ----------------------------------------- |
-| Versioning                  | No                                    | No (manual via branches/sites)            |
-| Internationalization (i18n) | No                                    | Yes (built-in, multilingual mode)         |
-| Search                      | Yes (Orama, client-side)              | No (theme-provided or external)           |
-| Blog                        | Yes (built-in section type)           | Yes (any section can be date-sorted)      |
-| Changelog                   | Yes (section type)                    | No (manual)                               |
-| Sitemap                     | Yes                                   | Yes (built-in)                            |
-| RSS                         | Yes (per blog section)                | Yes (built-in, per section)               |
-| Themes                      | Component overrides via `.livemark/`  | Theme directories with template overrides |
-| Plugins                     | Vite plugins + remark/rehype          | Hugo Modules (Go), shortcodes, hooks      |
-| Custom routes               | `.livemark/routes/` (TanStack Router) | Layouts + content sections                |
-| Standalone toolchain        | Node + npm                            | Single Go binary                          |
-| Build speed                 | Vite-fast                             | Among the fastest SSGs                    |
+| Capability                  | Livemark                                 | Hugo                                      |
+| --------------------------- | ---------------------------------------- | ----------------------------------------- |
+| Versioning                  | Partial (sections or per-branch deploys) | No (manual via branches/sites)            |
+| Internationalization (i18n) | No                                       | Yes (built-in, multilingual mode)         |
+| Search                      | Yes (Orama, client-side)                 | No (theme-provided or external)           |
+| Blog                        | Yes (built-in section type)              | Yes (any section can be date-sorted)      |
+| Changelog                   | Yes (section type)                       | No (manual)                               |
+| Sitemap                     | Yes                                      | Yes (built-in)                            |
+| RSS                         | Yes (per blog section)                   | Yes (built-in, per section)               |
+| Themes                      | Component overrides via `.livemark/`     | Theme directories with template overrides |
+| Plugins                     | Vite plugins + remark/rehype             | Hugo Modules (Go), shortcodes, hooks      |
+| Custom routes               | `.livemark/routes/` (TanStack Router)    | Layouts + content sections                |
+| Standalone toolchain        | Node + npm                               | Single Go binary                          |
+| Build speed                 | Vite-fast                                | Among the fastest SSGs                    |
 
 ## Output & deployment
 

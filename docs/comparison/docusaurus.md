@@ -42,7 +42,7 @@ Frontmatter shape differs: Livemark uses `path`, `order`, `icon`, `sidebar`, `da
 
 | Capability                  | Livemark                                      | Docusaurus                             |
 | --------------------------- | --------------------------------------------- | -------------------------------------- |
-| Versioning                  | No                                            | Yes (built-in)                         |
+| Versioning                  | Partial (sections or per-branch deploys)      | Yes (built-in)                         |
 | Internationalization (i18n) | No                                            | Yes (built-in)                         |
 | Search                      | Yes (Orama, client-side)                      | Algolia DocSearch integration          |
 | Blog                        | Yes (built-in section type)                   | Yes (built-in plugin)                  |

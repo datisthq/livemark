@@ -40,19 +40,19 @@ Livemark accepts Markdown + MDX with full React component embedding, frontmatter
 
 ## Feature matrix
 
-| Capability                  | Livemark                              | Docsify                                      |
-| --------------------------- | ------------------------------------- | -------------------------------------------- |
-| Versioning                  | No                                    | Yes (multi-instance via `alias` config)      |
-| Internationalization (i18n) | No                                    | Yes (`fallbackLanguages` + per-locale files) |
-| Search                      | Yes (Orama, client-side)              | Yes (built-in full-text plugin)              |
-| Blog                        | Yes (built-in section type)           | No                                           |
-| Changelog                   | Yes (section type)                    | No (manual)                                  |
-| Sitemap                     | Yes                                   | No (third-party plugin)                      |
-| RSS                         | Yes (per blog section)                | No                                           |
-| Themes                      | Component overrides via `.livemark/`  | CSS themes (`vue.css`, `buble.css`, etc.)    |
-| Plugins                     | Vite plugins + remark/rehype          | Runtime JS plugins on `window.$docsify`      |
-| Custom routes               | `.livemark/routes/` (TanStack Router) | No (URL maps 1:1 to file paths)              |
-| Standalone toolchain        | Node + npm                            | None at runtime; `docsify-cli` for init only |
+| Capability                  | Livemark                                 | Docsify                                      |
+| --------------------------- | ---------------------------------------- | -------------------------------------------- |
+| Versioning                  | Partial (sections or per-branch deploys) | Yes (multi-instance via `alias` config)      |
+| Internationalization (i18n) | No                                       | Yes (`fallbackLanguages` + per-locale files) |
+| Search                      | Yes (Orama, client-side)                 | Yes (built-in full-text plugin)              |
+| Blog                        | Yes (built-in section type)              | No                                           |
+| Changelog                   | Yes (section type)                       | No (manual)                                  |
+| Sitemap                     | Yes                                      | No (third-party plugin)                      |
+| RSS                         | Yes (per blog section)                   | No                                           |
+| Themes                      | Component overrides via `.livemark/`     | CSS themes (`vue.css`, `buble.css`, etc.)    |
+| Plugins                     | Vite plugins + remark/rehype             | Runtime JS plugins on `window.$docsify`      |
+| Custom routes               | `.livemark/routes/` (TanStack Router)    | No (URL maps 1:1 to file paths)              |
+| Standalone toolchain        | Node + npm                               | None at runtime; `docsify-cli` for init only |
 
 ## Output & deployment
 
