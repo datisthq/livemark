@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './../.livemark/routes/index'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as SectionRssDotxmlRouteImport } from './routes/$section.rss[.]xml'
+import { Route as EsIndexRouteImport } from './../.livemark/routes/es/index'
 import { Route as LanguageSectionRssDotxmlRouteImport } from './routes/$language.$section.rss[.]xml'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +30,11 @@ const SectionRssDotxmlRoute = SectionRssDotxmlRouteImport.update({
   path: '/$section/rss.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EsIndexRoute = EsIndexRouteImport.update({
+  id: '/es/',
+  path: '/es/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LanguageSectionRssDotxmlRoute =
   LanguageSectionRssDotxmlRouteImport.update({
     id: '/$language/$section/rss.xml',
@@ -40,12 +46,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/$section/rss.xml': typeof SectionRssDotxmlRoute
+  '/es/': typeof EsIndexRoute
   '/$language/$section/rss.xml': typeof LanguageSectionRssDotxmlRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/$section/rss.xml': typeof SectionRssDotxmlRoute
+  '/es': typeof EsIndexRoute
   '/$language/$section/rss.xml': typeof LanguageSectionRssDotxmlRoute
 }
 export interface FileRoutesById {
@@ -53,18 +61,21 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/$section/rss.xml': typeof SectionRssDotxmlRoute
+  '/es/': typeof EsIndexRoute
   '/$language/$section/rss.xml': typeof LanguageSectionRssDotxmlRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/$' | '/$section/rss.xml' | '/$language/$section/rss.xml'
+  fullPaths:
+    '/' | '/$' | '/$section/rss.xml' | '/es/' | '/$language/$section/rss.xml'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/$' | '/$section/rss.xml' | '/$language/$section/rss.xml'
+  to: '/' | '/$' | '/$section/rss.xml' | '/es' | '/$language/$section/rss.xml'
   id:
     | '__root__'
     | '/'
     | '/$'
     | '/$section/rss.xml'
+    | '/es/'
     | '/$language/$section/rss.xml'
   fileRoutesById: FileRoutesById
 }
@@ -72,6 +83,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SplatRoute: typeof SplatRoute
   SectionRssDotxmlRoute: typeof SectionRssDotxmlRoute
+  EsIndexRoute: typeof EsIndexRoute
   LanguageSectionRssDotxmlRoute: typeof LanguageSectionRssDotxmlRoute
 }
 
@@ -98,6 +110,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SectionRssDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/es/': {
+      id: '/es/'
+      path: '/es'
+      fullPath: '/es/'
+      preLoaderRoute: typeof EsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$language/$section/rss.xml': {
       id: '/$language/$section/rss.xml'
       path: '/$language/$section/rss.xml'
@@ -112,6 +131,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SplatRoute: SplatRoute,
   SectionRssDotxmlRoute: SectionRssDotxmlRoute,
+  EsIndexRoute: EsIndexRoute,
   LanguageSectionRssDotxmlRoute: LanguageSectionRssDotxmlRoute,
 }
 export const routeTree = rootRouteImport
