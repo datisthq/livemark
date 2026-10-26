@@ -17,6 +17,7 @@ export const fr: Messages = {
   "nav.releases": "Versions",
   "nav.posts": "Articles",
   "nav.tags": "Tags",
+  "nav.breadcrumbs": "Fil d'Ariane",
   "language.choose": "Choisir la langue",
   "language.untranslated": "Pas encore traduit",
   "theme.change": "Changer de thème",

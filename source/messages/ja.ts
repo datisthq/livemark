@@ -17,6 +17,7 @@ export const ja: Messages = {
   "nav.releases": "リリース",
   "nav.posts": "投稿",
   "nav.tags": "タグ",
+  "nav.breadcrumbs": "パンくずリスト",
   "language.choose": "言語を選択",
   "language.untranslated": "未翻訳",
   "theme.change": "テーマを変更",

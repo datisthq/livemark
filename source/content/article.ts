@@ -9,6 +9,7 @@ import {
   compareArticleOrder,
   flattenArticleTree,
 } from "../helpers/article.ts"
+import { buildBreadcrumbs } from "../helpers/breadcrumbs.ts"
 import { matchSection } from "../helpers/section.ts"
 import { matchSite } from "../helpers/site.ts"
 
@@ -113,6 +114,22 @@ export function currentSection(path: string) {
   const sections = routedSections(matchSite(path, sites))
   if (!sections.length) return undefined
   return matchSection(path, sections)
+}
+
+/** The folders above an article in its language, each named by its section or by the
+ *  article at its path — an untranslated one keeping its default-language path. */
+export function listBreadcrumbs(path: string) {
+  const site = matchSite(path, sites)
+  const home = site.language.prefix
+  const sections = routedSections(site)
+  const entries = languageEntries.get(site.language.code) ?? []
+  return buildBreadcrumbs(path, home, folder => {
+    const section = sections.find(s => s.prefix === folder)
+    if (section) return { title: section.title, path: section.prefix }
+    const key = `/${folder.slice(home.length)}`
+    const entry = entries.find(e => e.key === key)
+    return entry && { title: entry.label ?? entry.title, path: entry.path }
+  })
 }
 
 /** The site whose language a path is in */

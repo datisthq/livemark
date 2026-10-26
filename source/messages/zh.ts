@@ -17,6 +17,7 @@ export const zh: Messages = {
   "nav.releases": "版本",
   "nav.posts": "文章",
   "nav.tags": "标签",
+  "nav.breadcrumbs": "面包屑导航",
   "language.choose": "选择语言",
   "language.untranslated": "尚未翻译",
   "theme.change": "切换主题",

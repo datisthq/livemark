@@ -37,6 +37,7 @@ path: /getting-started/ # default: slugified filename + leading/trailing slashes
 language: es # multi-language sites only; default: `.<code>.md` suffix, else the default language
 sidebar: true # false hides from nav but keeps URL reachable
 toc: true # false suppresses right-hand TOC
+breadcrumbs: false # hides the trail above the title; default: config `breadcrumbs`, else true
 image: ./cover.png # og:image (needs `site`); relative resolves against the file
 author: Ada Lovelace # or [Ada Lovelace, Grace Hopper]
 date: 2026-04-20 # ISO — drives blog section sort order

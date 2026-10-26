@@ -37,11 +37,12 @@ Identity and presentation of the article.
 
 How the article shows up in the left-hand navigation.
 
-| Field     | Type      | Default                 | Purpose                                                        |
-| --------- | --------- | ----------------------- | -------------------------------------------------------------- |
-| `order`   | `number`  | — (unordered, mid-sort) | Sort position. See "Ordering rules" below.                     |
-| `sidebar` | `boolean` | `true`                  | If false, the article is reachable by URL but hidden from nav. |
-| `toc`     | `boolean` | `true`                  | If false, suppresses the right-hand table of contents.         |
+| Field         | Type      | Default                 | Purpose                                                                                     |
+| ------------- | --------- | ----------------------- | ------------------------------------------------------------------------------------------- |
+| `order`       | `number`  | — (unordered, mid-sort) | Sort position. See "Ordering rules" below.                                                  |
+| `sidebar`     | `boolean` | `true`                  | If false, the article is reachable by URL but hidden from nav.                              |
+| `toc`         | `boolean` | `true`                  | If false, suppresses the right-hand table of contents.                                      |
+| `breadcrumbs` | `boolean` | config `breadcrumbs`    | If false, hides the trail above the title; true shows it even when the config turns it off. |
 
 ### Ordering rules
 

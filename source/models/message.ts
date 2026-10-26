@@ -19,6 +19,7 @@ export const Messages = z.strictObject({
   "nav.releases": z.string().default("Releases"),
   "nav.posts": z.string().default("Posts"),
   "nav.tags": z.string().default("Tags"),
+  "nav.breadcrumbs": z.string().default("Breadcrumbs"),
   "language.choose": z.string().default("Choose language"),
   "language.untranslated": z.string().default("Not translated yet"),
   "theme.change": z.string().default("Change theme"),

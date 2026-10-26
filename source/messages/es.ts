@@ -17,6 +17,7 @@ export const es: Messages = {
   "nav.releases": "Versiones",
   "nav.posts": "Entradas",
   "nav.tags": "Etiquetas",
+  "nav.breadcrumbs": "Ruta de navegación",
   "language.choose": "Elegir idioma",
   "language.untranslated": "Aún sin traducir",
   "theme.change": "Cambiar tema",

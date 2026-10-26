@@ -15,6 +15,7 @@ export const Article = z.object({
   language: nonEmptyString.optional(),
   sidebar: z.boolean().default(true),
   toc: z.boolean().default(true),
+  breadcrumbs: z.boolean().optional(),
   image: nonEmptyString.optional(),
   author: z.union([nonEmptyString, z.array(nonEmptyString)]).optional(),
   date: nonEmptyString.optional(),
@@ -34,6 +35,7 @@ export interface ArticleView {
   mdx: string
   tocItems: TocItem[]
   toc?: boolean
+  breadcrumbs?: boolean
   lastUpdated?: string
   sidebar?: boolean
   image?: string

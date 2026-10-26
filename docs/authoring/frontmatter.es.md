@@ -37,11 +37,12 @@ Identidad y presentación del artículo.
 
 Cómo aparece el artículo en la navegación de la izquierda.
 
-| Campo     | Tipo      | Valor por defecto          | Propósito                                                                      |
-| --------- | --------- | -------------------------- | ------------------------------------------------------------------------------ |
-| `order`   | `number`  | — (sin orden, en el medio) | Posición de orden. Consulta "Reglas de orden" más abajo.                       |
-| `sidebar` | `boolean` | `true`                     | Si es false, el artículo es accesible por URL pero se oculta de la navegación. |
-| `toc`     | `boolean` | `true`                     | Si es false, oculta el índice de la derecha.                                   |
+| Campo         | Tipo      | Valor por defecto                 | Propósito                                                                                          |
+| ------------- | --------- | --------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `order`       | `number`  | — (sin orden, en el medio)        | Posición de orden. Consulta "Reglas de orden" más abajo.                                           |
+| `sidebar`     | `boolean` | `true`                            | Si es false, el artículo es accesible por URL pero se oculta de la navegación.                     |
+| `toc`         | `boolean` | `true`                            | Si es false, oculta el índice de la derecha.                                                       |
+| `breadcrumbs` | `boolean` | `breadcrumbs` de la configuración | Si es false, oculta la ruta sobre el título; true la muestra aunque la configuración la desactive. |
 
 ### Reglas de orden [#ordering-rules]
 

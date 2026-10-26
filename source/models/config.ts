@@ -66,6 +66,7 @@ export const UserConfig = z.object({
   title: Localized.default("Livemark"),
   description: Localized.default("Markdown site generator"),
   banner: Localized.optional(),
+  breadcrumbs: z.boolean().optional(),
   include: z.union([z.string(), z.array(z.string())]).default("**/*.md"),
   exclude: z.union([z.string(), z.array(z.string())]).optional(),
   codeThemeLight: CodeThemeLight.default("catppuccin-latte"),
@@ -98,6 +99,7 @@ export const WebsiteConfig = UserConfig.pick({
   favicon: true,
   logo: true,
   head: true,
+  breadcrumbs: true,
 }).extend({
   title: z.string(),
   description: z.string(),

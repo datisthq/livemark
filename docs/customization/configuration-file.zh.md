@@ -39,6 +39,7 @@ export default defineConfig({})
 | `favicon`        | `string`                                           | favicon 图片的路径，相对于项目根目录。                                          |
 | `logo`           | `string`                                           | 顶栏中使用的 logo 图片路径（未设置时回退到 favicon）。                          |
 | `banner`         | `string`                                           | 显示在顶栏上方横条中的行内 Markdown 公告。                                      |
+| `breadcrumbs`    | `boolean`                                          | 在每篇文章标题上方显示文件夹层级的面包屑导航。默认：`true`。                    |
 | `codeThemeLight` | Shiki 主题名                                       | 浅色模式的语法主题。默认：`"catppuccin-latte"`。                                |
 | `codeThemeDark`  | Shiki 主题名                                       | 深色模式的语法主题。默认：`"catppuccin-mocha"`。                                |
 | `sections`       | [`Section[]`](/zh/customization/article-sections/) | 将内容拆分为文档 / 博客 / 更新日志，各自拥有 URL 前缀。                         |

@@ -39,6 +39,7 @@ Cada campo tiene un valor por defecto razonable. El conjunto completo:
 | `favicon`        | `string`                                           | Ruta a una imagen de favicon, relativa a la raíz del proyecto.                                          |
 | `logo`           | `string`                                           | Ruta a una imagen de logo usada en la cabecera (si falta, se usa el favicon).                           |
 | `banner`         | `string`                                           | Anuncio en Markdown en línea mostrado en una franja sobre la cabecera.                                  |
+| `breadcrumbs`    | `boolean`                                          | Muestra la ruta de carpetas sobre el título de cada artículo. Por defecto: `true`.                      |
 | `codeThemeLight` | Nombre de tema de Shiki                            | Tema de sintaxis del modo claro. Por defecto: `"catppuccin-latte"`.                                     |
 | `codeThemeDark`  | Nombre de tema de Shiki                            | Tema de sintaxis del modo oscuro. Por defecto: `"catppuccin-mocha"`.                                    |
 | `sections`       | [`Section[]`](/es/customization/article-sections/) | Divide el contenido en Docs / Blog / registro de cambios, cada uno con su prefijo de URL.               |

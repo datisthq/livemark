@@ -17,6 +17,7 @@ export const de: Messages = {
   "nav.releases": "Versionen",
   "nav.posts": "Beiträge",
   "nav.tags": "Tags",
+  "nav.breadcrumbs": "Brotkrümelnavigation",
   "language.choose": "Sprache wählen",
   "language.untranslated": "Noch nicht übersetzt",
   "theme.change": "Design ändern",

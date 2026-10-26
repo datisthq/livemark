@@ -17,6 +17,7 @@ export const ru: Messages = {
   "nav.releases": "Релизы",
   "nav.posts": "Записи",
   "nav.tags": "Теги",
+  "nav.breadcrumbs": "Навигационная цепочка",
   "language.choose": "Выбрать язык",
   "language.untranslated": "Ещё не переведено",
   "theme.change": "Сменить тему",

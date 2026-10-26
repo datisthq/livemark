@@ -39,6 +39,7 @@ Every field falls back to a sensible default. The full set:
 | `favicon`        | `string`                                        | Path to a favicon image, relative to project root.                                    |
 | `logo`           | `string`                                        | Path to a logo image used in the header (falls back to favicon).                      |
 | `banner`         | `string`                                        | Inline Markdown announcement shown in a strip above the header.                       |
+| `breadcrumbs`    | `boolean`                                       | Show the trail of folders above each article's title. Default: `true`.                |
 | `codeThemeLight` | Shiki theme name                                | Light-mode syntax theme. Default: `"catppuccin-latte"`.                               |
 | `codeThemeDark`  | Shiki theme name                                | Dark-mode syntax theme. Default: `"catppuccin-mocha"`.                                |
 | `sections`       | [`Section[]`](/customization/article-sections/) | Split content into Docs / Blog / Changelog with their own URL prefixes.               |

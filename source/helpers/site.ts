@@ -67,6 +67,7 @@ export type SiteSource = Pick<
   | "title"
   | "description"
   | "banner"
+  | "breadcrumbs"
   | "links"
   | "sections"
   | "languages"
@@ -206,6 +207,7 @@ function buildSiteConfig(
     favicon: config.favicon,
     logo: config.logo,
     head: config.head,
+    breadcrumbs: config.breadcrumbs,
     base: config.base,
     title: localize(config.title),
     description: localize(config.description),
