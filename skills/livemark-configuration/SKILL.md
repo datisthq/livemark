@@ -86,6 +86,8 @@ Shared fields on every section: `title`, `prefix` (keep trailing-slashed), `type
 
 Article-to-section matching is longest-prefix-wins on the article's URL `path`.
 
+Versioned docs have no dedicated option. For a few versions on one branch, give each older version an article section (`{ title: "v1", prefix: "/v1/", siteTitle: "Acme v1" }`) and its articles `path`s under that prefix — search stays site-wide, so results mix versions. For majors on their own branches, deploy each branch as its own site (`base`, `banner` pointing to latest) and link them with a `custom` section.
+
 ## Links
 
 ```ts
