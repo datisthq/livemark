@@ -83,11 +83,14 @@ export const Route = createFileRoute("/$")({
   head: ({ loaderData, params }) => {
     const path = params._splat ? `/${params._splat}/` : "/"
     const site = currentSite(path)
+    // A changelog copy in another language points search engines at the original.
+    const source = loaderData && "source" in loaderData ? loaderData.source : undefined
     return buildPageHead({
       config: site.config,
       path,
+      canonicalPath: source,
       language: sites.length > 1 ? site.language : undefined,
-      alternates: sites.length > 1 ? listTranslations(path) : undefined,
+      alternates: sites.length > 1 && !source ? listTranslations(path) : undefined,
       title: loaderData?.title,
       description:
         loaderData && "description" in loaderData ? loaderData.description : undefined,

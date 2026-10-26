@@ -220,9 +220,9 @@ function buildSiteConfig(
       title: localize(section.title),
       siteTitle: localizeOptional(section.siteTitle),
       siteDescription: localizeOptional(section.siteDescription),
-      ...(section.type === "article" || section.type === "blog"
-        ? { prefix: localizePath(section.prefix, language) }
-        : {}),
+      ...(section.type === "custom"
+        ? {}
+        : { prefix: localizePath(section.prefix, language) }),
     })),
   })
 }

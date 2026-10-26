@@ -117,7 +117,7 @@ Default `position` is `"header"`. Use `prefix` to scope a sidebar link to a sing
 ```
 
 - Localizable: `title`, `description`, `banner`, section `title` / `siteTitle` / `siteDescription`, link `title`. A missing code falls back to the default language's value.
-- Article and blog sections are mirrored per language (`/blog/` → `/es/blog/`); changelogs are shared. A section `prefix` starting with a non-default code (`/es/…`) is rejected.
+- Every routed section is mirrored per language (`/blog/` → `/es/blog/`). A changelog mirror (`/es/changelog/<v>/`) shows the default-language notes in the translated page, with its canonical pointing at the original. A section `prefix` starting with a non-default code (`/es/…`) is rejected.
 - `messages` keys are checked against `models/message.ts`; a typo fails the config load. de, es, fr, ja, ru and zh ship bundled and apply by `locale` (defaults to `code`).
 - The header picker shows a flag per language: `flag` (two-letter country code) overrides the default taken from the locale's region, else the language (`en` → `gb`).
 - Without `languages` the site is one implicit English language — output is unchanged.

@@ -57,10 +57,12 @@ export function buildRootHead(props: {
 
 /** A page's own `<head>` tags. With `language` set (a multi-language site) it adds
  *  `og:locale`, an `hreflang` link per entry in `alternates`, and — outside the default
- *  language — the language's site name and description in place of the root's. */
+ *  language — the language's site name and description in place of the root's.
+ *  `canonicalPath` names another page as the original of this one. */
 export function buildPageHead(props: {
   config: WebsiteConfig
   path: string
+  canonicalPath?: string
   language?: SiteLanguage
   alternates?: { language: SiteLanguage; path: string }[]
   title?: string
@@ -72,7 +74,8 @@ export function buildPageHead(props: {
   const localized = props.language && !props.language.default
   const description =
     props.description ?? (localized ? props.config.description : undefined)
-  const url = site ? buildAbsoluteUrl(site, props.config.base, props.path) : undefined
+  const canonical = props.canonicalPath ?? props.path
+  const url = site ? buildAbsoluteUrl(site, props.config.base, canonical) : undefined
   const image =
     site && props.image
       ? buildAbsoluteUrl(site, props.config.base, props.image)
@@ -104,7 +107,7 @@ export function buildPageHead(props: {
             {
               rel: "alternate",
               type: "text/markdown",
-              href: prefixUrl(`${props.path}index.md`, props.config.base),
+              href: prefixUrl(`${canonical}index.md`, props.config.base),
             },
           ]
         : []),

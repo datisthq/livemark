@@ -73,7 +73,7 @@ sections: [
 ]
 ```
 
-Las secciones de artículos y de blog se replican para cada idioma: el sitio en español obtiene `/es/` y `/es/blog/`, cada una con su propia barra lateral, etiquetas y feed RSS. Las secciones de registro de cambios se comparten entre todos los idiomas. El prefijo de una sección no puede empezar por el código de un idioma: `/es/` del ejemplo está reservado para el español.
+Las secciones de artículos y de blog se replican para cada idioma: el sitio en español obtiene `/es/` y `/es/blog/`, cada una con su propia barra lateral, etiquetas y feed RSS. Las secciones de registro de cambios también se replican, en `/es/changelog/`: la página que rodea cada versión está en español, mientras que las notas de la versión se mantienen tal como están en el archivo del registro y señalan la página en inglés como canónica. El prefijo de una sección no puede empezar por el código de un idioma: `/es/` del ejemplo está reservado para el español.
 
 ## Páginas sin traducir [#untranslated-pages]
 

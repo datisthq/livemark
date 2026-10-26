@@ -27,6 +27,7 @@ export const Article = z.object({
 export interface ArticleView {
   path: string
   language?: string
+  contentLanguage?: string
   title: string
   content: string
   file: string

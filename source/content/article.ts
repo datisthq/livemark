@@ -12,18 +12,23 @@ import {
 import { matchSection } from "../helpers/section.ts"
 import { localizePath, matchSite, unlocalizePath } from "../helpers/site.ts"
 
-type Entry = (typeof articles)[number] & { untranslated?: boolean }
+type Entry = (typeof articles)[number] & { untranslated?: boolean; source?: string }
 
 const [defaultSite] = sites
+const defaultSections = routedSections(defaultSite)
 
 /**
  * Articles sorted by frontmatter `order`:
  * positive values first (ascending), then unordered, then negative values
  * (so `order: -1` lands at the very end, `-2` just before it, and so on).
  */
-export const sortedArticles = [...articles].sort(compareArticleOrder)
+export const sortedArticles: Entry[] = [...articles, ...mirrorChangelogs()].sort(
+  compareArticleOrder,
+)
 
 const articlePaths = new Set(sortedArticles.map(a => a.path))
+// A changelog copy names its original as canonical, so it is never offered as an alternate.
+const mirrorPaths = new Set(sortedArticles.filter(a => a.source).map(a => a.path))
 
 /** Per-language sorted articles plus the default-language ones it lacks, marked
  *  `untranslated` and keeping their default-language path. */
@@ -62,8 +67,6 @@ export const sectionFlatArticles = new Map<string, string[]>()
 /** Per-section first article path, keyed by section prefix */
 export const sectionFirstArticle = new Map<string, string | undefined>()
 
-const defaultSections = routedSections(defaultSite)
-
 for (const site of sites) {
   const sections = routedSections(site)
   if (!sections.length) continue
@@ -74,8 +77,6 @@ for (const site of sites) {
     const matched = matchSection(entry.key, defaultSections)
     const section = matched ? sections[defaultSections.indexOf(matched)] : undefined
     const key = section?.prefix ?? "__default__"
-    // Changelogs are shared by every language; the default site owns their bucket.
-    if (section?.type === "changelog" && !site.language.default) continue
     buckets.set(key, [...(buckets.get(key) ?? []), entry])
   }
   for (const [key, bucket] of buckets) {
@@ -96,10 +97,12 @@ for (const site of sites) {
  *  page loads: on the client that fetches the article's own chunk. */
 export async function loadArticle(path: string) {
   const article = sortedArticles.find(a => a.path === path)
-  const load = bodies[path]
+  const load = bodies[article?.source ?? path]
   if (!article || !load) return undefined
   const body = await load()
-  return { ...article, ...body.default }
+  // A changelog entry shown in another language keeps its notes in the default one.
+  const contentLanguage = article.source ? defaultSite.language.locale : undefined
+  return { ...article, ...body.default, contentLanguage }
 }
 
 /** Find which routed config section an article path belongs to, in the
@@ -130,6 +133,7 @@ export function listTranslations(path: string) {
   const key = unlocalizePath(path, currentSite(path).language)
   return sites.flatMap(site => {
     const candidate = localizePath(key, site.language)
+    if (mirrorPaths.has(candidate)) return []
     const exists =
       articlePaths.has(candidate) ||
       candidate === site.language.prefix ||
@@ -144,6 +148,29 @@ export function languageFirstArticle(site: Site) {
   return (
     sectionFirstArticle.get(prefix) ?? languageFlatArticles.get(site.language.code)?.[0]
   )
+}
+
+/** Every non-default language's copy of the changelog entries, under its own prefix:
+ *  the page around the notes is translated, the notes stay as written. Each copy
+ *  names the entry it shows as `source`, whose body it loads. */
+function mirrorChangelogs(): Entry[] {
+  return sites.flatMap(site => {
+    if (site.language.default) return []
+    const sections = routedSections(site)
+    return defaultSections.flatMap((section, index) => {
+      const mirror = sections[index]
+      if (section.type !== "changelog" || !mirror) return []
+      return articles
+        .filter(a => a.language === defaultSite.language.code)
+        .filter(a => a.path.startsWith(section.prefix))
+        .map(a => ({
+          ...a,
+          path: mirror.prefix + a.path.slice(section.prefix.length),
+          language: site.language.code,
+          source: a.path,
+        }))
+    })
+  })
 }
 
 function collectEntries(site: Site): Entry[] {

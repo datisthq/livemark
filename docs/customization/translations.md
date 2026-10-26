@@ -73,7 +73,7 @@ sections: [
 ]
 ```
 
-Article and blog sections are mirrored for every language: the Spanish site gets `/es/` and `/es/blog/`, each with its own sidebar, tags and RSS feed. Changelog sections are shared by all languages. A section prefix may not start with a language's code — `/es/` above is reserved for Spanish.
+Article and blog sections are mirrored for every language: the Spanish site gets `/es/` and `/es/blog/`, each with its own sidebar, tags and RSS feed. Changelog sections are mirrored too, at `/es/changelog/`: the page around each release is in Spanish, while the release notes stay as written in the changelog file and name the English page as canonical. A section prefix may not start with a language's code — `/es/` above is reserved for Spanish.
 
 ## Untranslated pages
 

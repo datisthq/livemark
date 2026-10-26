@@ -38,7 +38,9 @@ export function useArticleSearch() {
     await insertMultiple(
       db,
       sortedArticles
-        .filter(a => a.language === language)
+        // A changelog copy repeats the default language's notes, which that language's
+        // search text does not carry.
+        .filter(a => a.language === language && !a.source)
         .map(a => ({
           // Orama keeps a document's own `id`, so a hit leads back to its article.
           id: a.path,

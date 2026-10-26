@@ -153,4 +153,22 @@ describe("buildPageHead", () => {
     expect(head.meta.some(m => "property" in m && m.property === "og:locale")).toBe(false)
     expect(head.meta.some(m => "name" in m && m.name === "description")).toBe(false)
   })
+
+  it("points canonical and the Markdown twin at canonicalPath", () => {
+    const head = buildPageHead({
+      config: { ...config, site: "https://x.dev" },
+      path: "/es/changelog/1-0-0/",
+      canonicalPath: "/changelog/1-0-0/",
+      isArticle: true,
+    })
+    expect(head.links).toContainEqual({
+      rel: "canonical",
+      href: "https://x.dev/changelog/1-0-0/",
+    })
+    expect(head.links).toContainEqual({
+      rel: "alternate",
+      type: "text/markdown",
+      href: "/changelog/1-0-0/index.md",
+    })
+  })
 })

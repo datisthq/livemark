@@ -77,7 +77,11 @@ export function Article(props: { article: ArticleView; highlight?: string }) {
       )}
       <div className="flex flex-1 gap-10 p-4 pt-8 md:p-10">
         <div className="flex-1 min-w-0 mx-auto max-w-3xl">
-          <div ref={prose} className="prose dark:prose-invert max-w-none">
+          <div
+            ref={prose}
+            lang={article.contentLanguage}
+            className="prose dark:prose-invert max-w-none"
+          >
             <h1 id="top">
               <a href="#top">{article.title}</a>
             </h1>

@@ -179,7 +179,7 @@ describe("buildSites", () => {
     const spanish = sites[1]?.config
     expect(spanish?.title).toBe("Documentos")
     expect(spanish?.sections?.map(s => (s.type === "custom" ? s.url : s.prefix))).toEqual(
-      ["/es/", "/es/blog/", "/changelog/", "https://github.com"],
+      ["/es/", "/es/blog/", "/es/changelog/", "https://github.com"],
     )
     expect(spanish?.sections?.[0]?.title).toBe("Guía")
   })
