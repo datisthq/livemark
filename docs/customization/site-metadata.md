@@ -60,7 +60,7 @@ banner: "Livemark is in technical preview · [Share feedback →](https://github
 ```
 
 - Absolute links open in a new tab; root-relative links get your `base` prefix.
-- Raw HTML tags are dropped. For icons or custom markup, escape `components/Banner.tsx` instead ([Overriding/Escaping](/customization/overriding-escaping/)).
+- Raw HTML tags are dropped. For icons or custom markup, escape `components/Banner.tsx` instead ([Escaping](/customization/overriding-escaping/)).
 - The strip uses the `--banner` and `--banner-foreground` color tokens.
 
 ## Per-page tags

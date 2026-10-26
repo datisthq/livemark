@@ -48,7 +48,7 @@ Publish the site in several languages with a language picker.
 Publish docs for several releases with a section or a deploy per version.
 :::
 
-:::card{title="Overriding/Escaping" href="/customization/overriding-escaping/" icon="file-pen-line"}
+:::card{title="Escaping" href="/customization/overriding-escaping/" icon="file-pen-line"}
 Shadow any Livemark component, element, or stylesheet via `.livemark/`.
 :::
 
