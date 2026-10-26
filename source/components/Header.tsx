@@ -50,8 +50,8 @@ export function Header(props: { toggle?: React.ReactNode; menu?: React.ReactNode
       />
       <div className="ml-auto flex shrink-0 items-center gap-1 pr-2 lg:pr-1">
         <Search compact={compactSearch} />
-        <LanguagePicker />
         <Theme />
+        <LanguagePicker />
         <div className="lg:hidden">{props.menu ?? <HeaderMenu />}</div>
       </div>
     </header>

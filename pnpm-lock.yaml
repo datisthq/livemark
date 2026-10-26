@@ -115,6 +115,9 @@ importers:
       commander:
         specifier: 15.0.0
         version: 15.0.0
+      country-flag-icons:
+        specifier: 1.6.20
+        version: 1.6.20
       embla-carousel-react:
         specifier: 8.6.0
         version: 8.6.0(react@19.3.0)
@@ -265,7 +268,7 @@ importers:
         version: 1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3)(esbuild@0.25.12)(jiti@2.7.0)(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)
       vitest:
         specifier: 'catalog:'
-        version: 5.0.3(@types/node@24.19.2)(@vitest/browser-preview@5.0.3)(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3(vitest@5.0.3))(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))
+        version: 5.0.3(@types/node@24.19.2)(@vitest/browser-preview@5.0.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))(vitest@5.0.3))(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3)(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))
       wrangler:
         specifier: 4.149.0
         version: 4.149.0(@types/node@24.19.2)
@@ -3525,6 +3528,9 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
+
+  country-flag-icons@1.6.20:
+    resolution: {integrity: sha512-py8JiEKzjhYw6HPJ0L7SxLgCYim36UPRTZX43/kqGueUCZLSvnrqAiwW8HtQibur7mdkFQUkjOgdK+o/9FBtaw==}
 
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
@@ -8625,7 +8631,7 @@ snapshots:
       '@testing-library/dom': 10.4.1
       '@testing-library/user-event': 14.6.7(@testing-library/dom@10.4.1)
       '@vitest/browser': 5.0.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))(vitest@5.0.3)
-      vitest: 5.0.3(@types/node@24.19.2)(@vitest/browser-preview@5.0.3)(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3(vitest@5.0.3))(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))
+      vitest: 5.0.3(@types/node@24.19.2)(@vitest/browser-preview@5.0.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))(vitest@5.0.3))(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3)(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))
     transitivePeerDependencies:
       - bufferutil
       - msw
@@ -8642,7 +8648,7 @@ snapshots:
       pngjs: 7.0.0
       sirv: 3.0.2
       tinyrainbow: 3.2.0
-      vitest: 5.0.3(@types/node@24.19.2)(@vitest/browser-preview@5.0.3)(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3(vitest@5.0.3))(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))
+      vitest: 5.0.3(@types/node@24.19.2)(@vitest/browser-preview@5.0.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))(vitest@5.0.3))(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3)(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))
       ws: 8.22.0
     transitivePeerDependencies:
       - bufferutil
@@ -8660,7 +8666,7 @@ snapshots:
       obug: 2.2.1
       std-env: 4.3.0
       tinyrainbow: 3.2.0
-      vitest: 5.0.3(@types/node@24.19.2)(@vitest/browser-preview@5.0.3)(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3(vitest@5.0.3))(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))
+      vitest: 5.0.3(@types/node@24.19.2)(@vitest/browser-preview@5.0.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))(vitest@5.0.3))(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3)(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))
     optionalDependencies:
       '@vitest/browser': 5.0.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))(vitest@5.0.3)
 
@@ -8701,7 +8707,7 @@ snapshots:
       pathe: 2.0.3
       sirv: 3.0.2
       tinyrainbow: 3.2.0
-      vitest: 5.0.3(@types/node@24.19.2)(@vitest/browser-preview@5.0.3)(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3(vitest@5.0.3))(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))
+      vitest: 5.0.3(@types/node@24.19.2)(@vitest/browser-preview@5.0.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))(vitest@5.0.3))(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3)(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))
 
   '@vitest/utils@5.0.3':
     dependencies:
@@ -9092,6 +9098,8 @@ snapshots:
       path-type: 4.0.0
     optionalDependencies:
       typescript: 5.9.3
+
+  country-flag-icons@1.6.20: {}
 
   cross-spawn@7.0.6:
     dependencies:
@@ -12246,7 +12254,7 @@ snapshots:
       oxlint: 1.87.0(oxlint-tsgolint@7.0.2003)(vite-plus@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3)(esbuild@0.25.12)(jiti@2.7.0)(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))
       oxlint-tsgolint: 7.0.2003
       vite: '@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)'
-      vitest: 5.0.3(@types/node@24.19.2)(@vitest/browser-preview@5.0.3)(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3(vitest@5.0.3))(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))
+      vitest: 5.0.3(@types/node@24.19.2)(@vitest/browser-preview@5.0.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))(vitest@5.0.3))(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3)(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))
     optionalDependencies:
       '@voidzero-dev/vite-plus-darwin-arm64': 1.1.0
       '@voidzero-dev/vite-plus-darwin-x64': 1.1.0
@@ -12294,7 +12302,7 @@ snapshots:
     optionalDependencies:
       vite: '@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1)'
 
-  vitest@5.0.3(@types/node@24.19.2)(@vitest/browser-preview@5.0.3)(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3(vitest@5.0.3))(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3)):
+  vitest@5.0.3(@types/node@24.19.2)(@vitest/browser-preview@5.0.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))(vitest@5.0.3))(@vitest/coverage-v8@5.0.3)(@vitest/ui@5.0.3)(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3)):
     dependencies:
       '@types/chai': 5.2.3
       '@vitest/mocker': 5.0.3(@voidzero-dev/vite-plus-core@1.1.0(@types/node@24.19.2)(@typescript/native-preview@7.0.0-dev.20260707.2)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.1))(msw@2.13.6(@types/node@24.19.2)(typescript@5.9.3))

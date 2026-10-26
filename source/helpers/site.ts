@@ -23,6 +23,37 @@ const RTL_LANGUAGES = new Set([
   "ur",
   "yi",
 ])
+const LANGUAGE_FLAGS: Record<string, string> = {
+  ar: "sa",
+  cs: "cz",
+  da: "dk",
+  de: "de",
+  el: "gr",
+  en: "gb",
+  es: "es",
+  fa: "ir",
+  fi: "fi",
+  fr: "fr",
+  he: "il",
+  hi: "in",
+  hu: "hu",
+  id: "id",
+  it: "it",
+  ja: "jp",
+  ko: "kr",
+  nb: "no",
+  nl: "nl",
+  pl: "pl",
+  pt: "pt",
+  ro: "ro",
+  ru: "ru",
+  sv: "se",
+  th: "th",
+  tr: "tr",
+  uk: "ua",
+  vi: "vn",
+  zh: "cn",
+}
 const IMPLICIT_LANGUAGE: Language = { code: "en", label: "English" }
 
 /** The parsed config fields a site is built from. */
@@ -156,6 +187,7 @@ function resolveLanguage(language: Language, isDefault: boolean): SiteLanguage {
     label: language.label,
     locale,
     dir: language.dir ?? (RTL_LANGUAGES.has(primarySubtag(locale)) ? "rtl" : "ltr"),
+    flag: language.flag ?? defaultFlag(locale),
     prefix: isDefault ? "/" : `/${language.code}/`,
     default: isDefault,
   }
@@ -198,6 +230,14 @@ function buildSiteConfig(
 function buildMessages(language: SiteLanguage, overrides: Language["messages"]) {
   const bundled = BUNDLED_MESSAGES[primarySubtag(language.locale)]
   return Messages.parse({ ...bundled, ...overrides })
+}
+
+// A language is flagged by a country: the locale's region when it names one
+// (`pt-BR` → Brazil), else the country most associated with the language.
+function defaultFlag(locale: string) {
+  const [, ...subtags] = locale.split("-")
+  const region = subtags.find(subtag => /^[A-Za-z]{2}$/.test(subtag))
+  return region?.toLowerCase() ?? LANGUAGE_FLAGS[primarySubtag(locale)]
 }
 
 function primarySubtag(locale: string) {

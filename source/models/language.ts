@@ -13,6 +13,10 @@ export const Language = z.object({
   label: nonEmptyString,
   locale: nonEmptyString.optional(),
   dir: z.enum(["ltr", "rtl"]).optional(),
+  flag: z
+    .string()
+    .regex(/^[a-z]{2}$/, "use a two-letter country code like `gb`")
+    .optional(),
   messages: MessageOverrides.optional(),
 })
 
@@ -23,6 +27,7 @@ export const SiteLanguage = z.object({
   label: z.string(),
   locale: z.string(),
   dir: z.enum(["ltr", "rtl"]),
+  flag: z.string().optional(),
   prefix: z.string(),
   default: z.boolean(),
 })

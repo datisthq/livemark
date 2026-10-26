@@ -42,6 +42,17 @@ describe("resolveLanguages", () => {
     expect(findLanguage("ar").dir).toBe("rtl")
   })
 
+  it("flags a language by its locale's region, else by the language", () => {
+    const [english, brazilian, custom] = resolveLanguages([
+      { code: "en", label: "English" },
+      { code: "pt", label: "Português", locale: "pt-BR" },
+      { code: "xx", label: "Custom", flag: "ch" },
+    ])
+    expect(english.flag).toBe("gb")
+    expect(brazilian?.flag).toBe("br")
+    expect(custom?.flag).toBe("ch")
+  })
+
   it("falls back to one implicit English language", () => {
     expect(resolveLanguages(undefined)).toEqual([
       {
@@ -49,6 +60,7 @@ describe("resolveLanguages", () => {
         label: "English",
         locale: "en",
         dir: "ltr",
+        flag: "gb",
         prefix: "/",
         default: true,
       },

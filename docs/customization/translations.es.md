@@ -45,7 +45,10 @@ Después coloca cada traducción junto a su original, con el código de idioma a
 | `label`    | `string`            | —                   | Nombre mostrado en el selector de idioma.                         |
 | `locale`   | `string`            | `code`              | Etiqueta BCP 47 para `<html lang>`, `hreflang` y las fechas.      |
 | `dir`      | `"ltr" \| "rtl"`    | según el locale     | Dirección del texto; árabe, hebreo, persa, urdu y otros son rtl.  |
+| `flag`     | `string`            | según el locale     | Código de país de dos letras de la bandera del selector (`br`).   |
 | `messages` | `Partial<Messages>` | traducción incluida | Sobrescrituras de cadenas individuales de la interfaz.            |
+
+El selector de la cabecera muestra la bandera de cada idioma. Por defecto se toma de la región del locale (`pt-BR` → Brasil) o, si no la tiene, del país más ligado al idioma (`en` → Reino Unido); usa `flag` para elegir otra. Un país sin bandera incluida en Livemark no muestra ninguna.
 
 Sin `languages`, un sitio se comporta exactamente como antes: un único idioma, inglés, en `/`.
 

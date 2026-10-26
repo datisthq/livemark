@@ -45,7 +45,10 @@ Then put a translation next to its original, with the language code before the e
 | `label`    | `string`            | —                   | Name shown in the language picker.                                |
 | `locale`   | `string`            | `code`              | BCP 47 tag for `<html lang>`, `hreflang` and dates.               |
 | `dir`      | `"ltr" \| "rtl"`    | from the locale     | Text direction; Arabic, Hebrew, Persian, Urdu and others are rtl. |
+| `flag`     | `string`            | from the locale     | Two-letter country code of the flag in the picker (e.g. `br`).    |
 | `messages` | `Partial<Messages>` | bundled translation | Overrides for single UI strings.                                  |
+
+The picker in the header shows each language's flag. It defaults to the locale's region (`pt-BR` → Brazil), else the country most tied to the language (`en` → United Kingdom); set `flag` to pick another. A country Livemark does not bundle a flag for shows no flag.
 
 Without `languages`, a site behaves exactly as before: one English language at `/`.
 
