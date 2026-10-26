@@ -61,7 +61,7 @@ export function Sidebar(props: { withSidebar?: boolean }) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="pb-8">
         {picking && section ? (
           <SidebarSectionPicker
             section={section}
