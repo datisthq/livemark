@@ -3,7 +3,7 @@ title: AI Agents
 description: Serve Markdown, llms.txt, content signals and agent skills to AI agents.
 path: /customization/ai-agents/
 icon: bot
-order: 9
+order: 11
 ---
 
 # AI Agents

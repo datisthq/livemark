@@ -2,7 +2,7 @@
 description: Publish your docs in several languages with one config.
 path: /customization/translations/
 icon: languages
-order: 4
+order: 8
 ---
 
 # Translations

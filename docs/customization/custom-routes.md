@@ -3,7 +3,7 @@ title: Custom Routes
 description: Author new pages in .livemark/routes/ alongside your markdown content.
 path: /customization/custom-routes/
 icon: route
-order: 8
+order: 7
 ---
 
 # Custom Routes

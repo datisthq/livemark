@@ -3,7 +3,7 @@ title: Syntax Themes
 description: Pick light and dark themes for fenced code blocks.
 path: /customization/syntax-themes/
 icon: palette
-order: 7
+order: 6
 ---
 
 # Syntax Themes

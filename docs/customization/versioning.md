@@ -3,7 +3,7 @@ title: Versioning
 description: Publish docs for several releases side by side with sections or separate deploys.
 path: /customization/versioning/
 icon: git-branch
-order: 10
+order: 9
 ---
 
 # Versioning

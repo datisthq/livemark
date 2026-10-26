@@ -1,7 +1,7 @@
 ---
 description: Shadow any livemark component, element, or stylesheet by dropping a same-named file into .livemark/.
 icon: file-pen-line
-order: -1
+order: 10
 path: /customization/overriding-escaping/
 ---
 

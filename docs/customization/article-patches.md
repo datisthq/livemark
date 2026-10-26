@@ -2,7 +2,7 @@
 description: Override article frontmatter from your config, without touching the file.
 path: /customization/article-patches/
 icon: pencil-ruler
-order: 5
+order: 4
 ---
 
 # Article Patches

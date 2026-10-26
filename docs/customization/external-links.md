@@ -2,7 +2,7 @@
 description: Add external URLs to the header or the sidebar.
 path: /customization/external-links/
 icon: external-link
-order: 6
+order: 5
 ---
 
 # External Links
