@@ -7,9 +7,11 @@ import {
   useRouter,
 } from "@tanstack/react-router"
 import { buttonVariants } from "../elements/button.tsx"
+import { useMessages } from "../hooks/site.ts"
 
 export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
   const router = useRouter()
+  const t = useMessages()
   const isRoot = useMatch({
     strict: false,
     select: state => state.id === rootRouteId,
@@ -28,11 +30,11 @@ export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
           }}
           className={buttonVariants({ size: "lg" })}
         >
-          Try Again
+          {t("error.tryAgain")}
         </button>
         {isRoot ? (
           <Link to="/" className={buttonVariants({ variant: "outline", size: "lg" })}>
-            Home
+            {t("error.home")}
           </Link>
         ) : (
           <Link
@@ -43,7 +45,7 @@ export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
               window.history.back()
             }}
           >
-            Go Back
+            {t("error.goBack")}
           </Link>
         )}
       </div>

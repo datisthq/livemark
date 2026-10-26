@@ -52,10 +52,19 @@ import { collectFenceLanguages } from "./helpers/fence-languages.ts"
 import { extractSearchText } from "./helpers/search-text.ts"
 import { stripLeadingH1 } from "./helpers/llms.ts"
 import { extractToc } from "./helpers/toc.ts"
+import {
+  buildSites,
+  detectLanguage,
+  localizeArticlePath,
+  resolveLanguages,
+} from "./helpers/site.ts"
 
 const config = await loadConfig()
 
-const changelogSections = config.sections?.filter(s => s.type === "changelog") ?? []
+const [defaultSite] = buildSites(config)
+const languages = resolveLanguages(config.languages)
+const changelogSections =
+  defaultSite.config.sections?.filter(s => s.type === "changelog") ?? []
 for (const section of changelogSections) {
   await buildChangelog(section, config)
 }
@@ -83,8 +92,7 @@ const exclude = [...defaultExclude, ...userExclude]
 const baseDir = resolve(import.meta.dirname, "../..")
 const directory = relative(baseDir, config.root) || "."
 
-function toPath(filePath: string) {
-  const name = basename(filePath).replace(/\.\w+$/, "")
+function toPath(name: string) {
   return slugify(name)
 }
 
@@ -147,7 +155,13 @@ const articles = defineCollection({
     const content = await resolveIncludes(doc.content, filePath)
     const title = doc.title ?? extractTitle(content, doc._meta.path)
     const icon = doc.icon
-    const path = doc.path ?? toPath(doc._meta.filePath)
+    const detected = detectLanguage({
+      file: basename(doc._meta.filePath),
+      language: doc.language,
+      languages,
+    })
+    const key = doc.path ?? toPath(detected.name)
+    const path = localizeArticlePath(key, detected.language)
     // The article's h1 is rendered from `title` by the layout, so strip any
     // leading h1 in the body to avoid two h1s side-by-side (especially when
     // a content patch overrides the title to something different from the
@@ -250,6 +264,8 @@ const articles = defineCollection({
       title,
       icon,
       path,
+      key,
+      language: detected.language.code,
       tocItems,
       searchText,
       mdx,

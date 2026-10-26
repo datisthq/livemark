@@ -45,7 +45,7 @@ Mintlify's `mint.json` configures navigation, branding, and integrations in one 
 | Capability                  | Livemark                                 | Mintlify                   |
 | --------------------------- | ---------------------------------------- | -------------------------- |
 | Versioning                  | Partial (sections or per-branch deploys) | Yes (built-in)             |
-| Internationalization (i18n) | No                                       | Yes (built-in)             |
+| Internationalization (i18n) | Yes (built-in)                           | Yes (built-in)             |
 | Search                      | Yes (Orama, client-side)                 | Yes (built-in, AI-powered) |
 | AI chat / agents            | No                                       | Yes (built-in)             |
 | Analytics                   | No (bring your own)                      | Yes (built-in dashboard)   |

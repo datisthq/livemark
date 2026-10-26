@@ -55,9 +55,10 @@ This lets you pin "Getting Started" at the top (`order: 1`) and "FAQ" at the bot
 
 ## URL
 
-| Field  | Type     | Default                                   | Purpose                                                  |
-| ------ | -------- | ----------------------------------------- | -------------------------------------------------------- |
-| `path` | `string` | Slugified filename under the project root | Override the URL slug. Include leading/trailing slashes. |
+| Field      | Type     | Default                                             | Purpose                                                                          |
+| ---------- | -------- | --------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `path`     | `string` | Slugified filename under the project root           | Override the URL slug. Include leading/trailing slashes.                         |
+| `language` | `string` | `.<code>.md` file suffix, else the default language | The article's language on a [multi-language site](/customization/translations/). |
 
 ## Overriding without editing
 

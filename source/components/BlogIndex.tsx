@@ -6,14 +6,20 @@ import {
   sortedArticles,
 } from "../content/article.ts"
 import { Separator } from "../elements/separator.tsx"
+import { formatShortDate } from "../helpers/date.ts"
 import { TocContext } from "../helpers/toc-context.ts"
 import { Footer } from "./Footer.tsx"
 import { PageToolbar } from "./PageToolbar.tsx"
 import { MobileToc, Toc } from "./Toc.tsx"
+import { useMessages, useSite } from "../hooks/site.ts"
 
 /** Auto-generated blog index listing all posts by date */
 export function BlogIndex(props: { sectionPrefix: string }) {
   const section = currentSection(props.sectionPrefix)
+  const site = useSite()
+  const t = useMessages()
+  const formatDate = (iso: string) => formatShortDate(iso, site.language.locale)
+  const title = section?.title ?? t("blog.title")
   const flat = sectionFlatArticles.get(props.sectionPrefix) ?? []
   const posts = flat
     .map(p => sortedArticles.find(a => a.path === p))
@@ -26,7 +32,7 @@ export function BlogIndex(props: { sectionPrefix: string }) {
   }))
 
   const content = [
-    `# ${section?.title ?? "Blog"}`,
+    `# ${title}`,
     ...posts.map(post => {
       const parts = [`## ${post.title}`]
       if (post.date) parts.push(formatDate(post.date))
@@ -40,20 +46,20 @@ export function BlogIndex(props: { sectionPrefix: string }) {
 
   return (
     <TocContext.Provider value={tocItems}>
-      <MobileToc items={tocItems} title={section?.title ?? "Blog"}>
+      <MobileToc items={tocItems} title={title}>
         <PageToolbar content={content} />
       </MobileToc>
       <div className="flex flex-1 gap-10 p-4 pt-8 md:p-10">
         <div className="flex-1 min-w-0 mx-auto max-w-3xl">
           <div className="prose dark:prose-invert max-w-none mb-8">
             <h1 id="top">
-              <a href="#top">{section?.title ?? "Blog"}</a>
+              <a href="#top">{title}</a>
             </h1>
             {posts[0]?.date && (
               <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground !-mt-4 !mb-0">
                 <span className="flex items-center gap-1.5">
                   <History className="size-3.5" />
-                  Updated {formatDate(posts[0].date)}
+                  {t("page.updated", { date: formatDate(posts[0].date) })}
                 </span>
               </p>
             )}
@@ -104,12 +110,4 @@ function slugOf(path: string) {
       .split("/")
       .pop() ?? ""
   )
-}
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  })
 }

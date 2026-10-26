@@ -4,9 +4,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../elements/tabs.tsx"
 import type { TocItem } from "../models/toc.ts"
 import { ChoiceList, type Choice } from "./ChoiceList.tsx"
 import { SheetPanel } from "./SheetPanel.tsx"
+import { useMessages } from "../hooks/site.ts"
 
 export function Toc(props: { items: TocItem[]; children?: ReactNode }) {
   const activeId = useActiveHeading(props.items)
+  const t = useMessages()
 
   if (props.items.length === 0 && !props.children) return null
 
@@ -15,13 +17,13 @@ export function Toc(props: { items: TocItem[]; children?: ReactNode }) {
       <div className="sticky top-20 max-h-[calc(100vh-5rem)] overflow-auto [scrollbar-width:none]">
         {props.children && (
           <div className="mb-6">
-            <p className="text-sm font-medium mb-3">Actions</p>
+            <p className="text-sm font-medium mb-3">{t("toc.actions")}</p>
             {props.children}
           </div>
         )}
         {props.items.length > 0 && (
           <nav>
-            <p className="text-sm font-medium mb-3">Contents</p>
+            <p className="text-sm font-medium mb-3">{t("toc.contents")}</p>
             <ul className="text-sm border-l border-border">
               {props.items.map(item => (
                 <li key={item.url}>
@@ -56,11 +58,12 @@ export function MobileToc(props: {
   const [open, setOpen] = useState(false)
   const [tab, setTab] = useState(props.items.length > 0 ? "contents" : "actions")
   const pendingUrl = useRef<string | null>(null)
+  const t = useMessages()
 
   if (props.items.length === 0 && !props.children) return null
 
   const active = props.items.find(item => item.url.slice(1) === activeId)
-  const title = active?.title ?? props.items[0]?.title ?? "Contents"
+  const title = active?.title ?? props.items[0]?.title ?? t("toc.contents")
   const choices: Choice[] = props.items.map(item => ({
     id: item.url.slice(1),
     label: item.title,
@@ -104,13 +107,13 @@ export function MobileToc(props: {
         open={open}
         onOpenChange={setOpen}
         onOpenChangeComplete={handleOpenChangeComplete}
-        title={props.title ?? "On this page"}
+        title={props.title ?? t("toc.title")}
       >
         {props.children && props.items.length > 0 ? (
           <Tabs value={tab} onValueChange={value => setTab(String(value))}>
             <TabsList className="mb-2 w-full">
-              <TabsTrigger value="contents">Contents</TabsTrigger>
-              <TabsTrigger value="actions">Actions</TabsTrigger>
+              <TabsTrigger value="contents">{t("toc.contents")}</TabsTrigger>
+              <TabsTrigger value="actions">{t("toc.actions")}</TabsTrigger>
             </TabsList>
             <TabsContent value="contents">{contents}</TabsContent>
             <TabsContent value="actions" className={SHEET_ACTIONS}>

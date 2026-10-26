@@ -47,7 +47,7 @@ Frontmatter shape differs: Fumadocs uses `title`, `description`, `icon`, `full`.
 | Capability                  | Livemark                                 | Fumadocs                                     |
 | --------------------------- | ---------------------------------------- | -------------------------------------------- |
 | Versioning                  | Partial (sections or per-branch deploys) | Partial (via separate content sources)       |
-| Internationalization (i18n) | No                                       | Yes (built-in)                               |
+| Internationalization (i18n) | Yes (built-in)                           | Yes (built-in)                               |
 | Search                      | Yes (Orama, client-side)                 | Yes (Orama-based, optional Algolia)          |
 | OpenAPI rendering           | No                                       | Yes (`fumadocs-openapi`)                     |
 | Blog                        | Yes (built-in section type)              | No (use Next routes)                         |

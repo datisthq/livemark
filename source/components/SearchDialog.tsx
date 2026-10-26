@@ -6,6 +6,7 @@ import {
   CommandInput,
   CommandList,
 } from "../elements/command.tsx"
+import { useMessages } from "../hooks/site.ts"
 
 /** Full-text search dialog powered by Orama */
 export function SearchDialog(props: {
@@ -13,27 +14,26 @@ export function SearchDialog(props: {
   onOpenChange: (open: boolean) => void
 }) {
   const search = useArticleSearch()
+  const t = useMessages()
 
   return (
     <CommandDialog
-      title="Search"
-      description="Search documentation"
+      title={t("search.label")}
+      description={t("search.description")}
       open={props.open}
       onOpenChange={props.onOpenChange}
       shouldFilter={false}
       loop
     >
       <CommandInput
-        placeholder="Search docs..."
+        placeholder={t("search.placeholder")}
         value={search.query}
         onValueChange={search.searchArticles}
         onClear={() => search.searchArticles("")}
       />
       <CommandList className="max-h-80">
         <CommandEmpty>
-          {search.query.trim()
-            ? "No results found."
-            : "Type to search across all contents."}
+          {search.query.trim() ? t("search.empty") : t("search.hint")}
         </CommandEmpty>
         <SearchResultGroups
           query={search.query}
@@ -49,19 +49,19 @@ export function SearchDialog(props: {
           <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 text-xs font-mono">
             ↑↓
           </kbd>
-          navigate
+          {t("search.navigate")}
         </span>
         <span className="flex items-center gap-1.5">
           <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 text-xs font-mono">
             ↵
           </kbd>
-          select
+          {t("search.select")}
         </span>
         <span className="flex items-center gap-1.5">
           <kbd className="rounded border border-border bg-muted px-1.5 py-0.5 text-xs font-mono">
             esc
           </kbd>
-          close
+          {t("search.dismiss")}
         </span>
       </div>
     </CommandDialog>

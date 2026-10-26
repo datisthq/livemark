@@ -45,7 +45,7 @@ Frontmatter shape differs: MkDocs reads `title`, `summary`, `tags` (with a plugi
 | Capability                  | Livemark                                 | MkDocs (Material)                   |
 | --------------------------- | ---------------------------------------- | ----------------------------------- |
 | Versioning                  | Partial (sections or per-branch deploys) | Yes (via `mike` plugin)             |
-| Internationalization (i18n) | No                                       | Yes (Material's i18n plugin)        |
+| Internationalization (i18n) | Yes (built-in)                           | Yes (Material's i18n plugin)        |
 | Search                      | Yes (Orama, client-side)                 | Yes (built-in, client-side)         |
 | Blog                        | Yes (built-in section type)              | Yes (Material's blog plugin)        |
 | Changelog                   | Yes (section type)                       | No (manual)                         |

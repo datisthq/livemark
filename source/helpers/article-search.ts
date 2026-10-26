@@ -2,6 +2,7 @@ import { useState, useRef, useCallback, useMemo } from "react"
 import { useNavigate } from "@tanstack/react-router"
 import { create, insertMultiple, search } from "@orama/orama"
 import { sortedArticles } from "../content/article.ts"
+import { useMessages, useSite } from "../hooks/site.ts"
 import { buildHighlightPattern, findTextMatches } from "./search-highlight.ts"
 
 export interface SearchResult {
@@ -15,11 +16,22 @@ export interface SearchResult {
 export function useArticleSearch() {
   const [results, setResults] = useState<SearchResult[]>([])
   const [query, setQuery] = useState("")
-  const dbRef = useRef<Awaited<ReturnType<typeof create>> | null>(null)
+  const dbRef = useRef<{
+    language: string
+    db: Awaited<ReturnType<typeof create>>
+  } | null>(null)
   const navigate = useNavigate()
+  const language = useSite().language.code
+  const t = useMessages()
+  const pagesGroup = t("search.pages")
+  // Only the current language's articles, so results never cross languages.
+  const articles = useMemo(
+    () => sortedArticles.filter(a => a.language === language),
+    [language],
+  )
 
   const ensureIndex = useCallback(async () => {
-    if (dbRef.current) return dbRef.current
+    if (dbRef.current?.language === language) return dbRef.current.db
     const db = await create({
       schema: {
         title: "string",
@@ -29,15 +41,15 @@ export function useArticleSearch() {
     })
     await insertMultiple(
       db,
-      sortedArticles.map(a => ({
+      articles.map(a => ({
         title: a.title,
         description: a.description ?? "",
         searchText: a.searchText,
       })),
     )
-    dbRef.current = db
+    dbRef.current = { language, db }
     return db
-  }, [])
+  }, [articles, language])
 
   const searchArticles = useCallback(
     async (term: string) => {
@@ -55,7 +67,7 @@ export function useArticleSearch() {
       })
       setResults(
         hits.hits.map(hit => {
-          const article = sortedArticles.find(a => a.title === hit.document.title)
+          const article = articles.find(a => a.title === hit.document.title)
           if (!article)
             return toResult(
               {
@@ -67,12 +79,13 @@ export function useArticleSearch() {
                 icon: "",
               },
               term,
+              pagesGroup,
             )
-          return toResult(article, term)
+          return toResult(article, term, pagesGroup)
         }),
       )
     },
-    [ensureIndex],
+    [articles, ensureIndex, pagesGroup],
   )
 
   const selectArticle = useCallback(
@@ -101,7 +114,11 @@ export function useArticleSearch() {
   return { query, grouped, searchArticles, selectArticle }
 }
 
-function toResult(article: (typeof sortedArticles)[number], term: string): SearchResult {
+function toResult(
+  article: (typeof sortedArticles)[number],
+  term: string,
+  pagesGroup: string,
+): SearchResult {
   return {
     title: article.title,
     path: article.path,
@@ -109,13 +126,13 @@ function toResult(article: (typeof sortedArticles)[number], term: string): Searc
     snippet: term
       ? extractSnippet(article.searchText, term)
       : (article.description ?? ""),
-    group: groupFor(article.path),
+    group: groupFor(article.key, pagesGroup),
   }
 }
 
-function groupFor(pathname: string) {
+function groupFor(pathname: string, pagesGroup: string) {
   const segments = pathname.replace(/^\/|\/$/g, "").split("/")
-  if (segments.length <= 2) return "Pages"
+  if (segments.length <= 2) return pagesGroup
   return segments
     .slice(1, -1)
     .map(s =>

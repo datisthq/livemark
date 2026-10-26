@@ -1,4 +1,3 @@
-import { config } from "livemark:virtual"
 import { useLocation } from "@tanstack/react-router"
 import { currentSection } from "../content/article.ts"
 import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
@@ -12,12 +11,15 @@ import {
   SidebarMenuItem,
 } from "../elements/sidebar.tsx"
 import type { RoutedSection } from "../models/section.ts"
+import { useMessages, useSite } from "../hooks/site.ts"
 
 /** Shared Links group. Renders sidebar-positioned links always, and
  * header-positioned links only on mobile (mobile collapses all chrome
  * links into the sidebar since the header strip is hidden below `md`). */
 export function SidebarLinks(props: { section?: RoutedSection }) {
   const pathname = useLocation({ select: l => l.pathname })
+  const config = useSite().config
+  const t = useMessages()
   const section = props.section ?? currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
   const links =
     config.links?.filter(link => !link.prefix || link.prefix === section?.prefix) ?? []
@@ -28,7 +30,7 @@ export function SidebarLinks(props: { section?: RoutedSection }) {
   return (
     <SidebarGroup className={hasDesktopItems ? undefined : "lg:hidden"}>
       <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
-        Links
+        {t("nav.links")}
       </SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>

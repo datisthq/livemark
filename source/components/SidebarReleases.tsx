@@ -17,10 +17,12 @@ import {
   SidebarMenuSubItem,
 } from "../elements/sidebar.tsx"
 import type { RoutedSection } from "../models/section.ts"
+import { useMessages } from "../hooks/site.ts"
 
 /** Changelog body slot for the Sidebar shell: All Releases / Recent Releases */
 export function SidebarReleases(props: { section?: RoutedSection }) {
   const pathname = useLocation({ select: l => l.pathname })
+  const t = useMessages()
 
   const section = props.section ?? currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
   const flat = section ? (sectionFlatArticles.get(section.prefix) ?? []) : []
@@ -36,7 +38,7 @@ export function SidebarReleases(props: { section?: RoutedSection }) {
   return (
     <SidebarGroup>
       <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
-        Releases
+        {t("nav.releases")}
       </SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
@@ -47,13 +49,13 @@ export function SidebarReleases(props: { section?: RoutedSection }) {
               render={<Link to="/$" params={{ _splat: sectionPath }} />}
             >
               <List className="size-4" />
-              <span>All Releases</span>
+              <span>{t("changelog.allReleases")}</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton className="opacity-75">
               <Clock className="size-4" />
-              <span>Recent Releases</span>
+              <span>{t("changelog.recentReleases")}</span>
             </SidebarMenuButton>
             <SidebarMenuSub>
               {recent.map(entry => {

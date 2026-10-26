@@ -1,6 +1,6 @@
-import { config } from "livemark:virtual"
 import { Link, useLocation, useMatches } from "@tanstack/react-router"
 import { currentSection } from "../content/article.ts"
+import { useSite } from "../hooks/site.ts"
 
 export function Breadcrumbs() {
   const matches = useMatches()
@@ -8,11 +8,17 @@ export function Breadcrumbs() {
   const loaderData = last?.loaderData as { title?: string } | undefined
   const pathname = useLocation({ select: l => l.pathname })
   const section = currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
+  const site = useSite()
+  const home = site.language.prefix.replace(/^\/|\/$/g, "")
 
   return (
     <nav className="flex items-center gap-1.5 text-sm text-muted-foreground">
-      <Link to="/" className="hover:text-foreground transition-colors">
-        {section?.title ?? config.title}
+      <Link
+        to={home ? "/$" : "/"}
+        params={home ? { _splat: home } : {}}
+        className="hover:text-foreground transition-colors"
+      >
+        {section?.title ?? site.config.title}
       </Link>
       <span>/</span>
       {loaderData?.title && (

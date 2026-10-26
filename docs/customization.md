@@ -32,6 +32,10 @@ Add external links to the header or the sidebar.
 Organize content into Docs, Blog, and Changelog sections.
 :::
 
+:::card{title="Translations" href="/customization/translations/" icon="languages"}
+Publish the site in several languages with a language picker.
+:::
+
 :::card{title="Article Patches" href="/customization/article-patches/" icon="pencil-ruler"}
 Override article frontmatter from config, without editing the file.
 :::

@@ -47,7 +47,7 @@ OpenAPI is a first-class input: GitBook can import an OpenAPI spec and render AP
 | Capability                  | Livemark                                 | GitBook                                                                            |
 | --------------------------- | ---------------------------------------- | ---------------------------------------------------------------------------------- |
 | Versioning                  | Partial (sections or per-branch deploys) | Yes (space variants / version groups)                                              |
-| Internationalization (i18n) | No                                       | Yes (per-language variants of a space)                                             |
+| Internationalization (i18n) | Yes (built-in)                           | Yes (per-language variants of a space)                                             |
 | Search                      | Yes (Orama, client-side)                 | Yes (hosted, with GitBook AI / "Lens" Q&A on paid tiers)                           |
 | Blog                        | Yes (built-in section type)              | No                                                                                 |
 | Changelog                   | Yes (section type)                       | No (Change Requests are an editorial workflow, not a published section)            |

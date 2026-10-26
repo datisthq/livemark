@@ -47,7 +47,7 @@ Frontmatter shape differs: Starlight uses `title`, `description`, `sidebar`, `ta
 | Capability                  | Livemark                                 | Starlight                               |
 | --------------------------- | ---------------------------------------- | --------------------------------------- |
 | Versioning                  | Partial (sections or per-branch deploys) | No (community plugins)                  |
-| Internationalization (i18n) | No                                       | Yes (built-in)                          |
+| Internationalization (i18n) | Yes (built-in)                           | Yes (built-in)                          |
 | Search                      | Yes (Orama, client-side)                 | Yes (Pagefind, built-in)                |
 | Zero-JS by default          | No (React hydrates)                      | Yes (islands architecture)              |
 | Blog                        | Yes (built-in section type)              | No (use Astro's content collections)    |

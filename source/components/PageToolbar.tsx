@@ -1,7 +1,6 @@
 import { useState, useCallback } from "react"
 import { Eye, Pencil, Copy, Check, ExternalLink } from "lucide-react"
-
-const LLM_PROMPT = "Read {url}, I want to ask questions about it."
+import { useMessages } from "../hooks/site.ts"
 
 /** Toolbar with action buttons displayed for the article content */
 export function PageToolbar(props: {
@@ -11,13 +10,14 @@ export function PageToolbar(props: {
   content: string
 }) {
   const [copied, setCopied] = useState(false)
+  const t = useMessages()
   const sourceHref =
     props.sourceUrl ??
     (props.file
       ? `https://github.com/datisthq/livemark/edit/main/${props.file}`
       : undefined)
   const isView = props.sourceAction === "view"
-  const sourceLabel = isView ? "View on GitHub" : "Edit on GitHub"
+  const sourceLabel = isView ? t("page.view") : t("page.edit")
   const SourceIcon = isView ? Eye : Pencil
 
   const handleCopy = useCallback(() => {
@@ -27,7 +27,7 @@ export function PageToolbar(props: {
   }, [props.content])
 
   const openIn = (base: string, extra?: Record<string, string>) => {
-    const q = LLM_PROMPT.replace("{url}", window.location.href)
+    const q = t("page.llmPrompt", { url: window.location.href })
     const params = new URLSearchParams({ ...extra, q })
     window.open(`${base}?${params}`, "_blank", "noopener,noreferrer")
   }
@@ -66,7 +66,7 @@ export function PageToolbar(props: {
           className={buttonClass}
         >
           {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
-          Copy Markdown
+          {t("page.copyMarkdown")}
         </button>
         <button
           type="button"
@@ -75,7 +75,7 @@ export function PageToolbar(props: {
           className={buttonClass}
         >
           <ExternalLink className="size-3.5" />
-          Open in ChatGPT
+          {t("page.openChatGpt")}
         </button>
         <button
           type="button"
@@ -84,7 +84,7 @@ export function PageToolbar(props: {
           className={buttonClass}
         >
           <ExternalLink className="size-3.5" />
-          Open in Claude
+          {t("page.openClaude")}
         </button>
       </div>
     </>

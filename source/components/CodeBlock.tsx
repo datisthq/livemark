@@ -1,9 +1,11 @@
 import { Check, ChevronDown, Clipboard, WrapText } from "lucide-react"
 import { useRef, useState } from "react"
 import { Tooltip, TooltipContent, TooltipTrigger } from "../elements/tooltip.tsx"
+import { useMessages } from "../hooks/site.ts"
 
 export function CodeBlock(props: React.ComponentProps<"pre">) {
   const [copied, setCopied] = useState(false)
+  const t = useMessages()
   const [wrap, setWrap] = useState(false)
   const [expanded, setExpanded] = useState(false)
   const preRef = useRef<HTMLPreElement>(null)
@@ -43,17 +45,17 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
           <Tooltip>
             <TooltipTrigger
               onClick={handleWrapToggle}
-              aria-label={wrap ? "Disable wrap" : "Enable wrap"}
+              aria-label={wrap ? t("code.wrapOff") : t("code.wrapOn")}
               className={`-me-2 p-1.5 rounded-control hover:text-foreground transition-colors ${wrap ? "text-foreground" : ""}`}
             >
               <WrapText className="size-3.5" />
             </TooltipTrigger>
-            <TooltipContent>{wrap ? "Disable wrap" : "Enable wrap"}</TooltipContent>
+            <TooltipContent>{wrap ? t("code.wrapOff") : t("code.wrapOn")}</TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger
               onClick={handleCopy}
-              aria-label={copied ? "Copied" : "Copy code"}
+              aria-label={copied ? t("code.copied") : t("code.copy")}
               className="-me-2 p-1.5 rounded-control hover:text-foreground transition-colors"
             >
               {copied ? (
@@ -62,7 +64,7 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
                 <Clipboard className="size-3.5" />
               )}
             </TooltipTrigger>
-            <TooltipContent>{copied ? "Copied!" : "Copy code"}</TooltipContent>
+            <TooltipContent>{copied ? t("code.copied") : t("code.copy")}</TooltipContent>
           </Tooltip>
         </div>
       ) : (
@@ -70,17 +72,17 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
           <Tooltip>
             <TooltipTrigger
               onClick={handleWrapToggle}
-              aria-label={wrap ? "Disable wrap" : "Enable wrap"}
+              aria-label={wrap ? t("code.wrapOff") : t("code.wrapOn")}
               className={`p-1.5 rounded-control hover:text-foreground transition-colors ${wrap ? "text-foreground" : ""}`}
             >
               <WrapText className="size-3.5" />
             </TooltipTrigger>
-            <TooltipContent>{wrap ? "Disable wrap" : "Enable wrap"}</TooltipContent>
+            <TooltipContent>{wrap ? t("code.wrapOff") : t("code.wrapOn")}</TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger
               onClick={handleCopy}
-              aria-label={copied ? "Copied" : "Copy code"}
+              aria-label={copied ? t("code.copied") : t("code.copy")}
               className="p-1.5 rounded-control hover:text-foreground transition-colors"
             >
               {copied ? (
@@ -89,7 +91,7 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
                 <Clipboard className="size-3.5" />
               )}
             </TooltipTrigger>
-            <TooltipContent>{copied ? "Copied!" : "Copy code"}</TooltipContent>
+            <TooltipContent>{copied ? t("code.copied") : t("code.copy")}</TooltipContent>
           </Tooltip>
         </div>
       )}

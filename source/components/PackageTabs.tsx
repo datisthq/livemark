@@ -1,5 +1,6 @@
 import { Check, Clipboard } from "lucide-react"
 import { useState } from "react"
+import { useMessages } from "../hooks/site.ts"
 
 type Manager = "npm" | "pnpm" | "yarn" | "bun"
 
@@ -16,6 +17,7 @@ interface PackageTabsProps {
 export function PackageTabs(props: PackageTabsProps) {
   const [active, setActive] = useState<Manager>("npm")
   const [copied, setCopied] = useState(false)
+  const t = useMessages()
 
   const commands: Record<Manager, string> = {
     npm: props.npm,
@@ -53,7 +55,7 @@ export function PackageTabs(props: PackageTabsProps) {
           type="button"
           onClick={handleCopy}
           className="me-2 p-1 rounded-control text-muted-foreground hover:text-foreground transition-colors"
-          aria-label="Copy code"
+          aria-label={t("code.copy")}
         >
           {copied ? <Check className="size-3.5" /> : <Clipboard className="size-3.5" />}
         </button>

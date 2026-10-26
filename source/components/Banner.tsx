@@ -1,7 +1,8 @@
-import { bannerHtml } from "livemark:virtual"
+import { useSite } from "../hooks/site.ts"
 
 /** Announcement strip above the header, rendered from the `banner` config option. */
 export function Banner() {
+  const bannerHtml = useSite().bannerHtml
   if (!bannerHtml) return null
   return (
     <div className="bg-banner text-banner-foreground">

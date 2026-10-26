@@ -45,7 +45,7 @@ Frontmatter shape differs: Nextra uses `title`, `description`, `searchable`, `hi
 | Capability                  | Livemark                                 | Nextra                                               |
 | --------------------------- | ---------------------------------------- | ---------------------------------------------------- |
 | Versioning                  | Partial (sections or per-branch deploys) | No (community workarounds)                           |
-| Internationalization (i18n) | No                                       | Yes (via Next i18n + Nextra hooks)                   |
+| Internationalization (i18n) | Yes (built-in)                           | Yes (via Next i18n + Nextra hooks)                   |
 | Search                      | Yes (Orama, client-side)                 | Yes (FlexSearch built-in, optional Algolia/Pagefind) |
 | Blog                        | Yes (built-in section type)              | Yes (`nextra-theme-blog`)                            |
 | Changelog                   | Yes (section type)                       | No (community plugins)                               |

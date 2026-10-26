@@ -45,7 +45,7 @@ Callouts/admonitions: VitePress uses `::: tip` / `::: warning` containers (same 
 | Capability                  | Livemark                                 | VitePress                             |
 | --------------------------- | ---------------------------------------- | ------------------------------------- |
 | Versioning                  | Partial (sections or per-branch deploys) | No (community workarounds)            |
-| Internationalization (i18n) | No                                       | Yes (built-in)                        |
+| Internationalization (i18n) | Yes (built-in)                           | Yes (built-in)                        |
 | Search                      | Yes (Orama, client-side)                 | Yes (local + Algolia)                 |
 | Blog                        | Yes (built-in section type)              | No (community plugins)                |
 | Changelog                   | Yes (section type)                       | No                                    |

@@ -34,6 +34,7 @@ icon: rocket # lucide icon name
 order: 1 # sidebar sort; negatives pin to end
 group: Docs # sidebar section label
 path: /getting-started/ # default: slugified filename + leading/trailing slashes
+language: es # multi-language sites only; default: `.<code>.md` suffix, else the default language
 sidebar: true # false hides from nav but keeps URL reachable
 toc: true # false suppresses right-hand TOC
 image: ./cover.png # og:image (needs `site`); relative resolves against the file
@@ -49,7 +50,8 @@ tags: [release, announcement] # blog-section tag pages /prefix/tags/<tag>/
 2. **Order is piecewise.** Positive numbers sort first ascending, unordered articles come next, negative numbers land at the end (`-1` last, `-2` second-to-last). Leave the middle alone — only set `order` on items you want pinned.
 3. **Grouping.** Contiguous root-level articles with the same `group` string render under a labelled sidebar section. Mixing groups breaks visual grouping.
 4. **URLs.** Don't set `path` unless you need to override the default slug. Livemark derives `path` from the filename plus leading/trailing slashes.
-5. **Images.** Relative paths in `image`, Markdown `![](...)`, and MDX `<img src>` resolve against the article file — keep assets co-located or under `docs/images/`.
+5. **Translations.** On a site with `languages`, put `guide.es.md` beside `guide.md` and keep the same `path`: Livemark serves it at `/es/guide/` and pairs the two by that path. Don't add the `/es/` prefix yourself.
+6. **Images.** Relative paths in `image`, Markdown `![](...)`, and MDX `<img src>` resolve against the article file — keep assets co-located or under `docs/images/`.
 
 ## Patching a file you can't touch
 

@@ -1,4 +1,3 @@
-import { config } from "livemark:virtual"
 import { ChevronDownIcon } from "lucide-react"
 import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
 import { prefixUrl } from "../helpers/prefix-url.ts"
@@ -9,6 +8,7 @@ import {
 } from "../elements/sidebar.tsx"
 import type { RoutedSection, Section } from "../models/section.ts"
 import { MenuSheet } from "./MenuSheet.tsx"
+import { useMessages, useSite } from "../hooks/site.ts"
 
 /** Mobile Sections group: a select-like trigger opening a bottom sheet that swaps the
  * sidebar body to another section without navigating; custom sections still navigate
@@ -17,6 +17,8 @@ export function SidebarSectionPicker(props: {
   section: RoutedSection
   onSelect: (section: RoutedSection) => void
 }) {
+  const config = useSite().config
+  const t = useMessages()
   const sections = config.sections ?? []
 
   const selectSection = (picked: Section) => {
@@ -30,11 +32,11 @@ export function SidebarSectionPicker(props: {
   return (
     <SidebarGroup>
       <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
-        Sections
+        {t("nav.sections")}
       </SidebarGroupLabel>
       <SidebarGroupContent>
         <MenuSheet
-          title="Choose section"
+          title={t("nav.chooseSection")}
           items={sections.map(s => ({
             id: sectionKey(s),
             label: s.title,
@@ -45,7 +47,7 @@ export function SidebarSectionPicker(props: {
           trigger={
             <button
               type="button"
-              aria-label="Section"
+              aria-label={t("nav.section")}
               aria-haspopup="dialog"
               className="flex h-9 w-full min-w-0 cursor-pointer items-center gap-2 rounded-control border border-input bg-transparent px-3 text-left text-sm shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30 dark:hover:bg-input/50"
             />

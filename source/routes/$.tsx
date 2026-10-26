@@ -1,14 +1,18 @@
-import { config } from "livemark:virtual"
+import { sites } from "livemark:virtual"
 import { createFileRoute, notFound, redirect } from "@tanstack/react-router"
 import { z } from "zod"
 import {
   currentSection,
+  currentSite,
   firstArticle,
   homeArticle,
+  languageFirstArticle,
+  listTranslations,
   sortedArticles,
 } from "../content/article.ts"
 import { sectionTags } from "../content/tag.ts"
 import { buildPageHead } from "../helpers/head.ts"
+import { formatMessage } from "../helpers/site.ts"
 import { Article } from "../components/Article.tsx"
 import { BlogIndex } from "../components/BlogIndex.tsx"
 import { ChangelogIndex } from "../components/ChangelogIndex.tsx"
@@ -30,6 +34,13 @@ export const Route = createFileRoute("/$")({
     const splat = `/${params._splat}/`
     const article = sortedArticles.find(a => a.path === splat)
     if (article) return article
+
+    const site = currentSite(splat)
+    if (!site.language.default && site.language.prefix === splat) {
+      const first = languageFirstArticle(site)
+      if (!first) throw notFound()
+      throw redirect({ to: "/$", params: { _splat: first.replace(/^\/|\/$/g, "") } })
+    }
 
     const section = currentSection(splat)
     if (section?.type === "changelog" && section.prefix === splat) {
@@ -59,7 +70,7 @@ export const Route = createFileRoute("/$")({
             tagPage: true as const,
             sectionPrefix: section.prefix,
             tag,
-            title: `Posts tagged '${tag}'`,
+            title: formatMessage(site.messages["blog.tagged"], { tag }),
             sidebar: true,
           }
         }
@@ -68,16 +79,21 @@ export const Route = createFileRoute("/$")({
 
     throw notFound()
   },
-  head: ({ loaderData, params }) =>
-    buildPageHead({
-      config,
-      path: params._splat ? `/${params._splat}/` : "/",
+  head: ({ loaderData, params }) => {
+    const path = params._splat ? `/${params._splat}/` : "/"
+    const site = currentSite(path)
+    return buildPageHead({
+      config: site.config,
+      path,
+      language: sites.length > 1 ? site.language : undefined,
+      alternates: sites.length > 1 ? listTranslations(path) : undefined,
       title: loaderData?.title,
       description:
         loaderData && "description" in loaderData ? loaderData.description : undefined,
       image: loaderData && "image" in loaderData ? loaderData.image : undefined,
       isArticle: loaderData && "file" in loaderData,
-    }),
+    })
+  },
   component: Component,
 })
 

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vite-plus/test"
 import type { WebsiteConfig } from "../models/config.ts"
 import { buildPageHead, buildRootHead } from "./head.ts"
+import { resolveLanguages } from "./site.ts"
 
 const config: WebsiteConfig = { title: "Docs", description: "Blurb" }
 
@@ -114,5 +115,42 @@ describe("buildPageHead", () => {
   it("skips og:image without site", () => {
     const head = buildPageHead({ config, path: "/", image: "/cover.png" })
     expect(head.meta).toEqual([])
+  })
+
+  it("links every language's version with hreflang and an x-default", () => {
+    const [en, es] = resolveLanguages([
+      { code: "en", label: "English" },
+      { code: "es", label: "Español", locale: "es-ES" },
+    ])
+    const head = buildPageHead({
+      config: { ...config, site: "https://x.dev" },
+      path: "/es/guide/",
+      language: es,
+      alternates: es
+        ? [
+            { language: en, path: "/guide/" },
+            { language: es, path: "/es/guide/" },
+          ]
+        : [],
+      title: "Guía",
+    })
+    expect(head.links).toContainEqual({
+      rel: "alternate",
+      hrefLang: "es-ES",
+      href: "https://x.dev/es/guide/",
+    })
+    expect(head.links).toContainEqual({
+      rel: "alternate",
+      hrefLang: "x-default",
+      href: "https://x.dev/guide/",
+    })
+    expect(head.meta).toContainEqual({ property: "og:locale", content: "es_ES" })
+    expect(head.meta).toContainEqual({ name: "description", content: "Blurb" })
+  })
+
+  it("adds no language tags without a language", () => {
+    const head = buildPageHead({ config, path: "/guide/", title: "Guide" })
+    expect(head.meta.some(m => "property" in m && m.property === "og:locale")).toBe(false)
+    expect(head.meta.some(m => "name" in m && m.name === "description")).toBe(false)
   })
 })

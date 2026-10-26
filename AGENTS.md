@@ -80,6 +80,7 @@ Everything the package runs is under `source/`; Node loads `build/*.js`, while V
 - `components/` — Livemark UI, escapable · `elements/` — shadcn-style primitives, escapable · `styles/` — base CSS, escapable
 - `routes/` — TanStack Start routes, escapable · `plugins/` — remark, rehype, shiki and Vite plugins
 - `models/<entity>.ts` — zod schemas plus derived types · `content/` — content-collections derivations
+- `messages/<code>.ts` — bundled UI strings per language; English is the defaults of `models/message.ts`
 - `helpers/<name>.ts` — internal utilities · `utils/` and `hooks/` — utilities and React hooks exposed through `exports`
 - Root files are single-concern: `settings.ts`, `program.ts`, `client.tsx`, `server.ts`, `router.tsx`, `head.ts`, `content-collections.ts`, `vite.config.ts`, `index.ts`. `routeTree.gen.ts` is generated
 - Unit tests sit beside their module as `<module>.unit.ts`; snapshots land in a sibling `fixtures/generated/`

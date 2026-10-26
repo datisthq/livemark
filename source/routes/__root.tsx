@@ -10,6 +10,7 @@ import { Root } from "../components/Root.tsx"
 import { DefaultCatchBoundary } from "../components/DefaultCatchBoundary.tsx"
 import { NotFound } from "../components/NotFound.tsx"
 import { useHydrated } from "../hooks/hydrated.ts"
+import { useSite } from "../hooks/site.ts"
 import { Toaster } from "../elements/sonner.tsx"
 import { buildRootHead } from "../helpers/head.ts"
 import { startTheme } from "../helpers/theme.ts"
@@ -51,11 +52,14 @@ function Document(props: { children: React.ReactNode }) {
   // does not declare this key strips it.
   const hydrated = useHydrated()
   const devtools = hydrated && window.location.search.includes("tanstack-devtools")
+  const language = useSite().language
+  // Left off for ltr, the browser default, so a single-language site's markup is unchanged.
+  const dir = language.dir === "rtl" ? "rtl" : undefined
 
   useEffect(startTheme, [])
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={language.locale} dir={dir} suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>

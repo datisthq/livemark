@@ -1,4 +1,3 @@
-import { config } from "livemark:virtual"
 import { Link, useLocation, useMatch } from "@tanstack/react-router"
 import { currentSection, sectionFirstArticle } from "../content/article.ts"
 import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
@@ -12,6 +11,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "../elements/sidebar.tsx"
+import { useMessages, useSite } from "../hooks/site.ts"
 
 function splatFor(pathname: string) {
   return { _splat: pathname.replace(/^\/|\/$/g, "") }
@@ -26,6 +26,8 @@ export function SidebarSections() {
   const section = articleRoute
     ? currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
     : undefined
+  const config = useSite().config
+  const t = useMessages()
   const sections = config.sections ?? []
 
   if (!sections.length) return null
@@ -34,7 +36,7 @@ export function SidebarSections() {
   return (
     <SidebarGroup className={hasDesktopItems ? undefined : "lg:hidden"}>
       <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
-        Sections
+        {t("nav.sections")}
       </SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>

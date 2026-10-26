@@ -9,11 +9,11 @@ import type { Section } from "../models/section.ts"
  *  match. Longest match wins. */
 /** Resolve where the SiteTitle should link to for the current pathname.
  *  If the active section sets `siteLink`, returns that — otherwise falls
- *  back to `/` (the home page). The returned value may be an internal
+ *  back to `home` (the language's home page, `/` by default). The returned value may be an internal
  *  path (`/foo/`) or an absolute URL (`https://…`); rendering decides
  *  which element to use. */
-export function activeSiteLink(pathname: string, sections: Section[]) {
-  return activeSiteSection(pathname, sections)?.siteLink ?? "/"
+export function activeSiteLink(pathname: string, sections: Section[], home = "/") {
+  return activeSiteSection(pathname, sections)?.siteLink ?? home
 }
 
 export function activeSiteSection(pathname: string, sections: Section[]) {

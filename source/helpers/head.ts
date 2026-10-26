@@ -1,5 +1,6 @@
 import type * as React from "react"
 import type { WebsiteConfig } from "../models/config.ts"
+import type { SiteLanguage } from "../models/language.ts"
 import { faviconType } from "./favicon.ts"
 import { prefixUrl } from "./prefix-url.ts"
 import { buildThemeScript } from "./theme.ts"
@@ -54,15 +55,23 @@ export function buildRootHead(props: {
   }
 }
 
+/** A page's own `<head>` tags. With `language` set (a multi-language site) it adds
+ *  `og:locale`, an `hreflang` link per entry in `alternates`, and — outside the default
+ *  language — the language's site name and description in place of the root's. */
 export function buildPageHead(props: {
   config: WebsiteConfig
   path: string
+  language?: SiteLanguage
+  alternates?: { language: SiteLanguage; path: string }[]
   title?: string
   description?: string
   image?: string
   isArticle?: boolean
 }) {
   const site = props.config.site?.replace(/\/+$/, "")
+  const localized = props.language && !props.language.default
+  const description =
+    props.description ?? (localized ? props.config.description : undefined)
   const url = site ? buildAbsoluteUrl(site, props.config.base, props.path) : undefined
   const image =
     site && props.image
@@ -73,11 +82,15 @@ export function buildPageHead(props: {
       ...(props.title
         ? [{ title: props.title }, { property: "og:title", content: props.title }]
         : []),
-      ...(props.description
+      ...(description
         ? [
-            { name: "description", content: props.description },
-            { property: "og:description", content: props.description },
+            { name: "description", content: description },
+            { property: "og:description", content: description },
           ]
+        : []),
+      ...(localized ? [{ property: "og:site_name", content: props.config.title }] : []),
+      ...(props.language
+        ? [{ property: "og:locale", content: props.language.locale.replace("-", "_") }]
         : []),
       ...(props.isArticle ? [{ property: "og:type", content: "article" }] : []),
       ...(url ? [{ property: "og:url", content: url }] : []),
@@ -85,6 +98,7 @@ export function buildPageHead(props: {
     ],
     links: [
       ...(url ? [{ rel: "canonical", href: url }] : []),
+      ...(site ? buildAlternateLinks(site, props.config.base, props.alternates) : []),
       ...(props.isArticle
         ? [
             {
@@ -96,6 +110,29 @@ export function buildPageHead(props: {
         : []),
     ],
   }
+}
+
+function buildAlternateLinks(
+  site: string,
+  base: string | undefined,
+  alternates: { language: SiteLanguage; path: string }[] | undefined,
+) {
+  if (!alternates || alternates.length < 2) return []
+  const links = alternates.map(alternate => ({
+    rel: "alternate",
+    hrefLang: alternate.language.locale,
+    href: buildAbsoluteUrl(site, base, alternate.path),
+  }))
+  const fallback = alternates.find(alternate => alternate.language.default)
+  if (!fallback) return links
+  return [
+    ...links,
+    {
+      rel: "alternate",
+      hrefLang: "x-default",
+      href: buildAbsoluteUrl(site, base, fallback.path),
+    },
+  ]
 }
 
 function buildAbsoluteUrl(site: string, base: string | undefined, url: string) {

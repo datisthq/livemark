@@ -1,4 +1,3 @@
-import { config } from "livemark:virtual"
 import { useState } from "react"
 import { useLocation, useMatch } from "@tanstack/react-router"
 import { useHotkey } from "@tanstack/react-hotkeys"
@@ -23,6 +22,7 @@ import { SidebarSections } from "./SidebarSections.tsx"
 import { SiteLink } from "./SiteLink.tsx"
 import { SiteTitle } from "./SiteTitle.tsx"
 import type { RoutedSection } from "../models/section.ts"
+import { useSite } from "../hooks/site.ts"
 
 /** Application sidebar shell: header, body slot picked by section.type, footer */
 export function Sidebar(props: { withSidebar?: boolean }) {
@@ -43,7 +43,12 @@ export function Sidebar(props: { withSidebar?: boolean }) {
   // Browsing is scoped to the page it started on, so navigating resets it
   const section =
     picking && browsed?.pathname === pathname ? browsed.section : routeSection
-  const siteLinkTarget = activeSiteLink(pathname, config.sections ?? [])
+  const site = useSite()
+  const siteLinkTarget = activeSiteLink(
+    pathname,
+    site.config.sections ?? [],
+    site.language.prefix,
+  )
 
   return (
     <SidebarRoot>

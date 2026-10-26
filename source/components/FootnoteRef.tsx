@@ -1,5 +1,6 @@
 import { type ComponentProps, useEffect, useState } from "react"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "../elements/hover-card.tsx"
+import { useMessages } from "../hooks/site.ts"
 
 const FOOTNOTE_PREFIX = "#user-content-fn-"
 
@@ -15,6 +16,7 @@ export function FootnoteRef(props: ComponentProps<"a">) {
 
 function FootnoteHoverCard(props: ComponentProps<"a"> & { href: string }) {
   const [footnoteHtml, setFootnoteHtml] = useState("")
+  const t = useMessages()
 
   useEffect(() => {
     const targetId = props.href.slice(1)
@@ -40,7 +42,7 @@ function FootnoteHoverCard(props: ComponentProps<"a"> & { href: string }) {
         {footnoteHtml ? (
           <div dangerouslySetInnerHTML={{ __html: footnoteHtml }} />
         ) : (
-          <p className="text-muted-foreground">Footnote not found</p>
+          <p className="text-muted-foreground">{t("footnote.missing")}</p>
         )}
       </HoverCardContent>
     </HoverCard>

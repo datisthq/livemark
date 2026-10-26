@@ -1,6 +1,10 @@
 declare module "livemark:virtual" {
   export const config: import("./models/config.ts").WebsiteConfig
   export const bannerHtml: string | undefined
+  export const sites: readonly [
+    import("./models/site.ts").Site,
+    ...import("./models/site.ts").Site[],
+  ]
 }
 
 declare module "content-collections" {

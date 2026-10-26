@@ -43,7 +43,7 @@ Livemark accepts Markdown + MDX with full React component embedding, frontmatter
 | Capability                  | Livemark                                 | Docsify                                      |
 | --------------------------- | ---------------------------------------- | -------------------------------------------- |
 | Versioning                  | Partial (sections or per-branch deploys) | Yes (multi-instance via `alias` config)      |
-| Internationalization (i18n) | No                                       | Yes (`fallbackLanguages` + per-locale files) |
+| Internationalization (i18n) | Yes (built-in)                           | Yes (`fallbackLanguages` + per-locale files) |
 | Search                      | Yes (Orama, client-side)                 | Yes (built-in full-text plugin)              |
 | Blog                        | Yes (built-in section type)              | No                                           |
 | Changelog                   | Yes (section type)                       | No (manual)                                  |

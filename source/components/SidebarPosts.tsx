@@ -1,4 +1,3 @@
-import { config } from "livemark:virtual"
 import { Link, useLocation } from "@tanstack/react-router"
 import { Clock, List, Rss, Tag } from "lucide-react"
 import {
@@ -18,10 +17,13 @@ import {
   SidebarMenuSubItem,
 } from "../elements/sidebar.tsx"
 import type { RoutedSection } from "../models/section.ts"
+import { useMessages, useSite } from "../hooks/site.ts"
 
 /** Blog body slot for the Sidebar shell: All Posts / Recent Posts / RSS / Tags */
 export function SidebarPosts(props: { section?: RoutedSection }) {
   const pathname = useLocation({ select: l => l.pathname })
+  const config = useSite().config
+  const t = useMessages()
 
   const section = props.section ?? currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
   const flat = section ? (sectionFlatArticles.get(section.prefix) ?? []) : []
@@ -46,7 +48,7 @@ export function SidebarPosts(props: { section?: RoutedSection }) {
     <>
       <SidebarGroup>
         <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
-          Posts
+          {t("nav.posts")}
         </SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
@@ -57,13 +59,13 @@ export function SidebarPosts(props: { section?: RoutedSection }) {
                 render={<Link to="/$" params={{ _splat: sectionPath }} />}
               >
                 <List className="size-4" />
-                <span>All Posts</span>
+                <span>{t("blog.allPosts")}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton className="opacity-75">
                 <Clock className="size-4" />
-                <span>Recent Posts</span>
+                <span>{t("blog.recentPosts")}</span>
               </SidebarMenuButton>
               <SidebarMenuSub>
                 {recentPosts.map(post => {
@@ -96,7 +98,7 @@ export function SidebarPosts(props: { section?: RoutedSection }) {
                   render={<a href={`/${sectionPath}/rss.xml`} />}
                 >
                   <Rss className="size-4" />
-                  <span>RSS Feed</span>
+                  <span>{t("blog.rssFeed")}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             )}
@@ -107,7 +109,7 @@ export function SidebarPosts(props: { section?: RoutedSection }) {
       {tags.length > 0 && (
         <SidebarGroup>
           <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
-            Tags
+            {t("nav.tags")}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>

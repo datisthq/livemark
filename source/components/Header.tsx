@@ -1,4 +1,3 @@
-import { config } from "livemark:virtual"
 import { useLocation, useMatch } from "@tanstack/react-router"
 import { useState } from "react"
 import { cn } from "cn"
@@ -6,10 +5,12 @@ import { currentSection } from "../content/article.ts"
 import { activeSiteLink } from "../helpers/section.ts"
 import { HeaderMenu } from "./HeaderMenu.tsx"
 import { HeaderNav } from "./HeaderNav.tsx"
+import { LanguagePicker } from "./LanguagePicker.tsx"
 import { Search } from "./Search.tsx"
 import { SiteLink } from "./SiteLink.tsx"
 import { SiteTitle } from "./SiteTitle.tsx"
 import { Theme } from "./Theme.tsx"
+import { useSite } from "../hooks/site.ts"
 
 /** Sticky site header: title, header sections and links, search and theme. `toggle`
  * sits before the title from `lg`; `menu` opens the phone navigation */
@@ -19,7 +20,12 @@ export function Header(props: { toggle?: React.ReactNode; menu?: React.ReactNode
   const activeSection = articleRoute
     ? currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
     : undefined
-  const siteLinkTarget = activeSiteLink(pathname, config.sections ?? [])
+  const site = useSite()
+  const siteLinkTarget = activeSiteLink(
+    pathname,
+    site.config.sections ?? [],
+    site.language.prefix,
+  )
   const [compactSearch, setCompactSearch] = useState(false)
 
   return (
@@ -44,6 +50,7 @@ export function Header(props: { toggle?: React.ReactNode; menu?: React.ReactNode
       />
       <div className="ml-auto flex shrink-0 items-center gap-1 pr-2 lg:pr-1">
         <Search compact={compactSearch} />
+        <LanguagePicker />
         <Theme />
         <div className="lg:hidden">{props.menu ?? <HeaderMenu />}</div>
       </div>

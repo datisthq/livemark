@@ -1,6 +1,6 @@
 ---
 name: livemark-configuration
-description: Use when editing livemark.config.ts — site metadata, include/exclude globs, syntax themes, sections (article/blog/changelog), navigation links, and patches.
+description: Use when editing livemark.config.ts — site metadata, include/exclude globs, syntax themes, sections (article/blog/changelog), navigation links, patches, and translations (languages).
 ---
 
 # Livemark Configuration
@@ -16,6 +16,7 @@ Invoke when the user asks to:
 - Switch code-block syntax highlighting themes.
 - Add, reorder, or retype a section (docs/blog/changelog).
 - Add or remove header/sidebar links.
+- Publish the site in several languages.
 - Patch a specific file's frontmatter without editing its source.
 
 ## The config shape
@@ -102,6 +103,24 @@ Versioned docs have no dedicated option. For a few versions on one branch, give 
 
 Default `position` is `"header"`. Use `prefix` to scope a sidebar link to a single section.
 
+## Languages
+
+```ts
+{
+  title: { en: "Acme Docs", es: "Documentación" }, // any text field: string or per-code map
+  languages: [
+    { code: "en", label: "English" },              // first = default, served at /
+    { code: "es", label: "Español",                 // served at /es/…
+      messages: { "toc.title": "En esta página" } }, // optional UI-string overrides
+  ],
+}
+```
+
+- Localizable: `title`, `description`, `banner`, section `title` / `siteTitle` / `siteDescription`, link `title`. A missing code falls back to the default language's value.
+- Article and blog sections are mirrored per language (`/blog/` → `/es/blog/`); changelogs are shared. A section `prefix` starting with a non-default code (`/es/…`) is rejected.
+- `messages` keys are checked against `models/message.ts`; a typo fails the config load. de, es, fr, ja, ru and zh ship bundled and apply by `locale` (defaults to `code`).
+- Without `languages` the site is one implicit English language — output is unchanged.
+
 ## Syntax themes
 
 Any [Shiki theme](https://shiki.style/themes) name works. Defaults keep the catppuccin pairing. If you swap the light theme, audit code-block token contrast against the theme's background (WCAG AA wants 4.5:1).
@@ -127,5 +146,6 @@ The dev server watches `livemark.config.ts` and every local file it imports, and
 - Config schema: `models/config.ts`.
 - Section variants: `models/section.ts`.
 - Link shape: `models/link.ts`.
+- Languages and UI strings: `models/language.ts`, `models/message.ts`.
 - Patch shape: `models/patch.ts`.
 - Narrative docs: `docs/customization/`.

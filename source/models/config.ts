@@ -1,8 +1,9 @@
 import { z } from "zod"
 import type { ConfigEnv, UserConfig as ViteUserConfig } from "vite"
-import { Link } from "./link.ts"
+import { Language, Localized } from "./language.ts"
+import { Link, UserLink } from "./link.ts"
 import { Patch } from "./patch.ts"
-import { Section } from "./section.ts"
+import { Section, UserSection } from "./section.ts"
 import { CodeThemeDark, CodeThemeLight } from "./theme.ts"
 
 /** Escape hatch for arbitrary Vite config — accepts either a config
@@ -62,15 +63,22 @@ export const UserConfig = z.object({
   base: z.unknown().optional(),
   favicon: z.string().optional(),
   logo: z.string().optional(),
-  title: z.string().default("Livemark"),
-  description: z.string().default("Markdown site generator"),
-  banner: z.string().optional(),
+  title: Localized.default("Livemark"),
+  description: Localized.default("Markdown site generator"),
+  banner: Localized.optional(),
   include: z.union([z.string(), z.array(z.string())]).default("**/*.md"),
   exclude: z.union([z.string(), z.array(z.string())]).optional(),
   codeThemeLight: CodeThemeLight.default("catppuccin-latte"),
   codeThemeDark: CodeThemeDark.default("catppuccin-mocha"),
-  links: z.array(Link).optional(),
-  sections: z.array(Section).optional(),
+  links: z.array(UserLink).optional(),
+  sections: z.array(UserSection).optional(),
+  languages: z
+    .array(Language)
+    .min(1)
+    .refine(languages => new Set(languages.map(l => l.code)).size === languages.length, {
+      message: "language codes must be unique",
+    })
+    .optional(),
   patches: z.array(Patch).optional(),
   head: Head.optional(),
   contentSignals: ContentSignals.prefault({}),
@@ -81,21 +89,21 @@ export const UserConfig = z.object({
   vite: z.unknown().optional(),
 })
 
-/** Website configuration injected at build time via Vite define.
- *  `base` is strictly a string here — the build pipeline has already
- *  resolved any function form via `resolveBase()`. */
+/** Website configuration injected at build time via Vite define, its texts resolved
+ *  to one language. `base` is strictly a string here — the build pipeline has
+ *  already resolved any function form via `resolveBase()`. */
 export type WebsiteConfig = z.infer<typeof WebsiteConfig>
 export const WebsiteConfig = UserConfig.pick({
-  title: true,
-  description: true,
   site: true,
   favicon: true,
   logo: true,
-  banner: true,
-  links: true,
-  sections: true,
   head: true,
 }).extend({
+  title: z.string(),
+  description: z.string(),
+  banner: z.string().optional(),
+  links: z.array(Link).optional(),
+  sections: z.array(Section).optional(),
   base: z.string().optional(),
 })
 

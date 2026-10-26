@@ -1,7 +1,11 @@
-import { config } from "livemark:virtual"
+import { sites } from "livemark:virtual"
 import { Link, useLocation } from "@tanstack/react-router"
 import { ChevronRight } from "lucide-react"
-import { articleTree, currentSection, sectionArticleTrees } from "../content/article.ts"
+import {
+  currentSection,
+  languageArticleTrees,
+  sectionArticleTrees,
+} from "../content/article.ts"
 import {
   Collapsible,
   CollapsibleContent,
@@ -21,21 +25,24 @@ import {
 import { resolveArticleIcon } from "../helpers/article-icon.ts"
 import type { ArticleNode } from "../models/article.ts"
 import type { RoutedSection } from "../models/section.ts"
+import { useMessages, useSite } from "../hooks/site.ts"
 
 /** Article-tree body slot for the Sidebar shell */
 export function SidebarArticles(props: { section?: RoutedSection }) {
   const pathname = useLocation({ select: l => l.pathname })
 
-  const configSections = config.sections
+  const site = useSite()
+  const t = useMessages()
+  const languageTree = languageArticleTrees.get(site.language.code) ?? []
   const section = props.section ?? currentSection(`/${pathname.replace(/^\/|\/$/g, "")}/`)
-  const tree = configSections?.length
-    ? (sectionArticleTrees.get(section?.prefix ?? "__default__") ?? articleTree)
-    : articleTree
+  const tree = site.config.sections?.length
+    ? (sectionArticleTrees.get(section?.prefix ?? "__default__") ?? languageTree)
+    : languageTree
 
   return (
     <SidebarGroup>
       <SidebarGroupLabel className="uppercase font-mono text-xs tracking-widest">
-        Articles
+        {t("nav.articles")}
       </SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
@@ -60,6 +67,7 @@ function isActive(articlePathname: string, currentPath: string) {
 
 function NavNode(props: { node: ArticleNode; currentPath: string; depth?: number }) {
   const { node, currentPath, depth = 0 } = props
+  const t = useMessages()
   const Icon = resolveArticleIcon(node.icon)
   const active = isActive(node.path, currentPath)
   const isSub = depth > 0
@@ -67,7 +75,16 @@ function NavNode(props: { node: ArticleNode; currentPath: string; depth?: number
   const Button = isSub ? SidebarMenuSubButton : SidebarMenuButton
 
   const link = <Link to="/$" params={splatFor(node.path)} />
-  const label = <span>{node.label ?? node.title}</span>
+  const label = (
+    <span title={node.untranslated ? t("language.untranslated") : undefined}>
+      {node.label ?? node.title}
+      {node.untranslated && (
+        <span className="ms-1.5 rounded-sm border px-1 font-mono text-[0.6rem] uppercase text-muted-foreground">
+          {sites[0].language.code}
+        </span>
+      )}
+    </span>
+  )
 
   if (node.children.length === 0) {
     return (
@@ -88,7 +105,7 @@ function NavNode(props: { node: ArticleNode; currentPath: string; depth?: number
           {label}
         </Button>
         <CollapsibleTrigger
-          aria-label={`Toggle ${node.label ?? node.title} submenu`}
+          aria-label={t("nav.toggleSubmenu", { title: node.label ?? node.title })}
           className="absolute right-1 top-1.5 p-1 rounded-control hover:bg-sidebar-accent"
         >
           <ChevronRight className="size-3.5 transition-transform group-data-[open]/collapsible:rotate-90" />

@@ -9,6 +9,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "../elements/drawer.tsx"
+import { useMessages } from "../hooks/site.ts"
 
 /** A phone's bottom sheet: title left, close right, a scrolling body and an
  * optional pinned footer. */
@@ -22,6 +23,7 @@ export function SheetPanel(props: {
   children: ReactNode
 }) {
   const panelRef = useRef<HTMLDivElement>(null)
+  const t = useMessages()
 
   return (
     <Drawer
@@ -44,7 +46,7 @@ export function SheetPanel(props: {
             render={<Button variant="ghost" size="icon-sm" className="-mr-2 ml-auto" />}
           >
             <XIcon className="size-5" />
-            <span className="sr-only">Close</span>
+            <span className="sr-only">{t("nav.close")}</span>
           </DrawerClose>
         </DrawerHeader>
         <div

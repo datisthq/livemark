@@ -7,9 +7,9 @@ import { buildTarget } from "../actions/target/build.ts"
 import { collectLocalImports } from "../helpers/local-imports.ts"
 import { renderInlineMarkdown } from "../helpers/render-inline-markdown.ts"
 import { excludeTailwindSources } from "../helpers/tailwind-sources.ts"
+import { buildSites } from "../helpers/site.ts"
 import { resolveTargetExport } from "../helpers/target-export.ts"
 import type { Config } from "../models/config.ts"
-import { WebsiteConfig } from "../models/config.ts"
 import { ESCAPABLE_FILES, ESCAPABLE_FOLDERS } from "../settings.ts"
 
 export interface LivemarkOptions {
@@ -31,10 +31,11 @@ const LOCKFILES = [
  *
  *      import { config } from "livemark:virtual"
  *
- *  Currently exports `config` (validated `WebsiteConfig`) and `bannerHtml`
- *  (`config.banner` rendered from inline Markdown at build time); future
- *  additions (e.g. `articles`, `sections`) land here as new named
- *  exports without consumers changing their import statements.
+ *  Exports `config` (the default language's `WebsiteConfig`), `bannerHtml`
+ *  (its `banner` rendered from inline Markdown at build time) and `sites`
+ *  (every language's config, messages and banner, the default first); future
+ *  additions land here as new named exports without consumers changing their
+ *  import statements.
  *
  *  The `\0` prefix on the resolved id is Vite's convention to signal
  *  "this is a virtual module — no other plugin should try to resolve
@@ -102,13 +103,16 @@ export function livemark(opts: LivemarkOptions): Plugin {
     },
     load(id) {
       if (id !== VIRTUAL_RESOLVED_ID) return null
-      const config = WebsiteConfig.parse(opts.config)
-      const bannerHtml = config.banner
-        ? renderInlineMarkdown(config.banner, config.base)
-        : undefined
+      const sites = buildSites(opts.config).map(site => ({
+        ...site,
+        bannerHtml: site.config.banner
+          ? renderInlineMarkdown(site.config.banner, site.config.base)
+          : undefined,
+      }))
       return [
-        `export const config = ${JSON.stringify(config)}`,
-        `export const bannerHtml = ${JSON.stringify(bannerHtml)}`,
+        `export const sites = ${JSON.stringify(sites)}`,
+        "export const config = sites[0].config",
+        "export const bannerHtml = sites[0].bannerHtml",
       ].join("\n")
     },
     configureServer(server) {

@@ -1,22 +1,27 @@
 import type { ArticleNode } from "../models/article.ts"
 
-/** Build a tree from a flat sorted list of articles based on path hierarchy */
+/** Build a tree from a flat sorted list of articles based on path hierarchy. The
+ *  hierarchy follows `key` when given, so a translation nests under the same parent
+ *  as an untranslated sibling that keeps its default-language path. */
 export function buildArticleTree(
   articles: {
     path: string
+    key?: string
     title: string
     label?: string
     icon?: string
+    untranslated?: boolean
   }[],
 ) {
   const nodeMap = new Map<string, ArticleNode>()
 
   for (const article of articles) {
-    nodeMap.set(article.path, {
+    nodeMap.set(article.key ?? article.path, {
       path: article.path,
       title: article.title,
       label: article.label,
       icon: article.icon,
+      ...(article.untranslated && { untranslated: true }),
       children: [],
     })
   }
@@ -24,9 +29,10 @@ export function buildArticleTree(
   const roots: ArticleNode[] = []
 
   for (const article of articles) {
-    const node = nodeMap.get(article.path)
+    const key = article.key ?? article.path
+    const node = nodeMap.get(key)
     if (!node) continue
-    const trimmed = article.path.replace(/\/$/, "")
+    const trimmed = key.replace(/\/$/, "")
     const lastSlash = trimmed.lastIndexOf("/")
     const parentPath = lastSlash > 0 ? `${trimmed.slice(0, lastSlash)}/` : ""
     const parent = parentPath ? nodeMap.get(parentPath) : undefined

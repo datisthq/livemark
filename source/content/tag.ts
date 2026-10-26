@@ -1,12 +1,12 @@
-import { config } from "livemark:virtual"
+import { sites } from "livemark:virtual"
 import { sectionFlatArticles, sortedArticles } from "./article.ts"
 
-const configSections = config.sections
+const configSections = sites.flatMap(site => site.config.sections ?? [])
 
 /** Per-section tag → article paths mapping. Articles sorted by date descending. */
 export const sectionTags = new Map<string, Map<string, string[]>>()
 
-if (configSections?.length) {
+if (configSections.length) {
   for (const section of configSections) {
     if (section.type !== "blog") continue
     const flat = sectionFlatArticles.get(section.prefix) ?? []

@@ -1,13 +1,20 @@
-import { config } from "livemark:virtual"
+import { sites } from "livemark:virtual"
 import { allArticles } from "content-collections"
 import type { ArticleNode } from "../models/article.ts"
+import type { RoutedSection } from "../models/section.ts"
+import type { Site } from "../models/site.ts"
 import {
   buildArticleTree,
   compareArticleDate,
   compareArticleOrder,
   flattenArticleTree,
 } from "../helpers/article.ts"
-import { matchSection, partitionBySection } from "../helpers/section.ts"
+import { matchSection } from "../helpers/section.ts"
+import { localizePath, matchSite, unlocalizePath } from "../helpers/site.ts"
+
+type Entry = (typeof allArticles)[number] & { untranslated?: boolean }
+
+const [defaultSite] = sites
 
 /**
  * Articles sorted by frontmatter `order`:
@@ -16,23 +23,35 @@ import { matchSection, partitionBySection } from "../helpers/section.ts"
  */
 export const sortedArticles = [...allArticles].sort(compareArticleOrder)
 
+const articlePaths = new Set(sortedArticles.map(a => a.path))
+
+/** Per-language sorted articles plus the default-language ones it lacks, marked
+ *  `untranslated` and keeping their default-language path. */
+const languageEntries = new Map(
+  sites.map(site => [site.language.code, collectEntries(site)] as const),
+)
+
+/** Per-language sidebar tree, for a site without routed sections */
+export const languageArticleTrees = new Map(
+  [...languageEntries].map(([code, entries]) => [code, buildArticleTree(entries)]),
+)
+
+/** Per-language articles in depth-first sidebar order */
+export const languageFlatArticles = new Map(
+  [...languageArticleTrees].map(([code, tree]) => [code, flattenArticleTree(tree)]),
+)
+
+/** Sidebar tree of the default language */
+export const articleTree = languageArticleTrees.get(defaultSite.language.code) ?? []
+
+/** Articles of the default language in depth-first order (matches sidebar walk) */
+export const flatArticles = languageFlatArticles.get(defaultSite.language.code) ?? []
+
 /** The article whose path is `/`, if any (rendered in place at the root) */
 export const homeArticle = sortedArticles.find(a => a.path === "/")
 
-/** Sidebar tree derived from the article path hierarchy */
-export const articleTree = buildArticleTree(sortedArticles)
-
-/** Articles in depth-first order across the tree (matches sidebar walk) */
-export const flatArticles = flattenArticleTree(articleTree)
-
 /** The first article in sidebar order, used as the default landing page */
 export const firstArticle = sortedArticles.find(a => a.path === flatArticles[0])
-
-const configSections = config.sections
-
-/** Route-bound sections (everything except `custom`). Custom sections
- *  are pure links — they have no `prefix` and don't claim a URL space. */
-const routedSections = configSections?.filter(s => s.type !== "custom") ?? []
 
 /** Per-section article tree, keyed by section prefix */
 export const sectionArticleTrees = new Map<string, ArticleNode[]>()
@@ -43,11 +62,24 @@ export const sectionFlatArticles = new Map<string, string[]>()
 /** Per-section first article path, keyed by section prefix */
 export const sectionFirstArticle = new Map<string, string | undefined>()
 
-if (routedSections.length) {
-  const sectionByPrefix = new Map(routedSections.map(s => [s.prefix, s]))
-  const buckets = partitionBySection(sortedArticles, routedSections)
+const defaultSections = routedSections(defaultSite)
+
+for (const site of sites) {
+  const sections = routedSections(site)
+  if (!sections.length) continue
+  const buckets = new Map<string, Entry[]>()
+  for (const entry of languageEntries.get(site.language.code) ?? []) {
+    // Sections match on the unprefixed key, so a translation and the default
+    // article it stands in for land in the same section.
+    const matched = matchSection(entry.key, defaultSections)
+    const section = matched ? sections[defaultSections.indexOf(matched)] : undefined
+    const key = section?.prefix ?? "__default__"
+    // Changelogs are shared by every language; the default site owns their bucket.
+    if (section?.type === "changelog" && !site.language.default) continue
+    buckets.set(key, [...(buckets.get(key) ?? []), entry])
+  }
   for (const [key, bucket] of buckets) {
-    const section = sectionByPrefix.get(key)
+    const section = sections.find(s => s.prefix === key)
     const sorted =
       section?.type === "blog" || section?.type === "changelog"
         ? [...bucket].sort(compareArticleDate)
@@ -60,8 +92,63 @@ if (routedSections.length) {
   }
 }
 
-/** Find which routed config section an article path belongs to */
+/** Find which routed config section an article path belongs to, in the
+ *  language the path is in */
 export function currentSection(path: string) {
-  if (!routedSections.length) return undefined
-  return matchSection(path, routedSections)
+  const sections = routedSections(matchSite(path, sites))
+  if (!sections.length) return undefined
+  return matchSection(path, sections)
+}
+
+/** The site whose language a path is in */
+export function currentSite(path: string) {
+  return matchSite(path, sites)
+}
+
+/** The same page in another language: its translation, a section index there, or
+ *  that language's home when the page has neither. */
+export function translatePath(path: string, target: Site) {
+  const key = unlocalizePath(path, currentSite(path).language)
+  const candidate = localizePath(key, target.language)
+  if (articlePaths.has(candidate)) return candidate
+  if (routedSections(target).some(s => s.prefix === candidate)) return candidate
+  return target.language.prefix
+}
+
+/** Every language's version of a page that exists, the current one included */
+export function listTranslations(path: string) {
+  const key = unlocalizePath(path, currentSite(path).language)
+  return sites.flatMap(site => {
+    const candidate = localizePath(key, site.language)
+    const exists =
+      articlePaths.has(candidate) ||
+      candidate === site.language.prefix ||
+      routedSections(site).some(s => s.prefix === candidate)
+    return exists ? [{ language: site.language, path: candidate }] : []
+  })
+}
+
+/** The first article of a language in sidebar order, its landing page */
+export function languageFirstArticle(site: Site) {
+  const prefix = site.language.prefix
+  return (
+    sectionFirstArticle.get(prefix) ?? languageFlatArticles.get(site.language.code)?.[0]
+  )
+}
+
+function collectEntries(site: Site): Entry[] {
+  const code = site.language.code
+  const own = sortedArticles.filter(a => a.language === code)
+  if (site.language.default) return own
+  const translated = new Set(own.map(a => a.key))
+  const missing = sortedArticles
+    .filter(a => a.language === defaultSite.language.code && !translated.has(a.key))
+    .map(a => ({ ...a, untranslated: true }))
+  return [...own, ...missing].sort(compareArticleOrder)
+}
+
+function routedSections(site: Site) {
+  return (site.config.sections ?? []).filter(
+    (s): s is RoutedSection => s.type !== "custom",
+  )
 }

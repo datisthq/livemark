@@ -1,4 +1,4 @@
-import { config } from "livemark:virtual"
+import { sites } from "livemark:virtual"
 import { Link, useLocation } from "@tanstack/react-router"
 import {
   sectionFirstArticle,
@@ -8,6 +8,7 @@ import {
 import { DynamicIcon } from "./dynamic-icon.tsx"
 import { prefixUrl } from "./prefix-url.ts"
 import { customSectionActive } from "./section.ts"
+import { useMessages, useSite } from "../hooks/site.ts"
 
 export type NavItem = {
   key: string
@@ -21,6 +22,9 @@ export type NavItem = {
 
 export function useNavItems(activePrefix?: string) {
   const pathname = useLocation({ select: l => l.pathname })
+  const site = useSite()
+  const t = useMessages()
+  const config = site.config
   const sections = config.sections ?? []
   const items: NavItem[] = sections
     .filter(section => section.position === "header")
@@ -53,7 +57,8 @@ export function useNavItems(activePrefix?: string) {
       }
     })
   if (!sections.length) {
-    items.push({ key: "/", title: "Docs", active: true, target: "/" })
+    const home = site.language.prefix
+    items.push({ key: home, title: t("nav.docs"), active: true, target: home })
   }
   for (const link of config.links ?? []) {
     if (link.position !== "header") continue
@@ -81,7 +86,7 @@ export function renderNavAnchor(item: NavItem, className?: string) {
   )
   if (item.href) {
     return (
-      <a href={prefixUrl(item.href, config.base)} className={className}>
+      <a href={prefixUrl(item.href, sites[0].config.base)} className={className}>
         {children}
       </a>
     )

@@ -8,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../elements/dropdown-menu.tsx"
+import { useMessages } from "../hooks/site.ts"
 
 // The `lg:w-56` Search field minus its 36px icon-only form
 const SEARCH_COMPACT_SAVING = 188
@@ -125,6 +126,7 @@ function HeaderNavMoreTrigger(
   props: React.ComponentProps<"button"> & { active: boolean },
 ) {
   const { active, className, ...rest } = props
+  const t = useMessages()
   return (
     <button
       type="button"
@@ -135,7 +137,7 @@ function HeaderNavMoreTrigger(
         className,
       )}
     >
-      More
+      {t("nav.more")}
       <ChevronDown className="size-3.5" />
     </button>
   )

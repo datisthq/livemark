@@ -47,7 +47,7 @@ Frontmatter shape differs: Hugo accepts TOML, YAML, or JSON frontmatter with fie
 | Capability                  | Livemark                                 | Hugo                                      |
 | --------------------------- | ---------------------------------------- | ----------------------------------------- |
 | Versioning                  | Partial (sections or per-branch deploys) | No (manual via branches/sites)            |
-| Internationalization (i18n) | No                                       | Yes (built-in, multilingual mode)         |
+| Internationalization (i18n) | Yes (built-in)                           | Yes (built-in, multilingual mode)         |
 | Search                      | Yes (Orama, client-side)                 | No (theme-provided or external)           |
 | Blog                        | Yes (built-in section type)              | Yes (any section can be date-sorted)      |
 | Changelog                   | Yes (section type)                       | No (manual)                               |

@@ -2,6 +2,7 @@ import { useRef } from "react"
 import { MDXContent } from "@content-collections/mdx/react"
 import { Calendar, History, User } from "lucide-react"
 import type { ArticleView } from "../models/article.ts"
+import { formatShortDate } from "../helpers/date.ts"
 import { useSearchHighlight } from "../helpers/search-highlight.ts"
 import { TocContext } from "../helpers/toc-context.ts"
 import { Abbr } from "./Abbr.tsx"
@@ -42,12 +43,17 @@ import { MobileToc, Toc } from "./Toc.tsx"
 import { YouTube } from "./YouTube.tsx"
 import { ZoomImage } from "./ZoomImage.tsx"
 import { Separator } from "../elements/separator.tsx"
+import { useMessages, useSite } from "../hooks/site.ts"
 
 /** Full-page article layout: MDX content, table of contents, toolbar, prev/next, footer */
 export function Article(props: { article: ArticleView; highlight?: string }) {
   const { article } = props
   const prose = useRef<HTMLDivElement>(null)
   useSearchHighlight(prose, article.path, props.highlight)
+  const site = useSite()
+  const t = useMessages()
+  const formatDate = (iso?: string) =>
+    iso ? formatShortDate(iso, site.language.locale) : undefined
   const lastUpdated = formatDate(article.lastUpdated)
   const publishedDate = formatDate(article.date)
   const authors = article.author
@@ -86,13 +92,13 @@ export function Article(props: { article: ArticleView; highlight?: string }) {
                 {publishedDate && (
                   <span className="flex items-center gap-1.5">
                     <Calendar className="size-3.5" />
-                    Published {publishedDate}
+                    {t("page.published", { date: publishedDate })}
                   </span>
                 )}
                 {lastUpdated && (
                   <span className="flex items-center gap-1.5">
                     <History className="size-3.5" />
-                    Updated {lastUpdated}
+                    {t("page.updated", { date: lastUpdated })}
                   </span>
                 )}
               </p>
@@ -160,13 +166,4 @@ export function Article(props: { article: ArticleView; highlight?: string }) {
       </div>
     </TocContext.Provider>
   )
-}
-
-function formatDate(iso?: string) {
-  if (!iso) return undefined
-  return new Date(iso).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  })
 }

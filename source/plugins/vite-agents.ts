@@ -15,6 +15,7 @@ import {
   renderSectionIndex,
 } from "../helpers/llms.ts"
 import { resolveIncludes } from "../helpers/resolve-includes.ts"
+import { buildSites } from "../helpers/site.ts"
 import type { Config } from "../models/config.ts"
 
 export interface AgentsOptions {
@@ -30,6 +31,7 @@ const GeneratedArticles = z.array(
     date: z.string().optional(),
     file: z.string(),
     content: z.string(),
+    language: z.string(),
   }),
 )
 
@@ -66,18 +68,25 @@ export function agents(opts: AgentsOptions): Plugin {
         emit(buildTwinFileName(article.path), renderMarkdownTwin({ article, content }))
       })
 
-      const llms = renderLlmsText({ config: opts.config, articles })
-      emit("llms.txt", llms)
       const hasTwin = (path: string) => articles.some(a => a.path === path)
-      if (!hasTwin("/")) emit("index.md", llms)
-      // A rewrite to a missing twin is a 404, so every listing page needs one too.
-      for (const section of opts.config.sections ?? []) {
-        if (section.type === "custom" || section.prefix === "/") continue
-        if (hasTwin(section.prefix)) continue
-        emit(
-          buildTwinFileName(section.prefix),
-          renderSectionIndex({ config: opts.config, section, articles }),
-        )
+      // Each language gets its own `llms.txt` under its prefix, listing only its articles.
+      for (const site of buildSites(opts.config)) {
+        const siteArticles = articles.filter(a => a.language === site.language.code)
+        const llms = renderLlmsText({ config: site.config, articles: siteArticles })
+        const prefix = site.language.prefix.slice(1)
+        emit(`${prefix}llms.txt`, llms)
+        if (!hasTwin(site.language.prefix)) emit(`${prefix}index.md`, llms)
+        // A rewrite to a missing twin is a 404, so every listing page needs one too.
+        for (const section of site.config.sections ?? []) {
+          if (section.type === "custom" || section.prefix === site.language.prefix)
+            continue
+          if (hasTwin(section.prefix)) continue
+          if (section.type === "changelog" && !site.language.default) continue
+          emit(
+            buildTwinFileName(section.prefix),
+            renderSectionIndex({ config: site.config, section, articles: siteArticles }),
+          )
+        }
       }
 
       const patterns = opts.config.skills ?? []

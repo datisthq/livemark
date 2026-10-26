@@ -2,13 +2,16 @@ import { Link } from "@tanstack/react-router"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import {
   sortedArticles,
-  flatArticles,
   currentSection,
+  languageFlatArticles,
   sectionFlatArticles,
 } from "../content/article.ts"
+import { useMessages, useSite } from "../hooks/site.ts"
 
 /** Previous/next article navigation shown at the bottom of each article page */
 export function PrevNext(props: { path: string }) {
+  const t = useMessages()
+  const flatArticles = languageFlatArticles.get(useSite().language.code) ?? []
   const section = currentSection(props.path)
   const flat = section
     ? (sectionFlatArticles.get(section.prefix) ?? flatArticles)
@@ -33,7 +36,7 @@ export function PrevNext(props: { path: string }) {
         >
           <span className="flex items-center gap-1 text-sm text-muted-foreground">
             <ChevronLeft className="size-4" />
-            Previous
+            {t("nav.previous")}
           </span>
           <span className="mt-1 block font-medium">{prev.title}</span>
         </Link>
@@ -45,7 +48,7 @@ export function PrevNext(props: { path: string }) {
           className="flex-1 rounded-card border shadow-sm p-4 hover:bg-muted/50 transition-colors text-right"
         >
           <span className="flex items-center justify-end gap-1 text-sm text-muted-foreground">
-            Next
+            {t("nav.next")}
             <ChevronRight className="size-4" />
           </span>
           <span className="mt-1 block font-medium">{next.title}</span>
