@@ -8,7 +8,7 @@ import {
   homeArticle,
   languageFirstArticle,
   listTranslations,
-  sortedArticles,
+  loadArticle,
 } from "../content/article.ts"
 import { sectionTags } from "../content/tag.ts"
 import { buildPageHead } from "../helpers/head.ts"
@@ -22,9 +22,10 @@ import { TagIndex } from "../components/TagIndex.tsx"
 export const Route = createFileRoute("/$")({
   // Loose, so keys this route does not own (UTM tags, devtools flags) survive.
   validateSearch: z.looseObject({ highlight: z.string().optional().catch(undefined) }),
-  loader: ({ params }) => {
+  loader: async ({ params }) => {
     if (!params._splat) {
-      if (homeArticle) return { ...homeArticle, sidebar: homeArticle.sidebar }
+      const home = homeArticle && (await loadArticle(homeArticle.path))
+      if (home) return home
       if (!firstArticle) throw notFound()
       throw redirect({
         to: "/$",
@@ -32,7 +33,7 @@ export const Route = createFileRoute("/$")({
       })
     }
     const splat = `/${params._splat}/`
-    const article = sortedArticles.find(a => a.path === splat)
+    const article = await loadArticle(splat)
     if (article) return article
 
     const site = currentSite(splat)

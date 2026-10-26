@@ -50,6 +50,7 @@ export const fr: Messages = {
   "code.copied": "Copié !",
   "code.wrapOn": "Activer le retour à la ligne",
   "code.wrapOff": "Désactiver le retour à la ligne",
+  "code.expand": "Déplier",
   "callout.note": "Note",
   "callout.info": "Info",
   "callout.tip": "Astuce",

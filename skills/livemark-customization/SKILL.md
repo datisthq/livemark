@@ -123,6 +123,7 @@ Custom routes win over the Markdown catch-all at exact URLs. Don't create a rout
 8. **Search highlights live in `Article`** — picking a result opens the page with `?highlight=<query>`, and `Article` passes it to `useSearchHighlight` with a ref on its `.prose` wrapper. An overridden `components/Article.tsx` must keep that call and ref, or matches stop being marked. Theme the mark through the `--highlight` and `--highlight-foreground` tokens; code blocks are never marked.
 9. **Edited Markdown reaches the page through `router.tsx`** — articles are route loader data, and route HMR keeps loader data, so `getRouter` re-runs loaders on Vite's `vite:afterUpdate`. An overridden `router.tsx` must keep that hook, or Markdown edits show only after a reload.
 10. **UI text goes through `useMessages()`** from `livemark/hooks/site` — `t("toc.title")`, keys in `models/message.ts`. An override that hardcodes text, or reads `config` from `livemark:virtual` instead of `useSite().config`, stays in the default language on a multi-language site; `routes/__root.tsx` must keep `lang` and `dir` from `useSite().language`.
+11. **The article list carries no bodies.** `sortedArticles` (and every list in `content/article.ts`) holds frontmatter, path and language only, so every page stays light; an article's `mdx`, `content` and `tocItems` reach its page through the `$` route loader (`loadArticle`), and search text loads with the search box. An override that reads a body off the list gets `undefined`.
 
 ## Head tags
 

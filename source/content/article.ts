@@ -1,5 +1,5 @@
 import { sites } from "livemark:virtual"
-import { allArticles } from "content-collections"
+import { articles, bodies } from "livemark:articles"
 import type { ArticleNode } from "../models/article.ts"
 import type { RoutedSection } from "../models/section.ts"
 import type { Site } from "../models/site.ts"
@@ -12,7 +12,7 @@ import {
 import { matchSection } from "../helpers/section.ts"
 import { localizePath, matchSite, unlocalizePath } from "../helpers/site.ts"
 
-type Entry = (typeof allArticles)[number] & { untranslated?: boolean }
+type Entry = (typeof articles)[number] & { untranslated?: boolean }
 
 const [defaultSite] = sites
 
@@ -21,7 +21,7 @@ const [defaultSite] = sites
  * positive values first (ascending), then unordered, then negative values
  * (so `order: -1` lands at the very end, `-2` just before it, and so on).
  */
-export const sortedArticles = [...allArticles].sort(compareArticleOrder)
+export const sortedArticles = [...articles].sort(compareArticleOrder)
 
 const articlePaths = new Set(sortedArticles.map(a => a.path))
 
@@ -90,6 +90,16 @@ for (const site of sites) {
     sectionFlatArticles.set(key, flat)
     sectionFirstArticle.set(key, flat[0])
   }
+}
+
+/** An article with its body (compiled MDX, raw Markdown, contents), which only its own
+ *  page loads: on the client that fetches the article's own chunk. */
+export async function loadArticle(path: string) {
+  const article = sortedArticles.find(a => a.path === path)
+  const load = bodies[path]
+  if (!article || !load) return undefined
+  const body = await load()
+  return { ...article, ...body.default }
 }
 
 /** Find which routed config section an article path belongs to, in the

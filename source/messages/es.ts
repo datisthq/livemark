@@ -50,6 +50,7 @@ export const es: Messages = {
   "code.copied": "¡Copiado!",
   "code.wrapOn": "Activar ajuste de línea",
   "code.wrapOff": "Desactivar ajuste de línea",
+  "code.expand": "Expandir",
   "callout.note": "Nota",
   "callout.info": "Info",
   "callout.tip": "Consejo",

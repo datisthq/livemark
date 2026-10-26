@@ -50,6 +50,7 @@ export const zh: Messages = {
   "code.copied": "已复制！",
   "code.wrapOn": "启用自动换行",
   "code.wrapOff": "关闭自动换行",
+  "code.expand": "展开",
   "callout.note": "注意",
   "callout.info": "信息",
   "callout.tip": "提示",

@@ -50,6 +50,7 @@ export const ja: Messages = {
   "code.copied": "コピーしました！",
   "code.wrapOn": "折り返しを有効化",
   "code.wrapOff": "折り返しを無効化",
+  "code.expand": "展開",
   "callout.note": "注記",
   "callout.info": "情報",
   "callout.tip": "ヒント",

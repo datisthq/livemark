@@ -50,6 +50,7 @@ export const de: Messages = {
   "code.copied": "Kopiert!",
   "code.wrapOn": "Zeilenumbruch aktivieren",
   "code.wrapOff": "Zeilenumbruch deaktivieren",
+  "code.expand": "Ausklappen",
   "callout.note": "Hinweis",
   "callout.info": "Info",
   "callout.tip": "Tipp",

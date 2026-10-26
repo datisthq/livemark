@@ -52,6 +52,7 @@ export const Messages = z.strictObject({
   "code.copied": z.string().default("Copied!"),
   "code.wrapOn": z.string().default("Enable wrap"),
   "code.wrapOff": z.string().default("Disable wrap"),
+  "code.expand": z.string().default("Expand"),
   "callout.note": z.string().default("Note"),
   "callout.info": z.string().default("Info"),
   "callout.tip": z.string().default("Tip"),

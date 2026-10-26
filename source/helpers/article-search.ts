@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, useMemo } from "react"
 import { useNavigate } from "@tanstack/react-router"
 import { create, insertMultiple, search } from "@orama/orama"
+import { searchIndexes } from "livemark:articles"
 import { sortedArticles } from "../content/article.ts"
 import { useMessages, useSite } from "../hooks/site.ts"
 import { buildHighlightPattern, findTextMatches } from "./search-highlight.ts"
@@ -16,40 +17,39 @@ export interface SearchResult {
 export function useArticleSearch() {
   const [results, setResults] = useState<SearchResult[]>([])
   const [query, setQuery] = useState("")
-  const dbRef = useRef<{
+  const indexRef = useRef<{
     language: string
-    db: Awaited<ReturnType<typeof create>>
+    db: SearchDb
+    texts: Map<string, string>
   } | null>(null)
   const navigate = useNavigate()
   const language = useSite().language.code
   const t = useMessages()
   const pagesGroup = t("search.pages")
-  // Only the current language's articles, so results never cross languages.
-  const articles = useMemo(
-    () => sortedArticles.filter(a => a.language === language),
-    [language],
-  )
 
+  // Only the current language's articles, so results never cross languages; their
+  // search text is its own chunk, fetched the first time someone searches.
   const ensureIndex = useCallback(async () => {
-    if (dbRef.current?.language === language) return dbRef.current.db
-    const db = await create({
-      schema: {
-        title: "string",
-        description: "string",
-        searchText: "string",
-      },
-    })
+    if (indexRef.current?.language === language) return indexRef.current
+    const load = searchIndexes[language]
+    const entries = load ? (await load()).default : []
+    const texts = new Map(entries.map(e => [e.path, e.searchText]))
+    const db = await createSearchDb()
     await insertMultiple(
       db,
-      articles.map(a => ({
-        title: a.title,
-        description: a.description ?? "",
-        searchText: a.searchText,
-      })),
+      sortedArticles
+        .filter(a => a.language === language)
+        .map(a => ({
+          // Orama keeps a document's own `id`, so a hit leads back to its article.
+          id: a.path,
+          title: a.title,
+          description: a.description ?? "",
+          searchText: texts.get(a.path) ?? "",
+        })),
     )
-    dbRef.current = { language, db }
-    return db
-  }, [articles, language])
+    indexRef.current = { language, db, texts }
+    return indexRef.current
+  }, [language])
 
   const searchArticles = useCallback(
     async (term: string) => {
@@ -58,34 +58,23 @@ export function useArticleSearch() {
         setResults([])
         return
       }
-      const db = await ensureIndex()
-      const hits = await search(db, {
+      const index = await ensureIndex()
+      const hits = await search(index.db, {
         term,
         properties: ["title", "description", "searchText"],
         tolerance: 1,
         boost: { title: 3, description: 2 },
       })
       setResults(
-        hits.hits.map(hit => {
-          const article = articles.find(a => a.title === hit.document.title)
-          if (!article)
-            return toResult(
-              {
-                ...sortedArticles[0],
-                title: hit.document.title,
-                path: "",
-                searchText: hit.document.description,
-                description: hit.document.description,
-                icon: "",
-              },
-              term,
-              pagesGroup,
-            )
-          return toResult(article, term, pagesGroup)
+        hits.hits.flatMap(hit => {
+          const article = sortedArticles.find(a => a.path === hit.id)
+          if (!article) return []
+          const text = index.texts.get(article.path) ?? ""
+          return [toResult(article, text, term, pagesGroup)]
         }),
       )
     },
-    [articles, ensureIndex, pagesGroup],
+    [ensureIndex, pagesGroup],
   )
 
   const selectArticle = useCallback(
@@ -114,8 +103,17 @@ export function useArticleSearch() {
   return { query, grouped, searchArticles, selectArticle }
 }
 
+type SearchDb = Awaited<ReturnType<typeof createSearchDb>>
+
+function createSearchDb() {
+  return create({
+    schema: { title: "string", description: "string", searchText: "string" },
+  })
+}
+
 function toResult(
   article: (typeof sortedArticles)[number],
+  searchText: string,
   term: string,
   pagesGroup: string,
 ): SearchResult {
@@ -123,9 +121,7 @@ function toResult(
     title: article.title,
     path: article.path,
     icon: article.icon,
-    snippet: term
-      ? extractSnippet(article.searchText, term)
-      : (article.description ?? ""),
+    snippet: term ? extractSnippet(searchText, term) : (article.description ?? ""),
     group: groupFor(article.key, pagesGroup),
   }
 }

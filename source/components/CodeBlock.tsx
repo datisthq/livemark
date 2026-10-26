@@ -119,7 +119,7 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
           className="flex items-center justify-center gap-1 w-full py-1.5 text-xs text-muted-foreground hover:text-foreground border-t cursor-pointer transition-colors"
         >
           <ChevronDown className="size-3.5" />
-          Expand
+          {t("code.expand")}
         </button>
       )}
     </figure>

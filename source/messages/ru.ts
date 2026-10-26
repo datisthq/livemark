@@ -50,6 +50,7 @@ export const ru: Messages = {
   "code.copied": "Скопировано!",
   "code.wrapOn": "Включить перенос строк",
   "code.wrapOff": "Выключить перенос строк",
+  "code.expand": "Развернуть",
   "callout.note": "Примечание",
   "callout.info": "Инфо",
   "callout.tip": "Совет",
