@@ -92,12 +92,12 @@ const en = {
       syntax: {
         title: "Rich Markdown syntax",
         description:
-          "Callouts, tabs, steps, cards, file trees, badges and more — plain directives, no JSX required.",
+          "Callouts, tabs, steps, cards, file trees and badges as plain directives — and MDX components when you need more.",
       },
-      mdx: {
-        title: "MDX components",
+      translations: {
+        title: "Multi-language sites",
         description:
-          "Drop JSX components into Markdown when you need power — stay plain when you don't.",
+          "Translate any page with a sibling file. Bundled UI strings for 7 languages, a language picker and hreflang tags.",
       },
       mobile: {
         title: "Perfect on mobile",
@@ -303,12 +303,12 @@ const es: LandingCopy = {
       syntax: {
         title: "Sintaxis Markdown enriquecida",
         description:
-          "Avisos, pestañas, pasos, tarjetas, árboles de archivos, insignias y más: directivas simples, sin JSX.",
+          "Avisos, pestañas, pasos, tarjetas, árboles de archivos e insignias como directivas simples, y componentes MDX cuando necesites más.",
       },
-      mdx: {
-        title: "Componentes MDX",
+      translations: {
+        title: "Sitios multilingües",
         description:
-          "Inserta componentes JSX en el Markdown cuando necesites más potencia; quédate en lo simple cuando no.",
+          "Traduce cualquier página con un archivo hermano. Textos de interfaz para 7 idiomas, selector de idioma y etiquetas hreflang.",
       },
       mobile: {
         title: "Perfecto en móvil",
