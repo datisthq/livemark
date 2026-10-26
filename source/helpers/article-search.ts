@@ -1,10 +1,11 @@
 import { useState, useRef, useCallback, useMemo } from "react"
 import { useNavigate } from "@tanstack/react-router"
-import { create, insertMultiple, search } from "@orama/orama"
+import { create, insertMultiple, search, type Tokenizer } from "@orama/orama"
 import { searchIndexes } from "livemark:articles"
 import { sortedArticles } from "../content/article.ts"
 import { useMessages, useSite } from "../hooks/site.ts"
 import { buildHighlightPattern, findTextMatches } from "./search-highlight.ts"
+import { createSearchTokenizer } from "./search-tokenizer.ts"
 
 export interface SearchResult {
   title: string
@@ -21,6 +22,7 @@ export function useArticleSearch() {
     language: string
     db: SearchDb
     texts: Map<string, string>
+    tolerance: number
   } | null>(null)
   const navigate = useNavigate()
   const language = useSite().language.code
@@ -34,7 +36,8 @@ export function useArticleSearch() {
     const load = searchIndexes[language]
     const entries = load ? (await load()).default : []
     const texts = new Map(entries.map(e => [e.path, e.searchText]))
-    const db = await createSearchDb()
+    const tokenizer = createSearchTokenizer(language)
+    const db = await createSearchDb(tokenizer)
     await insertMultiple(
       db,
       sortedArticles
@@ -49,7 +52,9 @@ export function useArticleSearch() {
           searchText: texts.get(a.path) ?? "",
         })),
     )
-    indexRef.current = { language, db, texts }
+    // A typo allowance of one character turns a two-character Chinese word into any
+    // other word sharing a character.
+    indexRef.current = { language, db, texts, tolerance: tokenizer ? 0 : 1 }
     return indexRef.current
   }, [language])
 
@@ -64,7 +69,7 @@ export function useArticleSearch() {
       const hits = await search(index.db, {
         term,
         properties: ["title", "description", "searchText"],
-        tolerance: 1,
+        tolerance: index.tolerance,
         boost: { title: 3, description: 2 },
       })
       setResults(
@@ -107,9 +112,10 @@ export function useArticleSearch() {
 
 type SearchDb = Awaited<ReturnType<typeof createSearchDb>>
 
-function createSearchDb() {
+function createSearchDb(tokenizer?: Tokenizer) {
   return create({
     schema: { title: "string", description: "string", searchText: "string" },
+    components: { tokenizer },
   })
 }
 
