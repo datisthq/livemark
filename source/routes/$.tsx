@@ -7,10 +7,10 @@ import {
   firstArticle,
   homeArticle,
   languageFirstArticle,
-  listTranslations,
   loadArticle,
 } from "../content/article.ts"
 import { sectionTags } from "../content/tag.ts"
+import { listTranslations } from "../content/translation.ts"
 import { buildPageHead } from "../helpers/head.ts"
 import { formatMessage } from "../helpers/site.ts"
 import { Article } from "../components/Article.tsx"

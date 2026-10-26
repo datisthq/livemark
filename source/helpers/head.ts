@@ -55,10 +55,10 @@ export function buildRootHead(props: {
   }
 }
 
-/** A page's own `<head>` tags. With `language` set (a multi-language site) it adds
- *  `og:locale`, an `hreflang` link per entry in `alternates`, and — outside the default
- *  language — the language's site name and description in place of the root's.
- *  `canonicalPath` names another page as the original of this one. */
+/** A page's own `<head>` tags: canonical and `og:url`, plus title, description and
+ *  image when given. With `language` set (a multi-language site) it adds `og:locale` and
+ *  an `hreflang` link per entry in `alternates`. `canonicalPath` names another page as
+ *  the original of this one. */
 export function buildPageHead(props: {
   config: WebsiteConfig
   path: string
@@ -71,9 +71,7 @@ export function buildPageHead(props: {
   isArticle?: boolean
 }) {
   const site = props.config.site?.replace(/\/+$/, "")
-  const localized = props.language && !props.language.default
-  const description =
-    props.description ?? (localized ? props.config.description : undefined)
+  const description = props.description
   const canonical = props.canonicalPath ?? props.path
   const url = site ? buildAbsoluteUrl(site, props.config.base, canonical) : undefined
   const image =
@@ -91,7 +89,6 @@ export function buildPageHead(props: {
             { property: "og:description", content: description },
           ]
         : []),
-      ...(localized ? [{ property: "og:site_name", content: props.config.title }] : []),
       ...(props.language
         ? [{ property: "og:locale", content: props.language.locale.replace("-", "_") }]
         : []),

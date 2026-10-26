@@ -1,7 +1,7 @@
 import { sites } from "livemark:virtual"
 import { useLocation, useNavigate } from "@tanstack/react-router"
 import { Languages } from "lucide-react"
-import { translatePath } from "../content/article.ts"
+import { translatePath } from "../content/translation.ts"
 import { Button } from "../elements/button.tsx"
 import { useMessages, useSite } from "../hooks/site.ts"
 import { LanguageFlag } from "./LanguageFlag.tsx"

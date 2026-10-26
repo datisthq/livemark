@@ -70,6 +70,7 @@ function Landing() {
 - **Exact paths win.** Custom routes take precedence over the catch-all that serves Markdown articles. If you create `/about`, a `docs/about.md` article at the same path becomes unreachable.
 - **The root path `/`.** Drop `.livemark/routes/index.tsx` to replace the default landing page with your own. Livemark's default site has a Markdown home page — overriding it gives you full React control of the hero.
 - **Nested paths.** File paths mirror URL paths: `.livemark/routes/guide/quickstart.tsx` ⇒ `/guide/quickstart/`.
+- **Head tags come with it.** A custom route gets the site title and description, a canonical link and `og:url` (with `site` set) and, on a multi-language site, `og:locale` and `hreflang` links — in the language its path is under. A `head` on the route can override the title and meta tags.
 
 ## Importing Livemark primitives
 

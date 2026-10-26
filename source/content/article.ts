@@ -10,7 +10,7 @@ import {
   flattenArticleTree,
 } from "../helpers/article.ts"
 import { matchSection } from "../helpers/section.ts"
-import { localizePath, matchSite, unlocalizePath } from "../helpers/site.ts"
+import { matchSite } from "../helpers/site.ts"
 
 type Entry = (typeof articles)[number] & { untranslated?: boolean; source?: string }
 
@@ -26,9 +26,11 @@ export const sortedArticles: Entry[] = [...articles, ...mirrorChangelogs()].sort
   compareArticleOrder,
 )
 
-const articlePaths = new Set(sortedArticles.map(a => a.path))
-// A changelog copy names its original as canonical, so it is never offered as an alternate.
-const mirrorPaths = new Set(sortedArticles.filter(a => a.source).map(a => a.path))
+/** Every article's URL, changelog copies included */
+export const articlePaths = new Set(sortedArticles.map(a => a.path))
+
+/** Changelog copies: each names its original as canonical, so it is never an alternate */
+export const mirrorPaths = new Set(sortedArticles.filter(a => a.source).map(a => a.path))
 
 /** Per-language sorted articles plus the default-language ones it lacks, marked
  *  `untranslated` and keeping their default-language path. */
@@ -118,30 +120,6 @@ export function currentSite(path: string) {
   return matchSite(path, sites)
 }
 
-/** The same page in another language: its translation, a section index there, or
- *  that language's home when the page has neither. */
-export function translatePath(path: string, target: Site) {
-  const key = unlocalizePath(path, currentSite(path).language)
-  const candidate = localizePath(key, target.language)
-  if (articlePaths.has(candidate)) return candidate
-  if (routedSections(target).some(s => s.prefix === candidate)) return candidate
-  return target.language.prefix
-}
-
-/** Every language's version of a page that exists, the current one included */
-export function listTranslations(path: string) {
-  const key = unlocalizePath(path, currentSite(path).language)
-  return sites.flatMap(site => {
-    const candidate = localizePath(key, site.language)
-    if (mirrorPaths.has(candidate)) return []
-    const exists =
-      articlePaths.has(candidate) ||
-      candidate === site.language.prefix ||
-      routedSections(site).some(s => s.prefix === candidate)
-    return exists ? [{ language: site.language, path: candidate }] : []
-  })
-}
-
 /** The first article of a language in sidebar order, its landing page */
 export function languageFirstArticle(site: Site) {
   const prefix = site.language.prefix
@@ -184,7 +162,8 @@ function collectEntries(site: Site): Entry[] {
   return [...own, ...missing].sort(compareArticleOrder)
 }
 
-function routedSections(site: Site) {
+/** A site's sections that own a URL prefix */
+export function routedSections(site: Site) {
   return (site.config.sections ?? []).filter(
     (s): s is RoutedSection => s.type !== "custom",
   )

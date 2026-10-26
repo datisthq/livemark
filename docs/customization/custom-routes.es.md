@@ -70,6 +70,7 @@ function Landing() {
 - **Las rutas exactas ganan.** Las rutas personalizadas tienen prioridad sobre la ruta comodín que sirve los artículos Markdown. Si creas `/about`, un artículo `docs/about.md` en la misma ruta queda inaccesible.
 - **La ruta raíz `/`.** Coloca `.livemark/routes/index.tsx` para reemplazar la página de inicio por defecto por la tuya. El sitio por defecto de Livemark tiene una página de inicio en Markdown; sobrescribirla te da control total en React sobre la portada.
 - **Rutas anidadas.** Las rutas de archivo reflejan las rutas URL: `.livemark/routes/guide/quickstart.tsx` ⇒ `/guide/quickstart/`.
+- **Las etiquetas del head vienen incluidas.** Una ruta personalizada recibe el título y la descripción del sitio, un enlace canónico y `og:url` (con `site` configurado) y, en un sitio multilingüe, `og:locale` y enlaces `hreflang`, en el idioma bajo cuya ruta está. Un `head` en la ruta puede sobrescribir el título y las etiquetas meta.
 
 ## Importar primitivas de Livemark [#importing-livemark-primitives]
 

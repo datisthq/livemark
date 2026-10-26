@@ -145,7 +145,6 @@ describe("buildPageHead", () => {
       href: "https://x.dev/guide/",
     })
     expect(head.meta).toContainEqual({ property: "og:locale", content: "es_ES" })
-    expect(head.meta).toContainEqual({ name: "description", content: "Blurb" })
   })
 
   it("adds no language tags without a language", () => {

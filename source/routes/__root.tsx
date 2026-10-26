@@ -1,7 +1,13 @@
-import { config } from "livemark:virtual"
+import { sites } from "livemark:virtual"
 import { TanStackDevtools } from "@tanstack/react-devtools"
 import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools"
-import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router"
+import {
+  createRootRoute,
+  HeadContent,
+  Outlet,
+  rootRouteId,
+  Scripts,
+} from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import type * as React from "react"
 import { useEffect } from "react"
@@ -12,7 +18,9 @@ import { NotFound } from "../components/NotFound.tsx"
 import { useHydrated } from "../hooks/hydrated.ts"
 import { useSite } from "../hooks/site.ts"
 import { Toaster } from "../elements/sonner.tsx"
-import { buildRootHead } from "../helpers/head.ts"
+import { currentSite } from "../content/article.ts"
+import { listTranslations } from "../content/translation.ts"
+import { buildPageHead, buildRootHead } from "../helpers/head.ts"
 import { startTheme } from "../helpers/theme.ts"
 import { customizeHead } from "../head.ts"
 import defaultFavicon from "../assets/logo.svg"
@@ -20,10 +28,35 @@ import generalCss from "../styles/general.css?url"
 import markdownCss from "../styles/markdown.css?url"
 
 export const Route = createRootRoute({
-  head: () =>
-    customizeHead(
-      buildRootHead({ config, defaultFavicon, stylesheets: [generalCss, markdownCss] }),
-    ),
+  head: ({ matches }) => {
+    const leaf = matches.at(-1)
+    // Widened: the root's own match type narrows `routeId` to "__root__".
+    const leafRouteId: string = leaf?.routeId ?? rootRouteId
+    const trimmed = (leaf?.pathname ?? "/").replace(/^\/|\/$/g, "")
+    const path = trimmed ? `/${trimmed}/` : "/"
+    const site = currentSite(path)
+    const root = buildRootHead({
+      config: site.config,
+      defaultFavicon,
+      stylesheets: [generalCss, markdownCss],
+    })
+    // The article route sets these itself; any other route (a project's own, a
+    // landing page) gets them here. A not-found page ends at the root and gets none.
+    const page =
+      leafRouteId !== "/$" && leafRouteId !== rootRouteId
+        ? buildPageHead({
+            config: site.config,
+            path,
+            language: sites.length > 1 ? site.language : undefined,
+            alternates: sites.length > 1 ? listTranslations(path) : undefined,
+          })
+        : { meta: [], links: [] }
+    return customizeHead({
+      ...root,
+      meta: [...root.meta, ...page.meta],
+      links: [...root.links, ...page.links],
+    })
+  },
   notFoundComponent: () => (
     <Layout>
       <NotFound />
