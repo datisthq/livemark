@@ -46,4 +46,4 @@ If you bring your own theme and want to stay AA-compliant, check each token colo
 ## See also
 
 - [Code Blocks](/authoring/code-blocks/) — the authoring side: meta strings, diffs, line highlights.
-- [Escaping](/customization/overriding-escaping/) — override the full code-block component if you need deeper control.
+- [Overriding/Escaping](/customization/overriding-escaping/) — override the full code-block component if you need deeper control.

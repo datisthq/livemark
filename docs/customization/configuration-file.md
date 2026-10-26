@@ -83,5 +83,5 @@ export default defineConfig({
 - [External Links](/customization/external-links/) — header and sidebar links.
 - [Syntax Themes](/customization/syntax-themes/) — pick or extend Shiki themes.
 - [Article Patches](/customization/article-patches/) — override frontmatter from config.
-- [Escaping](/customization/overriding-escaping/) — replace any built-in component or stylesheet.
+- [Overriding/Escaping](/customization/overriding-escaping/) — replace any built-in component or stylesheet.
 - [Custom Routes](/customization/custom-routes/) — add fully custom pages.

@@ -1,11 +1,12 @@
 ---
 description: Shadow any livemark component, element, or stylesheet by dropping a same-named file into .livemark/.
+label: Escaping
 icon: file-pen-line
 order: 10
 path: /customization/overriding-escaping/
 ---
 
-# Escaping
+# Overriding/Escaping
 
 Livemark ships a library of React components, shadcn-style primitives, and a base stylesheet. Each file can be overridden by placing a same-named file under `.livemark/`:
 
