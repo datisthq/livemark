@@ -4,7 +4,11 @@ export default defineConfig({
   site: "https://livemark.dev",
   logo: "/logo.svg",
   title: "Livemark",
-  description: { en: "Markdown site generator", es: "Generador de sitios Markdown" },
+  description: {
+    en: "Markdown site generator",
+    es: "Generador de sitios Markdown",
+    zh: "Markdown 站点生成器",
+  },
   favicon: "/logo.png",
   include: ["docs/**/*.md", "blog/**/*.md", "README.md", "CONTRIBUTING.md"],
   skills: "skills/*/SKILL.md",
@@ -12,12 +16,17 @@ export default defineConfig({
   languages: [
     { code: "en", label: "English" },
     { code: "es", label: "Español" },
+    { code: "zh", label: "简体中文" },
   ],
   sections: [
-    { title: { en: "Docs", es: "Documentación" }, prefix: "/", icon: "book-open" },
+    {
+      title: { en: "Docs", es: "Documentación", zh: "文档" },
+      prefix: "/",
+      icon: "book-open",
+    },
     { title: "Blog", prefix: "/blog/", type: "blog", icon: "rss" },
     {
-      title: { en: "Changelog", es: "Cambios" },
+      title: { en: "Changelog", es: "Cambios", zh: "更新日志" },
       prefix: "/changelog/",
       type: "changelog",
       source: "CHANGELOG.md",

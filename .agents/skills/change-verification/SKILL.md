@@ -90,8 +90,9 @@ gate** once, at the end: `pnpm check` always, then a unit half **you choose**.
 
 - **The slice fails somewhere unexpected.** The diff reaches further than you thought. Go up a
   rung; do not narrow the slice until it passes.
-- **Generated artefacts.** A route change regenerates `source/routeTree.gen.ts`; slice after
-  regenerating, not before.
+- **Generated artefacts.** A route change needs `source/routeTree.gen.ts` regenerated; slice
+  after regenerating, not before. `pnpm build:docs` writes only `.livemark/.build/routeTree.gen.ts`
+  — copy it over, pointing each `./routes/` import of an escaped route at `./../.livemark/routes/`.
 - **A change meant to alter no output** — a build speed-up or refactor. Copy
   `.livemark/build/client` aside before it, `pnpm build:docs` after, and diff the HTML with
   `/assets/` hashes masked. The gate stays green when a code block quietly loses highlighting.

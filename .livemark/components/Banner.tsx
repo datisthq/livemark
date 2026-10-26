@@ -4,11 +4,12 @@ import { useSite } from "livemark/hooks/site"
 const COPY = {
   en: { message: "Livemark is in technical preview", link: "Share feedback" },
   es: { message: "Livemark está en vista previa técnica", link: "Danos tu opinión" },
+  zh: { message: "Livemark 正处于技术预览阶段", link: "提交反馈" },
 }
 
 export function Banner() {
   const code = useSite().language.code
-  const copy = code === "es" ? COPY.es : COPY.en
+  const copy = code === "es" || code === "zh" ? COPY[code] : COPY.en
   return (
     <div className="bg-banner text-banner-foreground">
       {/* `relative` anchors the link's stretched `after:` box: the whole strip is one

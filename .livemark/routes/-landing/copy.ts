@@ -420,8 +420,202 @@ const es: LandingCopy = {
   },
 }
 
+const zh: LandingCopy = {
+  hero: {
+    eyebrow: "为 TypeScript 打造",
+    titleLines: ["精美的", "Markdown 站点，"],
+    titleHighlight: "随心而建。",
+    description:
+      "文件原地不动，按需添加 TanStack Start 页面，用 Tailwind 重新定制一切，即可获得在任何屏幕上都出色的文档、博客和更新日志。",
+    getStarted: "快速开始",
+    viewSource: "查看源码",
+    sourceLabel: "用纯 Markdown 编写",
+  },
+  slides: {
+    docs: {
+      title: "文档",
+      alts: ["一个 Livemark 文档页面，带有侧边栏、高亮的代码块和目录"],
+    },
+    blog: {
+      title: "博客",
+      alts: ["一个 Livemark 博客索引页，列出带有日期、作者和标签的文章"],
+    },
+    changelog: {
+      title: "更新日志",
+      alts: ["一个 Livemark 更新日志，列出各个版本及其发布日期"],
+    },
+    mobile: {
+      title: "移动端",
+      alts: [
+        "在手机上打开的 Livemark 侧边栏，带有栏目选择器和文章列表",
+        "手机上的一个 Livemark 文档页面，展示注意、提示、警告和危险提示框",
+        "在手机上以底部弹出面板打开的页面目录",
+      ],
+    },
+  },
+  freedom: {
+    title: "不碍你的事",
+    description: "不强制目录结构，不绑定平台。Livemark 适应你的仓库，而不是反过来。",
+    repoLabel: "your-repo",
+    points: {
+      layout: {
+        title: "任意文件布局",
+        description: rich(
+          "把 ",
+          { code: "include" },
+          " glob 指向你现有的 Markdown。README、CONTRIBUTING 和 CHANGELOG 也会变成页面。",
+        ),
+      },
+      pages: {
+        title: "真正的 TanStack Start 页面",
+        description: rich(
+          "把一个 ",
+          { code: ".tsx" },
+          " 文件放进 ",
+          { code: ".livemark/routes/" },
+          "，即可制作定价页、仪表盘或其他任何页面。这个首页就是其中之一。",
+        ),
+      },
+      tailwind: {
+        title: "Tailwind，完全可定制",
+        description: rich(
+          "基于 Tailwind v4 和 shadcn 风格的基础元素构建。用 CSS 变量重新定制样式，在自己的页面中使用工具类，或在 ",
+          { code: ".livemark/" },
+          " 下",
+          { link: "customization/overriding-escaping", text: "覆盖任意组件" },
+          "。",
+        ),
+      },
+    },
+  },
+  features: {
+    title: "开箱即美",
+    description:
+      "丰富的 Markdown、精致的移动端体验和合理的默认设置。只定制你想改的部分。",
+    items: {
+      shiki: {
+        title: "Shiki 语法高亮",
+        description:
+          "开箱即支持 100 多种语言、Catppuccin 主题、diff、行高亮以及 TwoSlash 类型提示。",
+      },
+      diagrams: {
+        title: "图表与公式",
+        description:
+          "Mermaid 流程图和 KaTeX 公式，自动适配主题，无需配置。直接写在 Markdown 里即可。",
+      },
+      syntax: {
+        title: "丰富的 Markdown 语法",
+        description:
+          "提示框、标签页、步骤、卡片、文件树和徽章都是简单的指令——需要更多时还可以使用 MDX 组件。",
+      },
+      translations: {
+        title: "多语言站点",
+        description:
+          "用一个同名的兄弟文件翻译任意页面。内置 7 种语言的界面文本、语言选择器和 hreflang 标签。",
+      },
+      mobile: {
+        title: "移动端完美呈现",
+        description: "底部弹出式导航，页面目录一触即达，任何手机上都不会横向滚动。",
+      },
+      sections: {
+        title: "文档、博客和更新日志",
+        description: "多个内容栏目，支持标签、日期和自动生成的索引页，全部通过配置完成。",
+      },
+      search: {
+        title: "搜索与导航",
+        description: "Orama 全文搜索、按栏目划分的侧边栏、键盘快捷键和智能目录。",
+      },
+      theme: {
+        title: "深色模式与主题变量",
+        description:
+          "内置深色模式、浅色/深色图片变体、--primary 等 CSS 变量，以及可替换的 Shiki 主题。",
+      },
+      preview: {
+        title: "即时预览，静态输出",
+        description:
+          "保存即在浏览器中呈现修改，无需刷新。随后生成带有 sitemap、robots 和 RSS 的静态构建。",
+      },
+    },
+  },
+  showcase: {
+    title: "写 Markdown，发布网站。",
+    description: rich("你的 ", { code: ".md" }, " 文件保持原样——其余的交给 Livemark。"),
+    renderedLabel: "渲染结果",
+  },
+  agents: {
+    title: "为 AI 智能体做好准备",
+    description:
+      "每次构建都会在面向人的 HTML 之外，以 AI 智能体所需的格式发布你的站点。无需任何配置。",
+    terminalLabel: "终端",
+    more: { link: "customization/ai-agents", text: "Livemark 如何服务 AI 智能体 →" },
+    points: {
+      twin: {
+        title: "每个页面都有 Markdown 副本",
+        description: rich(
+          "每个页面的 HTML 旁都有一个 ",
+          { code: "index.md" },
+          "，并在页面 head 中链接。一条 CDN 规则即可把它提供给发送 ",
+          { code: "Accept: text/markdown" },
+          " 的请求。",
+        ),
+      },
+      llms: {
+        title: "开箱即用的 llms.txt",
+        description: rich(
+          "一个按栏目分组、列出所有副本的 ",
+          { code: "llms.txt" },
+          " 索引，并通过首页的 ",
+          { code: "Link" },
+          " 响应头公布。",
+        ),
+      },
+      signals: {
+        title: "内容信号",
+        description: rich(
+          { code: "robots.txt" },
+          " 声明你的页面能否用于搜索、AI 回答或模型训练。改一个配置项即可调整。",
+        ),
+      },
+      skills: {
+        title: "智能体技能",
+        description: rich(
+          "把 ",
+          { code: "skills" },
+          " 指向你的 ",
+          { code: "SKILL.md" },
+          " 文件，它们就会发布在 ",
+          { code: "/.well-known/agent-skills/" },
+          " 下。",
+        ),
+      },
+      coding: {
+        title: "为你的编程智能体准备的技能",
+        description: rich(
+          { code: "npx skills add https://livemark.dev" },
+          " 让 Claude Code、Cursor 或 Codex 学会",
+          { link: "agent-skills", text: "编写、配置和定制" },
+          "你的 Livemark 站点。",
+        ),
+      },
+    },
+  },
+  finalCta: {
+    titleLead: "开始写作。",
+    titleHighlight: "其余的交给 Livemark。",
+    description:
+      "把 Livemark 指向你现有的 Markdown，需要时添加页面，然后部署。这就是全部的设置。",
+    readDocs: "阅读文档",
+    whatsNew: "查看更新",
+  },
+  datist: {
+    builtBy: "出品方",
+    tagline: "Datist——端到端的软件开发。",
+  },
+}
+
 /** The landing copy per language code; unknown codes fall back to `en`. */
 export const landingCopy: Partial<Record<string, LandingCopy>> & { en: LandingCopy } = {
   en,
   es,
+  zh,
 }

@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './../.livemark/routes/index'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as SectionRssDotxmlRouteImport } from './routes/$section.rss[.]xml'
 import { Route as EsIndexRouteImport } from './../.livemark/routes/es/index'
+import { Route as ZhIndexRouteImport } from './../.livemark/routes/zh/index'
 import { Route as LanguageSectionRssDotxmlRouteImport } from './routes/$language.$section.rss[.]xml'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +36,11 @@ const EsIndexRoute = EsIndexRouteImport.update({
   path: '/es/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ZhIndexRoute = ZhIndexRouteImport.update({
+  id: '/zh/',
+  path: '/zh/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LanguageSectionRssDotxmlRoute =
   LanguageSectionRssDotxmlRouteImport.update({
     id: '/$language/$section/rss.xml',
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/$': typeof SplatRoute
   '/$section/rss.xml': typeof SectionRssDotxmlRoute
   '/es/': typeof EsIndexRoute
+  '/zh/': typeof ZhIndexRoute
   '/$language/$section/rss.xml': typeof LanguageSectionRssDotxmlRoute
 }
 export interface FileRoutesByTo {
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/$': typeof SplatRoute
   '/$section/rss.xml': typeof SectionRssDotxmlRoute
   '/es': typeof EsIndexRoute
+  '/zh': typeof ZhIndexRoute
   '/$language/$section/rss.xml': typeof LanguageSectionRssDotxmlRoute
 }
 export interface FileRoutesById {
@@ -62,20 +70,33 @@ export interface FileRoutesById {
   '/$': typeof SplatRoute
   '/$section/rss.xml': typeof SectionRssDotxmlRoute
   '/es/': typeof EsIndexRoute
+  '/zh/': typeof ZhIndexRoute
   '/$language/$section/rss.xml': typeof LanguageSectionRssDotxmlRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/$' | '/$section/rss.xml' | '/es/' | '/$language/$section/rss.xml'
+    | '/'
+    | '/$'
+    | '/$section/rss.xml'
+    | '/es/'
+    | '/zh/'
+    | '/$language/$section/rss.xml'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/$' | '/$section/rss.xml' | '/es' | '/$language/$section/rss.xml'
+  to:
+    | '/'
+    | '/$'
+    | '/$section/rss.xml'
+    | '/es'
+    | '/zh'
+    | '/$language/$section/rss.xml'
   id:
     | '__root__'
     | '/'
     | '/$'
     | '/$section/rss.xml'
     | '/es/'
+    | '/zh/'
     | '/$language/$section/rss.xml'
   fileRoutesById: FileRoutesById
 }
@@ -84,6 +105,7 @@ export interface RootRouteChildren {
   SplatRoute: typeof SplatRoute
   SectionRssDotxmlRoute: typeof SectionRssDotxmlRoute
   EsIndexRoute: typeof EsIndexRoute
+  ZhIndexRoute: typeof ZhIndexRoute
   LanguageSectionRssDotxmlRoute: typeof LanguageSectionRssDotxmlRoute
 }
 
@@ -117,6 +139,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/zh/': {
+      id: '/zh/'
+      path: '/zh'
+      fullPath: '/zh/'
+      preLoaderRoute: typeof ZhIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$language/$section/rss.xml': {
       id: '/$language/$section/rss.xml'
       path: '/$language/$section/rss.xml'
@@ -132,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   SplatRoute: SplatRoute,
   SectionRssDotxmlRoute: SectionRssDotxmlRoute,
   EsIndexRoute: EsIndexRoute,
+  ZhIndexRoute: ZhIndexRoute,
   LanguageSectionRssDotxmlRoute: LanguageSectionRssDotxmlRoute,
 }
 export const routeTree = rootRouteImport
