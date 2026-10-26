@@ -17,7 +17,7 @@ export function SiteTitle() {
   return (
     <div className="flex min-w-0 items-end gap-2.5 text-sm">
       <img src={logo} alt={title} className="size-6.5 mb-1.25 shrink-0" />
-      <div className="flex min-w-0 flex-col leading-none">
+      <div className="mb-px flex min-w-0 flex-col leading-none">
         <span className="truncate font-semibold">{title}</span>
         <span className="truncate text-xs opacity-80">{description}</span>
       </div>
