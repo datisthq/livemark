@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.31.0](https://github.com/datisthq/livemark/compare/v0.30.0...v0.31.0) (2026-10-27)
+
+
+### Features
+
+* list every shortcut in the header menu, disabling the ones a page lacks ([7f13a72](https://github.com/datisthq/livemark/commit/7f13a720abc81483e474e16aa1ec51da23da4efa))
+
 ## [0.30.0](https://github.com/datisthq/livemark/compare/v0.29.3...v0.30.0) (2026-10-27)
 
 
