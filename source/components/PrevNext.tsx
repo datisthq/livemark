@@ -1,4 +1,5 @@
-import { Link } from "@tanstack/react-router"
+import { Link, useNavigate } from "@tanstack/react-router"
+import { useHotkey } from "@tanstack/react-hotkeys"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import {
   sortedArticles,
@@ -17,12 +18,16 @@ export function PrevNext(props: { path: string }) {
     ? (sectionFlatArticles.get(section.prefix) ?? flatArticles)
     : flatArticles
   const index = flat.indexOf(props.path)
-  if (index < 0) return null
-
   const prevPath = index > 0 ? flat[index - 1] : undefined
-  const nextPath = index < flat.length - 1 ? flat[index + 1] : undefined
+  const nextPath = index >= 0 && index < flat.length - 1 ? flat[index + 1] : undefined
   const prev = prevPath ? sortedArticles.find(a => a.path === prevPath) : undefined
   const next = nextPath ? sortedArticles.find(a => a.path === nextPath) : undefined
+
+  const navigate = useNavigate()
+  const goTo = (path: string) =>
+    navigate({ to: "/$", params: { _splat: path.replace(/^\/|\/$/g, "") } })
+  useHotkey("P", () => prev && goTo(prev.path))
+  useHotkey("N", () => next && goTo(next.path))
 
   if (!prev && !next) return null
 
@@ -32,6 +37,7 @@ export function PrevNext(props: { path: string }) {
         <Link
           to="/$"
           params={{ _splat: prev.path.replace(/^\/|\/$/g, "") }}
+          aria-keyshortcuts="P"
           className="flex-1 rounded-card border shadow-sm p-4 hover:bg-muted/50 transition-colors"
         >
           <span className="flex items-center gap-1 text-sm text-muted-foreground">
@@ -45,6 +51,7 @@ export function PrevNext(props: { path: string }) {
         <Link
           to="/$"
           params={{ _splat: next.path.replace(/^\/|\/$/g, "") }}
+          aria-keyshortcuts="N"
           className="flex-1 rounded-card border shadow-sm p-4 hover:bg-muted/50 transition-colors text-right"
         >
           <span className="flex items-center justify-end gap-1 text-sm text-muted-foreground">
