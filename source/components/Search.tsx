@@ -27,7 +27,7 @@ export function Search(props: { compact?: boolean }) {
         title={t("search.label")}
         className={cn(
           "flex h-9 items-center gap-2 rounded-control border border-border bg-muted/50 px-2.5 text-sm text-muted-foreground shadow-xs hover:bg-muted transition-colors cursor-pointer",
-          !props.compact && "lg:w-32",
+          !props.compact && "lg:w-40",
         )}
       >
         <SearchIcon className="size-4" />
