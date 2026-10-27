@@ -187,7 +187,7 @@ function HeroActions(props: { copy: LandingCopy["hero"]; prefix: string }) {
           {props.copy.viewSource}
         </a>
       </div>
-      <div className="mt-6 hidden sm:inline-grid grid-cols-[auto_auto] gap-x-3 gap-y-1 rounded-control border border-border bg-card/50 backdrop-blur px-4 py-2 font-mono text-sm text-muted-foreground">
+      <div className="mt-6 hidden sm:inline-grid grid-cols-[auto_auto] gap-x-3 gap-y-1 rounded-[1.25rem] border border-border bg-card/50 backdrop-blur px-4 py-2 font-mono text-sm text-muted-foreground">
         <span className="text-primary select-none">$</span>
         <span>
           <span className="text-foreground">npm install</span> livemark
