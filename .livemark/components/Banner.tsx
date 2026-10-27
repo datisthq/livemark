@@ -12,9 +12,7 @@ export function Banner() {
   const copy = code === "es" || code === "zh" ? COPY[code] : COPY.en
   return (
     <div className="bg-banner text-banner-foreground">
-      {/* `relative` anchors the link's stretched `after:` box: the whole strip is one
-          click target, and `group-hover` moves the arrow from anywhere on it. */}
-      <div className="group relative mx-auto flex max-w-6xl items-center justify-center gap-2 px-4 py-2 text-center font-mono text-xs tracking-wide sm:px-6">
+      <div className="mx-auto flex max-w-6xl items-center justify-center gap-2 px-4 py-2 text-center font-mono text-xs tracking-wide sm:px-6">
         <span className="min-w-0 truncate">{copy.message}</span>
         <span aria-hidden className="hidden opacity-60 sm:inline">
           ·
@@ -23,7 +21,7 @@ export function Banner() {
           href="https://github.com/datisthq/livemark/discussions"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex shrink-0 items-center gap-1 no-underline after:absolute after:inset-0"
+          className="group inline-flex shrink-0 items-center gap-1 no-underline"
         >
           {/* `sr-only`, not `hidden`: on a phone the link would be left an unnamed icon. */}
           <span className="sr-only underline underline-offset-4 group-hover:no-underline sm:not-sr-only">
