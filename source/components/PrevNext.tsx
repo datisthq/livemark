@@ -26,8 +26,8 @@ export function PrevNext(props: { path: string }) {
   const navigate = useNavigate()
   const goTo = (path: string) =>
     navigate({ to: "/$", params: { _splat: path.replace(/^\/|\/$/g, "") } })
-  useHotkey("P", () => prev && goTo(prev.path))
-  useHotkey("N", () => next && goTo(next.path))
+  useHotkey("H", () => prev && goTo(prev.path))
+  useHotkey("L", () => next && goTo(next.path))
 
   if (!prev && !next) return null
 
@@ -37,7 +37,7 @@ export function PrevNext(props: { path: string }) {
         <Link
           to="/$"
           params={{ _splat: prev.path.replace(/^\/|\/$/g, "") }}
-          aria-keyshortcuts="P"
+          aria-keyshortcuts="H"
           className="flex-1 rounded-card border shadow-sm p-4 hover:bg-muted/50 transition-colors"
         >
           <span className="flex items-center gap-1 text-sm text-muted-foreground">
@@ -51,7 +51,7 @@ export function PrevNext(props: { path: string }) {
         <Link
           to="/$"
           params={{ _splat: next.path.replace(/^\/|\/$/g, "") }}
-          aria-keyshortcuts="N"
+          aria-keyshortcuts="L"
           className="flex-1 rounded-card border shadow-sm p-4 hover:bg-muted/50 transition-colors text-right"
         >
           <span className="flex items-center justify-end gap-1 text-sm text-muted-foreground">

@@ -244,7 +244,7 @@ function SidebarTrigger({
       data-slot="sidebar-trigger"
       variant="ghost"
       size="icon-sm"
-      aria-keyshortcuts="L"
+      aria-keyshortcuts="M"
       className={cn(className)}
       onClick={event => {
         onClick?.(event)

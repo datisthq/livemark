@@ -7,6 +7,7 @@ import { HeaderMenu } from "./HeaderMenu.tsx"
 import { HeaderNav } from "./HeaderNav.tsx"
 import { LanguagePicker } from "./LanguagePicker.tsx"
 import { Search } from "./Search.tsx"
+import { Shortcuts } from "./Shortcuts.tsx"
 import { SiteLink } from "./SiteLink.tsx"
 import { SiteTitle } from "./SiteTitle.tsx"
 import { Theme } from "./Theme.tsx"
@@ -52,6 +53,7 @@ export function Header(props: { toggle?: React.ReactNode; menu?: React.ReactNode
         <Search compact={compactSearch} />
         <Theme />
         <LanguagePicker />
+        <Shortcuts />
         <div className="lg:hidden">{props.menu ?? <HeaderMenu />}</div>
       </div>
     </header>

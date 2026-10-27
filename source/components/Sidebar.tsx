@@ -30,7 +30,7 @@ export function Sidebar(props: { withSidebar?: boolean }) {
   const articleRoute = useMatch({ from: "/$", shouldThrow: false })
   const { toggleSidebar, isMobile } = useSidebar()
 
-  useHotkey("L", () => {
+  useHotkey("M", () => {
     if (props.withSidebar || isMobile) toggleSidebar()
   })
 
