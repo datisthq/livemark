@@ -1,5 +1,40 @@
 # Changelog
 
+## [0.29.0](https://github.com/datisthq/livemark/compare/v0.28.6...v0.29.0) (2026-10-27)
+
+
+### Features
+
+* add a keyboard shortcuts menu and move sidebar, next and previous to M, L and H ([adbaeb2](https://github.com/datisthq/livemark/commit/adbaeb214bb2e75e052ac2d3da5b281d5e95960f))
+* add multi-language sites with translations and a language picker ([ce85d6d](https://github.com/datisthq/livemark/commit/ce85d6d5bc6b8ff298c7be1362364ed3303bbac2))
+* add N and P shortcuts for the next and previous article ([eab6a25](https://github.com/datisthq/livemark/commit/eab6a251539a93d7a174655ab8b4af8846d8621a))
+* cover versioned docs in the configuration skill ([aa0f21a](https://github.com/datisthq/livemark/commit/aa0f21ab91f80ecaf267aafbcd711029ffea8095))
+* give every route canonical, og and hreflang tags and keep non-canonical pages out of the sitemap ([8d452f3](https://github.com/datisthq/livemark/commit/8d452f3ad5731fd3f30a312fb8e8e40eb8eaa0b1))
+* load article bodies and search text on demand instead of in every page ([2d254b3](https://github.com/datisthq/livemark/commit/2d254b3846e0a4daa378ba02ec87f2cc17b829b7))
+* move back to top to U and add D to scroll to the bottom ([4cb5b89](https://github.com/datisthq/livemark/commit/4cb5b8979a32f559c4da7efdba6f7d1abdb76e8a))
+* show breadcrumbs above articles, configurable site-wide and per article ([9018cca](https://github.com/datisthq/livemark/commit/9018cca39a738829a7afc7b447eeed761acf1518))
+* show language flags in the picker and place it after the theme toggle ([0b1a8d8](https://github.com/datisthq/livemark/commit/0b1a8d84a69364ccf45c55831e4fd051e6f30314))
+* title the language and theme dropdowns ([20ecd5a](https://github.com/datisthq/livemark/commit/20ecd5aab88eebe83612790ed475451d4f39eeea))
+* translate the page around changelog entries, keeping the release notes as written ([013b5e8](https://github.com/datisthq/livemark/commit/013b5e8979f52d8a44e8de6939e3b37abcce8947))
+
+
+### Bug Fixes
+
+* drop the site logo a pixel relative to the title block ([be9b31a](https://github.com/datisthq/livemark/commit/be9b31a67a1ffd48650958e028b5961bb487028a))
+* find Chinese, Japanese and Thai articles by a word inside a sentence in search ([31938f3](https://github.com/datisthq/livemark/commit/31938f3ad058b4f8df7feead12bf7789c5e72e24))
+* let content take the full width when the sidebar is collapsed ([90c1338](https://github.com/datisthq/livemark/commit/90c1338666540c85baddba816112b2d5ea5b12fb))
+* lift the site title block a pixel to align with the logo ([4641531](https://github.com/datisthq/livemark/commit/464153139d2467b80dcb57f65c5b2999f35dbb3e))
+* narrow the header search field ([056e653](https://github.com/datisthq/livemark/commit/056e65310b90880d593b6b12ab35b0d91b2b9067))
+* narrow the header search field back to 10rem ([c3dceab](https://github.com/datisthq/livemark/commit/c3dceab928beb168a9b65661ee470c689482594b))
+* narrow the header search field further ([fb615bf](https://github.com/datisthq/livemark/commit/fb615bf621a4605d39a332973b0368f69158d713))
+* narrow the header search field to 10rem ([5c099c5](https://github.com/datisthq/livemark/commit/5c099c5f43edb069ad0d1f5a7de9b3a632dbad5a))
+* narrow the header search field to 8rem ([cd8817c](https://github.com/datisthq/livemark/commit/cd8817cfda54d1ab7b956cd9773685af4dd1c72f))
+* pad the sidebar bottom so the browser's link preview doesn't cover the last item ([3338763](https://github.com/datisthq/livemark/commit/33387633edfff29766309d3e2c3a920ac4713647))
+* replace the default logo with a clean, evenly spaced SVG ([ea176d8](https://github.com/datisthq/livemark/commit/ea176d8461ea862db8a94d868ee8aa21a238ed67))
+* tighten the site title and description to the logo's height ([c577254](https://github.com/datisthq/livemark/commit/c5772548a5e159c16560b8924eae61ab41713ae0))
+* widen the header search field back to 10rem ([35390c2](https://github.com/datisthq/livemark/commit/35390c2dc13a278eb8d662d710f90ba91ef5aed4))
+* widen the header search field to 12rem ([1390b88](https://github.com/datisthq/livemark/commit/1390b88a3aaca5ec4f1eb706ae968126e35d7911))
+
 ## [0.28.6](https://github.com/datisthq/livemark/compare/v0.28.5...v0.28.6) (2026-10-23)
 
 
