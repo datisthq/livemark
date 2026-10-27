@@ -27,14 +27,14 @@ const SHORTCUTS: { key: string; label: MessageKey; targeted?: boolean }[] = [
   { key: "H", label: "shortcuts.previous", targeted: true },
 ]
 
-/** Header menu listing the keyboard shortcuts this page answers to; a row also runs
- * its shortcut. Hidden on a phone, which has no keyboard to use them */
+/** Header menu listing every keyboard shortcut, disabling the ones this page does not
+ * answer to; a row also runs its shortcut. Hidden on a phone, which has no keyboard */
 export function Shortcuts() {
   const t = useMessages()
-  const [available, setAvailable] = useState(SHORTCUTS)
+  const [unavailable, setUnavailable] = useState<string[]>([])
 
   return (
-    <DropdownMenu onOpenChange={open => open && setAvailable(listAvailable())}>
+    <DropdownMenu onOpenChange={open => open && setUnavailable(listUnavailable())}>
       <DropdownMenuTrigger
         render={
           <Button
@@ -51,9 +51,10 @@ export function Shortcuts() {
       <DropdownMenuContent align="end" className="min-w-52">
         <DropdownMenuGroup>
           <DropdownMenuLabel>{t("shortcuts.title")}</DropdownMenuLabel>
-          {available.map(item => (
+          {SHORTCUTS.map(item => (
             <DropdownMenuItem
               key={item.key}
+              disabled={unavailable.includes(item.key)}
               onClick={() => pressKey(item.key)}
               className="cursor-pointer gap-2"
             >
@@ -67,14 +68,14 @@ export function Shortcuts() {
   )
 }
 
-function listAvailable() {
+function listUnavailable() {
   return SHORTCUTS.filter(
     item =>
-      !item.targeted ||
-      [...document.querySelectorAll(`[aria-keyshortcuts="${item.key}"]`)].some(el =>
+      item.targeted &&
+      ![...document.querySelectorAll(`[aria-keyshortcuts="${item.key}"]`)].some(el =>
         el.checkVisibility(),
       ),
-  )
+  ).map(item => item.key)
 }
 
 function pressKey(key: string) {
