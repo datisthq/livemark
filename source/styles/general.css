@@ -4,6 +4,7 @@
 @plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant sidebar-collapsed ([data-slot="sidebar"][data-state="collapsed"] ~ [data-slot="sidebar-inset"] &);
 
 :root {
   --background: oklch(1 0 0);

@@ -78,7 +78,7 @@ export function Article(props: { article: ArticleView; highlight?: string }) {
         </MobileToc>
       )}
       <div className="flex flex-1 gap-10 p-4 pt-8 md:p-10">
-        <div className="flex-1 min-w-0 mx-auto max-w-3xl">
+        <div className="flex-1 min-w-0 mx-auto max-w-3xl sidebar-collapsed:max-w-none">
           {breadcrumbs && <Breadcrumbs path={article.path} title={article.title} />}
           <div
             ref={prose}
