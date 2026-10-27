@@ -27,11 +27,16 @@ export function Search(props: { compact?: boolean }) {
         title={t("search.label")}
         className={cn(
           "flex h-9 items-center gap-2 rounded-control border border-border bg-muted/50 px-2.5 text-sm text-muted-foreground shadow-xs hover:bg-muted transition-colors cursor-pointer",
-          !props.compact && "lg:w-40",
+          !props.compact && "lg:w-40 xl:w-auto xl:min-w-0 xl:flex-1",
         )}
       >
         <SearchIcon className="size-4" />
-        <span className={cn("hidden flex-1 text-left", !props.compact && "lg:inline")}>
+        <span
+          className={cn(
+            "hidden flex-1 truncate text-left",
+            !props.compact && "lg:inline",
+          )}
+        >
           {t("search.button")}
         </span>
         <kbd

@@ -13,7 +13,7 @@ export function Toc(props: { items: TocItem[]; children?: ReactNode }) {
   if (props.items.length === 0 && !props.children) return null
 
   return (
-    <aside className="hidden xl:block w-56 shrink-0">
+    <aside className="hidden xl:block w-(--toc-width,14rem) shrink-0">
       <div className="sticky top-20 max-h-[calc(100vh-5rem)] overflow-auto [scrollbar-width:none]">
         {props.children && (
           <div className="mb-6">
