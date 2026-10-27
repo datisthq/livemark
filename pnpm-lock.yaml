@@ -122,8 +122,8 @@ importers:
         specifier: 1.52.0
         version: 1.52.0
       fireargs:
-        specifier: 0.6.0
-        version: 0.6.0(commander@14.0.3)(zod@4.6.6)
+        specifier: 0.6.2
+        version: 0.6.2(commander@14.0.3)(zod@4.6.6)
       github-slugger:
         specifier: ^2.0.0
         version: 2.0.0
@@ -4035,9 +4035,9 @@ packages:
     resolution: {integrity: sha512-S8KoZgRZN+a5rNwqTxlZZePjT/4cnm0ROV70LedRHZ0p8u9fRID0hJUZQpkKLzro8LfmC8sx23bY6tVNxv8pQA==}
     engines: {node: '>= 18.0.0'}
 
-  fireargs@0.6.0:
-    resolution: {integrity: sha512-xkX7TgDPDxvknVfQrtWG6TS+2YCibGjE3YBahwjfijGQR5fnogdMY1tKGmgDMENeVsPVp6Twg87pupqPvBOs8Q==}
-    engines: {node: ^24.11.0, pnpm: ^11.0.0}
+  fireargs@0.6.2:
+    resolution: {integrity: sha512-XEDlrtc5lAbjUFRxQnhC44ZJQT53WKdIKBCS56x5g6T7uh4hzbXP84ifsX6DlpEPl0ZlmmPcBKP+MK/462Q6uQ==}
+    engines: {node: ^24.11.0}
     peerDependencies:
       commander: ^14.0.3
       zod: ^4.4.1
@@ -9731,7 +9731,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  fireargs@0.6.0(commander@14.0.3)(zod@4.6.6):
+  fireargs@0.6.2(commander@14.0.3)(zod@4.6.6):
     dependencies:
       cn: 0.2.4
       commander: 14.0.3
