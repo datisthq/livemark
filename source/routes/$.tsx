@@ -18,6 +18,7 @@ import { BlogIndex } from "../components/BlogIndex.tsx"
 import { ChangelogIndex } from "../components/ChangelogIndex.tsx"
 import { Layout } from "../components/Layout.tsx"
 import { TagIndex } from "../components/TagIndex.tsx"
+import { buildPathLink } from "../helpers/path-link.ts"
 
 export const Route = createFileRoute("/$")({
   // Loose, so keys this route does not own (UTM tags, devtools flags) survive.
@@ -27,10 +28,7 @@ export const Route = createFileRoute("/$")({
       const home = homeArticle && (await loadArticle(homeArticle.path))
       if (home) return home
       if (!firstArticle) throw notFound()
-      throw redirect({
-        to: "/$",
-        params: { _splat: firstArticle.path.replace(/^\/|\/$/g, "") },
-      })
+      throw redirect(buildPathLink(firstArticle.path))
     }
     const splat = `/${params._splat}/`
     const article = await loadArticle(splat)
@@ -40,7 +38,7 @@ export const Route = createFileRoute("/$")({
     if (!site.language.default && site.language.prefix === splat) {
       const first = languageFirstArticle(site)
       if (!first) throw notFound()
-      throw redirect({ to: "/$", params: { _splat: first.replace(/^\/|\/$/g, "") } })
+      throw redirect(buildPathLink(first))
     }
 
     const section = currentSection(splat)

@@ -1,10 +1,11 @@
 import { Link } from "@tanstack/react-router"
 import { buttonVariants } from "../elements/button.tsx"
 import { useMessages, useSite } from "../hooks/site.ts"
+import { buildPathLink } from "../helpers/path-link.ts"
 
 export function NotFound({ children }: { children?: any }) {
   const t = useMessages()
-  const home = useSite().language.prefix.replace(/^\/|\/$/g, "")
+  const home = useSite().language.prefix
   return (
     <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4">
       <h1 className="font-sans text-6xl font-semibold mb-4">404</h1>
@@ -20,8 +21,7 @@ export function NotFound({ children }: { children?: any }) {
           {t("error.goBack")}
         </button>
         <Link
-          to={home ? "/$" : "/"}
-          params={home ? { _splat: home } : {}}
+          {...buildPathLink(home)}
           className={buttonVariants({ variant: "outline", size: "lg" })}
         >
           {t("error.home")}

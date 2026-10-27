@@ -9,6 +9,7 @@ import { DynamicIcon } from "./dynamic-icon.tsx"
 import { prefixUrl } from "./prefix-url.ts"
 import { customSectionActive } from "./section.ts"
 import { useMessages, useSite } from "../hooks/site.ts"
+import { buildPathLink } from "./path-link.ts"
 
 export type NavItem = {
   key: string
@@ -92,16 +93,8 @@ export function renderNavAnchor(item: NavItem, className?: string) {
     )
   }
   return (
-    <Link
-      to={item.target === "/" ? "/" : "/$"}
-      params={item.target && item.target !== "/" ? splatFor(item.target) : {}}
-      className={className}
-    >
+    <Link {...buildPathLink(item.target ?? "/")} className={className}>
       {children}
     </Link>
   )
-}
-
-function splatFor(pathname: string) {
-  return { _splat: pathname.replace(/^\/|\/$/g, "") }
 }

@@ -8,6 +8,7 @@ import {
   sectionFlatArticles,
 } from "../content/article.ts"
 import { useMessages, useSite } from "../hooks/site.ts"
+import { buildPathLink } from "../helpers/path-link.ts"
 
 /** Previous/next article navigation shown at the bottom of each article page */
 export function PrevNext(props: { path: string }) {
@@ -24,8 +25,7 @@ export function PrevNext(props: { path: string }) {
   const next = nextPath ? sortedArticles.find(a => a.path === nextPath) : undefined
 
   const navigate = useNavigate()
-  const goTo = (path: string) =>
-    navigate({ to: "/$", params: { _splat: path.replace(/^\/|\/$/g, "") } })
+  const goTo = (path: string) => navigate(buildPathLink(path))
   useHotkey("H", () => prev && goTo(prev.path))
   useHotkey("L", () => next && goTo(next.path))
 
@@ -35,8 +35,7 @@ export function PrevNext(props: { path: string }) {
     <nav className="not-prose mt-10 flex gap-4">
       {prev && (
         <Link
-          to="/$"
-          params={{ _splat: prev.path.replace(/^\/|\/$/g, "") }}
+          {...buildPathLink(prev.path)}
           aria-keyshortcuts="H"
           className="flex-1 rounded-card border shadow-sm p-4 hover:bg-muted/50 transition-colors"
         >
@@ -49,8 +48,7 @@ export function PrevNext(props: { path: string }) {
       )}
       {next && (
         <Link
-          to="/$"
-          params={{ _splat: next.path.replace(/^\/|\/$/g, "") }}
+          {...buildPathLink(next.path)}
           aria-keyshortcuts="L"
           className="flex-1 rounded-card border shadow-sm p-4 hover:bg-muted/50 transition-colors text-right"
         >

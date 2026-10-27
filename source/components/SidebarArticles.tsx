@@ -26,6 +26,7 @@ import { resolveArticleIcon } from "../helpers/article-icon.ts"
 import type { ArticleNode } from "../models/article.ts"
 import type { RoutedSection } from "../models/section.ts"
 import { useMessages, useSite } from "../hooks/site.ts"
+import { buildPathLink } from "../helpers/path-link.ts"
 
 /** Article-tree body slot for the Sidebar shell */
 export function SidebarArticles(props: { section?: RoutedSection }) {
@@ -55,10 +56,6 @@ export function SidebarArticles(props: { section?: RoutedSection }) {
   )
 }
 
-function splatFor(pathname: string) {
-  return { _splat: pathname.replace(/^\/|\/$/g, "") }
-}
-
 function isActive(articlePathname: string, currentPath: string) {
   const trimmed = currentPath.replace(/^\/|\/$/g, "")
   const normalized = trimmed ? `/${trimmed}/` : "/"
@@ -74,7 +71,7 @@ function NavNode(props: { node: ArticleNode; currentPath: string; depth?: number
   const Item = isSub ? SidebarMenuSubItem : SidebarMenuItem
   const Button = isSub ? SidebarMenuSubButton : SidebarMenuButton
 
-  const link = <Link to="/$" params={splatFor(node.path)} />
+  const link = <Link {...buildPathLink(node.path)} />
   const label = (
     <span title={node.untranslated ? t("language.untranslated") : undefined}>
       {node.label ?? node.title}

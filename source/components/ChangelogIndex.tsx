@@ -12,6 +12,7 @@ import { Footer } from "./Footer.tsx"
 import { PageToolbar } from "./PageToolbar.tsx"
 import { MobileToc, Toc } from "./Toc.tsx"
 import { useMessages, useSite } from "../hooks/site.ts"
+import { buildPathLink } from "../helpers/path-link.ts"
 
 /** Auto-generated changelog index listing all versions by date */
 export function ChangelogIndex(props: { sectionPrefix: string }) {
@@ -67,8 +68,7 @@ export function ChangelogIndex(props: { sectionPrefix: string }) {
                 {i > 0 && <Separator className="mb-6" />}
                 <h2 className="text-2xl">
                   <Link
-                    to="/$"
-                    params={{ _splat: entry.path.replace(/^\/|\/$/g, "") }}
+                    {...buildPathLink(entry.path)}
                     className="font-medium hover:text-primary transition-colors"
                   >
                     {entry.title}

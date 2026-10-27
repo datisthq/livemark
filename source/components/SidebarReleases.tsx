@@ -18,6 +18,7 @@ import {
 } from "../elements/sidebar.tsx"
 import type { RoutedSection } from "../models/section.ts"
 import { useMessages } from "../hooks/site.ts"
+import { buildPathLink } from "../helpers/path-link.ts"
 
 /** Changelog body slot for the Sidebar shell: All Releases / Recent Releases */
 export function SidebarReleases(props: { section?: RoutedSection }) {
@@ -46,7 +47,7 @@ export function SidebarReleases(props: { section?: RoutedSection }) {
             <SidebarMenuButton
               isActive={isIndex}
               className={isIndex ? "" : "opacity-75"}
-              render={<Link to="/$" params={{ _splat: sectionPath }} />}
+              render={<Link {...buildPathLink(sectionPath)} />}
             >
               <List className="size-4" />
               <span>{t("changelog.allReleases")}</span>
@@ -65,14 +66,7 @@ export function SidebarReleases(props: { section?: RoutedSection }) {
                     <SidebarMenuSubButton
                       isActive={active}
                       className={active ? "" : "opacity-75"}
-                      render={
-                        <Link
-                          to="/$"
-                          params={{
-                            _splat: entry.path.replace(/^\/|\/$/g, ""),
-                          }}
-                        />
-                      }
+                      render={<Link {...buildPathLink(entry.path)} />}
                     >
                       <span>{entry.title}</span>
                     </SidebarMenuSubButton>

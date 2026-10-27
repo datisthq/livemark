@@ -12,10 +12,7 @@ import {
   SidebarMenuItem,
 } from "../elements/sidebar.tsx"
 import { useMessages, useSite } from "../hooks/site.ts"
-
-function splatFor(pathname: string) {
-  return { _splat: pathname.replace(/^\/|\/$/g, "") }
-}
+import { buildPathLink } from "../helpers/path-link.ts"
 
 /** Shared Sections group. Renders sidebar-positioned sections always, and
  * header-positioned sections only on mobile (mobile collapses all sections
@@ -71,12 +68,7 @@ export function SidebarSections() {
                 <SidebarMenuButton
                   isActive={active}
                   className={active ? "" : "opacity-75"}
-                  render={
-                    <Link
-                      to={target === "/" ? "/" : "/$"}
-                      params={target && target !== "/" ? splatFor(target) : {}}
-                    />
-                  }
+                  render={<Link {...buildPathLink(target ?? "/")} />}
                 >
                   {icon && <DynamicIcon name={icon} className="size-4" />}
                   <span>{s.title}</span>

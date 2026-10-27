@@ -12,6 +12,7 @@ import { Footer } from "./Footer.tsx"
 import { PageToolbar } from "./PageToolbar.tsx"
 import { MobileToc, Toc } from "./Toc.tsx"
 import { useMessages, useSite } from "../hooks/site.ts"
+import { buildPathLink } from "../helpers/path-link.ts"
 
 /** Auto-generated blog index listing all posts by date */
 export function BlogIndex(props: { sectionPrefix: string }) {
@@ -70,8 +71,7 @@ export function BlogIndex(props: { sectionPrefix: string }) {
                 {i > 0 && <Separator className="mb-6" />}
                 <h2 className="text-2xl">
                   <Link
-                    to="/$"
-                    params={{ _splat: post.path.replace(/^\/|\/$/g, "") }}
+                    {...buildPathLink(post.path)}
                     className="font-medium hover:text-primary transition-colors"
                   >
                     {post.title}

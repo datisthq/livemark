@@ -6,6 +6,7 @@ import { sortedArticles } from "../content/article.ts"
 import { useMessages, useSite } from "../hooks/site.ts"
 import { buildHighlightPattern, findTextMatches } from "./search-highlight.ts"
 import { createSearchTokenizer } from "./search-tokenizer.ts"
+import { buildPathLink } from "./path-link.ts"
 
 export interface SearchResult {
   title: string
@@ -89,8 +90,7 @@ export function useArticleSearch() {
       setQuery("")
       setResults([])
       navigate({
-        to: "/$",
-        params: { _splat: path.replace(/^\/|\/$/g, "") },
+        ...buildPathLink(path),
         search: { highlight: query.trim() || undefined },
       })
     },

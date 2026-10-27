@@ -2,6 +2,7 @@ import { config } from "livemark:virtual"
 import { Link } from "@tanstack/react-router"
 import type { ReactNode } from "react"
 import { prefixUrl } from "../helpers/prefix-url.ts"
+import { buildPathLink } from "../helpers/path-link.ts"
 
 /** Wrapper for the SiteTitle's link target. Picks `<Link>` for internal
  *  paths (rooted at `/`) and a plain `<a>` for absolute URLs (`http(s)`,
@@ -21,16 +22,8 @@ export function SiteLink(props: {
       </a>
     )
   }
-  if (props.to === "/") {
-    return (
-      <Link to="/" className={props.className}>
-        {props.children}
-      </Link>
-    )
-  }
-  const splat = props.to.replace(/^\/|\/$/g, "")
   return (
-    <Link to="/$" params={{ _splat: splat }} className={props.className}>
+    <Link {...buildPathLink(props.to)} className={props.className}>
       {props.children}
     </Link>
   )

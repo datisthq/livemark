@@ -12,6 +12,7 @@ import {
 import { activeSiteLink, activeSiteSection } from "../helpers/section.ts"
 import { useMessages, useSite } from "../hooks/site.ts"
 import { SiteLink } from "./SiteLink.tsx"
+import { buildPathLink } from "../helpers/path-link.ts"
 
 /** The trail from the site's home through the article's folders to the article */
 export function Breadcrumbs(props: { path: string; title: string }) {
@@ -35,14 +36,7 @@ export function Breadcrumbs(props: { path: string; title: string }) {
             <BreadcrumbSeparator>/</BreadcrumbSeparator>
             <BreadcrumbItem>
               {crumb.path ? (
-                <BreadcrumbLink
-                  render={
-                    <Link
-                      to="/$"
-                      params={{ _splat: crumb.path.replace(/^\/|\/$/g, "") }}
-                    />
-                  }
-                >
+                <BreadcrumbLink render={<Link {...buildPathLink(crumb.path)} />}>
                   {crumb.title}
                 </BreadcrumbLink>
               ) : (

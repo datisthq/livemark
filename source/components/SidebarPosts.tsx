@@ -18,6 +18,7 @@ import {
 } from "../elements/sidebar.tsx"
 import type { RoutedSection } from "../models/section.ts"
 import { useMessages, useSite } from "../hooks/site.ts"
+import { buildPathLink } from "../helpers/path-link.ts"
 
 /** Blog body slot for the Sidebar shell: All Posts / Recent Posts / RSS / Tags */
 export function SidebarPosts(props: { section?: RoutedSection }) {
@@ -56,7 +57,7 @@ export function SidebarPosts(props: { section?: RoutedSection }) {
               <SidebarMenuButton
                 isActive={isIndex}
                 className={isIndex ? "" : "opacity-75"}
-                render={<Link to="/$" params={{ _splat: sectionPath }} />}
+                render={<Link {...buildPathLink(sectionPath)} />}
               >
                 <List className="size-4" />
                 <span>{t("blog.allPosts")}</span>
@@ -75,14 +76,7 @@ export function SidebarPosts(props: { section?: RoutedSection }) {
                       <SidebarMenuSubButton
                         isActive={active}
                         className={active ? "" : "opacity-75"}
-                        render={
-                          <Link
-                            to="/$"
-                            params={{
-                              _splat: post.path.replace(/^\/|\/$/g, ""),
-                            }}
-                          />
-                        }
+                        render={<Link {...buildPathLink(post.path)} />}
                       >
                         <span>{post.title}</span>
                       </SidebarMenuSubButton>
@@ -121,7 +115,7 @@ export function SidebarPosts(props: { section?: RoutedSection }) {
                     <SidebarMenuButton
                       isActive={tagActive}
                       className={tagActive ? "" : "opacity-75"}
-                      render={<Link to="/$" params={{ _splat: tagPath }} />}
+                      render={<Link {...buildPathLink(tagPath)} />}
                     >
                       <Tag className="size-3.5" />
                       <span>{tag}</span>

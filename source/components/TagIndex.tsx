@@ -9,6 +9,7 @@ import { Footer } from "./Footer.tsx"
 import { PageToolbar } from "./PageToolbar.tsx"
 import { MobileToc, Toc } from "./Toc.tsx"
 import { useMessages, useSite } from "../hooks/site.ts"
+import { buildPathLink } from "../helpers/path-link.ts"
 
 /** Blog tag page listing posts filtered by a specific tag */
 export function TagIndex(props: { sectionPrefix: string; tag: string }) {
@@ -68,8 +69,7 @@ export function TagIndex(props: { sectionPrefix: string; tag: string }) {
                 {i > 0 && <Separator className="mb-6" />}
                 <h2 className="text-2xl">
                   <Link
-                    to="/$"
-                    params={{ _splat: post.path.replace(/^\/|\/$/g, "") }}
+                    {...buildPathLink(post.path)}
                     className="font-medium hover:text-primary transition-colors"
                   >
                     {post.title}
