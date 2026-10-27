@@ -4,18 +4,12 @@ import { useMessages } from "../hooks/site.ts"
 
 /** Toolbar with action buttons displayed for the article content */
 export function PageToolbar(props: {
-  file?: string
   sourceUrl?: string
   sourceAction?: "edit" | "view"
   content: string
 }) {
   const [copied, setCopied] = useState(false)
   const t = useMessages()
-  const sourceHref =
-    props.sourceUrl ??
-    (props.file
-      ? `https://github.com/datisthq/livemark/edit/main/${props.file}`
-      : undefined)
   const isView = props.sourceAction === "view"
   const sourceLabel = isView ? t("page.view") : t("page.edit")
   const SourceIcon = isView ? Eye : Pencil
@@ -38,9 +32,9 @@ export function PageToolbar(props: {
   return (
     <>
       <div data-slot="page-toolbar" className="flex flex-col gap-2 text-sm">
-        {sourceHref ? (
+        {props.sourceUrl ? (
           <a
-            href={sourceHref}
+            href={props.sourceUrl}
             target="_blank"
             rel="noopener noreferrer"
             data-slot="page-action"

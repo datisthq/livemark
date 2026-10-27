@@ -72,12 +72,12 @@ Cada segmento se convierte en slug, así que `docs/Getting Started.md` pasa a se
 
 ## Enlace a la fuente [#source-link]
 
-La barra de herramientas de la página enlaza cada artículo con su fuente.
+La barra de herramientas de la página enlaza cada artículo con su fuente. Sin `sourceUrl`, el enlace va a la página de edición del archivo en GitHub, leída del `origin` de git del proyecto y de su rama por defecto; un proyecto que no es un repositorio de GitHub no muestra enlace.
 
-| Campo          | Tipo               | Valor por defecto                              | Propósito                                                                           |
-| -------------- | ------------------ | ---------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `sourceUrl`    | `string`           | Un enlace de edición en GitHub para el archivo | Adónde apunta el enlace a la fuente.                                                |
-| `sourceAction` | `"edit" \| "view"` | `"edit"`                                       | Rotula el enlace **Editar en GitHub** con un lápiz, o **Ver en GitHub** con un ojo. |
+| Campo          | Tipo               | Valor por defecto                          | Propósito                                                                           |
+| -------------- | ------------------ | ------------------------------------------ | ----------------------------------------------------------------------------------- |
+| `sourceUrl`    | `string`           | La página de edición del archivo en GitHub | Adónde apunta el enlace a la fuente.                                                |
+| `sourceAction` | `"edit" \| "view"` | `"edit"`                                   | Rotula el enlace **Editar en GitHub** con un lápiz, o **Ver en GitHub** con un ojo. |
 
 ## Sobrescribir sin editar [#overriding-without-editing]
 

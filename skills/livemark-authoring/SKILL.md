@@ -41,6 +41,7 @@ image: ./cover.png # og:image (needs `site`); relative resolves against the file
 author: Ada Lovelace # or [Ada Lovelace, Grace Hopper]
 date: 2026-04-20 # ISO — drives blog section sort order
 tags: [release, announcement] # blog-section tag pages /prefix/tags/<tag>/
+sourceUrl: https://example.com/src # toolbar source link; default: GitHub edit page from git origin, none outside GitHub
 ---
 ```
 

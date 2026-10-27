@@ -70,7 +70,6 @@ export function Article(props: { article: ArticleView; highlight?: string }) {
       {article.toc !== false && (
         <MobileToc items={article.tocItems} title={article.title}>
           <PageToolbar
-            file={article.file}
             sourceUrl={article.sourceUrl}
             sourceAction={article.sourceAction}
             content={article.content}
@@ -163,7 +162,6 @@ export function Article(props: { article: ArticleView; highlight?: string }) {
         {article.toc !== false && (
           <Toc items={article.tocItems}>
             <PageToolbar
-              file={article.file}
               sourceUrl={article.sourceUrl}
               sourceAction={article.sourceAction}
               content={article.content}

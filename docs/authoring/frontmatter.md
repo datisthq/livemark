@@ -72,12 +72,12 @@ Every segment is slugified, so `docs/Getting Started.md` becomes `/getting-start
 
 ## Source link
 
-The page toolbar links each article to its source.
+The page toolbar links each article to its source. Without a `sourceUrl`, the link goes to the file's GitHub edit page, read from the project's git `origin` and default branch; a project that is not a GitHub repository shows no link.
 
-| Field          | Type               | Default                         | Purpose                                                                              |
-| -------------- | ------------------ | ------------------------------- | ------------------------------------------------------------------------------------ |
-| `sourceUrl`    | `string`           | A GitHub edit link for the file | Where the source link points.                                                        |
-| `sourceAction` | `"edit" \| "view"` | `"edit"`                        | Labels the link **Edit on GitHub** with a pencil, or **View on GitHub** with an eye. |
+| Field          | Type               | Default                     | Purpose                                                                              |
+| -------------- | ------------------ | --------------------------- | ------------------------------------------------------------------------------------ |
+| `sourceUrl`    | `string`           | The file's GitHub edit page | Where the source link points.                                                        |
+| `sourceAction` | `"edit" \| "view"` | `"edit"`                    | Labels the link **Edit on GitHub** with a pencil, or **View on GitHub** with an eye. |
 
 ## Overriding without editing
 

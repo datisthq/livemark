@@ -45,6 +45,7 @@ import {
 import { rehypeInlineCode } from "./plugins/rehype-inline-code.ts"
 import { rehypeTaskListA11y } from "./plugins/rehype-task-list-a11y.ts"
 import { transformerIcon } from "./plugins/shiki-icon.ts"
+import { buildEditUrl, readRepository } from "./helpers/edit-url.ts"
 import { resolveArticlePath } from "./helpers/article-path.ts"
 import { resolveAssetPath } from "./helpers/resolve-asset-path.ts"
 import { resolveIncludes } from "./helpers/resolve-includes.ts"
@@ -93,6 +94,7 @@ const baseDir = resolve(import.meta.dirname, "../..")
 const directory = relative(baseDir, config.root) || "."
 
 const lastUpdatedByFile = readLastUpdatedDates()
+const repository = readRepository(config.root)
 
 // One `git log` for every file: a spawn per article blocks the build ~30 ms each, and
 // isn't cached across builds like the MDX is.
@@ -260,6 +262,8 @@ const articles = defineCollection({
     return {
       ...doc,
       file: doc._meta.filePath,
+      sourceUrl:
+        doc.sourceUrl ?? (repository && buildEditUrl(repository, doc._meta.filePath)),
       lastUpdated,
       image,
       title,
