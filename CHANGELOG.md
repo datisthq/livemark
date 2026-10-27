@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.29.3](https://github.com/datisthq/livemark/compare/v0.29.2...v0.29.3) (2026-10-27)
+
+
+### Bug Fixes
+
+* align the header search icon with the right rail's left edge ([7f1e3c8](https://github.com/datisthq/livemark/commit/7f1e3c89911cdc1bac677e4ba7611b447d378c54))
+* build the quick start as documented — default article paths, CommonJS projects, unlinked custom routes, strict config ([3e03063](https://github.com/datisthq/livemark/commit/3e03063db52aed308a8ffcfe3521051b59d91d3a))
+* drop the extra right padding from the header controls at xl ([9f20e00](https://github.com/datisthq/livemark/commit/9f20e004c5cf843eb8a20877c1d556a94b0a49cb))
+* keep anchor links the prerender crawler meets out of the sitemap ([f47b180](https://github.com/datisthq/livemark/commit/f47b18040faf74604ac745654630def0e2060e53))
+* link articles to the project's own GitHub repository, and show no edit link outside one ([c6fa423](https://github.com/datisthq/livemark/commit/c6fa423d56996661ca5b693aff824bc7b7d55a98))
+
 ## [0.29.2](https://github.com/datisthq/livemark/compare/v0.29.1...v0.29.2) (2026-10-27)
 
 
