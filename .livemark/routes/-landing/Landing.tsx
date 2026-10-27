@@ -161,31 +161,39 @@ function Hero(props: { copy: LandingCopy; prefix: string }) {
 
 function HeroActions(props: { copy: LandingCopy["hero"]; prefix: string }) {
   return (
-    <div className="mt-8 flex flex-wrap gap-3 sm:mt-10">
-      <Link
-        to="/$"
-        params={{ _splat: buildSplat(props.prefix, "introduction") }}
-        className={cn(
-          buttonVariants({ variant: "default", size: "lg" }),
-          "flex-1 px-3 no-underline sm:flex-none sm:px-5",
-        )}
-      >
-        <Rocket className="size-4" />
-        {props.copy.getStarted}
-      </Link>
-      <a
-        href="https://github.com/datisthq/livemark"
-        target="_blank"
-        rel="noopener noreferrer"
-        className={cn(
-          buttonVariants({ variant: "outline", size: "lg" }),
-          "flex-1 px-3 no-underline sm:flex-none sm:px-5",
-        )}
-      >
-        <Github className="size-4" />
-        {props.copy.viewSource}
-      </a>
-    </div>
+    <>
+      <div className="mt-8 flex flex-wrap gap-3 sm:mt-10">
+        <Link
+          to="/$"
+          params={{ _splat: buildSplat(props.prefix, "introduction") }}
+          className={cn(
+            buttonVariants({ variant: "default", size: "lg" }),
+            "flex-1 px-3 no-underline sm:flex-none sm:px-5",
+          )}
+        >
+          <Rocket className="size-4" />
+          {props.copy.getStarted}
+        </Link>
+        <a
+          href="https://github.com/datisthq/livemark"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(
+            buttonVariants({ variant: "outline", size: "lg" }),
+            "flex-1 px-3 no-underline sm:flex-none sm:px-5",
+          )}
+        >
+          <Github className="size-4" />
+          {props.copy.viewSource}
+        </a>
+      </div>
+      <div className="mt-6 hidden sm:inline-grid grid-cols-[auto_auto] gap-x-3 gap-y-1 rounded-control border border-border bg-card/50 backdrop-blur px-4 py-2 font-mono text-sm text-muted-foreground">
+        <span className="text-primary select-none">$</span>
+        <span>
+          <span className="text-foreground">npm install</span> livemark
+        </span>
+      </div>
+    </>
   )
 }
 
