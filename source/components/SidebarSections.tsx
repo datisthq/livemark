@@ -1,5 +1,5 @@
 import { Link, useLocation, useMatch } from "@tanstack/react-router"
-import { currentSection, sectionFirstArticle } from "../content/article.ts"
+import { currentSection, sectionLanding } from "../content/article.ts"
 import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
 import { prefixUrl } from "../helpers/prefix-url.ts"
 import { customSectionActive } from "../helpers/section.ts"
@@ -61,10 +61,7 @@ export function SidebarSections() {
                 </SidebarMenuItem>
               )
             }
-            const target =
-              s.type === "blog" || s.type === "changelog"
-                ? s.prefix
-                : (sectionFirstArticle.get(s.prefix) ?? s.prefix)
+            const target = sectionLanding(s)
             const active = section?.prefix === s.prefix
             return (
               <SidebarMenuItem

@@ -125,11 +125,19 @@ export function listBreadcrumbs(path: string) {
   const entries = languageEntries.get(site.language.code) ?? []
   return buildBreadcrumbs(path, home, folder => {
     const section = sections.find(s => s.prefix === folder)
-    if (section) return { title: section.title, path: section.prefix }
+    if (section) return { title: section.title, path: sectionLanding(section) }
     const key = `/${folder.slice(home.length)}`
     const entry = entries.find(e => e.key === key)
     return entry && { title: entry.label ?? entry.title, path: entry.path }
   })
+}
+
+/** Where a section's link lands: a blog or changelog has an index at its prefix, a docs
+ *  section only its first article */
+export function sectionLanding(section: RoutedSection) {
+  return section.type === "blog" || section.type === "changelog"
+    ? section.prefix
+    : (sectionFirstArticle.get(section.prefix) ?? section.prefix)
 }
 
 /** The site whose language a path is in */
