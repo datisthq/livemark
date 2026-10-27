@@ -38,7 +38,7 @@ Run the `escape` command with `--list` to print every overridable file:
 livemark escape --list
 ```
 
-Output is a flat list: `<subdir>/<file>` across `components/`, `elements/`, `styles/` and `routes/`, plus the root files `client.tsx`, `server.ts`, `router.tsx` and `head.ts`. Without arguments in a terminal the command opens an interactive picker instead — agents should pass `--list` or explicit paths. With paths, it copies each default into `.livemark/`:
+Output is a flat list: `<subdir>/<file>` across `components/`, `elements/`, `styles/` and `routes/`, plus the root files `client.tsx`, `server.ts`, `router.tsx` and `head.ts`. Without arguments in a terminal the command opens an interactive picker instead — agents should pass `--list` or explicit paths, or add `--json` for a `{ action, files }` result instead of text. With paths, it copies each default into `.livemark/`:
 
 ```bash
 livemark escape components/Footer.tsx   # → .livemark/components/Footer.tsx

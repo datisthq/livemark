@@ -23,9 +23,10 @@ function detectCommand() {
 }
 
 /**
- * Load and validate a config file, checking --config/-c CLI arg, then cwd.
+ * Load and validate a config file, checking the argument, then `LIVEMARK_CONFIG`
+ * (which `--config`/`-c` sets), then cwd.
  *
- * If a path is provided explicitly (arg or `--config`/`-c`) and the
+ * If a path is provided explicitly (argument or `LIVEMARK_CONFIG`) and the
  * file is missing, throws — the user asked for a specific config and
  * it isn't there. If no path is provided and no `livemark.config.ts`
  * exists in cwd, falls back to the default config with a synthesized
@@ -33,9 +34,7 @@ function detectCommand() {
  * hash, watcher) still has a stable per-project key.
  */
 export async function loadConfig(path?: string): Promise<Config> {
-  const configIndex = process.argv.findIndex(a => a === "-c" || a === "--config")
-  const cliPath = configIndex !== -1 ? process.argv[configIndex + 1] : undefined
-  const explicit = path ?? cliPath
+  const explicit = path ?? process.env.LIVEMARK_CONFIG
   const resolved = resolve(explicit ?? "livemark.config.ts")
   let input: UserConfig = {}
   let configDependencies: string[] = []

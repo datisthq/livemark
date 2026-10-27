@@ -1,19 +1,37 @@
 import { join } from "node:path"
-import { Command } from "commander"
+import { f } from "fireargs"
 import { preview as vitePreview } from "vite"
+import {
+  configInput,
+  divertStdout,
+  selectConfig,
+  serverOutput,
+} from "../helpers/program.ts"
 
 const configFile = join(import.meta.dirname, "..", "..", "source", "vite.config.ts")
 
 /**
  * Preview the production build locally.
  */
-export const preview = new Command("preview")
-  .description("Preview the production build locally")
-  .action(async () => {
-    const server = await vitePreview({
-      configFile,
-      preview: { port: 8000, host: true },
-    })
-    server.printUrls()
-    server.bindCLIShortcuts({ print: true })
+export const preview = f
+  .command({ description: "Preview the production build locally" })
+  .input(configInput)
+  .output(serverOutput)
+  .handler(async (input, context) => {
+    selectConfig(input.config)
+    const run = () =>
+      vitePreview({
+        configFile,
+        logLevel: context.json ? "warn" : undefined,
+        preview: { port: 8000, host: true },
+      })
+    const server = await (context.json ? divertStdout(run) : run())
+    if (!context.json) {
+      server.printUrls()
+      server.bindCLIShortcuts({ print: true })
+    }
+    return {
+      local: server.resolvedUrls?.local ?? [],
+      network: server.resolvedUrls?.network ?? [],
+    }
   })

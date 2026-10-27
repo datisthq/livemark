@@ -12,4 +12,4 @@ process.on("warning", warning => {
 })
 
 const { program } = await import("../program.ts")
-program.parse()
+await program.parseAsync()

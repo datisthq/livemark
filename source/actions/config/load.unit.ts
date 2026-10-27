@@ -1,7 +1,7 @@
 import fs from "node:fs"
 import { join } from "node:path"
 import { temporaryDirectoryTask } from "tempy"
-import { describe, expect, it } from "vite-plus/test"
+import { describe, expect, it, vi } from "vite-plus/test"
 import { loadConfig } from "./load.ts"
 
 describe("loadConfig", () => {
@@ -31,6 +31,20 @@ describe("loadConfig", () => {
       const config = await loadConfig(configPath)
       expect(config.include).toBe("articles/**/*.mdx")
       expect(config.root).toBe(tmpDir)
+    }))
+
+  it("should load config from LIVEMARK_CONFIG, which --config sets", () =>
+    temporaryDirectoryTask(async tmpDir => {
+      const configPath = join(tmpDir, "livemark.config.ts")
+      fs.writeFileSync(configPath, 'export default { include: "articles/**/*.mdx" }\n')
+      vi.stubEnv("LIVEMARK_CONFIG", configPath)
+      try {
+        const config = await loadConfig()
+        expect(config.include).toBe("articles/**/*.mdx")
+        expect(config.root).toBe(tmpDir)
+      } finally {
+        vi.unstubAllEnvs()
+      }
     }))
 
   it("should apply defaults when fields are omitted", () =>

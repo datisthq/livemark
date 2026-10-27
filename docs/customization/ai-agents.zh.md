@@ -57,6 +57,18 @@ export default defineConfig({
 
 智能体通过向页面 URL 发送 `Accept: text/markdown` 来请求 Markdown。静态托管本身无法响应这种请求，但 CDN 上的重写规则可以为这些请求提供 `<page>/index.md`，而其他所有人仍然获得 HTML。每篇文章和栏目列表都有副本，因此重写永远不会指向不存在的文件。现成的规则请参阅 [Cloudflare → 面向智能体的 Markdown](/zh/deployment/cloudflare/#markdown-for-agents)。
 
+## 驱动 CLI [#driving-the-cli]
+
+`livemark` 命令本身既面向人，也面向智能体和脚本。`livemark --llms` 会把每个命令输出为 [MCP](https://modelcontextprotocol.io/) 风格的工具清单，每个工具都带有输入和输出的 JSON Schema。给任意命令加上 `--json`，结果会以 JSON 写到 stdout；再传入一个值，输入也可以用 JSON 提供：
+
+```bash
+livemark --llms                                          # 所有命令及其 schema
+livemark build --json                                    # → { "outDir": ".../.livemark/build/client" }
+livemark escape --json '{"paths":["components/Footer.tsx"]}'
+```
+
+使用 `--json` 时日志写到 stderr，stdout 只包含结果。`start` 和 `preview` 在服务器开始监听后输出 URL，并保持运行。`--config`（`-c`）或 `LIVEMARK_CONFIG` 环境变量可让任意命令使用 `./livemark.config.ts` 以外的配置文件。
+
 ## 另请参阅 [#see-also]
 
 - [智能体技能](/zh/agent-skills/)：将 Livemark 自带的技能安装到你的编码智能体中。

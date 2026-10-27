@@ -57,6 +57,18 @@ Cada skill encontrada se publica en `/.well-known/agent-skills/<name>/SKILL.md` 
 
 Los agentes piden Markdown enviando `Accept: text/markdown` a la URL de la página. Un hosting estático no puede responder a eso por sí solo, pero una reescritura en tu CDN puede servir `<page>/index.md` para esas peticiones y dejar el HTML para todos los demás. Cada artículo y listado de sección tiene un gemelo, así que la reescritura nunca apunta a un archivo inexistente. Para una regla lista para usar, consulta [Cloudflare → Markdown para agentes](/es/deployment/cloudflare/#markdown-for-agents).
 
+## Usar la CLI [#driving-the-cli]
+
+El propio comando `livemark` está pensado para agentes y scripts además de personas. `livemark --llms` imprime un manifiesto con cada comando como herramienta al estilo de [MCP](https://modelcontextprotocol.io/), cada una con un JSON Schema para su entrada y su salida. Añade `--json` a cualquier comando para obtener su resultado como JSON en stdout, y pasa un valor para dar también la entrada en JSON:
+
+```bash
+livemark --llms                                          # cada comando y sus esquemas
+livemark build --json                                    # → { "outDir": ".../.livemark/build/client" }
+livemark escape --json '{"paths":["components/Footer.tsx"]}'
+```
+
+Con `--json`, los registros van a stderr, así que stdout contiene solo el resultado. `start` y `preview` imprimen sus URL en cuanto el servidor escucha y siguen en marcha. `--config` (`-c`) o la variable `LIVEMARK_CONFIG` apuntan cualquier comando a una configuración distinta de `./livemark.config.ts`.
+
 ## Ver también [#see-also]
 
 - [Agent Skills](/es/agent-skills/): instala las skills propias de Livemark en tu agente de programación.
