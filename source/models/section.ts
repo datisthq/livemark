@@ -56,7 +56,7 @@ function createSectionSchema<T extends z.ZodType<Localized>>(text: T) {
 }
 
 function createSectionSchemas<T extends z.ZodType<Localized>>(text: T) {
-  const BaseSection = z.object({
+  const BaseSection = z.strictObject({
     icon: z.string().optional(),
     title: text,
     position: z.enum(["header", "sidebar"]).default("header"),

@@ -39,7 +39,7 @@ export default defineConfig({
 
 ## Sitemap and `site`
 
-If `site` is set, Livemark builds a `sitemap.xml` at the root of your output during `docs:build`, using `site` as the absolute origin for every URL. Without `site`, sitemap generation is skipped.
+If `site` is set, Livemark builds a `sitemap.xml` at the root of your output during `livemark build`, using `site` as the absolute origin for every URL. Without `site`, sitemap generation is skipped.
 
 ## Logo and favicon
 

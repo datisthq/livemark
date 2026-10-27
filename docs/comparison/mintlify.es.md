@@ -28,7 +28,7 @@ Livemark es una CLI de Node que compila un sitio estático que puedes alojar don
 
 Mintlify es un SaaS alojado. Haces commit de MDX + una configuración `mint.json` en un repositorio Git; Mintlify lo descarga en cada push, lo compila y sirve el resultado desde `<your-subdomain>.mintlify.app` o un dominio propio. El pipeline de compilación y el entorno de ejecución están gestionados y no se pueden instalar.
 
-En Livemark la organización del contenido no tiene restricciones: escanea mediante glob (`include`/`exclude` en `livemark.config.ts`), y la URL de cada artículo la fija un campo `path:` del frontmatter en lugar de su ubicación en disco. No hace falta una carpeta `docs/`: un proyecto puede tomar artículos de `README.md`, `docs/`, `blog/`, los README de paquetes o cualquier otro lugar. Mintlify espera que el árbol de archivos coincida con el bloque `navigation` de `mint.json`; las rutas reflejan las rutas de archivo bajo la raíz de contenido configurada.
+En Livemark la organización del contenido no tiene restricciones: escanea mediante glob (`include`/`exclude` en `livemark.config.ts`), y la URL de cada artículo sigue la ubicación del archivo bajo su glob de `include`, salvo que la fije un campo `path:` del frontmatter. No hace falta una carpeta `docs/`: un proyecto puede tomar artículos de `README.md`, `docs/`, `blog/`, los README de paquetes o cualquier otro lugar. Mintlify espera que el árbol de archivos coincida con el bloque `navigation` de `mint.json`; las rutas reflejan las rutas de archivo bajo la raíz de contenido configurada.
 
 ## Superficie de contenido [#content-surface]
 

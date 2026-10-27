@@ -64,6 +64,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
       - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4
@@ -73,11 +76,13 @@ jobs:
           node-version: 24
       - run: pnpm install
       - run: pnpm test
-      - run: livemark build
+      - run: npm install --global vercel
+      - run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
       - run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
 ```
 
-You'll need `VERCEL_TOKEN`, `VERCEL_ORG_ID`, and `VERCEL_PROJECT_ID` as secrets (the latter two live in `.vercel/project.json` after the first local `vercel link`).
+`vercel build` runs the `buildCommand` from `vercel.json` — `livemark build` — and packs `.livemark/build/client/` into `.vercel/output/`, which `vercel deploy --prebuilt` uploads as is. You'll need `VERCEL_TOKEN`, `VERCEL_ORG_ID`, and `VERCEL_PROJECT_ID` as secrets (the latter two live in `.vercel/project.json` after the first local `vercel link`).
 
 ## Custom domain
 

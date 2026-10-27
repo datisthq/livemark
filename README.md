@@ -84,7 +84,7 @@ my-project/
 └── .livemark/           # overrides + build cache (generated)
 ```
 
-Anything under `.livemark/components/`, `.livemark/elements/`, or `.livemark/styles/` shadows the Livemark default with the same path — so you can customize components, primitives, and base CSS without forking the package. Run `npx livemark escape <path>` to copy a default into `.livemark/` ready to edit.
+Anything under `.livemark/components/`, `.livemark/elements/`, `.livemark/styles/` or `.livemark/routes/`, and the root files `client.tsx`, `server.ts`, `router.tsx` and `head.ts`, shadows the Livemark default with the same path — so you can customize components, primitives, base CSS and routes without forking the package. `.livemark/public/` is served at the site root. Run `npx livemark escape <path>` to copy a default into `.livemark/` ready to edit.
 
 ## Customization
 

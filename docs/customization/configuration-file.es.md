@@ -29,26 +29,32 @@ Eso recoge todos los archivos `.md` de tu proyecto (por defecto `include: "**/*.
 
 Cada campo tiene un valor por defecto razonable. El conjunto completo:
 
-| Opción           | Tipo                                               | Propósito                                                                                               |
-| ---------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `include`        | `string \| string[]`                               | Glob(s) para los archivos de contenido. Por defecto: `"**/*.md"`.                                       |
-| `exclude`        | `string \| string[]`                               | Glob(s) que se omiten (borradores, parciales, etc.).                                                    |
-| `title`          | `string`                                           | Título del sitio que aparece en la cabecera y en `<title>`. Por defecto: `"Livemark"`.                  |
-| `description`    | `string`                                           | Meta descripción para SEO/Open Graph. Por defecto: `"Markdown site generator"`.                         |
-| `site`           | `string`                                           | URL canónica del sitio; necesaria para generar el sitemap.                                              |
-| `favicon`        | `string`                                           | Ruta a una imagen de favicon, relativa a la raíz del proyecto.                                          |
-| `logo`           | `string`                                           | Ruta a una imagen de logo usada en la cabecera (si falta, se usa el favicon).                           |
-| `banner`         | `string`                                           | Anuncio en Markdown en línea mostrado en una franja sobre la cabecera.                                  |
-| `breadcrumbs`    | `boolean`                                          | Muestra la ruta de carpetas sobre el título de cada artículo. Por defecto: `true`.                      |
-| `codeThemeLight` | Nombre de tema de Shiki                            | Tema de sintaxis del modo claro. Por defecto: `"catppuccin-latte"`.                                     |
-| `codeThemeDark`  | Nombre de tema de Shiki                            | Tema de sintaxis del modo oscuro. Por defecto: `"catppuccin-mocha"`.                                    |
-| `sections`       | [`Section[]`](/es/customization/article-sections/) | Divide el contenido en Docs / Blog / registro de cambios, cada uno con su prefijo de URL.               |
-| `links`          | [`Link[]`](/es/customization/external-links/)      | Enlaces personalizados mostrados en la cabecera o en la barra lateral.                                  |
-| `patches`        | [`Patch[]`](/es/customization/article-patches/)    | Sobrescribe el frontmatter de un archivo Markdown desde la configuración sin editarlo.                  |
-| `contentSignals` | [`ContentSignals`](/es/customization/ai-agents/)   | Preferencias de uso por IA publicadas en `robots.txt`. Por defecto: todas `true`.                       |
-| `skills`         | `string \| string[]`                               | Glob(s) para archivos `SKILL.md` que se publican como [skills de agente](/es/customization/ai-agents/). |
+| Opción           | Tipo                                               | Propósito                                                                                                                       |
+| ---------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `include`        | `string \| string[]`                               | Glob(s) para los archivos de contenido. Por defecto: `"**/*.md"`.                                                               |
+| `exclude`        | `string \| string[]`                               | Glob(s) que se omiten (borradores, parciales, etc.).                                                                            |
+| `title`          | `string`                                           | Título del sitio que aparece en la cabecera y en `<title>`. Por defecto: `"Livemark"`.                                          |
+| `description`    | `string`                                           | Meta descripción para SEO/Open Graph. Por defecto: `"Markdown site generator"`.                                                 |
+| `site`           | `string`                                           | URL canónica del sitio; necesaria para generar el sitemap.                                                                      |
+| `base`           | `string \| (command) => string`                    | Subruta bajo la que se sirve el sitio, [p. ej. en GitHub Pages](/es/deployment/github-pages/#configure-base-for-project-sites). |
+| `favicon`        | `string`                                           | Ruta a una imagen de favicon, relativa a la raíz del proyecto.                                                                  |
+| `logo`           | `string`                                           | Ruta a una imagen de logo usada en la cabecera (si falta, se usa el logo de Livemark incluido).                                 |
+| `banner`         | `string`                                           | Anuncio en Markdown en línea mostrado en una franja sobre la cabecera.                                                          |
+| `head`           | `{ meta, links, scripts }`                         | [Etiquetas `<head>` adicionales](/es/customization/site-metadata/#extra-head-tags) para cada página.                            |
+| `breadcrumbs`    | `boolean`                                          | Muestra la ruta de carpetas sobre el título de cada artículo. Por defecto: `true`.                                              |
+| `languages`      | `Language[]`                                       | [Traducciones](/es/customization/translations/): una entrada por idioma, la primera es la predeterminada.                       |
+| `codeThemeLight` | Nombre de tema de Shiki                            | Tema de sintaxis del modo claro. Por defecto: `"catppuccin-latte"`.                                                             |
+| `codeThemeDark`  | Nombre de tema de Shiki                            | Tema de sintaxis del modo oscuro. Por defecto: `"catppuccin-mocha"`.                                                            |
+| `sections`       | [`Section[]`](/es/customization/article-sections/) | Divide el contenido en Docs / Blog / registro de cambios, cada uno con su prefijo de URL.                                       |
+| `links`          | [`Link[]`](/es/customization/external-links/)      | Enlaces personalizados mostrados en la cabecera o en la barra lateral.                                                          |
+| `patches`        | [`Patch[]`](/es/customization/article-patches/)    | Sobrescribe el frontmatter de un archivo Markdown desde la configuración sin editarlo.                                          |
+| `contentSignals` | [`ContentSignals`](/es/customization/ai-agents/)   | Preferencias de uso por IA publicadas en `robots.txt`. Por defecto: todas `true`.                                               |
+| `skills`         | `string \| string[]`                               | Glob(s) para archivos `SKILL.md` que se publican como [skills de agente](/es/customization/ai-agents/).                         |
+| `vite`           | `UserConfig \| (env) => UserConfig`                | Configuración extra de Vite, fusionada sobre la de Livemark.                                                                    |
 
-El esquema completo está en [`source/models/config.ts`](https://github.com/datisthq/livemark/blob/main/source/models/config.ts): `defineConfig` lo valida con Zod, así que las erratas producen un error claro al arrancar.
+El esquema completo está en [`source/models/config.ts`](https://github.com/datisthq/livemark/blob/main/source/models/config.ts): `defineConfig` lo valida con Zod. Las claves desconocidas se rechazan, tanto en el nivel superior como dentro de secciones, enlaces, idiomas, `head`, `contentSignals` y parches, así que una errata produce un error claro al arrancar en lugar de ignorarse en silencio.
+
+`title`, `description` y `banner` aceptan una cadena o [un valor por código de idioma](/es/customization/translations/#translating-config-texts).
 
 ## Ejemplo completo [#worked-example]
 

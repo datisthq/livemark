@@ -30,7 +30,7 @@ Nextra es una capa sobre una aplicación Next.js existente. La puesta en marcha 
 
 `nextra-theme-docs` es el tema de documentación que usan Vercel, SWR, Turbo y muchos otros. Es estable, está mantenido y cubre todo lo necesario para documentación.
 
-En Livemark la organización del contenido no tiene restricciones: escanea mediante glob (`include`/`exclude` en `livemark.config.ts`), y la URL de cada artículo la fija un campo `path:` del frontmatter en lugar de su ubicación en disco. No hace falta una carpeta `docs/`: un proyecto puede tomar artículos de `README.md`, `docs/`, `blog/`, los README de paquetes o cualquier otro lugar. Nextra lee el contenido de `pages/` (Pages Router) o `content/` (App Router), con rutas determinadas por las rutas de archivo y los archivos `_meta.json` que los acompañan.
+En Livemark la organización del contenido no tiene restricciones: escanea mediante glob (`include`/`exclude` en `livemark.config.ts`), y la URL de cada artículo sigue la ubicación del archivo bajo su glob de `include`, salvo que la fije un campo `path:` del frontmatter. No hace falta una carpeta `docs/`: un proyecto puede tomar artículos de `README.md`, `docs/`, `blog/`, los README de paquetes o cualquier otro lugar. Nextra lee el contenido de `pages/` (Pages Router) o `content/` (App Router), con rutas determinadas por las rutas de archivo y los archivos `_meta.json` que los acompañan.
 
 ## Superficie de contenido [#content-surface]
 

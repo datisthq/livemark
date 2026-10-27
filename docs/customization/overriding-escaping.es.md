@@ -10,12 +10,15 @@ path: /customization/overriding-escaping/
 
 Livemark incluye una biblioteca de componentes React, primitivas al estilo shadcn y una hoja de estilos base. Cada archivo se puede sobrescribir colocando un archivo con el mismo nombre en `.livemark/`:
 
-| Para sobrescribir               | Coloca un archivo en              |
-| ------------------------------- | --------------------------------- |
-| `website/components/<Name>.tsx` | `.livemark/components/<Name>.tsx` |
-| `website/elements/<name>.tsx`   | `.livemark/elements/<name>.tsx`   |
-| `website/styles/<name>.css`     | `.livemark/styles/<name>.css`     |
-| `website/head.ts`               | `.livemark/head.ts`               |
+| Para sobrescribir                                         | Coloca un archivo en              |
+| --------------------------------------------------------- | --------------------------------- |
+| `source/components/<Name>.tsx`                            | `.livemark/components/<Name>.tsx` |
+| `source/elements/<name>.tsx`                              | `.livemark/elements/<name>.tsx`   |
+| `source/styles/<name>.css`                                | `.livemark/styles/<name>.css`     |
+| `source/routes/<route>.tsx`                               | `.livemark/routes/<route>.tsx`    |
+| `source/client.tsx`, `server.ts`, `router.tsx`, `head.ts` | `.livemark/<mismo nombre>`        |
+
+Las rutas `source/` están dentro de `node_modules/livemark/`. Los archivos de `.livemark/public/` se añaden a los recursos estáticos del sitio y se sirven desde su raíz.
 
 No hace falta cambiar ningún import. El resto de Livemark detecta automáticamente el archivo sobrescrito.
 
@@ -95,7 +98,9 @@ Esas rutas se resuelven durante la compilación y pasan por la misma búsqueda d
 
 ### Comprobación de tipos de las sobrescrituras [#type-checking-overrides]
 
-Los módulos de Livemark se distribuyen como código fuente TypeScript, así que tu comprobación de tipos también los cubre, incluido el módulo `livemark:virtual` del que leen la configuración del sitio. Sus tipos se cargan con el paquete `livemark`: cualquier programa que incluya `livemark.config.ts` ya los tiene. Un programa que no lo incluya añade una línea a un archivo `.d.ts`:
+Un archivo escapado conserva los imports relativos del archivo por defecto del que se copió (`../hooks/site.ts`). Estos se resuelven dentro del montaje que Livemark genera para `start` y `build`, no junto a `.livemark/`, así que el `tsc --noEmit` de tu propio proyecto no puede comprobar un archivo escapado: deja `.livemark/` fuera de su programa. Lo que verifica una sobrescritura es `livemark build`: la empaqueta con el resto de Livemark y falla cuando un import no se resuelve.
+
+Un archivo que escribas tú mismo y que solo importe desde los exports `livemark/<subdir>/*` sí se puede comprobar, incluido el módulo `livemark:virtual` del que sale la configuración del sitio. Sus tipos se cargan con el paquete `livemark`: cualquier programa que incluya `livemark.config.ts` ya los tiene. Un programa que no lo incluya añade una línea a un archivo `.d.ts`:
 
 ```ts title=".livemark/env.d.ts"
 /// <reference types="livemark/env" />
@@ -105,7 +110,7 @@ No declares `livemark:virtual` por tu cuenta: una declaración escrita a mano se
 
 ## Lo que no puedes sobrescribir así [#what-you-cant-override-this-way]
 
-- **Rutas personalizadas**: usa [`.livemark/routes/`](/es/customization/custom-routes/) en su lugar.
+- **Páginas nuevas**: son [rutas personalizadas](/es/customization/custom-routes/), que se añaden en la misma carpeta `.livemark/routes/`.
 - **Código de servidor** (`actions/`, `commands/`): no se puede sobrescribir; haz un fork del repositorio si necesitas cambiarlo.
 - **Esquema de configuración**: la forma de `livemark.config.ts` es fija.
 

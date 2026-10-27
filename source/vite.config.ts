@@ -1,5 +1,6 @@
 import tailwind from "@tailwindcss/vite"
 import { devtools } from "@tanstack/devtools-vite"
+import { join } from "node:path"
 import { tanstackStart } from "@tanstack/react-start/plugin/vite"
 import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
@@ -9,6 +10,7 @@ import { agents } from "./plugins/vite-agents.ts"
 import { content } from "./plugins/vite-content.ts"
 import { livemark } from "./plugins/vite-livemark.ts"
 import { robots } from "./plugins/vite-robots.ts"
+import { listRoutePages } from "./helpers/route-pages.ts"
 import { buildSites } from "./helpers/site.ts"
 
 const config = await loadConfig()
@@ -28,6 +30,13 @@ const blogFeedPages = config.site
       }))
   : []
 
+// The crawl never reaches a custom route nothing links to, so seed the project's
+// static ones; this file runs from the package, not the mount.
+const languagePages = sites.map(site => `${config.base ?? ""}${site.language.prefix}`)
+const routePages = listRoutePages(join(config.root, ".livemark", "routes"))
+  .map(path => `${config.base ?? ""}${path}`)
+  .filter(path => !languagePages.includes(path))
+
 export default defineConfig({
   plugins: [
     livemark({ config }),
@@ -46,7 +55,8 @@ export default defineConfig({
       // One seed per language: a language is reachable only through the picker's
       // links, which the crawler would otherwise meet only on hydrated pages.
       pages: [
-        ...sites.map(site => ({ path: `${config.base ?? ""}${site.language.prefix}` })),
+        ...languagePages.map(path => ({ path })),
+        ...routePages.map(path => ({ path })),
         ...blogFeedPages,
       ],
       // Disable route-tree auto-discovery: it produces basepath-naive

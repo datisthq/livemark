@@ -28,7 +28,7 @@ Ambas herramientas son nativas de Vite. La diferencia está en todo lo que hay p
 
 El entorno de ejecución de VitePress es `vue-router` más un tema por defecto integrado. Livemark usa TanStack Router e incluye su propia capa de componentes (barra lateral, diseño, búsqueda) que los proyectos pueden sobrescribir archivo a archivo mediante `.livemark/`.
 
-En Livemark la organización del contenido no tiene restricciones: escanea mediante glob (`include`/`exclude` en `livemark.config.ts`), y la URL de cada artículo la fija un campo `path:` del frontmatter en lugar de su ubicación en disco. No hace falta una carpeta `docs/`: un proyecto puede tomar artículos de `README.md`, `docs/`, `blog/`, los README de paquetes o cualquier otro lugar. VitePress espera todo el contenido bajo una única raíz de código fuente (`docs/` por defecto, configurable mediante `srcDir`), con rutas derivadas de las rutas de archivo.
+En Livemark la organización del contenido no tiene restricciones: escanea mediante glob (`include`/`exclude` en `livemark.config.ts`), y la URL de cada artículo sigue la ubicación del archivo bajo su glob de `include`, salvo que la fije un campo `path:` del frontmatter. No hace falta una carpeta `docs/`: un proyecto puede tomar artículos de `README.md`, `docs/`, `blog/`, los README de paquetes o cualquier otro lugar. VitePress espera todo el contenido bajo una única raíz de código fuente (`docs/` por defecto, configurable mediante `srcDir`), con rutas derivadas de las rutas de archivo.
 
 ## Superficie de contenido [#content-surface]
 

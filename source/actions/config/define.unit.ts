@@ -40,4 +40,18 @@ describe("defineConfig", () => {
   it("should leave banner unset by default", () => {
     expect(defineConfig({}).banner).toBeUndefined()
   })
+
+  it("should reject an unknown top-level key", () => {
+    // @ts-expect-error a misspelled `title`
+    expect(() => defineConfig({ tilte: "Docs" })).toThrow(/tilte/)
+  })
+
+  it("should reject unknown keys in sections, links and languages", () => {
+    const section = { title: "Docs", prefix: "/", typo: true }
+    const link = { url: "https://x.dev", title: "X", typo: true }
+    const language = { code: "en", label: "English", typo: true }
+    expect(() => defineConfig({ sections: [section] })).toThrow(/typo/)
+    expect(() => defineConfig({ links: [link] })).toThrow(/typo/)
+    expect(() => defineConfig({ languages: [language] })).toThrow(/typo/)
+  })
 })

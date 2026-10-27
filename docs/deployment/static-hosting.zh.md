@@ -20,7 +20,7 @@ livemark build
 
 ## 预渲染与 SPA 回退 [#prerendering-vs-spa-fallback]
 
-Livemark 会在 `docs:build` 期间把每个路由预渲染到磁盘上。像 `/customization/site-metadata/` 这样的深层链接会落到 `customization/site-metadata/index.html` 这个真实文件上，已知页面无需客户端路由回退。
+Livemark 会在 `livemark build` 期间把每个路由预渲染到磁盘上。像 `/customization/site-metadata/` 这样的深层链接会落到 `customization/site-metadata/index.html` 这个真实文件上，已知页面无需客户端路由回退。
 
 不过，SPA 回退（把未知路径重写到 `index.html`）仍然值得配置，作为纵深防御：它能让 404 在客户端优雅地渲染，而不是显示托管平台默认的错误页。
 
@@ -109,7 +109,7 @@ jobs:
           cache: pnpm
           node-version: 24
       - run: pnpm install
-      - run: livemark build
+      - run: pnpm livemark build
       - uses: easingthemes/ssh-deploy@v5
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}

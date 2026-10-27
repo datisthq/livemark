@@ -31,7 +31,7 @@ Identity and presentation of the article.
 | `image`       | `string`             | —                                | Open Graph / social card image (needs `site`). Relative paths resolve against the file.             |
 | `author`      | `string \| string[]` | —                                | One or more author names.                                                                           |
 | `date`        | `string`             | —                                | ISO date. Drives sort order in blog sections.                                                       |
-| `tags`        | `string[]`           | —                                | Used by blog sections to build `/tags/<tag>/` pages.                                                |
+| `tags`        | `string[]`           | —                                | Used by blog sections to build `<blog prefix>tags/<tag>/` pages, e.g. `/blog/tags/release/`.        |
 
 ## Sidebar settings
 
@@ -58,8 +58,26 @@ This lets you pin "Getting Started" at the top (`order: 1`) and "FAQ" at the bot
 
 | Field      | Type     | Default                                             | Purpose                                                                          |
 | ---------- | -------- | --------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `path`     | `string` | Slugified filename under the project root           | Override the URL slug. Include leading/trailing slashes.                         |
+| `path`     | `string` | The file's folders and slugified name (see below)   | The article's URL. Leading and trailing slashes are added when missing.          |
 | `language` | `string` | `.<code>.md` file suffix, else the default language | The article's language on a [multi-language site](/customization/translations/). |
+
+Without a `path`, the URL comes from where the file sits below the fixed start of the `include` glob that matched it — `docs/` for `docs/**/*.md`:
+
+- `docs/guide/install.md` → `/guide/install/`
+- `docs/guide/index.md` → `/guide/`, an `index` file naming its folder
+- `docs/index.md` → `/`
+- `docs/guide/install.es.md` → `/es/guide/install/`, the language suffix stripped
+
+Every segment is slugified, so `docs/Getting Started.md` becomes `/getting-started/`. Two articles that end up with the same path fail the build, naming both files.
+
+## Source link
+
+The page toolbar links each article to its source.
+
+| Field          | Type               | Default                         | Purpose                                                                              |
+| -------------- | ------------------ | ------------------------------- | ------------------------------------------------------------------------------------ |
+| `sourceUrl`    | `string`           | A GitHub edit link for the file | Where the source link points.                                                        |
+| `sourceAction` | `"edit" \| "view"` | `"edit"`                        | Labels the link **Edit on GitHub** with a pencil, or **View on GitHub** with an eye. |
 
 ## Overriding without editing
 

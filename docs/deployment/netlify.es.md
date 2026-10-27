@@ -70,7 +70,7 @@ jobs:
           node-version: 24
       - run: pnpm install
       - run: pnpm test
-      - run: livemark build
+      - run: pnpm livemark build
       - uses: nwtgck/actions-netlify@v3
         with:
           publish-dir: .livemark/build/client

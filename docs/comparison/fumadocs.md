@@ -30,7 +30,7 @@ Fumadocs assumes you already have (or want) a Next.js application. It's not a se
 
 The package split is intentional: `fumadocs-core` exposes hooks and primitives without UI, so projects can swap `fumadocs-ui` for a custom UI without forking.
 
-Content layout is unconstrained on the Livemark side: it scans by glob (`include`/`exclude` in `livemark.config.ts`), and each article's URL is set by a `path:` frontmatter field rather than its file location. There's no required `docs/` folder — a project can pull articles from `README.md`, `docs/`, `blog/`, package READMEs, or anywhere else. Fumadocs reads from a single configured content directory (defined in `fumadocs-mdx`'s source plugin); routes are derived from file paths under that root.
+Content layout is unconstrained on the Livemark side: it scans by glob (`include`/`exclude` in `livemark.config.ts`), and each article's URL follows the file's place below its `include` glob unless a `path:` frontmatter field sets it. There's no required `docs/` folder — a project can pull articles from `README.md`, `docs/`, `blog/`, package READMEs, or anywhere else. Fumadocs reads from a single configured content directory (defined in `fumadocs-mdx`'s source plugin); routes are derived from file paths under that root.
 
 ## Content surface
 

@@ -29,26 +29,32 @@ That picks up every `.md` file under your project (default `include: "**/*.md"`)
 
 Every field falls back to a sensible default. The full set:
 
-| Option           | Type                                            | Purpose                                                                               |
-| ---------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------- |
-| `include`        | `string \| string[]`                            | Glob(s) for content files. Default: `"**/*.md"`.                                      |
-| `exclude`        | `string \| string[]`                            | Glob(s) to skip (drafts, partials, etc.).                                             |
-| `title`          | `string`                                        | Site title shown in the header and `<title>`. Default: `"Livemark"`.                  |
-| `description`    | `string`                                        | Meta description for SEO/Open Graph. Default: `"Markdown site generator"`.            |
-| `site`           | `string`                                        | Canonical site URL — required for sitemap generation.                                 |
-| `favicon`        | `string`                                        | Path to a favicon image, relative to project root.                                    |
-| `logo`           | `string`                                        | Path to a logo image used in the header (falls back to favicon).                      |
-| `banner`         | `string`                                        | Inline Markdown announcement shown in a strip above the header.                       |
-| `breadcrumbs`    | `boolean`                                       | Show the trail of folders above each article's title. Default: `true`.                |
-| `codeThemeLight` | Shiki theme name                                | Light-mode syntax theme. Default: `"catppuccin-latte"`.                               |
-| `codeThemeDark`  | Shiki theme name                                | Dark-mode syntax theme. Default: `"catppuccin-mocha"`.                                |
-| `sections`       | [`Section[]`](/customization/article-sections/) | Split content into Docs / Blog / Changelog with their own URL prefixes.               |
-| `links`          | [`Link[]`](/customization/external-links/)      | Custom links shown in the header or sidebar.                                          |
-| `patches`        | [`Patch[]`](/customization/article-patches/)    | Override a markdown file's frontmatter from config without editing the file.          |
-| `contentSignals` | [`ContentSignals`](/customization/ai-agents/)   | AI usage preferences published in `robots.txt`. Default: all `true`.                  |
-| `skills`         | `string \| string[]`                            | Glob(s) for `SKILL.md` files to publish as [agent skills](/customization/ai-agents/). |
+| Option           | Type                                            | Purpose                                                                                                                |
+| ---------------- | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `include`        | `string \| string[]`                            | Glob(s) for content files. Default: `"**/*.md"`.                                                                       |
+| `exclude`        | `string \| string[]`                            | Glob(s) to skip (drafts, partials, etc.).                                                                              |
+| `title`          | `string`                                        | Site title shown in the header and `<title>`. Default: `"Livemark"`.                                                   |
+| `description`    | `string`                                        | Meta description for SEO/Open Graph. Default: `"Markdown site generator"`.                                             |
+| `site`           | `string`                                        | Canonical site URL — required for sitemap generation.                                                                  |
+| `base`           | `string \| (command) => string`                 | Sub-path the site is served under, [e.g. on GitHub Pages](/deployment/github-pages/#configure-base-for-project-sites). |
+| `favicon`        | `string`                                        | Path to a favicon image, relative to project root.                                                                     |
+| `logo`           | `string`                                        | Path to a logo image used in the header (falls back to the bundled Livemark logo).                                     |
+| `banner`         | `string`                                        | Inline Markdown announcement shown in a strip above the header.                                                        |
+| `head`           | `{ meta, links, scripts }`                      | [Extra `<head>` tags](/customization/site-metadata/#extra-head-tags) for every page.                                   |
+| `breadcrumbs`    | `boolean`                                       | Show the trail of folders above each article's title. Default: `true`.                                                 |
+| `languages`      | `Language[]`                                    | [Translations](/customization/translations/): one entry per language, the first the default.                           |
+| `codeThemeLight` | Shiki theme name                                | Light-mode syntax theme. Default: `"catppuccin-latte"`.                                                                |
+| `codeThemeDark`  | Shiki theme name                                | Dark-mode syntax theme. Default: `"catppuccin-mocha"`.                                                                 |
+| `sections`       | [`Section[]`](/customization/article-sections/) | Split content into Docs / Blog / Changelog with their own URL prefixes.                                                |
+| `links`          | [`Link[]`](/customization/external-links/)      | Custom links shown in the header or sidebar.                                                                           |
+| `patches`        | [`Patch[]`](/customization/article-patches/)    | Override a markdown file's frontmatter from config without editing the file.                                           |
+| `contentSignals` | [`ContentSignals`](/customization/ai-agents/)   | AI usage preferences published in `robots.txt`. Default: all `true`.                                                   |
+| `skills`         | `string \| string[]`                            | Glob(s) for `SKILL.md` files to publish as [agent skills](/customization/ai-agents/).                                  |
+| `vite`           | `UserConfig \| (env) => UserConfig`             | Extra Vite config, merged over Livemark's own.                                                                         |
 
-The full schema lives in [`source/models/config.ts`](https://github.com/datisthq/livemark/blob/main/source/models/config.ts) — `defineConfig` validates against it with Zod, so typos get a clear error at start-up.
+The full schema lives in [`source/models/config.ts`](https://github.com/datisthq/livemark/blob/main/source/models/config.ts) — `defineConfig` validates against it with Zod. Unknown keys are rejected — at the top level and inside sections, links, languages, `head`, `contentSignals` and patches — so a typo fails with a clear error at start-up instead of being silently ignored.
+
+`title`, `description` and `banner` take a string or [one value per language code](/customization/translations/#translating-config-texts).
 
 ## Worked example
 

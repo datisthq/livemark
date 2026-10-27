@@ -40,7 +40,7 @@ export default defineConfig({
 
 ## 顶栏链接 [#header-links]
 
-默认情况下，链接渲染在顶栏中栏目标签页的右侧，并会自动附加一个外部链接图标。
+默认情况下，链接渲染在顶栏中栏目标签页的右侧。只会显示你设置的 `icon`，Livemark 不会自行添加外部链接标记。
 
 ```typescript
 links: [

@@ -40,7 +40,7 @@ Los iconos vienen de [lucide-react](https://lucide.dev/icons). Usa el nombre en 
 
 ## Enlaces en la cabecera [#header-links]
 
-Por defecto, los enlaces se renderizan a la derecha de las pestañas de sección en la cabecera. Se añade automáticamente un icono de enlace externo.
+Por defecto, los enlaces se renderizan a la derecha de las pestañas de sección en la cabecera. Solo se muestra el `icon` que definas: Livemark no añade ningún indicador propio de enlace externo.
 
 ```typescript
 links: [

@@ -30,7 +30,7 @@ Fumadocs 假定你已经有（或打算有）一个 Next.js 应用。它不是�
 
 这种拆包是有意为之：`fumadocs-core` 暴露不含 UI 的 hooks 和基础原语，因此项目可以用自定义 UI 替换 `fumadocs-ui`，而无需 fork。
 
-在 Livemark 这边，内容的组织方式不受限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 由前置元数据 frontmatter 中的 `path:` 字段决定，而不是由文件位置决定。不要求必须有 `docs/` 文件夹，项目可以从 `README.md`、`docs/`、`blog/`、各个包的 README 或任何其他位置获取文章。Fumadocs 从单个已配置的内容目录读取（在 `fumadocs-mdx` 的 source 插件中定义）；路由由该根目录下的文件路径推导而来。
+在 Livemark 这边，内容的组织方式不受限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 默认取决于文件在其 `include` glob 下的位置，也可以由前置元数据 frontmatter 中的 `path:` 字段指定。不要求必须有 `docs/` 文件夹，项目可以从 `README.md`、`docs/`、`blog/`、各个包的 README 或任何其他位置获取文章。Fumadocs 从单个已配置的内容目录读取（在 `fumadocs-mdx` 的 source 插件中定义）；路由由该根目录下的文件路径推导而来。
 
 ## 内容能力 [#content-surface]
 

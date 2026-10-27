@@ -30,7 +30,7 @@ Hugo es un único binario de Go: sin dependencias de runtime ni paso de instalac
 
 Hugo no es específico para documentación. El mismo binario da vida a blogs, sitios de marketing, portfolios y documentación; el caso de uso de documentación se cubre mediante temas en lugar de tipos de sección de primera clase.
 
-La organización del contenido no tiene restricciones en el lado de Livemark: escanea por glob (`include`/`exclude` en `livemark.config.ts`), y la URL de cada artículo la define un campo `path:` del frontmatter en lugar de su ubicación en disco. No hay una carpeta `docs/` obligatoria: un proyecto puede tomar artículos de `README.md`, `docs/`, `blog/`, los README de los paquetes o de cualquier otro lugar. Hugo lee desde `content/` con una estructura de URLs que refleja el árbol de directorios (y sobrescrituras del frontmatter por sección).
+La organización del contenido no tiene restricciones en el lado de Livemark: escanea por glob (`include`/`exclude` en `livemark.config.ts`), y la URL de cada artículo sigue la ubicación del archivo bajo su glob de `include`, salvo que la defina un campo `path:` del frontmatter. No hay una carpeta `docs/` obligatoria: un proyecto puede tomar artículos de `README.md`, `docs/`, `blog/`, los README de los paquetes o de cualquier otro lugar. Hugo lee desde `content/` con una estructura de URLs que refleja el árbol de directorios (y sobrescrituras del frontmatter por sección).
 
 ## Superficie de contenido [#content-surface]
 

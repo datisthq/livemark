@@ -10,12 +10,15 @@ path: /customization/overriding-escaping/
 
 Livemark ships a library of React components, shadcn-style primitives, and a base stylesheet. Each file can be overridden by placing a same-named file under `.livemark/`:
 
-| To override                     | Drop a file at                    |
-| ------------------------------- | --------------------------------- |
-| `website/components/<Name>.tsx` | `.livemark/components/<Name>.tsx` |
-| `website/elements/<name>.tsx`   | `.livemark/elements/<name>.tsx`   |
-| `website/styles/<name>.css`     | `.livemark/styles/<name>.css`     |
-| `website/head.ts`               | `.livemark/head.ts`               |
+| To override                                               | Drop a file at                    |
+| --------------------------------------------------------- | --------------------------------- |
+| `source/components/<Name>.tsx`                            | `.livemark/components/<Name>.tsx` |
+| `source/elements/<name>.tsx`                              | `.livemark/elements/<name>.tsx`   |
+| `source/styles/<name>.css`                                | `.livemark/styles/<name>.css`     |
+| `source/routes/<route>.tsx`                               | `.livemark/routes/<route>.tsx`    |
+| `source/client.tsx`, `server.ts`, `router.tsx`, `head.ts` | `.livemark/<same name>`           |
+
+The `source/` paths are inside `node_modules/livemark/`. Files under `.livemark/public/` are added to the site's static assets and served from its root.
 
 No import changes are needed. The rest of Livemark picks up the overridden file automatically.
 
@@ -95,7 +98,9 @@ Those paths resolve at build time and go through the same override lookup — if
 
 ### Type checking overrides
 
-Livemark's modules ship as TypeScript source, so your type check covers them too, including the `livemark:virtual` module they read the site config from. Its types load with the `livemark` package: any program that includes `livemark.config.ts` already has them. A program that doesn't adds one line to a `.d.ts` file:
+An escaped file keeps the relative imports of the default it was copied from (`../hooks/site.ts`). Those resolve inside the mount Livemark generates for `start` and `build`, not next to `.livemark/`, so your project's own `tsc --noEmit` cannot check an escaped file — leave `.livemark/` out of its program. `livemark build` is what verifies an override: it bundles it with the rest of Livemark and fails when an import does not resolve.
+
+A file you write yourself that imports only the `livemark/<subdir>/*` exports can be type-checked, including the `livemark:virtual` module the site config comes from. Its types load with the `livemark` package: any program that includes `livemark.config.ts` already has them. A program that doesn't adds one line to a `.d.ts` file:
 
 ```ts title=".livemark/env.d.ts"
 /// <reference types="livemark/env" />
@@ -105,7 +110,7 @@ Don't declare `livemark:virtual` yourself: a hand-written declaration drifts fro
 
 ## What you can't override this way
 
-- **Custom routes** — use [`.livemark/routes/`](/customization/custom-routes/) instead.
+- **New pages** — these are [custom routes](/customization/custom-routes/), added under the same `.livemark/routes/` folder.
 - **Server code** (`actions/`, `commands/`) — not overridable; fork the repo if you need to change these.
 - **Config schema** — shape of `livemark.config.ts` is fixed.
 

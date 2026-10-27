@@ -30,7 +30,7 @@ Nextra 是构建在现有 Next.js 应用之上的一层。搭建时需要安装 
 
 `nextra-theme-docs` 是 Vercel、SWR、Turbo 等众多项目使用的文档主题。它稳定、持续维护，并且在文档场景下功能完备。
 
-Livemark 对内容布局没有限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 由前置元数据 frontmatter 中的 `path:` 字段决定，而不是由文件位置决定。不强制要求 `docs/` 文件夹——项目可以从 `README.md`、`docs/`、`blog/`、各个包的 README 或其他任何地方获取文章。Nextra 从 `pages/`（Pages Router）或 `content/`（App Router）读取内容，路由由文件路径和同级的 `_meta.json` 文件决定。
+Livemark 对内容布局没有限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 默认取决于文件在其 `include` glob 下的位置，也可以由前置元数据 frontmatter 中的 `path:` 字段指定。不强制要求 `docs/` 文件夹——项目可以从 `README.md`、`docs/`、`blog/`、各个包的 README 或其他任何地方获取文章。Nextra 从 `pages/`（Pages Router）或 `content/`（App Router）读取内容，路由由文件路径和同级的 `_meta.json` 文件决定。
 
 ## 内容能力 [#content-surface]
 

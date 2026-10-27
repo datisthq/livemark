@@ -29,26 +29,32 @@ export default defineConfig({})
 
 每个字段都有合理的默认值。完整列表：
 
-| 选项             | 类型                                               | 用途                                                                            |
-| ---------------- | -------------------------------------------------- | ------------------------------------------------------------------------------- |
-| `include`        | `string \| string[]`                               | 内容文件的 glob。默认：`"**/*.md"`。                                            |
-| `exclude`        | `string \| string[]`                               | 要跳过的 glob（草稿、片段等）。                                                 |
-| `title`          | `string`                                           | 显示在顶栏和 `<title>` 中的站点标题。默认：`"Livemark"`。                       |
-| `description`    | `string`                                           | 用于 SEO/Open Graph 的 meta 描述。默认：`"Markdown site generator"`。           |
-| `site`           | `string`                                           | 站点的规范 URL，生成 sitemap 时必需。                                           |
-| `favicon`        | `string`                                           | favicon 图片的路径，相对于项目根目录。                                          |
-| `logo`           | `string`                                           | 顶栏中使用的 logo 图片路径（未设置时回退到 favicon）。                          |
-| `banner`         | `string`                                           | 显示在顶栏上方横条中的行内 Markdown 公告。                                      |
-| `breadcrumbs`    | `boolean`                                          | 在每篇文章标题上方显示文件夹层级的面包屑导航。默认：`true`。                    |
-| `codeThemeLight` | Shiki 主题名                                       | 浅色模式的语法主题。默认：`"catppuccin-latte"`。                                |
-| `codeThemeDark`  | Shiki 主题名                                       | 深色模式的语法主题。默认：`"catppuccin-mocha"`。                                |
-| `sections`       | [`Section[]`](/zh/customization/article-sections/) | 将内容拆分为文档 / 博客 / 更新日志，各自拥有 URL 前缀。                         |
-| `links`          | [`Link[]`](/zh/customization/external-links/)      | 显示在顶栏或侧边栏中的自定义链接。                                              |
-| `patches`        | [`Patch[]`](/zh/customization/article-patches/)    | 在配置中覆盖 Markdown 文件的 frontmatter，无需编辑文件。                        |
-| `contentSignals` | [`ContentSignals`](/zh/customization/ai-agents/)   | 发布在 `robots.txt` 中的 AI 使用偏好。默认：全部为 `true`。                     |
-| `skills`         | `string \| string[]`                               | 要作为[智能体技能](/zh/customization/ai-agents/)发布的 `SKILL.md` 文件的 glob。 |
+| 选项             | 类型                                               | 用途                                                                                                        |
+| ---------------- | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `include`        | `string \| string[]`                               | 内容文件的 glob。默认：`"**/*.md"`。                                                                        |
+| `exclude`        | `string \| string[]`                               | 要跳过的 glob（草稿、片段等）。                                                                             |
+| `title`          | `string`                                           | 显示在顶栏和 `<title>` 中的站点标题。默认：`"Livemark"`。                                                   |
+| `description`    | `string`                                           | 用于 SEO/Open Graph 的 meta 描述。默认：`"Markdown site generator"`。                                       |
+| `site`           | `string`                                           | 站点的规范 URL，生成 sitemap 时必需。                                                                       |
+| `base`           | `string \| (command) => string`                    | 站点所在的子路径，[例如在 GitHub Pages 上](/zh/deployment/github-pages/#configure-base-for-project-sites)。 |
+| `favicon`        | `string`                                           | favicon 图片的路径，相对于项目根目录。                                                                      |
+| `logo`           | `string`                                           | 顶栏中使用的 logo 图片路径（未设置时回退到内置的 Livemark logo）。                                          |
+| `banner`         | `string`                                           | 显示在顶栏上方横条中的行内 Markdown 公告。                                                                  |
+| `head`           | `{ meta, links, scripts }`                         | 为每个页面添加的[额外 `<head>` 标签](/zh/customization/site-metadata/#extra-head-tags)。                    |
+| `breadcrumbs`    | `boolean`                                          | 在每篇文章标题上方显示文件夹层级的面包屑导航。默认：`true`。                                                |
+| `languages`      | `Language[]`                                       | [翻译](/zh/customization/translations/)：每种语言一项，第一项为默认语言。                                   |
+| `codeThemeLight` | Shiki 主题名                                       | 浅色模式的语法主题。默认：`"catppuccin-latte"`。                                                            |
+| `codeThemeDark`  | Shiki 主题名                                       | 深色模式的语法主题。默认：`"catppuccin-mocha"`。                                                            |
+| `sections`       | [`Section[]`](/zh/customization/article-sections/) | 将内容拆分为文档 / 博客 / 更新日志，各自拥有 URL 前缀。                                                     |
+| `links`          | [`Link[]`](/zh/customization/external-links/)      | 显示在顶栏或侧边栏中的自定义链接。                                                                          |
+| `patches`        | [`Patch[]`](/zh/customization/article-patches/)    | 在配置中覆盖 Markdown 文件的 frontmatter，无需编辑文件。                                                    |
+| `contentSignals` | [`ContentSignals`](/zh/customization/ai-agents/)   | 发布在 `robots.txt` 中的 AI 使用偏好。默认：全部为 `true`。                                                 |
+| `skills`         | `string \| string[]`                               | 要作为[智能体技能](/zh/customization/ai-agents/)发布的 `SKILL.md` 文件的 glob。                             |
+| `vite`           | `UserConfig \| (env) => UserConfig`                | 额外的 Vite 配置，合并到 Livemark 自身配置之上。                                                            |
 
-完整的 schema 位于 [`source/models/config.ts`](https://github.com/datisthq/livemark/blob/main/source/models/config.ts)：`defineConfig` 会用 Zod 依据它进行校验，因此拼写错误会在启动时给出清晰的报错。
+完整的 schema 位于 [`source/models/config.ts`](https://github.com/datisthq/livemark/blob/main/source/models/config.ts)：`defineConfig` 会用 Zod 依据它进行校验。未知的键会被拒绝——无论是在顶层，还是在 sections、links、languages、`head`、`contentSignals` 和 patches 内部——因此拼写错误会在启动时给出清晰的报错，而不会被静默忽略。
+
+`title`、`description` 和 `banner` 可以是字符串，也可以是[按语言代码分别给出的值](/zh/customization/translations/#translating-config-texts)。
 
 ## 完整示例 [#worked-example]
 

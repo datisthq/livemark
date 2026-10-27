@@ -18,7 +18,7 @@ Invoke when the user asks to:
 - Replace Livemark's default landing page with a custom React component.
 - Serve a custom `favicon.svg`, `robots.txt`, `og-image.png`, or other static asset.
 
-## Three overlapping mechanisms
+## Overlapping mechanisms
 
 | Goal                              | Mechanism                                             |
 | --------------------------------- | ----------------------------------------------------- |
@@ -38,7 +38,7 @@ Run the `escape` command with `--list` to print every overridable file:
 livemark escape --list
 ```
 
-Output is a flat `<subdir>/<file>` list across `components/`, `elements/`, and `styles/`. Without arguments in a terminal the command opens an interactive picker instead — agents should pass `--list` or explicit paths. With paths, it copies each default into `.livemark/`:
+Output is a flat list: `<subdir>/<file>` across `components/`, `elements/`, `styles/` and `routes/`, plus the root files `client.tsx`, `server.ts`, `router.tsx` and `head.ts`. Without arguments in a terminal the command opens an interactive picker instead — agents should pass `--list` or explicit paths. With paths, it copies each default into `.livemark/`:
 
 ```bash
 livemark escape components/Footer.tsx   # → .livemark/components/Footer.tsx
@@ -105,7 +105,7 @@ A custom route renders **bare**: the root wraps every route in the headless `com
 
 `Header` never reads sidebar context: `Layout` passes its `SidebarTrigger`s in as the `toggle` and `menu` slots. A `Header` without `toggle` keeps its title block at sidebar width so the nav lines up with article pages.
 
-Filename maps to URL path: `.livemark/routes/pricing.tsx` → `/pricing/`. Nested paths work via nested folders.
+Filename maps to URL path: `.livemark/routes/pricing.tsx` → `/pricing/`. Nested paths work via nested folders. Every route without a `$` parameter is prerendered, even one nothing links to.
 
 An `index.tsx` in `.livemark/routes/` **replaces** Livemark's default landing at `/`. For what to put on it, load `livemark-landing`.
 
@@ -137,13 +137,13 @@ Add tags with the config `head` field (`livemark-configuration`); escape `head.t
 
 ## Verification
 
-- The project's type check (e.g. `npx tsc --noEmit`) — confirms overrides typecheck. `livemark:virtual` types load through `livemark.config.ts`'s import of `livemark`; a program without that file adds `/// <reference types="livemark/env" />`. Never hand-declare the module.
+- The project's type check (e.g. `npx tsc --noEmit`) covers files that import only `livemark/*` exports, such as a new route. An escaped copy keeps relative imports that resolve only inside the generated mount, so leave it out of the project's `include`; `npx livemark build` catches its broken imports, though not type errors. `livemark:virtual` types load through `livemark.config.ts`'s import of `livemark`; a program without that file adds `/// <reference types="livemark/env" />`. Never hand-declare the module.
 - `npx livemark build` — smoke-test the override lands in the bundle.
 - Browser: load an article page with the dev server; custom Footer/Sidebar/etc. should render without a full reload.
 
 ## References
 
-- Narrative docs: `docs/customization/file-overrides.md`, `docs/customization/custom-routes.md`.
+- Narrative docs: https://livemark.dev/customization/overriding-escaping/, https://livemark.dev/customization/custom-routes/.
 - Plugin implementation: `source/plugins/vite-livemark.ts`.
-- Escape command: `commands/escape.ts`; list and copy logic in `actions/escape/`.
+- Escape command: `source/commands/escape.ts`; list and copy logic in `source/actions/escape/`.
 - Subpath exports: `package.json` `exports` block.

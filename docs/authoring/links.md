@@ -29,13 +29,14 @@ Renders as: [GitHub](https://github.com)
 
 ## Anchor Links
 
-Link to a specific heading on the current page:
+Link to a specific heading — on the current page with the `#id` alone, on another page after its path:
 
 ```md
-[See Custom Heading IDs](#custom-ids)
+[See Auto Links](#auto-links)
+[See Custom Heading IDs](/authoring/headings/#custom-ids)
 ```
 
-Renders as: [See Custom Heading IDs](#custom-ids)
+Renders as: [See Auto Links](#auto-links) and [See Custom Heading IDs](/authoring/headings/#custom-ids)
 
 ## Auto Links
 

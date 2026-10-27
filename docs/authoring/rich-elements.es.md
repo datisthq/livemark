@@ -106,7 +106,7 @@ Puedes anidar cualquier markdown dentro, incluidos bloques de código, listas y 
 import { defineConfig } from "livemark"
 
 export default defineConfig({
-  articles: { include: "docs/*.md" },
+  include: "docs/*.md",
 })
 ```
 

@@ -30,7 +30,7 @@ Fumadocs da por hecho que ya tienes (o quieres) una aplicación Next.js. No es u
 
 La división en paquetes es intencionada: `fumadocs-core` expone hooks y primitivas sin UI, de modo que los proyectos pueden sustituir `fumadocs-ui` por una UI propia sin hacer un fork.
 
-La organización del contenido no tiene restricciones en el lado de Livemark: escanea por glob (`include`/`exclude` en `livemark.config.ts`), y la URL de cada artículo la define un campo `path:` del frontmatter en lugar de su ubicación en disco. No hay una carpeta `docs/` obligatoria: un proyecto puede tomar artículos de `README.md`, `docs/`, `blog/`, los README de los paquetes o de cualquier otro lugar. Fumadocs lee desde un único directorio de contenido configurado (definido en el plugin de origen de `fumadocs-mdx`); las rutas se derivan de las rutas de archivo bajo esa raíz.
+La organización del contenido no tiene restricciones en el lado de Livemark: escanea por glob (`include`/`exclude` en `livemark.config.ts`), y la URL de cada artículo sigue la ubicación del archivo bajo su glob de `include`, salvo que la defina un campo `path:` del frontmatter. No hay una carpeta `docs/` obligatoria: un proyecto puede tomar artículos de `README.md`, `docs/`, `blog/`, los README de los paquetes o de cualquier otro lugar. Fumadocs lee desde un único directorio de contenido configurado (definido en el plugin de origen de `fumadocs-mdx`); las rutas se derivan de las rutas de archivo bajo esa raíz.
 
 ## Superficie de contenido [#content-surface]
 

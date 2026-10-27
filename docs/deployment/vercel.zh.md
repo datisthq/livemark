@@ -64,6 +64,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
       - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4
@@ -73,11 +76,13 @@ jobs:
           node-version: 24
       - run: pnpm install
       - run: pnpm test
-      - run: livemark build
+      - run: npm install --global vercel
+      - run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
       - run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
 ```
 
-你需要将 `VERCEL_TOKEN`、`VERCEL_ORG_ID` 和 `VERCEL_PROJECT_ID` 设为密钥（后两者在本地首次运行 `vercel link` 后位于 `.vercel/project.json` 中）。
+`vercel build` 会运行 `vercel.json` 中的 `buildCommand`（即 `livemark build`），并把 `.livemark/build/client/` 打包进 `.vercel/output/`，再由 `vercel deploy --prebuilt` 原样上传。你需要将 `VERCEL_TOKEN`、`VERCEL_ORG_ID` 和 `VERCEL_PROJECT_ID` 设为密钥（后两者在本地首次运行 `vercel link` 后位于 `.vercel/project.json` 中）。
 
 ## 自定义域名 [#custom-domain]
 

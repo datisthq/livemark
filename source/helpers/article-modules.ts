@@ -15,7 +15,16 @@ type GeneratedArticle = Record<string, unknown> & { path: string; language: stri
  *  that carry the fields the split relies on. */
 export function readGeneratedArticles(value: unknown) {
   if (!Array.isArray(value)) throw new Error("allArticles.js does not export an array")
-  return value.filter(isGeneratedArticle)
+  const articles = value.filter(isGeneratedArticle)
+  const files = new Map<string, unknown>()
+  for (const article of articles) {
+    if (files.has(article.path)) {
+      const [first, second] = [files.get(article.path), article.file]
+      throw new Error(`${first} and ${second} share the path "${article.path}"`)
+    }
+    files.set(article.path, article.file)
+  }
+  return articles
 }
 
 /** The module every page loads: the article list without bodies, and a loader per

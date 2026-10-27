@@ -1,6 +1,6 @@
 ---
 name: livemark-authoring
-description: Use when adding or editing Markdown articles in a Livemark project — covers file placement under include globs, frontmatter fields, sidebar grouping, URL derivation, images/assets, and the patches mechanism for files that can't carry frontmatter.
+description: Use when adding or editing Markdown articles in a Livemark project — covers file placement under include globs, frontmatter fields, sidebar order, URL derivation, images/assets, and the patches mechanism for files that can't carry frontmatter.
 ---
 
 # Livemark Authoring
@@ -12,7 +12,7 @@ Guidance for writing and maintaining Markdown content in a Livemark project.
 Invoke when the user asks to:
 
 - Add a new article, page, or docs section.
-- Rename, reorder, hide, or regroup an existing article.
+- Rename, reorder, hide, or nest an existing article.
 - Set metadata (title, icon, tags, date, author, OG image).
 - Patch a file (typically `README.md`) that needs Livemark metadata without dirtying its upstream rendering.
 
@@ -32,8 +32,7 @@ label: Start # short variant used in sidebar/breadcrumbs
 description: A one-line blurb. # used in <meta description> and OG
 icon: rocket # lucide icon name
 order: 1 # sidebar sort; negatives pin to end
-group: Docs # sidebar section label
-path: /getting-started/ # default: slugified filename + leading/trailing slashes
+path: /getting-started/ # default: folders below the include glob's base + slugified filename
 language: es # multi-language sites only; default: `.<code>.md` suffix, else the default language
 sidebar: true # false hides from nav but keeps URL reachable
 toc: true # false suppresses right-hand TOC
@@ -49,8 +48,8 @@ tags: [release, announcement] # blog-section tag pages /prefix/tags/<tag>/
 
 1. **One H1 per file.** Livemark uses the first `# ` for the title when frontmatter `title` is omitted. Don't add a duplicate H1 in the body if the frontmatter already sets `title`.
 2. **Order is piecewise.** Positive numbers sort first ascending, unordered articles come next, negative numbers land at the end (`-1` last, `-2` second-to-last). Leave the middle alone — only set `order` on items you want pinned.
-3. **Grouping.** Contiguous root-level articles with the same `group` string render under a labelled sidebar section. Mixing groups breaks visual grouping.
-4. **URLs.** Don't set `path` unless you need to override the default slug. Livemark derives `path` from the filename plus leading/trailing slashes.
+3. **URLs.** Don't set `path` unless you need to override the default. Livemark derives it from the file's folders below the include glob's static base plus its slugified name (`docs/guide/install.md` under `docs/**/*.md` → `/guide/install/`); an `index.md` names its folder. A frontmatter `path` gets its missing slashes added. Two articles at one path fail the build.
+4. **Nesting.** The sidebar nests an article under the one whose `path` is its parent (`/guide/install/` under `/guide/`), so give a folder an `index.md` to head it.
 5. **Translations.** On a site with `languages`, put `guide.es.md` beside `guide.md` and keep the same `path`: Livemark serves it at `/es/guide/` and pairs the two by that path. Don't add the `/es/` prefix yourself.
 6. **Images.** Relative paths in `image`, Markdown `![](...)`, and MDX `<img src>` resolve against the article file — keep assets co-located or under `docs/images/`.
 
@@ -95,6 +94,6 @@ After authoring, run:
 
 ## References
 
-- Full frontmatter reference: `docs/authoring/frontmatter.md`.
-- Schema source of truth: `website/models/article.ts`.
-- Transform pipeline: `website/content-collections.ts`.
+- Full frontmatter reference: https://livemark.dev/authoring/frontmatter/.
+- Schema source of truth: `source/models/article.ts`.
+- Transform pipeline: `source/content-collections.ts`; default paths in `source/helpers/article-path.ts`.

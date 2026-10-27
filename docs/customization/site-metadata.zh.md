@@ -39,7 +39,7 @@ export default defineConfig({
 
 ## Sitemap 与 `site` [#sitemap-and-site]
 
-如果设置了 `site`，Livemark 会在 `docs:build` 期间于输出目录根部生成 `sitemap.xml`，并以 `site` 作为每个 URL 的绝对源地址。未设置 `site` 时，会跳过 sitemap 的生成。
+如果设置了 `site`，Livemark 会在 `livemark build` 期间于输出目录根部生成 `sitemap.xml`，并以 `site` 作为每个 URL 的绝对源地址。未设置 `site` 时，会跳过 sitemap 的生成。
 
 ## Logo 与 favicon [#logo-and-favicon]
 

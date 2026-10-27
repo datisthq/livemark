@@ -55,7 +55,7 @@ The heading appears in the TOC for navigation but is removed from the page conte
 
 ## Anchor Links on Hover
 
-Headings with IDs show a link icon on hover. Click to copy the anchor URL for sharing.
+Headings with IDs show a link icon on hover. The heading text is a link to its own anchor: click it and the address bar holds a URL you can share.
 
 ## Inline Table of Contents
 

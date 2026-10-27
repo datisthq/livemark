@@ -45,6 +45,17 @@ describe("buildTarget", () => {
       expect(existsSync(legacyDir)).toBe(false)
     }))
 
+  it("marks the generated content as ESM for a CommonJS project", () =>
+    temporaryDirectoryTask(async root => {
+      const { configPath, sourceDir } = await createFixture(root)
+
+      const targetDir = buildTarget({ configPath, sourceDir })
+
+      expect(JSON.parse(read(targetDir, "package.json"))).toEqual({
+        type: "module",
+      })
+    }))
+
   it("drops escapes removed since the last run", () =>
     temporaryDirectoryTask(async root => {
       const { configPath, sourceDir } = await createFixture(root)

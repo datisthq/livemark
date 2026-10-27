@@ -28,7 +28,7 @@ Livemark 将 Vite、TanStack Start 和 React 封装进一个零配置的 CLI。�
 
 Docusaurus 基于 Webpack 构建。其运行时由 React Router + Docusaurus 核心组成，核心负责主题、插件和内容来源。插件是一等公民：每个内置功能（文档、博客、页面、搜索）本身都是插件，第三方也以同样的方式扩展系统。
 
-在 Livemark 这边，内容的组织方式不受限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 由前置元数据 frontmatter 中的 `path:` 字段决定，而不是由文件位置决定。不要求必须有 `docs/` 文件夹，项目可以从 `README.md`、`docs/`、`blog/`、各个包的 README 或任何其他位置获取文章。Docusaurus 的文档插件需要一个 `docs/` 目录（可通过 `path` 配置，但基于文件夹而非 glob）。
+在 Livemark 这边，内容的组织方式不受限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 默认取决于文件在其 `include` glob 下的位置，也可以由前置元数据 frontmatter 中的 `path:` 字段指定。不要求必须有 `docs/` 文件夹，项目可以从 `README.md`、`docs/`、`blog/`、各个包的 README 或任何其他位置获取文章。Docusaurus 的文档插件需要一个 `docs/` 目录（可通过 `path` 配置，但基于文件夹而非 glob）。
 
 ## 内容能力 [#content-surface]
 

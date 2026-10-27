@@ -27,7 +27,6 @@ livemark/
 │   ├── styles/         # base CSS (overridable)
 │   ├── helpers/        # internal utilities (private)
 │   ├── hooks/          # public React hooks
-│   ├── utils/          # public utilities (e.g. cn)
 │   ├── plugins/        # remark / rehype / vite plugins
 │   ├── routes/         # TanStack Start routes
 │   ├── models/         # Zod schemas

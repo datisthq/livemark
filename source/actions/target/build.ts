@@ -30,6 +30,9 @@ export function buildTarget(props: {
   removeTargetDir(join(overridesRoot, ".target"))
   mkdirSync(targetDir, { recursive: true })
   writeFileSync(join(targetDir, ".gitignore"), "*\n")
+  // Under a `"type": "commonjs"` project Node would load content-collections' `.js`
+  // output as CommonJS, and Vite would name the server bundle `server.mjs`.
+  writeFileSync(join(targetDir, "package.json"), ESM_PACKAGE_JSON)
 
   cpSync(props.sourceDir, targetDir, {
     recursive: true,
@@ -52,6 +55,9 @@ export function buildTarget(props: {
   linkDependencies(targetDir, resolveDependencyDir(props.sourceDir))
   return targetDir
 }
+
+/** A `package.json` marking the files beside it as ES modules. */
+export const ESM_PACKAGE_JSON = '{ "type": "module" }\n'
 
 /** Which mount a run uses: the dev server's, or the production build's. */
 export type TargetCommand = "serve" | "build"

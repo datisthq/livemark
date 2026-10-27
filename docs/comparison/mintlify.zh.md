@@ -28,7 +28,7 @@ Livemark 是一个 Node CLI，它构建出的静态站点可以托管在任何�
 
 Mintlify 是托管式 SaaS。你把 MDX 和 `mint.json` 配置提交到 Git 仓库；每次 push 后 Mintlify 拉取代码、执行构建，并通过 `<your-subdomain>.mintlify.app` 或自定义域名提供服务。构建流水线和运行时都由平台管理，用户无法自行安装。
 
-Livemark 对内容布局没有限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 由前置元数据 frontmatter 中的 `path:` 字段决定，而不是由文件位置决定。不强制要求 `docs/` 文件夹——项目可以从 `README.md`、`docs/`、`blog/`、各个包的 README 或其他任何地方获取文章。Mintlify 要求文件树与 `mint.json` 中的 `navigation` 块一致；路由对应已配置内容根目录下的文件路径。
+Livemark 对内容布局没有限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 默认取决于文件在其 `include` glob 下的位置，也可以由前置元数据 frontmatter 中的 `path:` 字段指定。不强制要求 `docs/` 文件夹——项目可以从 `README.md`、`docs/`、`blog/`、各个包的 README 或其他任何地方获取文章。Mintlify 要求文件树与 `mint.json` 中的 `navigation` 块一致；路由对应已配置内容根目录下的文件路径。
 
 ## 内容能力 [#content-surface]
 

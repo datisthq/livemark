@@ -32,7 +32,7 @@ GitBook is a multi-tenant SaaS. Content is authored in a block-based WYSIWYG edi
 
 Git Sync is an optional integration that maps a GitBook space to a branch of a GitHub or GitLab repository. Content round-trips between the editor and a directory of `.md` files written in GitBook's extended Markdown flavor (hints with `{% hint %}`, tabs, content refs, OpenAPI blocks, etc.). It is two-way: edits in the editor push commits to the repo; commits pushed to the branch update the editor. The repo is a mirror, not a source — GitBook's schema is the canonical model.
 
-Content layout is unconstrained on the Livemark side: it scans by glob (`include`/`exclude` in `livemark.config.ts`), and each article's URL is set by a `path:` frontmatter field rather than its file location. There's no required `docs/` folder. GitBook content is organized into a hierarchy fixed by the product — **Organizations → Collections → Spaces → Pages** — with site URLs derived from that tree. The Git Sync mirror reflects this hierarchy as nested directories.
+Content layout is unconstrained on the Livemark side: it scans by glob (`include`/`exclude` in `livemark.config.ts`), and each article's URL follows the file's place below its `include` glob unless a `path:` frontmatter field sets it. There's no required `docs/` folder. GitBook content is organized into a hierarchy fixed by the product — **Organizations → Collections → Spaces → Pages** — with site URLs derived from that tree. The Git Sync mirror reflects this hierarchy as nested directories.
 
 ## Content surface
 

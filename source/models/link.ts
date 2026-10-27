@@ -10,7 +10,7 @@ export type UserLink = z.infer<typeof UserLink>
 export const UserLink = createLinkSchema(Localized)
 
 function createLinkSchema<T extends z.ZodType<Localized>>(text: T) {
-  return z.object({
+  return z.strictObject({
     url: z.string(),
     title: text,
     icon: z.string().optional(),

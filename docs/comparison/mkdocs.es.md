@@ -30,7 +30,7 @@ MkDocs es una CLI de Python. El sitio se configura con `mkdocs.yml`. Los temas s
 
 Material for MkDocs añade un tema cuidado, un índice de búsqueda basado en lunr.js, navegación instantánea y un amplio ecosistema de plugins (los extras de `mkdocs-material`, más el espacio de nombres más amplio de plugins `mkdocs-*` en PyPI).
 
-En Livemark la organización del contenido no tiene restricciones: escanea mediante glob (`include`/`exclude` en `livemark.config.ts`), y la URL de cada artículo la fija un campo `path:` del frontmatter en lugar de su ubicación en disco. No hace falta una carpeta `docs/`: un proyecto puede tomar artículos de `README.md`, `docs/`, `blog/`, los README de paquetes o cualquier otro lugar. MkDocs lee de `docs/` (configurable mediante `docs_dir` en `mkdocs.yml`), con rutas derivadas de las rutas de archivo dentro de ese directorio.
+En Livemark la organización del contenido no tiene restricciones: escanea mediante glob (`include`/`exclude` en `livemark.config.ts`), y la URL de cada artículo sigue la ubicación del archivo bajo su glob de `include`, salvo que la fije un campo `path:` del frontmatter. No hace falta una carpeta `docs/`: un proyecto puede tomar artículos de `README.md`, `docs/`, `blog/`, los README de paquetes o cualquier otro lugar. MkDocs lee de `docs/` (configurable mediante `docs_dir` en `mkdocs.yml`), con rutas derivadas de las rutas de archivo dentro de ese directorio.
 
 ## Superficie de contenido [#content-surface]
 

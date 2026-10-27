@@ -22,16 +22,16 @@ order: 1
 
 Identidad y presentación del artículo.
 
-| Campo         | Tipo                 | Valor por defecto                               | Propósito                                                                                                   |
-| ------------- | -------------------- | ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `title`       | `string`             | Primer encabezado `#`, si no, nombre de archivo | Título de la pestaña del navegador, encabezado del artículo, etiqueta de navegación.                        |
-| `label`       | `string`             | `title`                                         | Variante corta usada en la barra lateral y las migas de pan cuando `title` es largo.                        |
-| `description` | `string`             | —                                               | `<meta name="description">` y descripción de Open Graph.                                                    |
-| `icon`        | `string`             | —                                               | Nombre de icono de Lucide (p. ej. `rocket`, `book-open`). Los artículos sin icono se renderizan sin icono.  |
-| `image`       | `string`             | —                                               | Imagen de Open Graph / tarjeta social (requiere `site`). Las rutas relativas se resuelven desde el archivo. |
-| `author`      | `string \| string[]` | —                                               | Uno o varios nombres de autor.                                                                              |
-| `date`        | `string`             | —                                               | Fecha ISO. Determina el orden en las secciones de blog.                                                     |
-| `tags`        | `string[]`           | —                                               | Las secciones de blog lo usan para generar las páginas `/tags/<tag>/`.                                      |
+| Campo         | Tipo                 | Valor por defecto                               | Propósito                                                                                                             |
+| ------------- | -------------------- | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `title`       | `string`             | Primer encabezado `#`, si no, nombre de archivo | Título de la pestaña del navegador, encabezado del artículo, etiqueta de navegación.                                  |
+| `label`       | `string`             | `title`                                         | Variante corta usada en la barra lateral y las migas de pan cuando `title` es largo.                                  |
+| `description` | `string`             | —                                               | `<meta name="description">` y descripción de Open Graph.                                                              |
+| `icon`        | `string`             | —                                               | Nombre de icono de Lucide (p. ej. `rocket`, `book-open`). Los artículos sin icono se renderizan sin icono.            |
+| `image`       | `string`             | —                                               | Imagen de Open Graph / tarjeta social (requiere `site`). Las rutas relativas se resuelven desde el archivo.           |
+| `author`      | `string \| string[]` | —                                               | Uno o varios nombres de autor.                                                                                        |
+| `date`        | `string`             | —                                               | Fecha ISO. Determina el orden en las secciones de blog.                                                               |
+| `tags`        | `string[]`           | —                                               | Las secciones de blog lo usan para generar las páginas `<prefijo del blog>tags/<tag>/`, p. ej. `/blog/tags/release/`. |
 
 ## Ajustes de la barra lateral [#sidebar-settings]
 
@@ -56,10 +56,28 @@ Así puedes fijar "Primeros pasos" arriba (`order: 1`) y "Preguntas frecuentes" 
 
 ## URL [#url]
 
-| Campo      | Tipo     | Valor por defecto                                              | Propósito                                                                          |
-| ---------- | -------- | -------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| `path`     | `string` | Nombre de archivo convertido en slug bajo la raíz del proyecto | Sobrescribe el slug de la URL. Incluye las barras inicial y final.                 |
-| `language` | `string` | Sufijo de archivo `.<code>.md`, si no, el idioma por defecto   | El idioma del artículo en un [sitio multilingüe](/es/customization/translations/). |
+| Campo      | Tipo     | Valor por defecto                                            | Propósito                                                                          |
+| ---------- | -------- | ------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| `path`     | `string` | Las carpetas y el nombre en slug del archivo (ver abajo)     | La URL del artículo. Las barras inicial y final se añaden si faltan.               |
+| `language` | `string` | Sufijo de archivo `.<code>.md`, si no, el idioma por defecto | El idioma del artículo en un [sitio multilingüe](/es/customization/translations/). |
+
+Sin `path`, la URL sale de la ubicación del archivo bajo el inicio fijo del glob de `include` que lo encontró, `docs/` para `docs/**/*.md`:
+
+- `docs/guide/install.md` → `/guide/install/`
+- `docs/guide/index.md` → `/guide/`, un archivo `index` toma el nombre de su carpeta
+- `docs/index.md` → `/`
+- `docs/guide/install.es.md` → `/es/guide/install/`, sin el sufijo de idioma
+
+Cada segmento se convierte en slug, así que `docs/Getting Started.md` pasa a ser `/getting-started/`. Dos artículos que acaban con la misma ruta hacen fallar la compilación, que nombra ambos archivos.
+
+## Enlace a la fuente [#source-link]
+
+La barra de herramientas de la página enlaza cada artículo con su fuente.
+
+| Campo          | Tipo               | Valor por defecto                              | Propósito                                                                           |
+| -------------- | ------------------ | ---------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `sourceUrl`    | `string`           | Un enlace de edición en GitHub para el archivo | Adónde apunta el enlace a la fuente.                                                |
+| `sourceAction` | `"edit" \| "view"` | `"edit"`                                       | Rotula el enlace **Editar en GitHub** con un lápiz, o **Ver en GitHub** con un ojo. |
 
 ## Sobrescribir sin editar [#overriding-without-editing]
 

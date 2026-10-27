@@ -26,8 +26,8 @@ Invoke when the user asks to:
 import { defineConfig } from "livemark"
 
 export default defineConfig({
-  // Required
-  include: "docs/**/*.md", // string | string[] of glob patterns
+  // Content: string | string[] of glob patterns; default "**/*.md"
+  include: "docs/**/*.md",
 
   // Optional: site metadata
   site: "https://example.com", // canonical origin — enables sitemap
@@ -76,13 +76,13 @@ export default defineConfig({
 })
 ```
 
-## Sections: the three types
+## Sections: the four types
 
 `sections` is optional. Omitting it gives a single default docs section.
 
 - **Article** (default when `type` is omitted): flat docs with a tree sidebar.
 - **Blog** (`type: "blog"`): auto-generated index at `prefix`, sorts by `date`, exposes `/prefix/tags/<tag>/` pages.
-- **Changelog** (`type: "changelog"`): reads `source` file; with `version: true`, splits on semver headings into per-version articles. Several changelog sections may coexist as long as their prefixes differ — each is cached in its own `.livemark/.cache/changelog/<slug-of-prefix>-<hash-of-prefix>/` directory (the hash keeps prefixes that slugify alike, like `/python/changelog/` and `/python-changelog/`, apart), so a version shared by two changelogs never collides. The `(version)` suffix only renders for `position: "header"` sections.
+- **Changelog** (`type: "changelog"`): reads `source` file; splits it into one article per `##` version heading; `version: true` adds the latest version to the section's header tab. Several changelog sections may coexist as long as their prefixes differ — each is cached in its own `.livemark/.cache/changelog/<slug-of-prefix>-<hash-of-prefix>/` directory (the hash keeps prefixes that slugify alike, like `/python/changelog/` and `/python-changelog/`, apart), so a version shared by two changelogs never collides. The `(version)` suffix only renders for `position: "header"` sections.
 
 Shared fields on every section: `title`, `prefix` (keep trailing-slashed), `type`, `icon` (lucide), `position` (`"header"` default, `"sidebar"` also available). Header sections and links never overflow: past the bar's width Search turns icon-only, then the rest fold into a "More" menu.
 
@@ -119,7 +119,7 @@ Default `position` is `"header"`. Use `prefix` to scope a sidebar link to a sing
 
 - Localizable: `title`, `description`, `banner`, section `title` / `siteTitle` / `siteDescription`, link `title`. A missing code falls back to the default language's value.
 - Every routed section is mirrored per language (`/blog/` → `/es/blog/`). A changelog mirror (`/es/changelog/<v>/`) shows the default-language notes in the translated page, with its canonical pointing at the original. A section `prefix` starting with a non-default code (`/es/…`) is rejected.
-- `messages` keys are checked against `models/message.ts`; a typo fails the config load. de, es, fr, ja, ru and zh ship bundled and apply by `locale` (defaults to `code`).
+- `messages` keys are checked against `source/models/message.ts`; a typo fails the config load. de, es, fr, ja, ru and zh ship bundled and apply by `locale` (defaults to `code`).
 - The header picker shows a flag per language: `flag` (two-letter country code) overrides the default taken from the locale's region, else the language (`en` → `gb`).
 - Without `languages` the site is one implicit English language — output is unchanged.
 
@@ -129,7 +129,7 @@ Any [Shiki theme](https://shiki.style/themes) name works. Defaults keep the catp
 
 ## Editing rules of thumb
 
-1. **Don't invent fields.** Livemark's `UserConfig` is a strict zod schema. Unknown keys throw at config load.
+1. **Don't invent fields.** Livemark's `UserConfig` is a strict zod schema. Unknown keys — top level, or inside sections, links, languages, `head` and patches — throw at config load.
 2. **Strings are literals.** Section `prefix` values are compared exactly; keep them consistent (`/blog/`, not `/blog`).
 3. **Array order matters** for `sections` and `links` — it drives tab / link display order.
 4. **Patches are silent on miss.** If `file` doesn't match any included article, nothing happens (no warning). Spell the path carefully.
@@ -145,9 +145,9 @@ The dev server watches `livemark.config.ts` and every local file it imports, and
 
 ## References
 
-- Config schema: `models/config.ts`.
-- Section variants: `models/section.ts`.
-- Link shape: `models/link.ts`.
-- Languages and UI strings: `models/language.ts`, `models/message.ts`.
-- Patch shape: `models/patch.ts`.
-- Narrative docs: `docs/customization/`.
+- Config schema: `source/models/config.ts`.
+- Section variants: `source/models/section.ts`.
+- Link shape: `source/models/link.ts`.
+- Languages and UI strings: `source/models/language.ts`, `source/models/message.ts`.
+- Patch shape: `source/models/patch.ts`.
+- Narrative docs: https://livemark.dev/customization/.

@@ -70,6 +70,7 @@ function Landing() {
 - **精确路径优先。** 自定义路由的优先级高于提供 Markdown 文章的兜底路由。如果你创建了 `/about`，那么位于同一路径的 `docs/about.md` 文章将无法访问。
 - **根路径 `/`。** 放入 `.livemark/routes/index.tsx`，即可用你自己的页面替换默认首页。Livemark 的默认站点使用 Markdown 首页，覆盖它可以让你用 React 完全掌控首屏区域。
 - **嵌套路径。** 文件路径与 URL 路径一一对应：`.livemark/routes/guide/quickstart.tsx` ⇒ `/guide/quickstart/`。
+- **自行预渲染。** `livemark build` 会把每个不带 `$` 参数的自定义路由写入磁盘，即使没有任何页面链接到它。带参数的路由只会为其他页面所链接的 URL 生成文件。
 - **head 标签随之提供。** 自定义路由会获得站点标题和描述、规范链接和 `og:url`（设置了 `site` 时），在多语言站点上还会获得 `og:locale` 和 `hreflang` 链接，所用语言取决于其路径所属的语言。路由上的 `head` 可以覆盖标题和 meta 标签。
 
 ## 导入 Livemark 基础组件 [#importing-livemark-primitives]
@@ -77,8 +78,8 @@ function Landing() {
 通过 `livemark/*` 子路径导出，复用 Livemark 内部使用的相同组件：
 
 ```tsx title=".livemark/routes/about.tsx"
-import { Link } from "@tanstack/react-router"
-import { Button, buttonVariants } from "livemark/elements/button"
+import { createFileRoute, Link } from "@tanstack/react-router"
+import { buttonVariants } from "livemark/elements/button"
 import { cn } from "cn"
 
 export const Route = createFileRoute("/about")({ component: About })

@@ -50,7 +50,7 @@ export default defineConfig({
 | Netlify       | `netlify.toml`: `command = "livemark build"`, `publish = ".livemark/build/client"`           |
 | Static server | Copy `.livemark/build/client/*` to the docroot; try `$uri`, `$uri/index.html`, `/index.html` |
 
-A CI workflow installs dependencies, runs `livemark build`, then hands `.livemark/build/client` to the host's action or CLI. Name it `.github/workflows/deploy.yaml`.
+A CI workflow installs dependencies, runs the build through the package manager (`pnpm livemark build`: a bare `livemark` is not on a CI step's `PATH`), then hands `.livemark/build/client` to the host's action or CLI. Name it `.github/workflows/deploy.yaml`.
 
 ## Rules of thumb
 
@@ -68,5 +68,5 @@ A CI workflow installs dependencies, runs `livemark build`, then hands `.livemar
 ## References
 
 - Narrative docs, one page per host: https://livemark.dev/deployment/.
-- `site` and `base`: `models/config.ts`.
-- Generated agent files and `_headers`: `plugins/vite-agents.ts`.
+- `site` and `base`: `source/models/config.ts`.
+- Generated agent files and `_headers`: `source/plugins/vite-agents.ts`.

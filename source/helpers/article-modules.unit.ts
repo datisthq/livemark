@@ -25,6 +25,15 @@ describe("readGeneratedArticles", () => {
   it("keeps entries with a path and a language", () => {
     expect(articles.map(a => a.path)).toEqual(["/guide/", "/es/guide/"])
   })
+
+  it("rejects two articles at one path, naming both files", () => {
+    const read = () =>
+      readGeneratedArticles([
+        { path: "/a/", language: "en", file: "docs/a1.md" },
+        { path: "/a/", language: "en", file: "docs/a2.md" },
+      ])
+    expect(read).toThrow('docs/a1.md and docs/a2.md share the path "/a/"')
+  })
 })
 
 describe("renderArticlesModule", () => {

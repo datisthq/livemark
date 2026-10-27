@@ -5,6 +5,7 @@ import {
   renderLlmsText,
   renderMarkdownTwin,
   renderSectionIndex,
+  stripLeadingH1,
 } from "./llms.ts"
 
 const config = { title: "Docs", description: "Blurb" }
@@ -111,5 +112,19 @@ describe("buildTwinFileName", () => {
   it("places the twin beside the page's index.html", () => {
     expect(buildTwinFileName("/")).toBe("index.md")
     expect(buildTwinFileName("/guide/deep/")).toBe("guide/deep/index.md")
+  })
+})
+
+describe("stripLeadingH1", () => {
+  it("drops the leading h1 with the blank lines after it", () => {
+    expect(stripLeadingH1("# Title\n\nBody")).toBe("Body")
+  })
+
+  it("drops an h1 that is the whole body", () => {
+    expect(stripLeadingH1("# Title")).toBe("")
+  })
+
+  it("keeps a body that opens with another heading", () => {
+    expect(stripLeadingH1("## Part\n\nBody")).toBe("## Part\n\nBody")
   })
 })

@@ -26,7 +26,7 @@ export type Base = string | ((command: "build" | "serve") => string | undefined)
 /** Extra site-wide `<head>` tags, appended after Livemark's defaults. A meta tag
  *  sharing a default's `name` or `property` replaces it. */
 export type Head = z.infer<typeof Head>
-export const Head = z.object({
+export const Head = z.strictObject({
   meta: z.array(z.record(z.string(), z.string())).optional(),
   links: z.array(z.record(z.string(), z.string())).optional(),
   scripts: z.array(z.record(z.string(), z.string())).optional(),
@@ -35,7 +35,7 @@ export const Head = z.object({
 /** How automated systems may use the site's content, published as a
  *  `Content-Signal` line in the generated `robots.txt`. */
 export type ContentSignals = z.infer<typeof ContentSignals>
-export const ContentSignals = z.object({
+export const ContentSignals = z.strictObject({
   search: z.boolean().default(true),
   aiInput: z.boolean().default(true),
   aiTrain: z.boolean().default(true),
@@ -53,7 +53,7 @@ export type UserConfig = Omit<z.input<typeof UserConfig>, "vite" | "base"> & {
   vite?: ViteOverride
   base?: Base
 }
-export const UserConfig = z.object({
+export const UserConfig = z.strictObject({
   site: z.string().optional(),
   // Stored as `unknown` in the schema (zod can't type a function and
   // string union meaningfully); the public TypeScript surface above
@@ -100,14 +100,16 @@ export const WebsiteConfig = UserConfig.pick({
   logo: true,
   head: true,
   breadcrumbs: true,
-}).extend({
-  title: z.string(),
-  description: z.string(),
-  banner: z.string().optional(),
-  links: z.array(Link).optional(),
-  sections: z.array(Section).optional(),
-  base: z.string().optional(),
 })
+  .extend({
+    title: z.string(),
+    description: z.string(),
+    banner: z.string().optional(),
+    links: z.array(Link).optional(),
+    sections: z.array(Section).optional(),
+    base: z.string().optional(),
+  })
+  .strip()
 
 /**
  * System-computed configuration derived from the config file location.

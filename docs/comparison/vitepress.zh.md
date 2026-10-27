@@ -28,7 +28,7 @@ order: 2
 
 VitePress 的运行时是 `vue-router` 加上内置的默认主题。Livemark 使用 TanStack Router，并自带一套组件层（侧边栏、布局、搜索），使用者可以通过 `.livemark/` 逐文件覆盖。
 
-Livemark 对内容布局没有限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 由前置元数据 frontmatter 中的 `path:` 字段决定，而不是由文件位置决定。不强制要求 `docs/` 文件夹——项目可以从 `README.md`、`docs/`、`blog/`、各个包的 README 或其他任何地方获取文章。VitePress 要求所有内容位于单一源码根目录下（默认 `docs/`，可通过 `srcDir` 配置），路由由文件路径推导而来。
+Livemark 对内容布局没有限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 默认取决于文件在其 `include` glob 下的位置，也可以由前置元数据 frontmatter 中的 `path:` 字段指定。不强制要求 `docs/` 文件夹——项目可以从 `README.md`、`docs/`、`blog/`、各个包的 README 或其他任何地方获取文章。VitePress 要求所有内容位于单一源码根目录下（默认 `docs/`，可通过 `srcDir` 配置），路由由文件路径推导而来。
 
 ## 内容能力 [#content-surface]
 

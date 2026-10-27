@@ -29,13 +29,14 @@ Se renderiza así: [GitHub](https://github.com)
 
 ## Enlaces a anclas [#anchor-links]
 
-Enlaza a un encabezado concreto de la página actual:
+Enlaza a un encabezado concreto: en la página actual solo con el `#id`, en otra página tras su ruta:
 
 ```md
-[See Custom Heading IDs](#custom-ids)
+[See Auto Links](#auto-links)
+[See Custom Heading IDs](/es/authoring/headings/#custom-ids)
 ```
 
-Se renderiza así: [Ver IDs de encabezado personalizados](#custom-ids)
+Se renderiza así: [Ver Enlaces automáticos](#auto-links) y [Ver IDs de encabezado personalizados](/es/authoring/headings/#custom-ids)
 
 ## Enlaces automáticos [#auto-links]
 

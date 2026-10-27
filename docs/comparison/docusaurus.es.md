@@ -28,7 +28,7 @@ Livemark envuelve Vite, TanStack Start y React en una única CLI sin configuraci
 
 Docusaurus está construido sobre Webpack. El runtime es React Router + un núcleo de Docusaurus que gestiona los temas, los plugins y las fuentes de contenido. Los plugins son de primera clase: cada funcionalidad integrada (docs, blog, páginas, búsqueda) es en sí misma un plugin, y los terceros extienden el sistema de la misma forma.
 
-La organización del contenido no tiene restricciones en el lado de Livemark: escanea por glob (`include`/`exclude` en `livemark.config.ts`), y la URL de cada artículo la define un campo `path:` del frontmatter en lugar de su ubicación en disco. No hay una carpeta `docs/` obligatoria: un proyecto puede tomar artículos de `README.md`, `docs/`, `blog/`, los README de los paquetes o de cualquier otro lugar. El plugin de docs de Docusaurus espera un directorio `docs/` (configurable mediante `path`, pero basado en carpetas en lugar de en globs).
+La organización del contenido no tiene restricciones en el lado de Livemark: escanea por glob (`include`/`exclude` en `livemark.config.ts`), y la URL de cada artículo sigue la ubicación del archivo bajo su glob de `include`, salvo que la defina un campo `path:` del frontmatter. No hay una carpeta `docs/` obligatoria: un proyecto puede tomar artículos de `README.md`, `docs/`, `blog/`, los README de los paquetes o de cualquier otro lugar. El plugin de docs de Docusaurus espera un directorio `docs/` (configurable mediante `path`, pero basado en carpetas en lugar de en globs).
 
 ## Superficie de contenido [#content-surface]
 

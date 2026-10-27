@@ -16,7 +16,6 @@ import remarkMath from "remark-math"
 import { loadConfig } from "./actions/config/load.ts"
 import { buildChangelog, cacheIncludeGlob } from "./actions/changelog/build.ts"
 import { Article } from "./models/article.ts"
-import slugify from "@sindresorhus/slugify"
 import remarkCustomHeadingId from "./plugins/remark-custom-heading-id.ts"
 import { remarkCallout } from "./plugins/remark-callout.ts"
 import { remarkCard } from "./plugins/remark-card.ts"
@@ -46,6 +45,7 @@ import {
 import { rehypeInlineCode } from "./plugins/rehype-inline-code.ts"
 import { rehypeTaskListA11y } from "./plugins/rehype-task-list-a11y.ts"
 import { transformerIcon } from "./plugins/shiki-icon.ts"
+import { resolveArticlePath } from "./helpers/article-path.ts"
 import { resolveAssetPath } from "./helpers/resolve-asset-path.ts"
 import { resolveIncludes } from "./helpers/resolve-includes.ts"
 import { collectFenceLanguages } from "./helpers/fence-languages.ts"
@@ -91,10 +91,6 @@ const exclude = [...defaultExclude, ...userExclude]
 // going up 2 levels reconstructs the baseDirectory it uses for path resolution
 const baseDir = resolve(import.meta.dirname, "../..")
 const directory = relative(baseDir, config.root) || "."
-
-function toPath(name: string) {
-  return slugify(name)
-}
 
 const lastUpdatedByFile = readLastUpdatedDates()
 
@@ -160,7 +156,12 @@ const articles = defineCollection({
       language: doc.language,
       languages,
     })
-    const key = doc.path ?? toPath(detected.name)
+    const key = resolveArticlePath({
+      file: doc._meta.filePath,
+      name: detected.name,
+      include: configInclude,
+      path: doc.path,
+    })
     const path = localizeArticlePath(key, detected.language)
     // The article's h1 is rendered from `title` by the layout, so strip any
     // leading h1 in the body to avoid two h1s side-by-side (especially when

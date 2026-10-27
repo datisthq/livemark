@@ -20,7 +20,7 @@ La salida queda en `.livemark/build/client/`. Trata ese directorio como la raíz
 
 ## Prerenderizado frente a fallback SPA [#prerendering-vs-spa-fallback]
 
-Livemark prerenderiza cada ruta en disco durante `docs:build`. Un enlace profundo como `/customization/site-metadata/` cae en un archivo real en `customization/site-metadata/index.html`, sin necesidad de un fallback de enrutado en el cliente para las páginas conocidas.
+Livemark prerenderiza cada ruta en disco durante `livemark build`. Un enlace profundo como `/customization/site-metadata/` cae en un archivo real en `customization/site-metadata/index.html`, sin necesidad de un fallback de enrutado en el cliente para las páginas conocidas.
 
 Aun así, conviene configurar el fallback SPA (reescribir las rutas desconocidas a `index.html`) como defensa en profundidad: da a los 404 un renderizado elegante en el cliente en lugar de la página de error por defecto del hosting.
 
@@ -109,7 +109,7 @@ jobs:
           cache: pnpm
           node-version: 24
       - run: pnpm install
-      - run: livemark build
+      - run: pnpm livemark build
       - uses: easingthemes/ssh-deploy@v5
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}

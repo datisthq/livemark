@@ -106,7 +106,7 @@ You can nest any markdown inside, including code blocks, lists, and callouts:
 import { defineConfig } from "livemark"
 
 export default defineConfig({
-  articles: { include: "docs/*.md" },
+  include: "docs/*.md",
 })
 ```
 

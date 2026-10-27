@@ -25,7 +25,7 @@ Renders as:
 import { defineConfig } from "livemark"
 
 export default defineConfig({
-  articles: { include: "docs/*.md" },
+  include: "docs/*.md",
 })
 ```
 

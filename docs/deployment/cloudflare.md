@@ -73,7 +73,7 @@ jobs:
           cache: pnpm
           node-version: 24
       - run: pnpm install
-      - run: livemark build
+      - run: pnpm livemark build
       - uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}

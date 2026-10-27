@@ -8,7 +8,7 @@ export const Localized = z.union([z.string(), z.record(z.string(), z.string())])
 
 /** A site language; the first in `languages` is the default and is served unprefixed. */
 export type Language = z.infer<typeof Language>
-export const Language = z.object({
+export const Language = z.strictObject({
   code: z.string().regex(/^[a-z][a-z0-9-]*$/, "use a lowercase URL segment like `es`"),
   label: nonEmptyString,
   locale: nonEmptyString.optional(),

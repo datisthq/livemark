@@ -29,13 +29,14 @@ order: 3
 
 ## 锚点链接 [#anchor-links]
 
-链接到当前页面中的某个标题：
+链接到某个标题：在当前页面只需写 `#id`，在其他页面则写在该页面路径之后：
 
 ```md
-[See Custom Heading IDs](#custom-ids)
+[See Auto Links](#auto-links)
+[See Custom Heading IDs](/zh/authoring/headings/#custom-ids)
 ```
 
-渲染效果：[查看自定义标题 ID](#custom-ids)
+渲染效果：[查看自动链接](#auto-links) 和 [查看自定义标题 ID](/zh/authoring/headings/#custom-ids)
 
 ## 自动链接 [#auto-links]
 

@@ -20,7 +20,7 @@ Output lands in `.livemark/build/client/`. Treat that directory as your document
 
 ## Prerendering vs SPA fallback
 
-Livemark prerenders every route to disk during `docs:build`. A deep link like `/customization/site-metadata/` lands on a real file at `customization/site-metadata/index.html` — no client-side routing fallback needed for known pages.
+Livemark prerenders every route to disk during `livemark build`. A deep link like `/customization/site-metadata/` lands on a real file at `customization/site-metadata/index.html` — no client-side routing fallback needed for known pages.
 
 The SPA fallback (rewriting unknown paths to `index.html`) is still worth configuring as defence-in-depth — it gives 404s a graceful client-side render instead of the host's default error page.
 
@@ -109,7 +109,7 @@ jobs:
           cache: pnpm
           node-version: 24
       - run: pnpm install
-      - run: livemark build
+      - run: pnpm livemark build
       - uses: easingthemes/ssh-deploy@v5
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}

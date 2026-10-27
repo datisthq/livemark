@@ -30,7 +30,7 @@ Hugo 是单个 Go 二进制文件：没有运行时依赖，也没有安装包�
 
 Hugo 并非专门面向文档。同一个二进制文件可用于博客、营销网站、作品集和文档；文档场景通过主题来支持，而不是通过一等的栏目类型。
 
-在 Livemark 这边，内容的组织方式不受限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 由前置元数据 frontmatter 中的 `path:` 字段决定，而不是由文件位置决定。不要求必须有 `docs/` 文件夹，项目可以从 `README.md`、`docs/`、`blog/`、各个包的 README 或任何其他位置获取文章。Hugo 从 `content/` 读取内容，URL 结构与目录树保持一致（并支持按栏目覆盖 frontmatter）。
+在 Livemark 这边，内容的组织方式不受限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 默认取决于文件在其 `include` glob 下的位置，也可以由前置元数据 frontmatter 中的 `path:` 字段指定。不要求必须有 `docs/` 文件夹，项目可以从 `README.md`、`docs/`、`blog/`、各个包的 README 或任何其他位置获取文章。Hugo 从 `content/` 读取内容，URL 结构与目录树保持一致（并支持按栏目覆盖 frontmatter）。
 
 ## 内容能力 [#content-surface]
 

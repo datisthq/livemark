@@ -40,7 +40,7 @@ Icons come from [lucide-react](https://lucide.dev/icons). Use the kebab-case nam
 
 ## Header links
 
-By default, links render to the right of the section tabs in the header. An external icon is appended automatically.
+By default, links render to the right of the section tabs in the header. Only the `icon` you set is shown — Livemark adds no external-link marker of its own.
 
 ```typescript
 links: [

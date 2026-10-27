@@ -28,7 +28,7 @@ Both tools are Vite-native. The split is in everything above Vite: Livemark laye
 
 VitePress runtime is `vue-router` plus a built-in default theme. Livemark uses TanStack Router and ships its own component layer (sidebar, layout, search) that consumers can override file-by-file via `.livemark/`.
 
-Content layout is unconstrained on the Livemark side: it scans by glob (`include`/`exclude` in `livemark.config.ts`), and each article's URL is set by a `path:` frontmatter field rather than its file location. There's no required `docs/` folder — a project can pull articles from `README.md`, `docs/`, `blog/`, package READMEs, or anywhere else. VitePress expects all content under a single source root (`docs/` by default, configurable via `srcDir`), with routes derived from file paths.
+Content layout is unconstrained on the Livemark side: it scans by glob (`include`/`exclude` in `livemark.config.ts`), and each article's URL follows the file's place below its `include` glob unless a `path:` frontmatter field sets it. There's no required `docs/` folder — a project can pull articles from `README.md`, `docs/`, `blog/`, package READMEs, or anywhere else. VitePress expects all content under a single source root (`docs/` by default, configurable via `srcDir`), with routes derived from file paths.
 
 ## Content surface
 

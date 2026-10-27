@@ -55,7 +55,7 @@ El encabezado aparece en el índice para la navegación, pero se elimina del con
 
 ## Enlaces de ancla al pasar el cursor [#anchor-links-on-hover]
 
-Los encabezados con ID muestran un icono de enlace al pasar el cursor. Haz clic para copiar la URL del ancla y compartirla.
+Los encabezados con ID muestran un icono de enlace al pasar el cursor. El texto del encabezado es un enlace a su propia ancla: haz clic y la barra de direcciones tendrá una URL que puedes compartir.
 
 ## Índice en línea [#inline-table-of-contents]
 

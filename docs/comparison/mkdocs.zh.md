@@ -30,7 +30,7 @@ MkDocs 是一个 Python CLI。站点通过 `mkdocs.yml` 配置。主题通过 pi
 
 Material for MkDocs 提供了精心打磨的主题、基于 lunr.js 的搜索索引、即时导航以及丰富的插件生态（`mkdocs-material` 扩展，以及 PyPI 上更广泛的 `mkdocs-*` 插件命名空间）。
 
-Livemark 对内容布局没有限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 由前置元数据 frontmatter 中的 `path:` 字段决定，而不是由文件位置决定。不强制要求 `docs/` 文件夹——项目可以从 `README.md`、`docs/`、`blog/`、各个包的 README 或其他任何地方获取文章。MkDocs 从 `docs/` 读取内容（可通过 `mkdocs.yml` 中的 `docs_dir` 配置），路由由该目录下的文件路径推导而来。
+Livemark 对内容布局没有限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 默认取决于文件在其 `include` glob 下的位置，也可以由前置元数据 frontmatter 中的 `path:` 字段指定。不强制要求 `docs/` 文件夹——项目可以从 `README.md`、`docs/`、`blog/`、各个包的 README 或其他任何地方获取文章。MkDocs 从 `docs/` 读取内容（可通过 `mkdocs.yml` 中的 `docs_dir` 配置），路由由该目录下的文件路径推导而来。
 
 ## 内容能力 [#content-surface]
 

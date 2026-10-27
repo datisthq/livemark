@@ -30,7 +30,7 @@ Starlight 采用 Astro 的岛屿模型：页面在构建时渲染为 HTML，默�
 
 两者都通过 Vite 构建。Astro 的组件模型是它自己的 `.astro` 语法（HTML + JS frontmatter，经静态分析）。Livemark 的组件模型是 React。
 
-Livemark 对内容布局没有限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 由前置元数据 frontmatter 中的 `path:` 字段决定，而不是由文件位置决定。不强制要求 `docs/` 文件夹——项目可以从 `README.md`、`docs/`、`blog/`、各个包的 README 或其他任何地方获取文章。Starlight 要求内容放在 `src/content/docs/`（Astro 的 content collections 目录）中，路由由该根目录下的文件路径推导而来。
+Livemark 对内容布局没有限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 默认取决于文件在其 `include` glob 下的位置，也可以由前置元数据 frontmatter 中的 `path:` 字段指定。不强制要求 `docs/` 文件夹——项目可以从 `README.md`、`docs/`、`blog/`、各个包的 README 或其他任何地方获取文章。Starlight 要求内容放在 `src/content/docs/`（Astro 的 content collections 目录）中，路由由该根目录下的文件路径推导而来。
 
 ## 内容能力 [#content-surface]
 

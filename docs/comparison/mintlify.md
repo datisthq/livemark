@@ -28,7 +28,7 @@ Livemark is a Node CLI that builds a static site you host anywhere. The source a
 
 Mintlify is a hosted SaaS. You commit MDX + a `mint.json` config to a Git repo; Mintlify pulls it on push, builds, and serves the result from `<your-subdomain>.mintlify.app` or a custom domain. The build pipeline and runtime are managed and not user-installable.
 
-Content layout is unconstrained on the Livemark side: it scans by glob (`include`/`exclude` in `livemark.config.ts`), and each article's URL is set by a `path:` frontmatter field rather than its file location. There's no required `docs/` folder — a project can pull articles from `README.md`, `docs/`, `blog/`, package READMEs, or anywhere else. Mintlify expects the file tree to match the `navigation` block in `mint.json`; routes mirror file paths under the configured content root.
+Content layout is unconstrained on the Livemark side: it scans by glob (`include`/`exclude` in `livemark.config.ts`), and each article's URL follows the file's place below its `include` glob unless a `path:` frontmatter field sets it. There's no required `docs/` folder — a project can pull articles from `README.md`, `docs/`, `blog/`, package READMEs, or anywhere else. Mintlify expects the file tree to match the `navigation` block in `mint.json`; routes mirror file paths under the configured content root.
 
 ## Content surface
 

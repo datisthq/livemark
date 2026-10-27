@@ -10,12 +10,15 @@ path: /customization/overriding-escaping/
 
 Livemark 附带一套 React 组件库、shadcn 风格的基础元素和一份基础样式表。每个文件都可以通过在 `.livemark/` 下放置同名文件来覆盖：
 
-| 要覆盖的文件                    | 放置文件的位置                    |
-| ------------------------------- | --------------------------------- |
-| `website/components/<Name>.tsx` | `.livemark/components/<Name>.tsx` |
-| `website/elements/<name>.tsx`   | `.livemark/elements/<name>.tsx`   |
-| `website/styles/<name>.css`     | `.livemark/styles/<name>.css`     |
-| `website/head.ts`               | `.livemark/head.ts`               |
+| 要覆盖的文件                                              | 放置文件的位置                    |
+| --------------------------------------------------------- | --------------------------------- |
+| `source/components/<Name>.tsx`                            | `.livemark/components/<Name>.tsx` |
+| `source/elements/<name>.tsx`                              | `.livemark/elements/<name>.tsx`   |
+| `source/styles/<name>.css`                                | `.livemark/styles/<name>.css`     |
+| `source/routes/<route>.tsx`                               | `.livemark/routes/<route>.tsx`    |
+| `source/client.tsx`, `server.ts`, `router.tsx`, `head.ts` | `.livemark/<同名文件>`            |
+
+`source/` 路径位于 `node_modules/livemark/` 中。`.livemark/public/` 下的文件会加入站点的静态资源，并从站点根路径提供。
 
 无需修改任何 import。Livemark 的其余部分会自动使用被覆盖的文件。
 
@@ -95,7 +98,9 @@ import { Button } from "livemark/elements/button"
 
 ### 覆盖文件的类型检查 [#type-checking-overrides]
 
-Livemark 的模块以 TypeScript 源码形式发布，因此你的类型检查也会覆盖到它们，包括它们读取站点配置所用的 `livemark:virtual` 模块。它的类型随 `livemark` 包一起加载：任何包含 `livemark.config.ts` 的程序都已经具备这些类型。不包含它的程序只需在一个 `.d.ts` 文件中加一行：
+escape 出来的文件会保留其所复制的默认文件中的相对 import（`../hooks/site.ts`）。这些 import 在 Livemark 为 `start` 和 `build` 生成的挂载目录中解析，而不是在 `.livemark/` 旁边，因此你项目自身的 `tsc --noEmit` 无法检查 escape 出来的文件，请把 `.livemark/` 排除在其程序之外。真正校验覆盖文件的是 `livemark build`：它会把覆盖文件与 Livemark 的其余部分一起打包，并在 import 无法解析时失败。
+
+你自己编写、且只从 `livemark/<subdir>/*` 导出路径 import 的文件可以进行类型检查，包括提供站点配置的 `livemark:virtual` 模块。它的类型随 `livemark` 包一起加载：任何包含 `livemark.config.ts` 的程序都已经具备这些类型。不包含它的程序只需在一个 `.d.ts` 文件中加一行：
 
 ```ts title=".livemark/env.d.ts"
 /// <reference types="livemark/env" />
@@ -105,7 +110,7 @@ Livemark 的模块以 TypeScript 源码形式发布，因此你的类型检查�
 
 ## 无法以这种方式覆盖的内容 [#what-you-cant-override-this-way]
 
-- **自定义路由**：请改用 [`.livemark/routes/`](/zh/customization/custom-routes/)。
+- **新页面**：它们属于[自定义路由](/zh/customization/custom-routes/)，添加在同一个 `.livemark/routes/` 文件夹下。
 - **服务端代码**（`actions/`、`commands/`）：无法覆盖；如需修改，请 fork 仓库。
 - **配置 schema**：`livemark.config.ts` 的结构是固定的。
 

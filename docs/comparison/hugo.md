@@ -30,7 +30,7 @@ Hugo is a single Go binary — no runtime dependencies, no package install step.
 
 Hugo is not docs-specific. The same binary powers blogs, marketing sites, portfolios, and docs — the docs use case is supported through themes rather than first-class section types.
 
-Content layout is unconstrained on the Livemark side: it scans by glob (`include`/`exclude` in `livemark.config.ts`), and each article's URL is set by a `path:` frontmatter field rather than its file location. There's no required `docs/` folder — a project can pull articles from `README.md`, `docs/`, `blog/`, package READMEs, or anywhere else. Hugo reads from `content/` with URL structure mirroring the directory tree (and per-section frontmatter overrides).
+Content layout is unconstrained on the Livemark side: it scans by glob (`include`/`exclude` in `livemark.config.ts`), and each article's URL follows the file's place below its `include` glob unless a `path:` frontmatter field sets it. There's no required `docs/` folder — a project can pull articles from `README.md`, `docs/`, `blog/`, package READMEs, or anywhere else. Hugo reads from `content/` with URL structure mirroring the directory tree (and per-section frontmatter overrides).
 
 ## Content surface
 

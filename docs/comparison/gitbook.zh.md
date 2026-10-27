@@ -32,7 +32,7 @@ GitBook 是一个多租户 SaaS。内容在基于块的所见即所得编辑器�
 
 Git Sync 是一项可选集成，用于把 GitBook 空间映射到 GitHub 或 GitLab 仓库的某个分支。内容在编辑器与一个 `.md` 文件目录之间往返同步，这些文件使用 GitBook 扩展的 Markdown 方言编写（`{% hint %}` 提示、标签页、内容引用、OpenAPI 块等）。同步是双向的：编辑器中的修改会向仓库推送提交，推送到该分支的提交也会更新编辑器。仓库只是镜像，而非来源：GitBook 的数据结构才是权威模型。
 
-在 Livemark 这边，内容的组织方式不受限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 由前置元数据 frontmatter 中的 `path:` 字段决定，而不是由文件位置决定。不要求必须有 `docs/` 文件夹。GitBook 的内容按产品固定的层级组织（**组织 → 集合 → 空间 → 页面**），站点 URL 由这棵树推导而来。Git Sync 镜像以嵌套目录的形式反映这一层级。
+在 Livemark 这边，内容的组织方式不受限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 默认取决于文件在其 `include` glob 下的位置，也可以由前置元数据 frontmatter 中的 `path:` 字段指定。不要求必须有 `docs/` 文件夹。GitBook 的内容按产品固定的层级组织（**组织 → 集合 → 空间 → 页面**），站点 URL 由这棵树推导而来。Git Sync 镜像以嵌套目录的形式反映这一层级。
 
 ## 内容能力 [#content-surface]
 

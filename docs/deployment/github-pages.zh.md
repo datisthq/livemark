@@ -82,7 +82,7 @@ jobs:
           cache: pnpm
           node-version: 24
       - run: pnpm install
-      - run: livemark build
+      - run: pnpm livemark build
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .livemark/build/client

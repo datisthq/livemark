@@ -1,9 +1,16 @@
-import { cpSync, existsSync, readFileSync, rmSync, statSync } from "node:fs"
+import {
+  cpSync,
+  existsSync,
+  readFileSync,
+  rmSync,
+  statSync,
+  writeFileSync,
+} from "node:fs"
 import { dirname, join, sep } from "node:path"
 import type { ConfigEnv, Plugin, UserConfig as ViteUserConfig, ViteDevServer } from "vite"
 import { mergeConfig } from "vite"
 import packageJson from "../../package.json" with { type: "json" }
-import { buildTarget } from "../actions/target/build.ts"
+import { buildTarget, ESM_PACKAGE_JSON } from "../actions/target/build.ts"
 import { collectLocalImports } from "../helpers/local-imports.ts"
 import { renderInlineMarkdown } from "../helpers/render-inline-markdown.ts"
 import { excludeTailwindSources } from "../helpers/tailwind-sources.ts"
@@ -88,6 +95,13 @@ export function livemark(opts: LivemarkOptions): Plugin {
       }
       const override = await resolveViteOverride(opts.config.vite, env)
       return override ? mergeConfig(base, override) : base
+    },
+    // The prerender imports the server bundle with Node, which would read it as
+    // CommonJS under a `"type": "commonjs"` project. Written, not emitted: an SSR
+    // build drops emitted assets.
+    writeBundle(options) {
+      if (this.environment.name !== "ssr" || !options.dir) return
+      writeFileSync(join(options.dir, "package.json"), ESM_PACKAGE_JSON)
     },
     // Here, not in `styles/general.css`, so an escaped stylesheet keeps it. Works only
     // while this plugin precedes `tailwind()`: both are `pre`, so array order decides.

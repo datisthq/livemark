@@ -28,7 +28,7 @@ Livemark 基于 Vite、TanStack Start 和 React 构建。编写遵循 JS/TS 的�
 
 Docsify 没有构建流水线。一个站点就是一个 `index.html`，它从 CDN（或 `node_modules`）加载 `docsify.js`，并在 `window.$docsify` 上放置一个小型配置对象。运行时，脚本读取 URL 的 hash（`#/some/page`），用 `fetch()` 获取对应的 `.md` 文件，交给 `marked` 解析 Markdown、交给 `Prism` 做语法高亮，再把结果注入页面。导航默认基于 hash；History API 模式需要手动开启，且依赖服务端重写。
 
-在 Livemark 这边，内容的组织方式不受限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 由前置元数据 frontmatter 中的 `path:` 字段决定，而不是由文件位置决定。不要求必须有 `docs/` 文件夹，项目可以从 `README.md`、`docs/`、`blog/`、各个包的 README 或任何其他位置获取文章。Docsify 从单一的源根目录读取内容（即包含 `index.html` 的目录，可通过 `basePath` 配置），请求的 URL 直接映射到磁盘上的文件路径：`#/guide/install` 会获取 `guide/install.md`。侧边栏导航需要在 `_sidebar.md` 中手动编写，没有自动生成的导航。
+在 Livemark 这边，内容的组织方式不受限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 默认取决于文件在其 `include` glob 下的位置，也可以由前置元数据 frontmatter 中的 `path:` 字段指定。不要求必须有 `docs/` 文件夹，项目可以从 `README.md`、`docs/`、`blog/`、各个包的 README 或任何其他位置获取文章。Docsify 从单一的源根目录读取内容（即包含 `index.html` 的目录，可通过 `basePath` 配置），请求的 URL 直接映射到磁盘上的文件路径：`#/guide/install` 会获取 `guide/install.md`。侧边栏导航需要在 `_sidebar.md` 中手动编写，没有自动生成的导航。
 
 ## 内容能力 [#content-surface]
 

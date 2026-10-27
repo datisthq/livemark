@@ -7,11 +7,12 @@ order: 3
 
 # 文章栏目
 
-栏目是一组共享 URL 前缀、侧边栏和导航标签的文章。Livemark 内置三种栏目类型：
+栏目是一组共享 URL 前缀、侧边栏和导航标签的文章。Livemark 内置三种栏目类型，外加一种只作为标签页的自定义类型：
 
 - **Article**：默认类型。一棵带有可折叠侧边栏的文章树。
 - **Blog**：按日期排序的文章，带有标签和自动生成的索引页。
 - **Changelog**：单个源文件（或 GitHub releases），按版本拆分为多篇文章。
+- **Custom**：链接到任意 URL（内部或外部）的标签页，自身不包含文章。
 
 ## 基本用法 [#basic-usage]
 
@@ -41,13 +42,16 @@ export default defineConfig({
 
 无论哪种类型，每个栏目都接受以下字段：
 
-| 字段       | 类型                                 | 默认值      | 用途                                                                               |
-| ---------- | ------------------------------------ | ----------- | ---------------------------------------------------------------------------------- |
-| `title`    | `string`                             | —           | 栏目标签页和侧边栏标题的文字。                                                     |
-| `prefix`   | `string`                             | —           | URL 前缀（例如 `/`、`/blog/`、`/changelog/`）。`path` 与之匹配的文章会路由到这里。 |
-| `type`     | `"article" \| "blog" \| "changelog"` | `"article"` | 栏目类型。                                                                         |
-| `icon`     | `string`                             | 取决于类型  | 显示在标题旁的 Lucide 图标。                                                       |
-| `position` | `"header" \| "sidebar"`              | `"header"`  | 栏目标签页的渲染位置。                                                             |
+| 字段              | 类型                                             | 默认值      | 用途                                                                                                         |
+| ----------------- | ------------------------------------------------ | ----------- | ------------------------------------------------------------------------------------------------------------ |
+| `title`           | `string`                                         | —           | 栏目标签页和侧边栏标题的文字。                                                                               |
+| `prefix`          | `string`                                         | —           | URL 前缀（例如 `/`、`/blog/`、`/changelog/`）。`path` 与之匹配的文章会路由到这里。除 `custom` 外的所有类型。 |
+| `type`            | `"article" \| "blog" \| "changelog" \| "custom"` | `"article"` | 栏目类型。                                                                                                   |
+| `icon`            | `string`                                         | —           | 显示在标题旁的 Lucide 图标。未设置时标签页不显示图标。                                                       |
+| `position`        | `"header" \| "sidebar"`                          | `"header"`  | 栏目标签页的渲染位置。                                                                                       |
+| `siteTitle`       | `string`                                         | —           | 处于该栏目时，替换侧边栏标题和面包屑中的站点 `title`，并作为其 RSS 订阅源的标题。                            |
+| `siteDescription` | `string`                                         | —           | 处于该栏目时，替换侧边栏标题中的站点 `description`，并作为其 RSS 订阅源的描述。                              |
+| `siteLink`        | `string`                                         | 首页        | 处于该栏目时站点标题链接的目标：内部路径或绝对 URL。                                                         |
 
 当顶栏中的栏目和链接放不下时，搜索框会先缩成一个图标，仍然放不下的项则收进 **More** 菜单。
 
@@ -90,7 +94,7 @@ Livemark 会自动生成：
 
 ## 更新日志栏目 [#changelog-sections]
 
-更新日志栏目从一个 `source` 文件读取内容。设置 `version: true` 时，Livemark 会按每个 semver 标题将文件拆分为一篇篇文章。
+更新日志栏目从一个 `source` 文件读取内容，并按每个 `##` 标题将其拆分为一篇篇文章。
 
 ```typescript
 {
@@ -102,7 +106,7 @@ Livemark 会自动生成：
 }
 ```
 
-设置 `version: true` 后，像 `## 0.3.0 — 2026-04-01` 这样的顶层 semver 标题会成为位于 `/changelog/0-3-0/` 的独立文章。站点界面中的栏目标题会在括号中显示最新版本。
+像 `## 0.3.0 — 2026-04-01` 这样的标题会成为位于 `/changelog/0-3-0/` 的文章，以标题的第一个词命名。设置 `version: true` 后，顶栏中的栏目标签页还会在括号中显示最新版本。
 
 一个站点可以声明多个更新日志栏目（例如在 monorepo 中每个包一个），只要每个栏目都有自己的 `prefix`。每个栏目都会在自己的前缀下渲染各自的版本页面、在侧边栏中显示各自的版本列表和最新版本，因此两个都包含 `0.2.0` 的更新日志会并列生成 `/changelog/0-2-0/` 和 `/python/changelog/0-2-0/`。
 
@@ -125,10 +129,18 @@ sections: [
 
 更新日志专用字段：
 
-| 字段      | 类型      | 默认值  | 用途                                           |
-| --------- | --------- | ------- | ---------------------------------------------- |
-| `source`  | `string`  | —       | 更新日志源文件的路径，相对于项目根目录。       |
-| `version` | `boolean` | `false` | 为 true 时，将 `source` 按版本拆分为多篇文章。 |
+| 字段      | 类型      | 默认值  | 用途                                         |
+| --------- | --------- | ------- | -------------------------------------------- |
+| `source`  | `string`  | —       | 更新日志源文件的路径，相对于项目根目录。     |
+| `version` | `boolean` | `false` | 为 true 时，在顶栏标签页标题旁显示最新版本。 |
+
+## 自定义栏目 [#custom-sections]
+
+自定义栏目使用 `url` 而不是 `prefix`，只渲染为一个标签页。内部 URL（如 `/about/`，例如一个[自定义路由](/zh/customization/custom-routes/)）会在你访问它时高亮该标签页；绝对 URL 则打开其他站点。
+
+```typescript
+{ title: "About", type: "custom", url: "/about/" }
+```
 
 ## 排序与匹配 [#ordering-and-matching]
 
@@ -139,4 +151,4 @@ sections: [
 ## 另请参阅 [#see-also]
 
 - [外部链接](/zh/customization/external-links/)：在栏目标签页旁添加外部链接。
-- [Frontmatter](/zh/authoring/frontmatter/)：决定栏目内容的 `path`、`order`、`group`、`date` 和 `tags` 字段。
+- [Frontmatter](/zh/authoring/frontmatter/)：决定栏目内容的 `path`、`order`、`date` 和 `tags` 字段。

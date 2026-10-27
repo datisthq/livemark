@@ -63,7 +63,7 @@ export function buildTwinFileName(path: string) {
 
 /** Drop a leading h1 so a title set by frontmatter or a patch is not shown twice */
 export function stripLeadingH1(content: string) {
-  return content.replace(/^[ \t]*#\s+[^\n]*\n+/, "")
+  return content.replace(/^[ \t]*#[ \t]+[^\n]*(\n+|$)/, "")
 }
 
 function buildTwinUrl(config: Pick<Config, "site" | "base">, path: string) {

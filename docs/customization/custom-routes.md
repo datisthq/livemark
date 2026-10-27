@@ -70,6 +70,7 @@ function Landing() {
 - **Exact paths win.** Custom routes take precedence over the catch-all that serves Markdown articles. If you create `/about`, a `docs/about.md` article at the same path becomes unreachable.
 - **The root path `/`.** Drop `.livemark/routes/index.tsx` to replace the default landing page with your own. Livemark's default site has a Markdown home page — overriding it gives you full React control of the hero.
 - **Nested paths.** File paths mirror URL paths: `.livemark/routes/guide/quickstart.tsx` ⇒ `/guide/quickstart/`.
+- **Prerendered on their own.** `livemark build` writes every custom route without a `$` parameter to disk, even when no page links to it. A route with a parameter is written only for the URLs other pages link to.
 - **Head tags come with it.** A custom route gets the site title and description, a canonical link and `og:url` (with `site` set) and, on a multi-language site, `og:locale` and `hreflang` links — in the language its path is under. A `head` on the route can override the title and meta tags.
 
 ## Importing Livemark primitives
@@ -77,8 +78,8 @@ function Landing() {
 Reuse the same components Livemark uses internally via the `livemark/*` subpath exports:
 
 ```tsx title=".livemark/routes/about.tsx"
-import { Link } from "@tanstack/react-router"
-import { Button, buttonVariants } from "livemark/elements/button"
+import { createFileRoute, Link } from "@tanstack/react-router"
+import { buttonVariants } from "livemark/elements/button"
 import { cn } from "cn"
 
 export const Route = createFileRoute("/about")({ component: About })
