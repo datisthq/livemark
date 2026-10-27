@@ -17,7 +17,7 @@ export function BackToTop() {
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
-  useHotkey("B", () => window.scrollTo({ top: 0, behavior: "smooth" }))
+  useHotkey("U", () => window.scrollTo({ top: 0, behavior: "smooth" }))
 
   return (
     <Button

@@ -31,6 +31,7 @@ export const ja: Messages = {
   "shortcuts.scrollDown": "下にスクロール",
   "shortcuts.scrollUp": "上にスクロール",
   "shortcuts.top": "トップへ戻る",
+  "shortcuts.bottom": "一番下へ",
   "shortcuts.next": "次のページ",
   "shortcuts.previous": "前のページ",
   "search.label": "検索",

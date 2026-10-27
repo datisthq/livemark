@@ -31,6 +31,7 @@ export const de: Messages = {
   "shortcuts.scrollDown": "Nach unten scrollen",
   "shortcuts.scrollUp": "Nach oben scrollen",
   "shortcuts.top": "Nach oben",
+  "shortcuts.bottom": "Zum Ende",
   "shortcuts.next": "Nächste Seite",
   "shortcuts.previous": "Vorherige Seite",
   "search.label": "Suche",

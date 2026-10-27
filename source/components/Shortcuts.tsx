@@ -21,7 +21,8 @@ const SHORTCUTS: { key: string; label: MessageKey; targeted?: boolean }[] = [
   { key: "M", label: "shortcuts.sidebar", targeted: true },
   { key: "J", label: "shortcuts.scrollDown" },
   { key: "K", label: "shortcuts.scrollUp" },
-  { key: "B", label: "shortcuts.top" },
+  { key: "U", label: "shortcuts.top" },
+  { key: "D", label: "shortcuts.bottom" },
   { key: "L", label: "shortcuts.next", targeted: true },
   { key: "H", label: "shortcuts.previous", targeted: true },
 ]

@@ -31,6 +31,7 @@ export const ru: Messages = {
   "shortcuts.scrollDown": "Прокрутить вниз",
   "shortcuts.scrollUp": "Прокрутить вверх",
   "shortcuts.top": "Наверх",
+  "shortcuts.bottom": "В конец",
   "shortcuts.next": "Следующая страница",
   "shortcuts.previous": "Предыдущая страница",
   "search.label": "Поиск",

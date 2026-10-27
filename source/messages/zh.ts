@@ -31,6 +31,7 @@ export const zh: Messages = {
   "shortcuts.scrollDown": "向下滚动",
   "shortcuts.scrollUp": "向上滚动",
   "shortcuts.top": "返回顶部",
+  "shortcuts.bottom": "跳到底部",
   "shortcuts.next": "下一页",
   "shortcuts.previous": "上一页",
   "search.label": "搜索",

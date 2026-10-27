@@ -33,6 +33,7 @@ export const Messages = z.strictObject({
   "shortcuts.scrollDown": z.string().default("Scroll down"),
   "shortcuts.scrollUp": z.string().default("Scroll up"),
   "shortcuts.top": z.string().default("Back to top"),
+  "shortcuts.bottom": z.string().default("Go to bottom"),
   "shortcuts.next": z.string().default("Next page"),
   "shortcuts.previous": z.string().default("Previous page"),
   "search.label": z.string().default("Search"),
