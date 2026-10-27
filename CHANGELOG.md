@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.31.1](https://github.com/datisthq/livemark/compare/v0.31.0...v0.31.1) (2026-10-27)
+
+
+### Bug Fixes
+
+* link the site root to the index route, not an empty splat ([a506a04](https://github.com/datisthq/livemark/commit/a506a040453d848204ac2f1d1e67efb696177a08))
+
 ## [0.31.0](https://github.com/datisthq/livemark/compare/v0.30.0...v0.31.0) (2026-10-27)
 
 
