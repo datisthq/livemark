@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.30.0](https://github.com/datisthq/livemark/compare/v0.29.3...v0.30.0) (2026-10-27)
+
+
+### Features
+
+* build the CLI with fireargs, adding --json and --llms ([9970af6](https://github.com/datisthq/livemark/commit/9970af61ed77bba3b1dc356cd5619f5f746e3aa4))
+
 ## [0.29.3](https://github.com/datisthq/livemark/compare/v0.29.2...v0.29.3) (2026-10-27)
 
 
