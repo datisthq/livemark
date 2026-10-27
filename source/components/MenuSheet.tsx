@@ -4,7 +4,9 @@ import { cn } from "cn"
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "../elements/dropdown-menu.tsx"
 import { useIsMobile } from "../hooks/media.ts"
@@ -70,16 +72,21 @@ export function MenuSheet(props: {
           SSR paints on a phone until `useIsMobile` flips, flashing a stray icon. */}
       <DropdownMenuTrigger render={props.trigger}>{props.children}</DropdownMenuTrigger>
       <DropdownMenuContent align={props.align ?? "end"}>
-        {props.items.map(item => (
-          <DropdownMenuItem
-            key={item.id}
-            onClick={item.onSelect}
-            className="cursor-pointer gap-2"
-          >
-            {item.icon}
-            <span className={item.active ? "font-medium" : undefined}>{item.label}</span>
-          </DropdownMenuItem>
-        ))}
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>{props.title}</DropdownMenuLabel>
+          {props.items.map(item => (
+            <DropdownMenuItem
+              key={item.id}
+              onClick={item.onSelect}
+              className="cursor-pointer gap-2"
+            >
+              {item.icon}
+              <span className={item.active ? "font-medium" : undefined}>
+                {item.label}
+              </span>
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   )
