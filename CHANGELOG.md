@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.29.1](https://github.com/datisthq/livemark/compare/v0.29.0...v0.29.1) (2026-10-27)
+
+
+### Bug Fixes
+
+* link a docs section's breadcrumb to its first article, as the sidebar does ([3a2b03a](https://github.com/datisthq/livemark/commit/3a2b03a8642f7cad808b34f25a45af3d5e89c4c9))
+
 ## [0.29.0](https://github.com/datisthq/livemark/compare/v0.28.6...v0.29.0) (2026-10-27)
 
 
