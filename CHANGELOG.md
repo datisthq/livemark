@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.29.2](https://github.com/datisthq/livemark/compare/v0.29.1...v0.29.2) (2026-10-27)
+
+
+### Bug Fixes
+
+* align the header search with the right rail's left edge from xl ([c1b9292](https://github.com/datisthq/livemark/commit/c1b9292de554cfed2e799bf175d117d4efa3e45e))
+
 ## [0.29.1](https://github.com/datisthq/livemark/compare/v0.29.0...v0.29.1) (2026-10-27)
 
 
