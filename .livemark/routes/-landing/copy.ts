@@ -5,7 +5,7 @@ const rich = (...segments: RichSegment[]) => segments
 
 const en = {
   hero: {
-    eyebrow: "Open source · MIT",
+    eyebrow: "Open source · MIT License",
     titleLines: ["Beautiful", "Markdown sites,"],
     titleHighlight: "your way.",
     description:
@@ -211,7 +211,7 @@ export type LandingCopy = typeof en
 
 const es: LandingCopy = {
   hero: {
-    eyebrow: "Código abierto · MIT",
+    eyebrow: "Código abierto · Licencia MIT",
     titleLines: ["Sitios Markdown", "preciosos,"],
     titleHighlight: "a tu manera.",
     description:
@@ -422,7 +422,7 @@ const es: LandingCopy = {
 
 const zh: LandingCopy = {
   hero: {
-    eyebrow: "开源 · MIT",
+    eyebrow: "开源 · MIT 许可证",
     titleLines: ["精美的", "Markdown 站点，"],
     titleHighlight: "随心而建。",
     description:
