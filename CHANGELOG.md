@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.32.0](https://github.com/datisthq/livemark/compare/v0.31.2...v0.32.0) (2026-10-28)
+
+
+### Features
+
+* compile .md articles as plain Markdown, with an article format field for MDX ([83e6496](https://github.com/datisthq/livemark/commit/83e6496af1f261f01b1a20265cdef016406d4f21))
+
 ## [0.31.2](https://github.com/datisthq/livemark/compare/v0.31.1...v0.31.2) (2026-10-28)
 
 
