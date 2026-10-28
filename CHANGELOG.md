@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.31.2](https://github.com/datisthq/livemark/compare/v0.31.1...v0.31.2) (2026-10-28)
+
+
+### Bug Fixes
+
+* align page content with the header nav links from lg ([c2571ba](https://github.com/datisthq/livemark/commit/c2571ba914154640ef2be1481bcce6e3610c7960))
+
 ## [0.31.1](https://github.com/datisthq/livemark/compare/v0.31.0...v0.31.1) (2026-10-27)
 
 
