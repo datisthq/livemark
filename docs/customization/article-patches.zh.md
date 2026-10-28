@@ -40,6 +40,12 @@ export default defineConfig({
 | `file`    | `string`           | 相对于集合的路径，例如 `"README.md"`、`"docs/a.md"`。 |
 | `article` | `Partial<Article>` | 除 `content` 外的任意 frontmatter 字段。              |
 
+像 `format` 这样的文章字段也同样适用。无论扩展名是什么，都将文件固定为纯 Markdown：
+
+```typescript
+{ file: "CHANGELOG.md", article: { format: "md" } }
+```
+
 匹配方式是与 Livemark 收集到的文件路径做精确的字符串比较。如果路径没有匹配到任何文章，补丁会静默地不起作用。当你防御性地为一个可能存在也可能不存在的文件打补丁时，这一点很方便。
 
 ## 合并语义 [#merge-semantics]

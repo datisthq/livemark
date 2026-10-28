@@ -40,6 +40,12 @@ The file on disk stays clean, but Livemark renders it as if the YAML above were 
 | `file`    | `string`           | Collection-relative path, e.g. `"README.md"`, `"docs/a.md"`. |
 | `article` | `Partial<Article>` | Any frontmatter fields except `content`.                     |
 
+An article field such as `format` works the same way. To pin a file to plain Markdown regardless of its extension:
+
+```typescript
+{ file: "CHANGELOG.md", article: { format: "md" } }
+```
+
 Matching is an exact string compare against the file path Livemark collects. If the path does not match any article, the patch is a silent no-op — handy when you're defensively patching a file that may or may not exist.
 
 ## Merge semantics

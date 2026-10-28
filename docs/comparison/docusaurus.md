@@ -24,7 +24,7 @@ order: 1
 
 ## Architecture
 
-Livemark wraps Vite, TanStack Start, and React into a single zero-config CLI. Content is loaded by content-collections from globbed `.md` files, compiled to MDX at build time, and prerendered to static HTML for every route.
+Livemark wraps Vite, TanStack Start, and React into a single zero-config CLI. Content is loaded by content-collections from globbed `.md` files, compiled as Markdown, or as MDX for `.mdx` files, at build time, and prerendered to static HTML for every route.
 
 Docusaurus is built on Webpack. The runtime is React Router + a Docusaurus core that handles theming, plugins, and content sources. Plugins are first-class — every built-in feature (docs, blog, pages, search) is itself a plugin, and third parties extend the system the same way.
 
@@ -32,7 +32,7 @@ Content layout is unconstrained on the Livemark side: it scans by glob (`include
 
 ## Content surface
 
-Both tools accept Markdown and MDX with frontmatter. Both let you embed React components inside `.md`/`.mdx` files.
+Both tools accept Markdown and MDX with frontmatter. Both let you embed React components inside `.mdx` files.
 
 Livemark's directives (`:::card`, `:::tip`, `:::tab`, …) are processed by remark plugins shipped in the package. Docusaurus uses MDX components plus an `admonition` extension for callouts.
 

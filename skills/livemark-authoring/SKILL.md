@@ -19,7 +19,7 @@ Invoke when the user asks to:
 ## Where articles live
 
 - Livemark collects Markdown files that match the `include` glob(s) in `livemark.config.ts`. The default project layout is `docs/**/*.md`. Respect existing convention in the repo.
-- Files ending in `.md` are supported by default. Drafts/partials can be co-located but excluded via the `exclude` glob (e.g. `docs/**/_*.md`).
+- Files ending in `.md` are supported by default. A `.md` file compiles as plain Markdown (any `{` or `<` in prose is safe; raw HTML renders as HTML, `class` not `className`); a `.mdx` file, or `format: "mdx"`, compiles as MDX with JSX and `{expressions}`. Drafts/partials can be co-located but excluded via the `exclude` glob (e.g. `docs/**/_*.md`).
 
 ## Frontmatter template
 
@@ -42,6 +42,7 @@ author: Ada Lovelace # or [Ada Lovelace, Grace Hopper]
 date: 2026-04-20 # ISO — drives blog section sort order
 tags: [release, announcement] # blog-section tag pages /prefix/tags/<tag>/
 sourceUrl: https://example.com/src # toolbar source link; default: GitHub edit page from git origin, none outside GitHub
+format: mdx # md (plain Markdown) or mdx; default: mdx for a .mdx file, else md
 ---
 ```
 

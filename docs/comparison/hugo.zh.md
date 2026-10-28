@@ -36,7 +36,7 @@ Hugo 并非专门面向文档。同一个二进制文件可用于博客、营销
 
 两款工具都接受带 frontmatter 的 Markdown。
 
-最大的不对称在于组件嵌入：Livemark 使用 MDX（在 `.md`/`.mdx` 中使用 React 组件）。Hugo 使用 **shortcode**，即在 Markdown 中通过 `{{< shortcode-name arg="value" >}}` 调用的 Go 模板函数。shortcode 以 Go 模板片段的形式定义在 `layouts/shortcodes/*.html` 中，并直接输出 HTML。
+最大的不对称在于组件嵌入：Livemark 使用 MDX（在 `.mdx` 文件中使用 React 组件）。Hugo 使用 **shortcode**，即在 Markdown 中通过 `{{< shortcode-name arg="value" >}}` 调用的 Go 模板函数。shortcode 以 Go 模板片段的形式定义在 `layouts/shortcodes/*.html` 中，并直接输出 HTML。
 
 Hugo 支持基于 Goldmark 的 Markdown 扩展（脚注、表格、定义列表、通过插件实现的数学公式）。如需更丰富的交互，常见做法是嵌入一个 `<script>`，或在 shortcode 中以孤岛形式使用某个 JS 框架。
 

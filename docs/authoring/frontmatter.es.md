@@ -79,6 +79,14 @@ La barra de herramientas de la página enlaza cada artículo con su fuente. Sin 
 | `sourceUrl`    | `string`           | La página de edición del archivo en GitHub | Adónde apunta el enlace a la fuente.                                                |
 | `sourceAction` | `"edit" \| "view"` | `"edit"`                                   | Rotula el enlace **Editar en GitHub** con un lápiz, o **Ver en GitHub** con un ojo. |
 
+## Formato [#format]
+
+| Campo    | Tipo            | Predeterminado                               | Propósito                                                                                       |
+| -------- | --------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `format` | `"md" \| "mdx"` | `"mdx"` para un archivo `.mdx`, si no `"md"` | Compila el cuerpo como Markdown simple, o como [MDX](/es/authoring/advanced-syntax/#mdx-files). |
+
+El Markdown simple acepta cualquier texto: `{…}` se mantiene literal y el HTML en bruto se renderiza como HTML. MDX añade JSX y `{expresiones}`, así que una llave o un `<` sueltos en la prosa hacen fallar la compilación.
+
 ## Sobrescribir sin editar [#overriding-without-editing]
 
 Si no puedes modificar el frontmatter de un archivo (por ejemplo, un `README.md` que también sirve de portada en GitHub), puedes inyectar los mismos campos desde `livemark.config.ts` mediante [Article Patches](/es/customization/article-patches/).

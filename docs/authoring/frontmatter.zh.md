@@ -79,6 +79,14 @@ order: 1
 | `sourceUrl`    | `string`           | 该文件在 GitHub 上的编辑页面 | 源文件链接指向的地址。                                                             |
 | `sourceAction` | `"edit" \| "view"` | `"edit"`                     | 将链接标为带铅笔图标的 **在 GitHub 上编辑**，或带眼睛图标的 **在 GitHub 上查看**。 |
 
+## 格式 [#format]
+
+| 字段     | 类型            | 默认值                               | 用途                                                                                  |
+| -------- | --------------- | ------------------------------------ | ------------------------------------------------------------------------------------- |
+| `format` | `"md" \| "mdx"` | `.mdx` 文件为 `"mdx"`，否则为 `"md"` | 将正文按纯 Markdown 编译，或按 [MDX](/zh/authoring/advanced-syntax/#mdx-files) 编译。 |
+
+纯 Markdown 接受任意文本：`{…}` 保持原样，原始 HTML 按 HTML 渲染。MDX 增加了 JSX 和 `{表达式}`，因此正文中多余的花括号或 `<` 会导致构建失败。
+
 ## 无需编辑即可覆盖 [#overriding-without-editing]
 
 如果你无法修改某个文件的 frontmatter（例如同时用作 GitHub 首页的 `README.md`），可以通过 [Article Patches](/zh/customization/article-patches/) 从 `livemark.config.ts` 注入相同的字段。

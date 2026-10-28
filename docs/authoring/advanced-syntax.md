@@ -19,25 +19,23 @@ Renders as:
 
 Press <kbd>Ctrl</kbd> + <kbd>C</kbd> to copy. Water is H<sub>2</sub>O.
 
-Since Livemark uses MDX, HTML attributes follow JSX conventions: use `className` instead of `class`, and `style` takes an object instead of a string.
-
-Tailwind CSS 4 utility classes are available in HTML blocks via `className`:
+Tailwind CSS 4 utility classes are available in HTML blocks via `class`:
 
 ```md
-<div className="rounded-lg border border-border bg-card p-4 text-sm text-muted-foreground">
+<div class="rounded-lg border border-border bg-card p-4 text-sm text-muted-foreground">
   A styled container using Tailwind utilities.
 </div>
 ```
 
 Renders as:
 
-<div className="rounded-lg border border-border bg-card p-4 text-sm text-muted-foreground">
+<div class="rounded-lg border border-border bg-card p-4 text-sm text-muted-foreground">
   A styled container using Tailwind utilities.
 </div>
 
-## MDX Rendering
+## MDX Files
 
-Livemark uses MDX under the hood, so JSX expressions and components can be used directly in markdown files when needed:
+A `.md` file is plain Markdown, so braces and angle brackets in prose are always safe. A `.mdx` file, or any article with `format: "mdx"` in its [frontmatter](/authoring/frontmatter/#format), compiles as MDX instead, so JSX expressions and components can be used directly:
 
 ```md
 export const version = "2.0.0"
@@ -52,6 +50,8 @@ import { authors } from "./data.ts"
 
 {authors.map(a => <span key={a.name}>{a.name}</span>)}
 ```
+
+In MDX, HTML attributes follow JSX conventions: `className` instead of `class`, and `style` takes an object instead of a string. Any `{` or `<` in prose must be escaped.
 
 This is an escape hatch for advanced use cases. Prefer standard markdown and directive syntax when possible.
 

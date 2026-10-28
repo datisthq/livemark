@@ -3,7 +3,6 @@ import { existsSync } from "node:fs"
 import { basename, relative, resolve } from "node:path"
 import { DEFAULT_EXCLUDES } from "./settings.ts"
 import { defineCollection, defineConfig } from "@content-collections/core"
-import { compileMDX } from "@content-collections/mdx"
 import rehypeShiki from "@shikijs/rehype"
 import { transformerTwoslash } from "@shikijs/twoslash"
 import rehypeKatex from "rehype-katex"
@@ -13,6 +12,7 @@ import remarkDirective from "remark-directive"
 import remarkGemoji from "remark-gemoji"
 import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
+import { compileArticle } from "./actions/article/compile.ts"
 import { loadConfig } from "./actions/config/load.ts"
 import { buildChangelog, cacheIncludeGlob } from "./actions/changelog/build.ts"
 import { Article } from "./models/article.ts"
@@ -170,10 +170,11 @@ const articles = defineCollection({
     // a content patch overrides the title to something different from the
     // body's own heading).
     const bodyContent = stripLeadingH1(content)
-    const mdx = await compileMDX(
+    const mdx = await compileArticle(
       context,
       { ...doc, content: bodyContent },
       {
+        format: doc.format,
         remarkPlugins: [
           remarkGfm,
           remarkGemoji,

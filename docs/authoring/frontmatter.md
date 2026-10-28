@@ -79,6 +79,14 @@ The page toolbar links each article to its source. Without a `sourceUrl`, the li
 | `sourceUrl`    | `string`           | The file's GitHub edit page | Where the source link points.                                                        |
 | `sourceAction` | `"edit" \| "view"` | `"edit"`                    | Labels the link **Edit on GitHub** with a pencil, or **View on GitHub** with an eye. |
 
+## Format
+
+| Field    | Type            | Default                                | Purpose                                                                                  |
+| -------- | --------------- | -------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `format` | `"md" \| "mdx"` | `"mdx"` for a `.mdx` file, else `"md"` | Compiles the body as plain Markdown, or as [MDX](/authoring/advanced-syntax/#mdx-files). |
+
+Plain Markdown takes any text: `{…}` stays literal and raw HTML renders as HTML. MDX adds JSX and `{expressions}`, so a stray brace or `<` in prose fails the build.
+
 ## Overriding without editing
 
 If you can't modify a file's frontmatter (for example a `README.md` that doubles as a GitHub landing), you can inject the same fields from `livemark.config.ts` via [Article Patches](/customization/article-patches/).

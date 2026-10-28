@@ -36,7 +36,7 @@ Content layout is unconstrained on the Livemark side: it scans by glob (`include
 
 Both tools accept Markdown with frontmatter.
 
-The major asymmetry is component embedding: Livemark uses MDX (React components in `.md`/`.mdx`). Hugo uses **shortcodes** — Go-templated functions invoked from Markdown with `{{< shortcode-name arg="value" >}}`. Shortcodes are defined in `layouts/shortcodes/*.html` as Go template snippets and emit HTML directly.
+The major asymmetry is component embedding: Livemark uses MDX (React components in `.mdx` files). Hugo uses **shortcodes** — Go-templated functions invoked from Markdown with `{{< shortcode-name arg="value" >}}`. Shortcodes are defined in `layouts/shortcodes/*.html` as Go template snippets and emit HTML directly.
 
 Hugo supports Goldmark-based Markdown extensions (footnotes, tables, definition lists, math via plugins). For richer interactivity, the typical pattern is to embed a `<script>` or use a JS framework as an island inside a shortcode.
 

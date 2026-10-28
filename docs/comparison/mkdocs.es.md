@@ -34,7 +34,7 @@ En Livemark la organización del contenido no tiene restricciones: escanea media
 
 ## Superficie de contenido [#content-surface]
 
-Ambas herramientas aceptan Markdown con frontmatter. La gran asimetría está en la inserción de componentes: Livemark acepta MDX (componentes React en `.md`/`.mdx`); MkDocs solo acepta Markdown.
+Ambas herramientas aceptan Markdown con frontmatter. La gran asimetría está en la inserción de componentes: Livemark acepta MDX (componentes React en archivos `.mdx`); MkDocs solo acepta Markdown.
 
 MkDocs amplía Markdown mediante extensiones de Python-Markdown (admoniciones, pestañas, notas al pie, listas de definiciones) y `pymdown-extensions` (que añade toda la sintaxis de Material: pestañas `=== "Tab 1"`, admoniciones `:::note`, atajos de teclado `++ctrl++`, etc.). Personalizar más allá de lo que ofrecen las extensiones requiere escribir un plugin de Python o sobrescribir una plantilla Jinja.
 

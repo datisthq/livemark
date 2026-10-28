@@ -34,7 +34,7 @@ Content layout is unconstrained on the Livemark side: it scans by glob (`include
 
 ## Content surface
 
-Both tools accept Markdown with frontmatter. The big asymmetry is component embedding: Livemark accepts MDX (React components in `.md`/`.mdx`); MkDocs accepts only Markdown.
+Both tools accept Markdown with frontmatter. The big asymmetry is component embedding: Livemark accepts MDX (React components in `.mdx` files); MkDocs accepts only Markdown.
 
 MkDocs extends Markdown through Python-Markdown extensions (admonitions, tabs, footnotes, definition lists) and `pymdown-extensions` (which adds the full Material syntax: `=== "Tab 1"` tabs, `:::note` admonitions, `++ctrl++` keyboard shortcuts, etc.). Customization beyond what extensions offer requires writing a Python plugin or overriding a Jinja template.
 

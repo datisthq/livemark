@@ -149,9 +149,9 @@ function processBody(body: string) {
 
 /** Escape `<` to `&lt;` outside fenced code blocks and inline backtick spans
  * so commit messages with placeholders like `<subdir>` don't get parsed as
- * JSX by MDX. The entity is used rather than a `\<` backslash escape because
- * MDX's JSX-aware parser does not honour the backslash and still reads
- * `\<name>` as an unclosed tag. */
+ * JSX by MDX or as an HTML tag by Markdown. The entity is used rather than a `\<`
+ * backslash escape because MDX's JSX-aware parser does not honour the backslash
+ * and still reads `\<name>` as an unclosed tag. */
 export function escapeMdxAngles(markdown: string) {
   let inFence = false
   return markdown

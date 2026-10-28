@@ -19,25 +19,23 @@ Press <kbd>Ctrl</kbd> + <kbd>C</kbd> to copy. Water is H<sub>2</sub>O.
 
 按 <kbd>Ctrl</kbd> + <kbd>C</kbd> 复制。水的化学式是 H<sub>2</sub>O。
 
-由于 Livemark 使用 MDX，HTML 属性遵循 JSX 约定：使用 `className` 代替 `class`，并且 `style` 接收的是对象而不是字符串。
-
-在 HTML 块中可以通过 `className` 使用 Tailwind CSS 4 的工具类：
+在 HTML 块中可以通过 `class` 使用 Tailwind CSS 4 的工具类：
 
 ```md
-<div className="rounded-lg border border-border bg-card p-4 text-sm text-muted-foreground">
+<div class="rounded-lg border border-border bg-card p-4 text-sm text-muted-foreground">
   A styled container using Tailwind utilities.
 </div>
 ```
 
 渲染效果：
 
-<div className="rounded-lg border border-border bg-card p-4 text-sm text-muted-foreground">
+<div class="rounded-lg border border-border bg-card p-4 text-sm text-muted-foreground">
   一个使用 Tailwind 工具类设置样式的容器。
 </div>
 
-## MDX 渲染 [#mdx-rendering]
+## MDX 文件 [#mdx-files]
 
-Livemark 底层使用 MDX，因此在需要时可以直接在 Markdown 文件中使用 JSX 表达式和组件：
+`.md` 文件是纯 Markdown，因此正文中的花括号和尖括号始终是安全的。`.mdx` 文件，或在 [frontmatter](/zh/authoring/frontmatter/#format) 中设置了 `format: "mdx"` 的文章，会改为按 MDX 编译，因此可以直接使用 JSX 表达式和组件：
 
 ```md
 export const version = "2.0.0"
@@ -52,6 +50,8 @@ import { authors } from "./data.ts"
 
 {authors.map(a => <span key={a.name}>{a.name}</span>)}
 ```
+
+在 MDX 中，HTML 属性遵循 JSX 约定：使用 `className` 代替 `class`，`style` 接收对象而不是字符串。正文中的任何 `{` 或 `<` 都必须转义。
 
 这是为高级用例准备的一种兜底手段。只要可能，请优先使用标准 Markdown 和指令语法。
 

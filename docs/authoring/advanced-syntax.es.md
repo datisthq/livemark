@@ -19,25 +19,23 @@ Se renderiza así:
 
 Pulsa <kbd>Ctrl</kbd> + <kbd>C</kbd> para copiar. El agua es H<sub>2</sub>O.
 
-Como Livemark usa MDX, los atributos HTML siguen las convenciones de JSX: usa `className` en lugar de `class`, y `style` recibe un objeto en lugar de una cadena.
-
-Las clases de utilidad de Tailwind CSS 4 están disponibles en los bloques HTML mediante `className`:
+Las clases de utilidad de Tailwind CSS 4 están disponibles en los bloques HTML mediante `class`:
 
 ```md
-<div className="rounded-lg border border-border bg-card p-4 text-sm text-muted-foreground">
+<div class="rounded-lg border border-border bg-card p-4 text-sm text-muted-foreground">
   A styled container using Tailwind utilities.
 </div>
 ```
 
 Se renderiza así:
 
-<div className="rounded-lg border border-border bg-card p-4 text-sm text-muted-foreground">
+<div class="rounded-lg border border-border bg-card p-4 text-sm text-muted-foreground">
   Un contenedor con estilos hechos con utilidades de Tailwind.
 </div>
 
-## Renderizado MDX [#mdx-rendering]
+## Archivos MDX [#mdx-files]
 
-Livemark usa MDX por debajo, así que puedes usar expresiones JSX y componentes directamente en los archivos Markdown cuando lo necesites:
+Un archivo `.md` es Markdown simple, así que las llaves y los corchetes angulares en la prosa siempre son seguros. Un archivo `.mdx`, o cualquier artículo con `format: "mdx"` en su [frontmatter](/es/authoring/frontmatter/#format), se compila como MDX, así que puedes usar expresiones JSX y componentes directamente:
 
 ```md
 export const version = "2.0.0"
@@ -52,6 +50,8 @@ import { authors } from "./data.ts"
 
 {authors.map(a => <span key={a.name}>{a.name}</span>)}
 ```
+
+En MDX, los atributos HTML siguen las convenciones de JSX: `className` en lugar de `class`, y `style` recibe un objeto en lugar de una cadena. Cualquier `{` o `<` en la prosa debe escaparse.
 
 Es una vía de escape para casos de uso avanzados. Cuando sea posible, prefiere la sintaxis estándar de Markdown y de directivas.
 

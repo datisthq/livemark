@@ -34,7 +34,7 @@ Livemark 对内容布局没有限制：它按 glob 扫描（`livemark.config.ts`
 
 ## 内容能力 [#content-surface]
 
-两者都支持带 frontmatter 的 Markdown。最大的差异在于组件嵌入：Livemark 支持 MDX（在 `.md`/`.mdx` 中使用 React 组件）；MkDocs 只支持 Markdown。
+两者都支持带 frontmatter 的 Markdown。最大的差异在于组件嵌入：Livemark 支持 MDX（在 `.mdx` 文件中使用 React 组件）；MkDocs 只支持 Markdown。
 
 MkDocs 通过 Python-Markdown 扩展（提示框、标签页、脚注、定义列表）和 `pymdown-extensions`（提供完整的 Material 语法：`=== "Tab 1"` 标签页、`:::note` 提示框、`++ctrl++` 键盘快捷键等）来扩展 Markdown。超出这些扩展能力的定制需要编写 Python 插件或覆盖 Jinja 模板。
 

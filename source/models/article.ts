@@ -22,6 +22,7 @@ export const Article = z.object({
   tags: z.array(nonEmptyString).optional(),
   sourceUrl: nonEmptyString.optional(),
   sourceAction: z.enum(["edit", "view"]).default("edit"),
+  format: z.enum(["md", "mdx"]).optional(),
 })
 
 /** Processed article ready for page rendering (result of content-collections transform). */

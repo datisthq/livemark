@@ -40,6 +40,12 @@ El archivo en disco queda limpio, pero Livemark lo renderiza como si el YAML ant
 | `file`    | `string`           | Ruta relativa a la colección, p. ej. `"README.md"`, `"docs/a.md"`. |
 | `article` | `Partial<Article>` | Cualquier campo de frontmatter excepto `content`.                  |
 
+Un campo del artículo como `format` funciona igual. Para fijar un archivo como Markdown simple sea cual sea su extensión:
+
+```typescript
+{ file: "CHANGELOG.md", article: { format: "md" } }
+```
+
 La coincidencia es una comparación exacta de cadenas con la ruta de archivo que recoge Livemark. Si la ruta no coincide con ningún artículo, el parche no hace nada en silencio, algo útil cuando parcheas de forma defensiva un archivo que puede existir o no.
 
 ## Semántica de fusión [#merge-semantics]

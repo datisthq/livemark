@@ -132,7 +132,8 @@ Any [Shiki theme](https://shiki.style/themes) name works. Defaults keep the catp
 1. **Don't invent fields.** Livemark's `UserConfig` is a strict zod schema. Unknown keys — top level, or inside sections, links, languages, `head` and patches — throw at config load.
 2. **Strings are literals.** Section `prefix` values are compared exactly; keep them consistent (`/blog/`, not `/blog`).
 3. **Array order matters** for `sections` and `links` — it drives tab / link display order.
-4. **Patches are silent on miss.** If `file` doesn't match any included article, nothing happens (no warning). Spell the path carefully.
+4. **Patches carry any article field**, `format` included: `{ file: "CHANGELOG.md", article: { format: "md" } }` pins plain Markdown whatever the extension.
+5. **Patches are silent on miss.** If `file` doesn't match any included article, nothing happens (no warning). Spell the path carefully.
 
 ## Autoreload
 
