@@ -19,7 +19,13 @@ export default defineConfig({
   },
   test: {
     include: ["**/*.unit.(ts|tsx)"],
-    exclude: ["**/node_modules/**", "**/build/**", "**/.worktrees/**", "**/.target/**"],
+    exclude: [
+      "**/node_modules/**",
+      "**/build/**",
+      "**/.worktrees/**",
+      "**/.target/**",
+      "**/.livemark/.*/**",
+    ],
     env: { NODE_OPTIONS: "--no-warnings" },
     pool: "forks",
     // One fork per core re-imports every module in each, for no wall-time gain: import
