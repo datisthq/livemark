@@ -33,7 +33,7 @@ function SidebarShell(props: { withSidebar?: boolean; children?: React.ReactNode
   return (
     <div style={{ display: "contents" }} onClick={onClick}>
       <Sidebar withSidebar={props.withSidebar} />
-      <SidebarInset>
+      <SidebarInset className="min-w-0">
         <Header
           toggle={props.withSidebar && <SidebarTrigger />}
           menu={<SidebarTrigger />}

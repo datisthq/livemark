@@ -78,8 +78,8 @@ export function Article(props: { article: ArticleView; highlight?: string }) {
       )}
       {/* From `lg` the content meets the header nav's first link: the header's pl-4,
           the size-8 sidebar trigger, its pr-4 and the nav's px-6 */}
-      <div className="flex flex-1 gap-10 p-4 pt-8 md:p-10 lg:pl-22">
-        <div className="flex-1 min-w-0 mx-auto max-w-3xl lg:mx-0 sidebar-collapsed:max-w-none">
+      <div className="flex flex-1 gap-10 p-4 pt-8 md:p-10 lg:gap-22 lg:pl-22 lg:justify-between">
+        <div className="flex-1 min-w-0 mx-auto max-w-3xl max-lg:sidebar-collapsed:max-w-none lg:mx-0 lg:max-w-(--content-max-width)">
           {breadcrumbs && <Breadcrumbs path={article.path} title={article.title} />}
           <div
             ref={prose}
