@@ -47,8 +47,8 @@ export function ChangelogIndex(props: { sectionPrefix: string }) {
       <MobileToc items={tocItems} title={title}>
         <PageToolbar content={content} />
       </MobileToc>
-      <div className="flex flex-1 gap-10 p-4 pt-8 md:p-10">
-        <div className="flex-1 min-w-0 mx-auto max-w-3xl sidebar-collapsed:max-w-none">
+      <div className="flex flex-1 gap-10 p-4 pt-8 md:p-10 lg:pl-22">
+        <div className="flex-1 min-w-0 mx-auto max-w-3xl lg:mx-0 sidebar-collapsed:max-w-none">
           <div className="prose dark:prose-invert max-w-none mb-8">
             <h1 id="top">
               <a href="#top">{title}</a>
