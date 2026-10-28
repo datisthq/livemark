@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.32.1](https://github.com/datisthq/livemark/compare/v0.32.0...v0.32.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* cap page content at its 1600px width, with equal gaps to the sidebar and the toc ([fd6c94e](https://github.com/datisthq/livemark/commit/fd6c94e2ababb7207d6c50101b314bf3a95d4532))
+
 ## [0.32.0](https://github.com/datisthq/livemark/compare/v0.31.2...v0.32.0) (2026-10-28)
 
 
