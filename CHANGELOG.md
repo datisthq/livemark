@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.33.1](https://github.com/datisthq/livemark/compare/v0.33.0...v0.33.1) (2026-10-29)
+
+
+### Bug Fixes
+
+* serve start and preview on localhost by default, with --host for the network ([a95f2f2](https://github.com/datisthq/livemark/commit/a95f2f2118cd381b7363ab7a4756b3b079b23e96))
+
 ## [0.33.0](https://github.com/datisthq/livemark/compare/v0.32.3...v0.33.0) (2026-10-29)
 
 
