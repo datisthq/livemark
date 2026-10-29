@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.32.2](https://github.com/datisthq/livemark/compare/v0.32.1...v0.32.2) (2026-10-29)
+
+
+### Bug Fixes
+
+* keep the site title at the same inset with and without the sidebar ([cec8983](https://github.com/datisthq/livemark/commit/cec8983d8d459645984ccf08d9bdc8d0ed950a09))
+
 ## [0.32.1](https://github.com/datisthq/livemark/compare/v0.32.0...v0.32.1) (2026-10-28)
 
 
