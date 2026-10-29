@@ -4,9 +4,9 @@ import { f } from "fireargs"
 import { createServer } from "vite"
 import type { z } from "zod"
 import {
-  configInput,
   divertStdout,
   selectConfig,
+  serverInput,
   serverOutput,
 } from "../helpers/program.ts"
 
@@ -18,21 +18,26 @@ const IGNORED_DIRS = /(^|[/\\])(node_modules|\.git|\.livemark)([/\\]|$)/
  */
 export const start = f
   .command({ description: "Start a live server" })
-  .input(configInput)
+  .input(serverInput)
   .output(serverOutput)
   .handler(async (input, context) => {
     selectConfig(input.config)
-    return context.json ? divertStdout(() => startServer(true)) : startServer(false)
+    return context.json
+      ? divertStdout(() => startServer(true, input.host))
+      : startServer(false, input.host)
   })
 
 // A broken config fails `createServer` before Vite's watcher exists, so without this
 // the process exits and the fix has nobody to pick it up.
-async function startServer(json: boolean): Promise<z.infer<typeof serverOutput>> {
+async function startServer(
+  json: boolean,
+  host: boolean,
+): Promise<z.infer<typeof serverOutput>> {
   try {
     const server = await createServer({
       configFile,
       logLevel: json ? "warn" : undefined,
-      server: { port: 8000, host: true },
+      server: { port: 8000, host },
     })
     await server.listen()
     if (!json) {
@@ -47,7 +52,7 @@ async function startServer(json: boolean): Promise<z.infer<typeof serverOutput>>
     console.error(error)
     console.error("\nWaiting for a file change to retry…")
     await waitForChange(process.cwd())
-    return await startServer(json)
+    return await startServer(json, host)
   }
 }
 

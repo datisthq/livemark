@@ -2,9 +2,9 @@ import { join } from "node:path"
 import { f } from "fireargs"
 import { preview as vitePreview } from "vite"
 import {
-  configInput,
   divertStdout,
   selectConfig,
+  serverInput,
   serverOutput,
 } from "../helpers/program.ts"
 
@@ -15,7 +15,7 @@ const configFile = join(import.meta.dirname, "..", "..", "source", "vite.config.
  */
 export const preview = f
   .command({ description: "Preview the production build locally" })
-  .input(configInput)
+  .input(serverInput)
   .output(serverOutput)
   .handler(async (input, context) => {
     selectConfig(input.config)
@@ -23,7 +23,7 @@ export const preview = f
       vitePreview({
         configFile,
         logLevel: context.json ? "warn" : undefined,
-        preview: { port: 8000, host: true },
+        preview: { port: 8000, host: input.host },
       })
     const server = await (context.json ? divertStdout(run) : run())
     if (!context.json) {

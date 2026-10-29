@@ -15,6 +15,13 @@ export const configInput = z.object({
     .describe("Path to the config file (default: ./livemark.config.ts)"),
 })
 
+export const serverInput = configInput.extend({
+  host: f
+    .option()
+    .schema(z.boolean().default(true))
+    .describe("Serve on the local network too; --no-host for localhost only"),
+})
+
 /** Hand the chosen config to `loadConfig()`, which `vite.config.ts` and
  *  `content-collections.ts` call without arguments. */
 export function selectConfig(path?: string) {

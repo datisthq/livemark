@@ -69,7 +69,7 @@ Welcome!
 ### 运行 [#run]
 
 ```bash
-npx livemark start    # dev server with HMR at http://localhost:8000
+npx livemark start    # dev server with HMR at http://localhost:8000 and on the LAN (--no-host: local only)
 npx livemark build    # production build to .livemark/build/
 npx livemark preview  # serve the production build locally
 npx livemark clear    # wipe the generated .livemark/.serve/, .build/ and .cache/ (stop the dev server first)
