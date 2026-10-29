@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.32.3](https://github.com/datisthq/livemark/compare/v0.32.2...v0.32.3) (2026-10-29)
+
+
+### Bug Fixes
+
+* align sidebar icons with the site logo ([8fa08a0](https://github.com/datisthq/livemark/commit/8fa08a05c87cdb87d536888c8d83b15ad829d201))
+* center the site logo on the sidebar icons instead of moving them ([d926939](https://github.com/datisthq/livemark/commit/d926939ddd6b3e0b3441a8cfa8f6753e4d4a1e45))
+
 ## [0.32.2](https://github.com/datisthq/livemark/compare/v0.32.1...v0.32.2) (2026-10-29)
 
 
