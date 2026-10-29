@@ -55,7 +55,11 @@ export function Sidebar(props: { withSidebar?: boolean }) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" render={<SiteLink to={siteLinkTarget} />}>
+            <SidebarMenuButton
+              size="lg"
+              className="px-2"
+              render={<SiteLink to={siteLinkTarget} />}
+            >
               <SiteTitle />
             </SidebarMenuButton>
           </SidebarMenuItem>
