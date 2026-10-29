@@ -1,8 +1,35 @@
 # Contributing
 
-Livemark is an open-source project and we'd love your help — whether that's fixing a bug, polishing the docs, or proposing a new feature. This guide walks through everything you need to get a change from your editor into a release.
+> [!WARNING]
+> **We don't accept pull requests from outside contributors.** Pull requests opened by anyone outside the team are closed without review. If you've found a bug or have an idea, open an issue or start a discussion instead, as described below.
 
-## Quick start
+Livemark is an open-source project developed by the [Datist](https://datist.io) team. Everyone is welcome to help shape it with bug reports, ideas and questions; code changes come from team members.
+
+## Contributors
+
+### Report a bug
+
+Open an issue on [GitHub Issues](https://github.com/datisthq/livemark/issues). A good report includes:
+
+- the Livemark version and how you use it
+- the smallest input that reproduces the problem
+- the output you got and the output you expected
+
+### Share an idea or ask a question
+
+Use [GitHub Discussions](https://github.com/datisthq/livemark/discussions) for anything that isn't a bug:
+
+- [Ideas](https://github.com/datisthq/livemark/discussions/new?category=ideas): features and improvements you'd like to see
+- [Q&A](https://github.com/datisthq/livemark/discussions/new?category=q-a): questions about using Livemark
+- [Show and tell](https://github.com/datisthq/livemark/discussions/new?category=show-and-tell): projects built with Livemark
+
+Ideas the team picks up turn into issues.
+
+## Members
+
+The rest of this guide is for Datist team members working on Livemark.
+
+### Quick start
 
 You'll need [Node.js](https://nodejs.org/) 24+ and [pnpm](https://pnpm.io/) 11+. Then:
 
@@ -15,7 +42,7 @@ pnpm start
 
 `pnpm start` boots the dev server against this repo's own `docs/` so you can iterate on Livemark while seeing the result in your browser. Edits to `source/` or `docs/` reload automatically.
 
-## Repository layout
+### Repository layout
 
 ```
 livemark/
@@ -41,7 +68,7 @@ livemark/
 
 Both `source/` and `build/` ship in the npm package: Node loads `build/*.js`, while Vite bundles raw TS from `source/*` so the literal `.ts` import extensions resolve.
 
-## Local commands
+### Local commands
 
 | Command            | What it does                                |
 | ------------------ | ------------------------------------------- |
@@ -57,7 +84,7 @@ Both `source/` and `build/` ship in the npm package: Node loads `build/*.js`, wh
 
 A change is ready to push when `pnpm test` is green and `pnpm build:docs` succeeds.
 
-## Code conventions
+### Code conventions
 
 - **TypeScript**: strict mode is on. Don't use `any`, the `as` cast, or non-null `!` without a clear reason — flag it in the PR.
 - **Imports**: use full ESM paths with the `.ts(x)` extension (`from "./foo.ts"`). Tsgo rewrites them to `.js` on emit via `rewriteRelativeImportExtensions`.
@@ -66,7 +93,7 @@ A change is ready to push when `pnpm test` is green and `pnpm build:docs` succee
 - **Tests**: place unit tests in `<module>.unit.ts` next to the code. No "Arrange/Act/Assert" comments — the structure should be obvious.
 - **Formatting**: vite-plus via `pnpm format`. 2-space indent, no semicolons, double quotes, 90 columns.
 
-## Proposing a change
+### Proposing a change
 
 1. **Open an issue first** for anything bigger than a typo or a small bug. It's much easier to align on direction before code.
 2. **Branch from `main`** with a short descriptive name (e.g. `fix-mobile-toc`, `feat-yaml-frontmatter`).
@@ -78,14 +105,6 @@ A change is ready to push when `pnpm test` is green and `pnpm build:docs` succee
 4. **Run `pnpm test` and `pnpm build:docs`** before pushing.
 5. **Open a PR** against `main`. Describe the _why_ (link the issue), include screenshots for any UI change, and call out anything reviewers should pay extra attention to.
 
-## Releases
+### Releases
 
 Releases are driven by [release-please](https://github.com/googleapis/release-please). A `feat` or `fix` landing on `main` opens a Release PR with the computed version and changelog; merging that PR tags, publishes and creates the GitHub release. Maintainers never bump versions by hand — `.release/manifest.json` is maintained by release-please.
-
-## Where to find help
-
-- **Bugs and feature requests**: [GitHub Issues](https://github.com/datisthq/livemark/issues)
-- **Discussion / ideas**: [GitHub Discussions](https://github.com/datisthq/livemark/discussions)
-- **Source**: [github.com/datisthq/livemark](https://github.com/datisthq/livemark)
-
-Thanks for helping make Livemark better.
