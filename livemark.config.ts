@@ -10,7 +10,7 @@ export default defineConfig({
     zh: "Markdown 站点生成器",
   },
   favicon: "/logo.png",
-  include: ["docs/**/*.md", "blog/**/*.md", "README.md", "CONTRIBUTING.md"],
+  include: ["docs/**/*.md", "blog/**/*.md", "CONTRIBUTING.md"],
   skills: "skills/*/SKILL.md",
   exclude: ["docs/**/includes/**"],
   languages: [
@@ -41,16 +41,6 @@ export default defineConfig({
     },
   ],
   patches: [
-    {
-      file: "README.md",
-      article: {
-        title: "Introduction",
-        description: "Learn how to set up your first Livemark project.",
-        icon: "rocket",
-        path: "/introduction/",
-        order: 1,
-      },
-    },
     {
       file: "CONTRIBUTING.md",
       article: {
