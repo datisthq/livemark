@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.33.0](https://github.com/datisthq/livemark/compare/v0.32.3...v0.33.0) (2026-10-29)
+
+
+### Features
+
+* add --no-host to start and preview to serve on localhost only ([d7853d3](https://github.com/datisthq/livemark/commit/d7853d331e2d9d2905d18482f893eb5c7d7a29ed))
+
 ## [0.32.3](https://github.com/datisthq/livemark/compare/v0.32.2...v0.32.3) (2026-10-29)
 
 
