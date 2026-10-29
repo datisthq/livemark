@@ -57,7 +57,7 @@ export function Sidebar(props: { withSidebar?: boolean }) {
           <SidebarMenuItem>
             <SidebarMenuButton
               size="lg"
-              className="px-2"
+              className="px-1.75"
               render={<SiteLink to={siteLinkTarget} />}
             >
               <SiteTitle />
