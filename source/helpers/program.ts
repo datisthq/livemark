@@ -18,8 +18,8 @@ export const configInput = z.object({
 export const serverInput = configInput.extend({
   host: f
     .option()
-    .schema(z.boolean().default(true))
-    .describe("Serve on the local network too; --no-host for localhost only"),
+    .schema(z.boolean().default(false))
+    .describe("Serve on the local network too, not only on localhost"),
 })
 
 /** Hand the chosen config to `loadConfig()`, which `vite.config.ts` and
