@@ -49,50 +49,51 @@
     content: " ";
   }
 
-  .prose pre code .line[data-highlighted] {
+  .prose pre code .line.highlighted {
     @apply bg-primary/10;
   }
 
-  .prose pre code .line[data-diff="add"] {
+  .prose pre code .line.diff.add {
     @apply bg-positive/15;
   }
 
-  .prose pre code .line[data-diff="remove"] {
+  .prose pre code .line.diff.remove {
     @apply bg-destructive/15;
   }
 
-  .prose pre code .line[data-diff="add"]::before {
+  .prose pre code .line.diff.add::before {
     content: "+";
     @apply text-positive-tint-foreground absolute left-1;
   }
 
-  .prose pre code .line[data-diff="remove"]::before {
+  .prose pre code .line.diff.remove::before {
     content: "-";
     @apply text-destructive-tint-foreground absolute left-1;
   }
 
-  .prose pre code .line[data-line-status="error"] {
+  .prose pre code .line.highlighted.error {
     @apply bg-destructive/15;
   }
 
-  .prose pre code .line[data-line-status="warning"] {
+  .prose pre code .line.highlighted.warning {
     @apply bg-warning/15;
   }
 
-  .prose pre[data-has-focus] code .line:not([data-focus]) {
+  .prose pre.has-focused code .line:not(.focused) {
     @apply opacity-30;
   }
 
-  .prose pre[data-has-focus] code .line[data-focus] {
+  .prose pre.has-focused code .line.focused {
     @apply opacity-100;
   }
 
-  .prose pre code [data-word-highlighted] {
+  .prose pre code .highlighted-word {
     @apply bg-primary/20 rounded px-0.5 py-0.5;
   }
 
-  .prose pre code .line[data-line-number]::before {
-    content: attr(data-line-number);
+  .prose pre.line-numbers code .line::before {
+    counter-increment: line;
+    content: counter(line);
     display: inline-block;
     width: 2rem;
     margin-right: 1rem;
@@ -143,11 +144,16 @@
     content: none !important;
   }
 
-  .prose code.shiki-inline {
-    @apply bg-muted/70 border border-border rounded-md px-1.5 py-0.5 text-sm font-mono;
+  .prose :not(pre) > span.shiki {
+    /* !important beats the theme background html.highlight writes inline */
+    @apply bg-muted/70! border border-border rounded-md px-1.5 py-0.5 text-sm font-mono;
   }
 
-  .prose code.shiki-inline .line {
+  .prose :not(pre) > span.shiki > code {
+    @apply border-0 bg-transparent p-0;
+  }
+
+  .prose :not(pre) > span.shiki .line {
     display: inline;
   }
 

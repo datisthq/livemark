@@ -7,7 +7,7 @@ order: 5
 
 # Formato de texto
 
-## Negrita y cursiva [#bold-and-italic]
+## Negrita y cursiva {#bold-and-italic}
 
 ```md
 **bold text** and _italic text_ and **_bold italic_**
@@ -15,7 +15,7 @@ order: 5
 
 Se renderiza así: **texto en negrita** y _texto en cursiva_ y **_negrita cursiva_**
 
-## Tachado [#strikethrough]
+## Tachado {#strikethrough}
 
 ```md
 ~~deleted text~~
@@ -23,7 +23,7 @@ Se renderiza así: **texto en negrita** y _texto en cursiva_ y **_negrita cursiv
 
 Se renderiza así: ~~texto eliminado~~
 
-## Código en línea [#inline-code]
+## Código en línea {#inline-code}
 
 ```md
 Use `const x = 1` for inline code.
@@ -31,19 +31,19 @@ Use `const x = 1` for inline code.
 
 Se renderiza así: Usa `const x = 1` para código en línea.
 
-## Resaltado de código en línea [#inline-code-highlighting]
+## Resaltado de código en línea {#inline-code-highlighting}
 
-Añade resaltado de sintaxis específico del lenguaje al código en línea con un prefijo `{:lang}`:
+Añade resaltado de sintaxis específico del lenguaje al código en línea con un sufijo `{:lang}`:
 
 ```md
-Use `{:ts}const x = 1` for inline TypeScript or `{:py}print("hello")` for Python.
+Use `const x = 1{:ts}` for inline TypeScript or `print("hello"){:py}` for Python.
 ```
 
 Se renderiza así:
 
-Usa `{:ts}const x = 1` para TypeScript en línea o `{:py}print("hello")` para Python.
+Usa `const x = 1{:ts}` para TypeScript en línea o `print("hello"){:py}` para Python.
 
-## Citas [#blockquotes]
+## Citas {#blockquotes}
 
 ```md
 > This is a blockquote.
@@ -53,7 +53,7 @@ Se renderiza así:
 
 > Esto es una cita.
 
-## Listas [#lists]
+## Listas {#lists}
 
 Listas no ordenadas y ordenadas:
 
@@ -65,7 +65,7 @@ Listas no ordenadas y ordenadas:
 2. Paso dos
 3. Paso tres
 
-## Listas de tareas [#task-lists]
+## Listas de tareas {#task-lists}
 
 ```md
 - [x] Completed task
@@ -77,7 +77,7 @@ Se renderiza así:
 - [x] Tarea completada
 - [ ] Tarea pendiente
 
-## Líneas horizontales [#horizontal-rules]
+## Líneas horizontales {#horizontal-rules}
 
 ```md
 ***
@@ -85,7 +85,7 @@ Se renderiza así:
 
 ---
 
-## Notas al pie [#footnotes]
+## Notas al pie {#footnotes}
 
 Añade notas al pie con referencias y definiciones `[^id]`:
 
@@ -105,7 +105,7 @@ Esta es una frase con una nota al pie[^1] y otra[^note].
 
 [^note]: Las notas al pie también pueden usar identificadores descriptivos.
 
-## Listas de definiciones [#definition-lists]
+## Listas de definiciones {#definition-lists}
 
 Define términos con sus descripciones:
 
@@ -133,7 +133,7 @@ Unified
 : Una interfaz para procesar contenido con árboles de sintaxis
 : La base tanto de remark como de rehype
 
-## Abreviaturas [#abbreviations]
+## Abreviaturas {#abbreviations}
 
 Añade descripciones emergentes a las abreviaturas con la directiva `:abbr`:
 
@@ -145,7 +145,7 @@ Se renderiza así:
 
 El estándar :abbr[HTML]{title="HyperText Markup Language"} lo mantiene el :abbr[W3C]{title="World Wide Web Consortium"}.
 
-## Emoji [#emoji]
+## Emoji {#emoji}
 
 Usa los códigos cortos de emoji al estilo de GitHub:
 

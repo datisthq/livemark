@@ -9,7 +9,7 @@ order: 5
 
 `links` 数组将外部 URL 添加到顶栏或侧边栏。每一项都渲染为一个链接，可附带图标。
 
-## 基本用法 [#basic-usage]
+## 基本用法 {#basic-usage}
 
 ```typescript title="livemark.config.ts"
 import { defineConfig } from "livemark"
@@ -26,7 +26,7 @@ export default defineConfig({
 })
 ```
 
-## 字段 [#fields]
+## 字段 {#fields}
 
 | 字段       | 类型                    | 默认值     | 用途                                                |
 | ---------- | ----------------------- | ---------- | --------------------------------------------------- |
@@ -38,7 +38,7 @@ export default defineConfig({
 
 图标来自 [lucide-react](https://lucide.dev/icons)。请使用 kebab-case 名称。
 
-## 顶栏链接 [#header-links]
+## 顶栏链接 {#header-links}
 
 默认情况下，链接渲染在顶栏中栏目标签页的右侧。只会显示你设置的 `icon`，Livemark 不会自行添加外部链接标记。
 
@@ -49,7 +49,7 @@ links: [
 ]
 ```
 
-## 侧边栏链接 [#sidebar-links]
+## 侧边栏链接 {#sidebar-links}
 
 设置 `position: "sidebar"`，即可将链接渲染在左侧边栏中、栏目树的下方。
 
@@ -64,7 +64,7 @@ links: [
 ]
 ```
 
-## 将链接限定在某个栏目 [#scoping-a-link-to-a-section]
+## 将链接限定在某个栏目 {#scoping-a-link-to-a-section}
 
 使用 `prefix`，可以让链接只在特定栏目处于激活状态时显示。这适用于按栏目设置的 “在 GitHub 上编辑” 或 “报告问题” 等快捷入口。
 
@@ -80,7 +80,7 @@ links: [
 ]
 ```
 
-## 另请参阅 [#see-also]
+## 另请参阅 {#see-also}
 
 - [文章栏目](/zh/customization/article-sections/)：链接上的 `prefix` 所指向的 `prefix` 值。
 - [站点元数据](/zh/customization/site-metadata/)：位于顶栏链接旁边的品牌标题和 logo。

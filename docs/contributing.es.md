@@ -8,7 +8,7 @@ order: -1
 
 Livemark es un proyecto de código abierto y nos encantaría contar con tu ayuda, ya sea corrigiendo un bug, puliendo la documentación o proponiendo una nueva funcionalidad. Esta guía recorre todo lo que necesitas para llevar un cambio desde tu editor hasta una versión publicada.
 
-## Inicio rápido [#quick-start]
+## Inicio rápido {#quick-start}
 
 Necesitarás [Node.js](https://nodejs.org/) 24+ y [pnpm](https://pnpm.io/) 11+. Después:
 
@@ -21,7 +21,7 @@ pnpm start
 
 `pnpm start` arranca el servidor de desarrollo sobre el propio `docs/` de este repositorio, para que puedas iterar sobre Livemark mientras ves el resultado en tu navegador. Los cambios en `source/` o `docs/` se recargan automáticamente.
 
-## Estructura del repositorio [#repository-layout]
+## Estructura del repositorio {#repository-layout}
 
 ```
 livemark/
@@ -34,7 +34,7 @@ livemark/
 │   ├── helpers/        # internal utilities (private)
 │   ├── hooks/          # public React hooks
 │   ├── utils/          # public utilities (e.g. cn)
-│   ├── plugins/        # remark / rehype / vite plugins
+│   ├── plugins/        # Vite plugins and the twoslash stage
 │   ├── routes/         # TanStack Start routes
 │   ├── models/         # Zod schemas
 │   ├── content/        # content-collections derivations
@@ -48,7 +48,7 @@ livemark/
 
 Tanto `source/` como `build/` se incluyen en el paquete de npm: Node carga `build/*.js`, mientras que Vite empaqueta el TS sin compilar de `source/*` para que se resuelvan las extensiones `.ts` literales de los imports.
 
-## Comandos locales [#local-commands]
+## Comandos locales {#local-commands}
 
 | Comando            | Qué hace                                                                 |
 | ------------------ | ------------------------------------------------------------------------ |
@@ -64,7 +64,7 @@ Tanto `source/` como `build/` se incluyen en el paquete de npm: Node carga `buil
 
 Un cambio está listo para subir cuando `pnpm test` pasa en verde y `pnpm build:docs` termina con éxito.
 
-## Convenciones de código [#code-conventions]
+## Convenciones de código {#code-conventions}
 
 - **TypeScript**: el modo estricto está activado. No uses `any`, el cast `as` ni el `!` no nulo sin una razón clara; señálalo en la PR.
 - **Imports**: usa rutas ESM completas con la extensión `.ts(x)` (`from "./foo.ts"`). Tsgo las reescribe a `.js` al emitir mediante `rewriteRelativeImportExtensions`.
@@ -73,7 +73,7 @@ Un cambio está listo para subir cuando `pnpm test` pasa en verde y `pnpm build:
 - **Pruebas**: coloca las pruebas unitarias en `<module>.unit.ts` junto al código. Sin comentarios "Arrange/Act/Assert": la estructura debe ser evidente.
 - **Formato**: vite-plus mediante `pnpm format`. Sangría de 2 espacios, sin punto y coma, comillas dobles, 90 columnas.
 
-## Proponer un cambio [#proposing-a-change]
+## Proponer un cambio {#proposing-a-change}
 
 1. **Abre primero un issue** para cualquier cosa mayor que una errata o un bug pequeño. Es mucho más fácil acordar la dirección antes de escribir código.
 2. **Crea una rama desde `main`** con un nombre corto y descriptivo (p. ej., `fix-mobile-toc`, `feat-yaml-frontmatter`).
@@ -85,11 +85,11 @@ Un cambio está listo para subir cuando `pnpm test` pasa en verde y `pnpm build:
 4. **Ejecuta `pnpm test` y `pnpm build:docs`** antes de hacer push.
 5. **Abre una PR** contra `main`. Describe el _porqué_ (enlaza el issue), incluye capturas de pantalla para cualquier cambio de UI y señala todo aquello a lo que los revisores deban prestar especial atención.
 
-## Publicaciones [#releases]
+## Publicaciones {#releases}
 
 Las publicaciones las dirige [release-please](https://github.com/googleapis/release-please). Un `feat` o `fix` que llega a `main` abre una Release PR con la versión y el registro de cambios calculados; al fusionar esa PR se crea la etiqueta, se publica el paquete y se crea la release de GitHub. Los mantenedores nunca suben versiones a mano: release-please mantiene `.release/manifest.json`.
 
-## Dónde encontrar ayuda [#where-to-find-help]
+## Dónde encontrar ayuda {#where-to-find-help}
 
 - **Bugs y solicitudes de funcionalidades**: [GitHub Issues](https://github.com/datisthq/livemark/issues)
 - **Debate / ideas**: [GitHub Discussions](https://github.com/datisthq/livemark/discussions)

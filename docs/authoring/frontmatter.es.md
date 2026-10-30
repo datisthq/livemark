@@ -18,7 +18,7 @@ order: 1
 ---
 ```
 
-## Metadatos del artículo [#article-metadata]
+## Metadatos del artículo {#article-metadata}
 
 Identidad y presentación del artículo.
 
@@ -33,7 +33,7 @@ Identidad y presentación del artículo.
 | `date`        | `string`             | —                                               | Fecha ISO. Determina el orden en las secciones de blog.                                                               |
 | `tags`        | `string[]`           | —                                               | Las secciones de blog lo usan para generar las páginas `<prefijo del blog>tags/<tag>/`, p. ej. `/blog/tags/release/`. |
 
-## Ajustes de la barra lateral [#sidebar-settings]
+## Ajustes de la barra lateral {#sidebar-settings}
 
 Cómo aparece el artículo en la navegación de la izquierda.
 
@@ -44,7 +44,7 @@ Cómo aparece el artículo en la navegación de la izquierda.
 | `toc`         | `boolean` | `true`                            | Si es false, oculta el índice de la derecha.                                                       |
 | `breadcrumbs` | `boolean` | `breadcrumbs` de la configuración | Si es false, oculta la ruta sobre el título; true la muestra aunque la configuración la desactive. |
 
-### Reglas de orden [#ordering-rules]
+### Reglas de orden {#ordering-rules}
 
 `order` usa un esquema de dos regiones:
 
@@ -54,7 +54,7 @@ Cómo aparece el artículo en la navegación de la izquierda.
 
 Así puedes fijar "Primeros pasos" arriba (`order: 1`) y "Preguntas frecuentes" abajo (`order: -1`) sin tocar el resto.
 
-## URL [#url]
+## URL {#url}
 
 | Campo      | Tipo     | Valor por defecto                                            | Propósito                                                                          |
 | ---------- | -------- | ------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
@@ -70,7 +70,7 @@ Sin `path`, la URL sale de la ubicación del archivo bajo el inicio fijo del glo
 
 Cada segmento se convierte en slug, así que `docs/Getting Started.md` pasa a ser `/getting-started/`. Dos artículos que acaban con la misma ruta hacen fallar la compilación, que nombra ambos archivos.
 
-## Enlace a la fuente [#source-link]
+## Enlace a la fuente {#source-link}
 
 La barra de herramientas de la página enlaza cada artículo con su fuente. Sin `sourceUrl`, el enlace va a la página de edición del archivo en GitHub, leída del `origin` de git del proyecto y de su rama por defecto; un proyecto que no es un repositorio de GitHub no muestra enlace.
 
@@ -79,7 +79,7 @@ La barra de herramientas de la página enlaza cada artículo con su fuente. Sin 
 | `sourceUrl`    | `string`           | La página de edición del archivo en GitHub | Adónde apunta el enlace a la fuente.                                                |
 | `sourceAction` | `"edit" \| "view"` | `"edit"`                                   | Rotula el enlace **Editar en GitHub** con un lápiz, o **Ver en GitHub** con un ojo. |
 
-## Formato [#format]
+## Formato {#format}
 
 | Campo    | Tipo            | Predeterminado                               | Propósito                                                                                       |
 | -------- | --------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------- |
@@ -87,11 +87,11 @@ La barra de herramientas de la página enlaza cada artículo con su fuente. Sin 
 
 El Markdown simple acepta cualquier texto: `{…}` se mantiene literal y el HTML en bruto se renderiza como HTML. MDX añade JSX y `{expresiones}`, así que una llave o un `<` sueltos en la prosa hacen fallar la compilación.
 
-## Sobrescribir sin editar [#overriding-without-editing]
+## Sobrescribir sin editar {#overriding-without-editing}
 
 Si no puedes modificar el frontmatter de un archivo (por ejemplo, un `README.md` que también sirve de portada en GitHub), puedes inyectar los mismos campos desde `livemark.config.ts` mediante [Article Patches](/es/customization/article-patches/).
 
-## Ver también [#see-also]
+## Ver también {#see-also}
 
 - [Article Sections](/es/customization/article-sections/) — cómo interactúan `order` y `date` con las secciones de blog y de registro de cambios.
 - [Article Patches](/es/customization/article-patches/) — define el frontmatter desde la configuración, sin tocar el archivo.

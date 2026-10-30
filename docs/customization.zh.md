@@ -10,7 +10,7 @@ order: 4
 
 Livemark 提供了一些可调节的入口，用来定制站点的外观、站点包含的内容，以及文件在构建过程中的流转方式。每个方面都有单独的页面。
 
-## 专题 [#topics]
+## 专题 {#topics}
 
 :::card{title="配置" href="/zh/customization/config-file/" icon="layers"}
 `livemark.config.ts` 基础：用于内容的 `include`/`exclude` glob。

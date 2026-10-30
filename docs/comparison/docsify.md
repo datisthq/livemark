@@ -36,7 +36,7 @@ Both tools accept Markdown. The asymmetry is in what can be embedded and how it 
 
 Docsify supports plain Markdown (CommonMark via `marked`) with a handful of built-in extensions: helpers (`> [!TIP]`-style callouts via the [`docsify-tabs`](https://jhildenbiddle.github.io/docsify-tabs/) and admonition plugins), HTML pass-through, and limited Vue-template-style directives if the optional Vue compiler is loaded. There is no MDX, no frontmatter parsing by default (a plugin can add it), and no per-page React components. Plugins are registered by pushing functions into `window.$docsify.plugins`, where they hook into the lifecycle (`init`, `mounted`, `beforeEach`, `afterEach`, `doneEach`, `ready`).
 
-Livemark accepts Markdown + MDX with full React component embedding, frontmatter as a first-class concept (`path`, `order`, `icon`, `sidebar`, `date`, `tags`), and remark/rehype plugins applied at build time.
+Livemark accepts Markdown + MDX with full React component embedding, frontmatter as a first-class concept (`path`, `order`, `icon`, `sidebar`, `date`, `tags`), compiled at build time by textlane.
 
 ## Feature matrix
 
@@ -50,7 +50,7 @@ Livemark accepts Markdown + MDX with full React component embedding, frontmatter
 | Sitemap                     | Yes                                      | No (third-party plugin)                      |
 | RSS                         | Yes (per blog section)                   | No                                           |
 | Themes                      | Component overrides via `.livemark/`     | CSS themes (`vue.css`, `buble.css`, etc.)    |
-| Plugins                     | Vite plugins + remark/rehype             | Runtime JS plugins on `window.$docsify`      |
+| Plugins                     | Vite plugins + textlane                  | Runtime JS plugins on `window.$docsify`      |
 | Custom routes               | `.livemark/routes/` (TanStack Router)    | No (URL maps 1:1 to file paths)              |
 | Standalone toolchain        | Node + npm                               | None at runtime; `docsify-cli` for init only |
 

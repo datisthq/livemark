@@ -7,7 +7,7 @@ order: 6
 
 # 富元素
 
-## 表格 [#tables]
+## 表格 {#tables}
 
 标准 GFM 表格，支持按列排序：点击任意表头即可排序：
 
@@ -29,7 +29,7 @@ order: 6
 | Rust       | 2010 | 静态     |
 | JavaScript | 1995 | 动态     |
 
-## 提示框 [#callouts]
+## 提示框 {#callouts}
 
 提示框用于突出显示重要信息。可用类型：note、tip、info、warning、danger。
 
@@ -82,7 +82,7 @@ This API has been removed in v2.
 该 API 已在 v2 中移除。
 :::
 
-## 可展开内容 [#expandable]
+## 可展开内容 {#expandable}
 
 使用 `:::details` 指令创建可展开的内容：
 
@@ -112,7 +112,7 @@ export default defineConfig({
 
 :::
 
-## 代码标签页 [#code-tabs]
+## 代码标签页 {#code-tabs}
 
 使用 `tab="name"` meta 将连续的代码块分组为标签页：
 
@@ -148,7 +148,7 @@ print("hello")
 ```
 ````
 
-## 内容标签页 [#content-tabs]
+## 内容标签页 {#content-tabs}
 
 使用 `:::tab` 指令将任意内容分组为标签页。连续的标签页会自动归为一组。
 
@@ -200,7 +200,7 @@ Vue 使用包含 template、script 和 style 三个部分的**单文件组件**�
 
 :::
 
-## 步骤 [#steps]
+## 步骤 {#steps}
 
 在标题后添加 `[step]`，即可创建带编号的分步指南：
 
@@ -220,19 +220,19 @@ Push to production.
 
 渲染效果：
 
-### 安装依赖 [#install-dependencies] [step]
+### 安装依赖 {#install-dependencies} [step]
 
 运行 `npm install` 安装所有必需的包。
 
-### 配置项目 [#configure-project] [step]
+### 配置项目 {#configure-project} [step]
 
 在项目根目录中创建配置文件。
 
-### 部署 [#deploy] [step]
+### 部署 {#deploy} [step]
 
 发布到生产环境。
 
-## 卡片 [#cards]
+## 卡片 {#cards}
 
 使用 `:::card` 指令创建内容卡片。连续的卡片会自动排列成网格。
 
@@ -266,7 +266,7 @@ Configure your Livemark project.
 本页介绍了所有 Markdown 功能。
 :::
 
-## 徽章 [#badges]
+## 徽章 {#badges}
 
 使用 `:badge` 指令添加行内状态徽章：
 
@@ -280,7 +280,7 @@ Configure your Livemark project.
 
 可用的变体：`default`、`secondary`、`positive`、`warning`、`destructive`、`outline`、`ghost`、`link`。
 
-## 按钮 [#buttons]
+## 按钮 {#buttons}
 
 使用 `::button` 叶子指令创建行动号召链接按钮：
 
@@ -310,7 +310,7 @@ Configure your Livemark project.
 
 可用的变体：`default`、`outline`、`secondary`、`ghost`、`positive`、`warning`、`destructive`、`link`。可用的尺寸：`default`、`sm`、`lg`。
 
-## 图标 [#icons]
+## 图标 {#icons}
 
 使用 `:icon` 指令插入来自 Lucide 图标库的行内图标：
 
@@ -332,7 +332,7 @@ Configure your Livemark project.
 
 :icon{name="check" className="text-positive"} 通过 :icon{name="x" className="text-destructive"} 失败 :icon{name="star" className="text-warning"} 星标
 
-## 文件树 [#file-tree]
+## 文件树 {#file-tree}
 
 使用 `:::filetree` 指令展示文件和目录结构。目录以末尾的 `/` 表示：
 
@@ -367,7 +367,7 @@ Configure your Livemark project.
 
 :::
 
-## 分栏 [#columns]
+## 分栏 {#columns}
 
 使用连续的 `:::column` 指令将内容并排排列。它们会自动排列成网格：
 

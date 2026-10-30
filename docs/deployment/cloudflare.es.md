@@ -14,7 +14,7 @@ Cloudflare Workers puede servir directamente un directorio de recursos estático
 Esta guía publica la salida estática prerenderizada. Livemark está construido sobre [TanStack Start](https://tanstack.com/start), que también admite SSR totalmente dinámico en Cloudflare Workers mediante un preset de Nitro: `.livemark/build/` se convierte en un bundle de Worker desplegable. Consulta [TanStack Start → Hosting](https://tanstack.com/start/latest/docs/framework/react/guide/hosting) para hacer el cambio.
 :::
 
-## Compila el sitio [#build-the-site]
+## Compila el sitio {#build-the-site}
 
 ```bash
 livemark build
@@ -22,7 +22,7 @@ livemark build
 
 La salida queda en `.livemark/build/client/`.
 
-## Configura `wrangler.jsonc` [#configure-wranglerjsonc]
+## Configura `wrangler.jsonc` {#configure-wranglerjsonc}
 
 Coloca esto en la raíz de tu proyecto:
 
@@ -44,7 +44,7 @@ Dos campos hacen el trabajo pesado:
 | `assets.directory` | Apunta Wrangler a la salida de compilación de Livemark. Cada archivo se sirve tal cual. |
 | `workers_dev`      | Te da una URL de vista previa `<name>.<account>.workers.dev` mientras pruebas.          |
 
-## Despliega desde tu máquina [#deploy-from-your-machine]
+## Despliega desde tu máquina {#deploy-from-your-machine}
 
 ```bash
 livemark build
@@ -53,7 +53,7 @@ wrangler deploy
 
 La primera ejecución te pide `wrangler login` para autorizar el acceso a tu cuenta de Cloudflare.
 
-## Despliega con GitHub Actions [#deploy-with-github-actions]
+## Despliega con GitHub Actions {#deploy-with-github-actions}
 
 ```yaml title=".github/workflows/deploy.yaml"
 name: deploy
@@ -82,7 +82,7 @@ jobs:
 
 Crea un token de API con alcance limitado en **My Profile → API Tokens** (la plantilla "Edit Cloudflare Workers" concede exactamente lo que necesitas) y guarda ambos valores como secretos del repositorio.
 
-## Dominio personalizado [#custom-domain]
+## Dominio personalizado {#custom-domain}
 
 Añade un bloque `routes` cuando tu zona esté en Cloudflare:
 
@@ -101,7 +101,7 @@ Añade un bloque `routes` cuando tu zona esté en Cloudflare:
 El propio `wrangler.jsonc` del repositorio de Livemark es una referencia que funciona; consulta la [raíz del proyecto](https://github.com/datisthq/livemark/blob/main/wrangler.jsonc).
 :::
 
-## Markdown para agentes [#markdown-for-agents]
+## Markdown para agentes {#markdown-for-agents}
 
 Los agentes de IA piden una página como Markdown enviando `Accept: text/markdown`. Los recursos estáticos siempre responden con HTML, así que añade a tu zona una URL Rewrite Rule que dirija esas peticiones al [gemelo Markdown](/es/customization/ai-agents/) de la página. Las URL Rewrite Rules están disponibles en todos los planes, incluido el gratuito, y el sitio sigue siendo totalmente estático.
 
@@ -124,7 +124,7 @@ Las URLs de las páginas terminan en `/`, así que la regla solo afecta a las p�
 Despliega una compilación que contenga los gemelos antes de activar la regla. De lo contrario, un agente que pida Markdown recibirá un 404.
 :::
 
-## Ver también [#see-also]
+## Ver también {#see-also}
 
 - [Agentes de IA](/es/customization/ai-agents/): lo que la compilación publica para los agentes.
 

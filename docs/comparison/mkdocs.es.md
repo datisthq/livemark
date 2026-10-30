@@ -11,7 +11,7 @@ order: 7
 
 [MkDocs](https://www.mkdocs.org) es un generador de documentación basado en Python. El contenido es Markdown plano, las plantillas son de Jinja2 y los temas son paquetes de Python instalables con pip. El tema de facto es [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/), que es lo que usa en realidad la mayoría.
 
-## De un vistazo [#at-a-glance]
+## De un vistazo {#at-a-glance}
 
 | Eje                             | Livemark                                     | MkDocs                                                 |
 | ------------------------------- | -------------------------------------------- | ------------------------------------------------------ |
@@ -22,7 +22,7 @@ order: 7
 | Licencia                        | MIT, autoalojado                             | BSD-2-Clause, autoalojado                              |
 | Modelo de salida                | Estático prerenderizado (compatible con SSR) | Estático prerenderizado                                |
 
-## Arquitectura [#architecture]
+## Arquitectura {#architecture}
 
 Livemark se apoya en Vite, TanStack Start y React. La redacción sigue las convenciones de JS/TS (`livemark.config.ts`, plugins instalables con npm, componentes MDX escritos en React).
 
@@ -32,7 +32,7 @@ Material for MkDocs añade un tema cuidado, un índice de búsqueda basado en lu
 
 En Livemark la organización del contenido no tiene restricciones: escanea mediante glob (`include`/`exclude` en `livemark.config.ts`), y la URL de cada artículo sigue la ubicación del archivo bajo su glob de `include`, salvo que la fije un campo `path:` del frontmatter. No hace falta una carpeta `docs/`: un proyecto puede tomar artículos de `README.md`, `docs/`, `blog/`, los README de paquetes o cualquier otro lugar. MkDocs lee de `docs/` (configurable mediante `docs_dir` en `mkdocs.yml`), con rutas derivadas de las rutas de archivo dentro de ese directorio.
 
-## Superficie de contenido [#content-surface]
+## Superficie de contenido {#content-surface}
 
 Ambas herramientas aceptan Markdown con frontmatter. La gran asimetría está en la inserción de componentes: Livemark acepta MDX (componentes React en archivos `.mdx`); MkDocs solo acepta Markdown.
 
@@ -40,7 +40,7 @@ MkDocs amplía Markdown mediante extensiones de Python-Markdown (admoniciones, p
 
 La forma del frontmatter difiere: MkDocs lee `title`, `summary`, `tags` (con un plugin), `template`, y usa `mkdocs.yml` para la navegación. Livemark usa `path`, `order`, `icon`, `sidebar`, `date`, `tags`.
 
-## Matriz de funcionalidades [#feature-matrix]
+## Matriz de funcionalidades {#feature-matrix}
 
 | Capacidad                     | Livemark                                      | MkDocs (Material)                          |
 | ----------------------------- | --------------------------------------------- | ------------------------------------------ |
@@ -52,15 +52,15 @@ La forma del frontmatter difiere: MkDocs lee `title`, `summary`, `tags` (con un 
 | Sitemap                       | Sí                                            | Sí                                         |
 | RSS                           | Sí (por sección de blog)                      | Mediante plugin                            |
 | Temas                         | Sobrescritura de componentes vía `.livemark/` | Paquetes de temas + sobrescritura de Jinja |
-| Plugins                       | Plugins de Vite + remark/rehype               | Plugins de Python (`mkdocs-*` en PyPI)     |
+| Plugins                       | Plugins de Vite + textlane                    | Plugins de Python (`mkdocs-*` en PyPI)     |
 | Rutas personalizadas          | `.livemark/routes/` (TanStack Router)         | No (solo contenido)                        |
 | Cadena de herramientas propia | Node + npm                                    | Python + pip                               |
 
-## Salida y despliegue [#output--deployment]
+## Salida y despliegue {#output--deployment}
 
 Ambas herramientas producen HTML estático + recursos listos para cualquier hosting estático. MkDocs emite en `site/` por defecto; Livemark emite en `.livemark/build/client/`. El alojamiento es igual en ambos casos; consulta [Despliegue](/es/deployment/) de Livemark para las guías por hosting.
 
-## Ver también [#see-also]
+## Ver también {#see-also}
 
 - [Redacción](/es/authoring/): la superficie Markdown de Livemark.
 - [Personalización](/es/customization/): las opciones de configuración de Livemark y la sobrescritura de componentes.

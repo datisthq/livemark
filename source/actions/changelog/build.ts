@@ -4,9 +4,9 @@ import { dirname, join, resolve } from "node:path"
 import slugify from "@sindresorhus/slugify"
 import type { Root, RootContent } from "mdast"
 import { toString as mdastToString } from "mdast-util-to-string"
-import remarkParse from "remark-parse"
-import remarkStringify from "remark-stringify"
-import { unified } from "unified"
+import { textlane } from "textlane"
+import type { Node } from "textlane"
+import * as md from "textlane/md"
 import { visit } from "unist-util-visit"
 import type { Config } from "../../models/config.ts"
 import type { ChangelogSection } from "../../models/section.ts"
@@ -34,12 +34,10 @@ interface ChangelogEntry {
   sourceUrl?: string
 }
 
-const parser = unified().use(remarkParse)
-const stringifier = unified().use(remarkStringify, {
-  bullet: "-",
-  fences: true,
-  emphasis: "_",
-})
+const parser = textlane().use(md.parse()).freeze()
+const stringifier = textlane()
+  .use(md.stringify({ bullet: "-", fences: true, emphasis: "_" }))
+  .freeze()
 
 /** Glob (absolute path) covering the cached changelog markdown files of
  *  one changelog section. Used by content-collections to include them in
@@ -94,7 +92,7 @@ async function buildFromLocal(source: string, root: string) {
 
 /** Parse CHANGELOG.md into per-version entries using mdast */
 export function splitLocalChangelog(body: string): ChangelogEntry[] {
-  const tree = parser.parse(body) as Root
+  const tree = parseMarkdown(body)
   const entries: ChangelogEntry[] = []
   let current: { heading: string; children: RootContent[] } | undefined
 
@@ -126,10 +124,20 @@ function finalizeEntry(input: {
   }
 }
 
+// textlane types its trees as JSON nodes with any fields, which mdast's types do not
+// convert to or from without going through `unknown`
+function parseMarkdown(body: string) {
+  return parser.parse(body) as unknown as Root
+}
+
+function stringifyMarkdown(tree: Root) {
+  return stringifier.stringify(tree as unknown as Node)
+}
+
 /** Serialize an entry's mdast children back to markdown */
 function renderEntryBody(children: RootContent[]) {
   const root: Root = { type: "root", children }
-  return stringifier.stringify(root).trimEnd()
+  return stringifyMarkdown(root).trimEnd()
 }
 
 /** Drop the body's leading h1 (typically the conventional-changelog
@@ -137,14 +145,14 @@ function renderEntryBody(children: RootContent[]) {
  * shift h2–h6 up by one so subsection headings become h1 / h2 / …, and
  * escape stray `<` outside code so MDX doesn't mistake them for JSX. */
 function processBody(body: string) {
-  const tree = parser.parse(body) as Root
+  const tree = parseMarkdown(body)
   visit(tree, "heading", node => {
     if (node.depth > 1) node.depth = (node.depth - 1) as 1 | 2 | 3 | 4 | 5
   })
   if (tree.children[0]?.type === "heading" && tree.children[0].depth === 1) {
     tree.children.shift()
   }
-  return escapeMdxAngles(stringifier.stringify(tree).trimEnd())
+  return escapeMdxAngles(stringifyMarkdown(tree).trimEnd())
 }
 
 /** Escape `<` to `&lt;` outside fenced code blocks and inline backtick spans

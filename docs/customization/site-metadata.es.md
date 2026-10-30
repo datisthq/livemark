@@ -10,7 +10,7 @@ order: 2
 
 Unos pocos campos de nivel superior en `livemark.config.ts` describen tu sitio a los navegadores, los buscadores y las tarjetas para redes sociales.
 
-## Campos [#fields]
+## Campos {#fields}
 
 ```typescript title="livemark.config.ts"
 import { defineConfig } from "livemark"
@@ -37,11 +37,11 @@ export default defineConfig({
 | `banner`      | `string` | —                           | Franja de anuncio sobre la cabecera en todas las páginas                    |
 | `head`        | `object` | —                           | `meta`, `links` y `scripts` adicionales en el `<head>` de todas las páginas |
 
-## Sitemap y `site` [#sitemap-and-site]
+## Sitemap y `site` {#sitemap-and-site}
 
 Si `site` está definido, Livemark genera un `sitemap.xml` en la raíz de tu salida durante `livemark build`, usando `site` como origen absoluto de cada URL. Sin `site`, se omite la generación del sitemap.
 
-## Logo y favicon [#logo-and-favicon]
+## Logo y favicon {#logo-and-favicon}
 
 - `logo` y `favicon` aceptan cualquier URL o ruta relativa a la raíz (`/logo.svg`). Los recursos colocados en `.livemark/public/` se sirven en `/…` y funcionan bien aquí.
 - Si se omite `favicon`, Livemark recurre a `logo` y, por último, a su marca incluida.
@@ -51,7 +51,7 @@ Si `site` está definido, Livemark genera un `sitemap.xml` en la raíz de tu sal
 Mantén pequeño el archivo de `logo` (lo ideal es un SVG). Se incrusta en la cabecera de todas las páginas.
 :::
 
-## Banner [#banner]
+## Banner {#banner}
 
 `banner` muestra una franja a todo lo ancho sobre la cabecera en todas las páginas; desaparece al desplazarte mientras la cabecera permanece fija. El valor es Markdown en línea —enlaces, `**bold**`, `_emphasis_` y `` `code` ``—, así que un anuncio de una línea no necesita ningún componente personalizado:
 
@@ -63,11 +63,11 @@ banner: "Livemark is in technical preview · [Share feedback →](https://github
 - Las etiquetas HTML sin procesar se descartan. Para iconos o marcado personalizado, escapa `components/Banner.tsx` en su lugar ([Sobrescritura/Escape](/es/customization/overriding-escaping/)).
 - La franja usa los tokens de color `--banner` y `--banner-foreground`.
 
-## Etiquetas por página [#per-page-tags]
+## Etiquetas por página {#per-page-tags}
 
 Cada página de artículo sobrescribe los valores por defecto del sitio con sus propios `<title>`, `description`, `og:title`, `og:description` y `og:type` (`article`). Con `site` definido, también recibe `og:url`, un `<link rel="canonical">` y, a partir del `image` del frontmatter, un `og:image` absoluto.
 
-## Etiquetas head adicionales [#extra-head-tags]
+## Etiquetas head adicionales {#extra-head-tags}
 
 `head` añade etiquetas a todas las páginas, después de las predeterminadas. Una entrada `meta` con el mismo `name` o `property` que una predeterminada la reemplaza:
 
@@ -95,7 +95,7 @@ export function customizeHead(head: RootHead) {
 }
 ```
 
-## Ver también [#see-also]
+## Ver también {#see-also}
 
 - [Enlaces externos](/es/customization/external-links/): enlaces de cabecera y barra lateral que viven junto al título.
 - [Secciones de artículos](/es/customization/article-sections/): cómo estructurar el contenido del propio sitio.

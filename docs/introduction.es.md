@@ -8,7 +8,7 @@ order: 1
 
 Livemark convierte Markdown simple en un sitio de documentación rápido y moderno. Apúntalo a una carpeta de archivos `.md` y te da un sitio React + Vite desplegable con búsqueda, resaltado de sintaxis, secciones de blog y registro de cambios, modo oscuro y una biblioteca de componentes personalizable, todo integrado.
 
-## Lo que obtienes [#what-you-get]
+## Lo que obtienes {#what-you-get}
 
 - **Solo escribe Markdown.** El Markdown al estilo GitHub funciona de serie, con frontmatter, IDs de encabezado personalizados, notas al pie, listas de definiciones y gemoji.
 - **Bloques de código preciosos.** Resaltado de sintaxis con [Shiki](https://shiki.style/) para más de 100 lenguajes, temas duales claro/oscuro, líneas resaltadas, diffs y pistas de tipos con TwoSlash.
@@ -19,17 +19,17 @@ Livemark convierte Markdown simple en un sitio de documentación rápido y moder
 - **Personalizable con temas.** Tailwind v4, primitivas al estilo shadcn, modo oscuro y sobrescrituras por archivo mediante una carpeta `.livemark/`.
 - **Construido sobre TanStack Start.** SSR, prerenderizado, sitemap y enrutado gratis.
 
-## Inicio rápido [#quick-start]
+## Inicio rápido {#quick-start}
 
 Necesitas [Node.js](https://nodejs.org/) 24+ y un gestor de paquetes (pnpm, npm, yarn o bun).
 
-### Instalación [#install]
+### Instalación {#install}
 
 ```bash
 npm install livemark
 ```
 
-### Configuración [#configure]
+### Configuración {#configure}
 
 Crea `livemark.config.ts` en la raíz de tu proyecto:
 
@@ -43,7 +43,7 @@ export default defineConfig({
 })
 ```
 
-### Añade contenido [#add-content]
+### Añade contenido {#add-content}
 
 ```text title="docs/"
 docs/
@@ -66,7 +66,7 @@ order: 1
 Welcome!
 ```
 
-### Ejecuta [#run]
+### Ejecuta {#run}
 
 ```bash
 npx livemark start    # dev server with HMR at http://localhost:8000 (--host: also on the LAN, --open: in the browser)
@@ -77,7 +77,7 @@ npx livemark clear    # wipe the generated .livemark/.serve/, .build/ and .cache
 
 Ese es todo el ciclo. Añade `.livemark/build/` a tu `.gitignore`.
 
-## Estructura del proyecto [#project-structure]
+## Estructura del proyecto {#project-structure}
 
 Un sitio Livemark típico:
 
@@ -92,7 +92,7 @@ my-project/
 
 Todo lo que pongas en `.livemark/components/`, `.livemark/elements/` o `.livemark/styles/` sustituye al valor por defecto de Livemark con la misma ruta, así que puedes personalizar componentes, primitivas y CSS base sin hacer un fork del paquete. Ejecuta `npx livemark escape <path>` para copiar un archivo por defecto a `.livemark/`, listo para editar.
 
-## Personalización [#customization]
+## Personalización {#customization}
 
 Livemark está pensado para verse genial sin configuración y no estorbarte cuando necesitas más. Personalizaciones habituales:
 
@@ -104,7 +104,7 @@ Livemark está pensado para verse genial sin configuración y no estorbarte cuan
 - **Escape**: sustituye cualquier componente u hoja de estilos integrados desde tu proyecto. Consulta [Escape](/es/customization/overriding-escaping/).
 - **Rutas personalizadas**: coloca un archivo `.tsx` en `.livemark/routes/` para añadir una página totalmente personalizada. Consulta [Rutas personalizadas](/es/customization/custom-routes/).
 
-## Documentación [#documentation]
+## Documentación {#documentation}
 
 La documentación completa está en **[livemark.dev](https://livemark.dev)**:
 
@@ -113,13 +113,13 @@ La documentación completa está en **[livemark.dev](https://livemark.dev)**:
 - [Registro de cambios](/changelog/): notas de las versiones
 - [Contribuir](/es/contributing/): configuración local y flujo de PR
 
-## Recursos [#resources]
+## Recursos {#resources}
 
 - **npm**: [npmjs.com/package/livemark](https://www.npmjs.com/package/livemark)
 - **GitHub**: [github.com/datisthq/livemark](https://github.com/datisthq/livemark)
 - **Issues**: [github.com/datisthq/livemark/issues](https://github.com/datisthq/livemark/issues)
 - **Discusiones**: [github.com/datisthq/livemark/discussions](https://github.com/datisthq/livemark/discussions)
 
-## Licencia [#license]
+## Licencia {#license}
 
 MIT; consulta [LICENSE.md](https://github.com/datisthq/livemark/blob/main/LICENSE.md).

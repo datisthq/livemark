@@ -11,7 +11,7 @@ order: 6
 
 [Nextra](https://nextra.site) es un framework de documentación para Next.js con una arquitectura de paquetes de temas. Nació sobre el Pages Router y ha migrado para admitir también el App Router. Los sitios de documentación eligen un tema (`nextra-theme-docs` para documentación, `nextra-theme-blog` para blogs) y lo configuran.
 
-## De un vistazo [#at-a-glance]
+## De un vistazo {#at-a-glance}
 
 | Eje                             | Livemark                                     | Nextra                            |
 | ------------------------------- | -------------------------------------------- | --------------------------------- |
@@ -22,7 +22,7 @@ order: 6
 | Licencia                        | MIT, autoalojado                             | MIT, autoalojado                  |
 | Modelo de salida                | Estático prerenderizado (compatible con SSR) | Estático o SSR (modos de Next.js) |
 
-## Arquitectura [#architecture]
+## Arquitectura {#architecture}
 
 Livemark es una CLI sobre Vite + TanStack Start: una herramienta, un archivo de configuración, contenido en archivos `.md`.
 
@@ -32,7 +32,7 @@ Nextra es una capa sobre una aplicación Next.js existente. La puesta en marcha 
 
 En Livemark la organización del contenido no tiene restricciones: escanea mediante glob (`include`/`exclude` en `livemark.config.ts`), y la URL de cada artículo sigue la ubicación del archivo bajo su glob de `include`, salvo que la fije un campo `path:` del frontmatter. No hace falta una carpeta `docs/`: un proyecto puede tomar artículos de `README.md`, `docs/`, `blog/`, los README de paquetes o cualquier otro lugar. Nextra lee el contenido de `pages/` (Pages Router) o `content/` (App Router), con rutas determinadas por las rutas de archivo y los archivos `_meta.json` que los acompañan.
 
-## Superficie de contenido [#content-surface]
+## Superficie de contenido {#content-surface}
 
 Ambas herramientas aceptan Markdown + MDX con frontmatter y componentes React insertados.
 
@@ -40,7 +40,7 @@ Nextra admite MDX remoto mediante `next-mdx-remote`, KaTeX/Mermaid mediante plug
 
 La forma del frontmatter difiere: Nextra usa `title`, `description`, `searchable`, `hide_title`, más un `_meta.json` por directorio para la navegación. Livemark usa frontmatter en línea para todo (`path`, `order`, `icon`, `sidebar`, `date`, `tags`) y un único `livemark.config.ts` para la navegación del sitio.
 
-## Matriz de funcionalidades [#feature-matrix]
+## Matriz de funcionalidades {#feature-matrix}
 
 | Capacidad                   | Livemark                                      | Nextra                                                     |
 | --------------------------- | --------------------------------------------- | ---------------------------------------------------------- |
@@ -55,13 +55,13 @@ La forma del frontmatter difiere: Nextra usa `title`, `description`, `searchable
 | Rutas personalizadas        | `.livemark/routes/` (TanStack Router)         | Cualquier página/ruta de Next                              |
 | CLI propia                  | Sí (`livemark build`)                         | No (comandos de Next.js)                                   |
 
-## Salida y despliegue [#output--deployment]
+## Salida y despliegue {#output--deployment}
 
 Livemark prerenderiza cada ruta en tiempo de compilación; la salida queda en `.livemark/build/client/` y se despliega en cualquier hosting estático (consulta [Despliegue](/es/deployment/)).
 
 Nextra hereda los modos de salida de Next.js. La configuración más habitual para documentación es la exportación estática completa (`output: 'export'`), que produce un directorio estático desplegable en cualquier sitio. Las configuraciones con SSR apuntan a Vercel o a hostings de Node.
 
-## Ver también [#see-also]
+## Ver también {#see-also}
 
 - [Redacción](/es/authoring/): la superficie Markdown de Livemark.
 - [Personalización](/es/customization/): las opciones de configuración de Livemark y la sobrescritura de componentes.

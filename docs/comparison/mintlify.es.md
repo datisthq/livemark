@@ -11,7 +11,7 @@ order: 3
 
 [Mintlify](https://mintlify.com) es una plataforma comercial de documentación. El contenido se escribe en MDX dentro de un repositorio Git; Mintlify aloja el sitio renderizado, la búsqueda y las analíticas. El precio es por editor, con un plan gratuito para proyectos de código abierto.
 
-## De un vistazo [#at-a-glance]
+## De un vistazo {#at-a-glance}
 
 | Eje                             | Livemark                                     | Mintlify                                                                                     |
 | ------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------- |
@@ -22,7 +22,7 @@ order: 3
 | Licencia                        | MIT, autoalojado                             | Propietaria, solo alojado                                                                    |
 | Modelo de salida                | Estático prerenderizado (compatible con SSR) | Alojado en la infraestructura de Mintlify                                                    |
 
-## Arquitectura [#architecture]
+## Arquitectura {#architecture}
 
 Livemark es una CLI de Node que compila un sitio estático que puedes alojar donde quieras. Tanto el código fuente como la salida son tuyos.
 
@@ -30,7 +30,7 @@ Mintlify es un SaaS alojado. Haces commit de MDX + una configuración `mint.json
 
 En Livemark la organización del contenido no tiene restricciones: escanea mediante glob (`include`/`exclude` en `livemark.config.ts`), y la URL de cada artículo sigue la ubicación del archivo bajo su glob de `include`, salvo que la fije un campo `path:` del frontmatter. No hace falta una carpeta `docs/`: un proyecto puede tomar artículos de `README.md`, `docs/`, `blog/`, los README de paquetes o cualquier otro lugar. Mintlify espera que el árbol de archivos coincida con el bloque `navigation` de `mint.json`; las rutas reflejan las rutas de archivo bajo la raíz de contenido configurada.
 
-## Superficie de contenido [#content-surface]
+## Superficie de contenido {#content-surface}
 
 Ambas herramientas aceptan Markdown + MDX con frontmatter e inserción de componentes.
 
@@ -40,7 +40,7 @@ Las directivas de Livemark (`:::card`, `:::tab`, `:::steps`) producen el mismo t
 
 El `mint.json` de Mintlify configura la navegación, la marca y las integraciones en un único archivo declarativo. Livemark usa `livemark.config.ts` para ese mismo papel, más superposiciones en `.livemark/` para personalizar archivo a archivo.
 
-## Matriz de funcionalidades [#feature-matrix]
+## Matriz de funcionalidades {#feature-matrix}
 
 | Capacidad                   | Livemark                                      | Mintlify                                     |
 | --------------------------- | --------------------------------------------- | -------------------------------------------- |
@@ -57,13 +57,13 @@ El `mint.json` de Mintlify configura la navegación, la marca y las integracione
 | Rutas personalizadas        | `.livemark/routes/`                           | No (solo contenido)                          |
 | Autoalojamiento             | Sí                                            | No                                           |
 
-## Salida y despliegue [#output--deployment]
+## Salida y despliegue {#output--deployment}
 
 Livemark compila un directorio estático que despliegas en cualquier hosting; consulta [Despliegue](/es/deployment/).
 
 Los despliegues de Mintlify los gestiona Mintlify. No compilas ni alojas la salida tú mismo; la plataforma sirve el sitio renderizado desde su CDN y se encarga de TLS, dominios y vistas previas. Desvincularte de Mintlify implica reescribir o migrar el contenido a otro lugar.
 
-## Ver también [#see-also]
+## Ver también {#see-also}
 
 - [Redacción](/es/authoring/): la superficie Markdown de Livemark.
 - [Personalización](/es/customization/): las opciones de configuración de Livemark y la sobrescritura de componentes.

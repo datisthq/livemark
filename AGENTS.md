@@ -78,7 +78,7 @@ Everything the package runs is under `source/`; Node loads `build/*.js`, while V
 - `actions/<entity>/<verb>.ts` — build-time **operations** (load and define config, build the changelog, prepare the target)
 - `commands/<command>.ts` — one per `livemark <command>`, wired in `program.ts` and started from `entrypoints/main.ts`
 - `components/` — Livemark UI, escapable · `elements/` — shadcn-style primitives, escapable · `styles/` — base CSS, escapable
-- `routes/` — TanStack Start routes, escapable · `plugins/` — remark, rehype, shiki and Vite plugins
+- `routes/` — TanStack Start routes, escapable · `plugins/` — Vite plugins and the twoslash stage · `actions/processor/` — the textlane pipeline
 - `models/<entity>.ts` — zod schemas plus derived types · `content/` — content-collections derivations
 - `messages/<code>.ts` — bundled UI strings per language; English is the defaults of `models/message.ts`
 - `helpers/<name>.ts` — internal utilities · `hooks/` — React hooks exposed through `exports`

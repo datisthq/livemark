@@ -1,12 +1,3 @@
-interface HastElement {
-  properties: Record<string, unknown>
-}
-
-interface ShikiTransformer {
-  name: string
-  pre: (this: { options: { lang?: string } }, pre: HastElement) => HastElement | void
-}
-
 type Icon = { viewBox: string; fill: string; d: string }
 
 const shortcuts: Record<string, string> = {
@@ -59,21 +50,10 @@ const icons: Record<string, Icon> = {
   },
 }
 
-/**
- * Shiki transformer that injects a language icon SVG into the pre element.
- */
-export function transformerIcon(): ShikiTransformer {
-  return {
-    name: "livemark:icon",
-    pre(pre) {
-      const lang = this.options.lang
-      if (!lang) return
-
-      const iconName = lang in shortcuts ? shortcuts[lang]! : lang
-      const icon = iconName in icons ? icons[iconName]! : icons.default!
-
-      pre.properties.icon = `<svg viewBox="${icon.viewBox}"><path d="${icon.d}" fill="${icon.fill}" /></svg>`
-      return pre
-    },
-  }
+/** The SVG icon of a code block's language, a file icon for one without its own */
+export function readCodeIcon(lang: string | undefined) {
+  const name = lang && lang in shortcuts ? shortcuts[lang] : lang
+  const icon = (name && icons[name]) || icons.default
+  if (!icon) return undefined
+  return `<svg viewBox="${icon.viewBox}"><path d="${icon.d}" fill="${icon.fill}" /></svg>`
 }

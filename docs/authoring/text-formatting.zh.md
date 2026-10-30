@@ -7,7 +7,7 @@ order: 5
 
 # 文本格式
 
-## 粗体与斜体 [#bold-and-italic]
+## 粗体与斜体 {#bold-and-italic}
 
 ```md
 **bold text** and _italic text_ and **_bold italic_**
@@ -15,7 +15,7 @@ order: 5
 
 渲染效果：**粗体文本**、_斜体文本_ 和 **_粗斜体_**
 
-## 删除线 [#strikethrough]
+## 删除线 {#strikethrough}
 
 ```md
 ~~deleted text~~
@@ -23,7 +23,7 @@ order: 5
 
 渲染效果：~~已删除的文本~~
 
-## 行内代码 [#inline-code]
+## 行内代码 {#inline-code}
 
 ```md
 Use `const x = 1` for inline code.
@@ -31,19 +31,19 @@ Use `const x = 1` for inline code.
 
 渲染效果：使用 `const x = 1` 表示行内代码。
 
-## 行内代码高亮 [#inline-code-highlighting]
+## 行内代码高亮 {#inline-code-highlighting}
 
-使用 `{:lang}` 前缀为行内代码添加特定语言的语法高亮：
+使用 `{:lang}` 后缀为行内代码添加特定语言的语法高亮：
 
 ```md
-Use `{:ts}const x = 1` for inline TypeScript or `{:py}print("hello")` for Python.
+Use `const x = 1{:ts}` for inline TypeScript or `print("hello"){:py}` for Python.
 ```
 
 渲染效果：
 
-使用 `{:ts}const x = 1` 表示行内 TypeScript，或使用 `{:py}print("hello")` 表示 Python。
+使用 `const x = 1{:ts}` 表示行内 TypeScript，或使用 `print("hello"){:py}` 表示 Python。
 
-## 引用块 [#blockquotes]
+## 引用块 {#blockquotes}
 
 ```md
 > This is a blockquote.
@@ -53,7 +53,7 @@ Use `{:ts}const x = 1` for inline TypeScript or `{:py}print("hello")` for Python
 
 > 这是一个引用块。
 
-## 列表 [#lists]
+## 列表 {#lists}
 
 无序列表和有序列表：
 
@@ -65,7 +65,7 @@ Use `{:ts}const x = 1` for inline TypeScript or `{:py}print("hello")` for Python
 2. 第二步
 3. 第三步
 
-## 任务列表 [#task-lists]
+## 任务列表 {#task-lists}
 
 ```md
 - [x] Completed task
@@ -77,7 +77,7 @@ Use `{:ts}const x = 1` for inline TypeScript or `{:py}print("hello")` for Python
 - [x] 已完成的任务
 - [ ] 待完成的任务
 
-## 分隔线 [#horizontal-rules]
+## 分隔线 {#horizontal-rules}
 
 ```md
 ***
@@ -85,7 +85,7 @@ Use `{:ts}const x = 1` for inline TypeScript or `{:py}print("hello")` for Python
 
 ---
 
-## 脚注 [#footnotes]
+## 脚注 {#footnotes}
 
 使用 `[^id]` 引用和定义来添加脚注：
 
@@ -105,7 +105,7 @@ Here is a sentence with a footnote[^1] and another[^note].
 
 [^note]: 脚注也可以使用描述性的标识符。
 
-## 定义列表 [#definition-lists]
+## 定义列表 {#definition-lists}
 
 为术语给出对应的描述：
 
@@ -133,7 +133,7 @@ Unified
 : 使用语法树处理内容的接口
 : remark 和 rehype 共同的基础
 
-## 缩写 [#abbreviations]
+## 缩写 {#abbreviations}
 
 使用 `:abbr` 指令为缩写添加悬停提示：
 
@@ -145,7 +145,7 @@ The :abbr[HTML]{title="HyperText Markup Language"} standard is maintained by :ab
 
 :abbr[HTML]{title="HyperText Markup Language"} 标准由 :abbr[W3C]{title="World Wide Web Consortium"} 维护。
 
-## Emoji [#emoji]
+## Emoji {#emoji}
 
 使用 GitHub 风格的 emoji 短代码：
 

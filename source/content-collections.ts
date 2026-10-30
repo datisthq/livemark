@@ -3,56 +3,16 @@ import { existsSync } from "node:fs"
 import { basename, relative, resolve } from "node:path"
 import { DEFAULT_EXCLUDES } from "./settings.ts"
 import { defineCollection, defineConfig } from "@content-collections/core"
-import rehypeShiki from "@shikijs/rehype"
-import { transformerTwoslash } from "@shikijs/twoslash"
-import rehypeKatex from "rehype-katex"
-import rehypeSlug from "rehype-slug"
-import remarkDefinitionList from "remark-definition-list"
-import remarkDirective from "remark-directive"
-import remarkGemoji from "remark-gemoji"
-import remarkGfm from "remark-gfm"
-import remarkMath from "remark-math"
 import { compileArticle } from "./actions/article/compile.ts"
 import { loadConfig } from "./actions/config/load.ts"
 import { buildChangelog, cacheIncludeGlob } from "./actions/changelog/build.ts"
 import { Article } from "./models/article.ts"
-import remarkCustomHeadingId from "./plugins/remark-custom-heading-id.ts"
-import { remarkCallout } from "./plugins/remark-callout.ts"
-import { remarkCard } from "./plugins/remark-card.ts"
-import { remarkColumns } from "./plugins/remark-columns.ts"
-import { remarkTab } from "./plugins/remark-tab.ts"
-import { remarkBadge } from "./plugins/remark-badge.ts"
-import { remarkButton } from "./plugins/remark-button.ts"
-import { remarkAbbr } from "./plugins/remark-abbr.ts"
-import { remarkDeflist } from "./plugins/remark-deflist.ts"
-import { remarkDetails } from "./plugins/remark-details.ts"
-import { remarkFiletree } from "./plugins/remark-filetree.ts"
-import { remarkIcon } from "./plugins/remark-icon.ts"
-import { remarkCodeTabs } from "./plugins/remark-code-tabs.ts"
-import { remarkGithubCallout } from "./plugins/remark-github-callout.ts"
-import { remarkImage } from "./plugins/remark-image.ts"
-import { remarkMedia } from "./plugins/remark-media.ts"
-import { remarkAnsi } from "./plugins/remark-ansi.ts"
-import { remarkMermaid } from "./plugins/remark-mermaid.ts"
-import { remarkToc } from "./plugins/remark-toc.ts"
-import { remarkNpm } from "./plugins/remark-npm.ts"
-import { remarkSteps } from "./plugins/remark-steps.ts"
-import { remarkPassthroughDirective } from "./plugins/remark-passthrough-directive.ts"
-import {
-  transformerLineHighlight,
-  transformerNotations,
-} from "./plugins/shiki-line-highlight.ts"
-import { rehypeInlineCode } from "./plugins/rehype-inline-code.ts"
-import { rehypeTaskListA11y } from "./plugins/rehype-task-list-a11y.ts"
-import { transformerIcon } from "./plugins/shiki-icon.ts"
 import { buildEditUrl, readRepository } from "./helpers/edit-url.ts"
 import { resolveArticlePath } from "./helpers/article-path.ts"
 import { resolveAssetPath } from "./helpers/resolve-asset-path.ts"
 import { resolveIncludes } from "./helpers/resolve-includes.ts"
-import { collectFenceLanguages } from "./helpers/fence-languages.ts"
 import { extractSearchText } from "./helpers/search-text.ts"
 import { stripLeadingH1 } from "./helpers/llms.ts"
-import { extractToc } from "./helpers/toc.ts"
 import {
   buildSites,
   detectLanguage,
@@ -170,91 +130,11 @@ const articles = defineCollection({
     // a content patch overrides the title to something different from the
     // body's own heading).
     const bodyContent = stripLeadingH1(content)
-    const mdx = await compileArticle(
+    const { mdx, tocItems } = await compileArticle(
       context,
       { ...doc, content: bodyContent },
-      {
-        format: doc.format,
-        remarkPlugins: [
-          remarkGfm,
-          remarkGemoji,
-          remarkDefinitionList,
-          remarkDeflist,
-          remarkMath,
-          remarkDirective,
-          remarkCallout,
-          remarkCard,
-          remarkColumns,
-          remarkTab,
-          remarkDetails,
-          remarkFiletree,
-          remarkIcon,
-          remarkBadge,
-          remarkButton,
-          remarkAbbr,
-          remarkGithubCallout,
-          [
-            remarkImage,
-            {
-              filePath: resolve(config.root, doc._meta.filePath),
-              root: config.root,
-              base: config.base,
-            },
-          ],
-          remarkAnsi,
-          remarkMermaid,
-          remarkMedia,
-          remarkToc,
-          remarkNpm,
-          remarkCodeTabs,
-          remarkSteps,
-          remarkCustomHeadingId,
-          // Run last: anything still typed as a directive after every handler
-          // above is unintended (e.g. `3.2:1`, `port:8080`) — passthrough as
-          // plain text so it doesn't render as an empty span/div.
-          remarkPassthroughDirective,
-        ],
-        rehypePlugins: [
-          [
-            rehypeShiki,
-            {
-              themes: {
-                light: config.codeThemeLight,
-                dark: config.codeThemeDark,
-              },
-              // A fence with no or an unknown lang is otherwise skipped by Shiki and
-              // renders without line padding, theme colours or transformers.
-              defaultLanguage: "text",
-              fallbackLanguage: "text",
-              // Without `langs`, Shiki compiles all ~360 bundled grammars up front (~4 s).
-              // `lazy` covers fences a remark plugin generates, which the scan cannot see.
-              langs: await collectFenceLanguages(bodyContent),
-              lazy: true,
-              // Darken catppuccin-latte's green (the colour used for strings and
-              // some comments) — the theme default #40A02B lands at 3.2:1 on the
-              // code-block background, below the WCAG AA 4.5:1 threshold.
-              colorReplacements: {
-                "catppuccin-latte": {
-                  "#40a02b": "#2a7e16",
-                },
-              },
-              transformers: [
-                transformerTwoslash({ explicitTrigger: true }),
-                transformerIcon(),
-                transformerNotations(),
-                transformerLineHighlight(),
-              ],
-              parseMetaString: (meta: string) => ({ "data-meta": meta }),
-            },
-          ],
-          rehypeInlineCode,
-          rehypeSlug,
-          rehypeKatex,
-          rehypeTaskListA11y,
-        ],
-      },
+      { format: doc.format, config, filePath },
     )
-    const tocItems = extractToc(bodyContent)
     const searchText = extractSearchText(content)
     const lastUpdated = lastUpdatedByFile.get(doc._meta.filePath)
     const image = doc.image

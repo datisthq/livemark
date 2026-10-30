@@ -133,7 +133,7 @@ Add tags with the config `head` field (`livemark-configuration`); escape `head.t
 
 - `actions/`, `commands/`, `program.ts` — server/CLI code. Fork upstream if you need to change these.
 - `livemark.config.ts` schema — fixed.
-- Content-collections transform pipeline. Customize markdown via remark/rehype plugins in a fork (or PR upstream).
+- Content-collections transform pipeline. Markdown is compiled by textlane (`source/actions/processor/create.ts`); change it in a fork (or PR upstream).
 
 ## Verification
 

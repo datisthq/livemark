@@ -1,11 +1,9 @@
-import { getMDXComponent } from "mdx-bundler/client"
 import { createElement } from "react"
-import type { ReactNode } from "react"
+import type { ComponentType, ReactNode } from "react"
+import * as runtime from "react/jsx-runtime"
 import { renderToStaticMarkup } from "react-dom/server"
-import remarkDirective from "remark-directive"
-import remarkGfm from "remark-gfm"
 import { describe, expect, it } from "vite-plus/test"
-import { remarkCallout } from "../../plugins/remark-callout.ts"
+import { Config } from "../../models/config.ts"
 import { compileArticle } from "./compile.ts"
 
 const CHANGELOG = [
@@ -42,7 +40,18 @@ describe("compileArticle", () => {
     expect(html).toBe('<p>Press <kbd class="k">C</kbd></p>')
   })
 
-  it("runs remark plugins in Markdown: a directive and a GFM table", async () => {
+  it("returns the outline of h2 to h4", async () => {
+    const article = await compileFixture(
+      "page.md",
+      "# T\n\n## A\n\n##### E\n\n### B {#b}",
+    )
+    expect(article.tocItems).toEqual([
+      { url: "#a", title: "A", depth: 2 },
+      { url: "#b", title: "B", depth: 3 },
+    ])
+  })
+
+  it("renders directives and GFM in Markdown: a directive and a GFM table", async () => {
     const content = [":::tip", "Hello", ":::", "", "| a | b |", "| - | - |", "| 1 | 2 |"]
     const html = await renderArticle("page.md", content.join("\n"))
     expect(html).toContain('<aside data-type="tip"><p>Hello</p></aside>')
@@ -52,19 +61,34 @@ describe("compileArticle", () => {
 })
 
 async function renderArticle(filePath: string, content: string, format?: "md" | "mdx") {
-  const code = await compileArticle(
-    { cache: async (input, compute) => compute(input) },
-    { _meta: makeMeta(filePath), content },
-    {
-      format,
-      remarkPlugins: [remarkGfm, remarkDirective, remarkCallout],
-      rehypePlugins: [],
-    },
+  const article = await compileFixture(filePath, content, format)
+  const scope: unknown = new Function("React", "ReactDOM", "_jsx_runtime", article.mdx)(
+    undefined,
+    undefined,
+    runtime,
   )
-  const Component = getMDXComponent(code)
+  if (!isModule(scope)) throw new Error("the article exports no default component")
   const Callout = (props: { type: string; children: ReactNode }) =>
     createElement("aside", { "data-type": props.type }, props.children)
-  return renderToStaticMarkup(createElement(Component, { components: { Callout } }))
+  return renderToStaticMarkup(createElement(scope.default, { components: { Callout } }))
+}
+
+function compileFixture(filePath: string, content: string, format?: "md" | "mdx") {
+  const config = {
+    ...Config.parse({ root: ".", configPath: "livemark.config.ts" }),
+    base: undefined,
+  }
+  return compileArticle(
+    { cache: async (input, compute) => compute(input) },
+    { _meta: makeMeta(filePath), content },
+    { format, config, filePath },
+  )
+}
+
+function isModule(
+  value: unknown,
+): value is { default: ComponentType<{ components: object }> } {
+  return typeof value === "object" && value !== null && "default" in value
 }
 
 function makeMeta(filePath: string) {

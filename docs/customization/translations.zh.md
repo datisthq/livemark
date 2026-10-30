@@ -9,7 +9,7 @@ order: 8
 
 `languages` 数组可以把一个项目变成多语言站点。第一种语言是默认语言，保留原有的 URL；其他每种语言都在其语言代码下提供，因此西班牙语版的 `/guide/` 位于 `/es/guide/`。
 
-## 基本用法 [#basic-usage]
+## 基本用法 {#basic-usage}
 
 ```typescript title="livemark.config.ts"
 import { defineConfig } from "livemark"
@@ -37,7 +37,7 @@ export default defineConfig({
 
 `guide.es.md` 与 `guide.md` 使用相同的 frontmatter `path`（`/guide/`），Livemark 会在 `/es/guide/` 提供它。两个文件通过这个路径配对，因此顶栏中的语言选择器可以在它们之间切换。
 
-## 语言 [#languages]
+## 语言 {#languages}
 
 | 字段       | 类型                | 默认值        | 用途                                                     |
 | ---------- | ------------------- | ------------- | -------------------------------------------------------- |
@@ -52,7 +52,7 @@ export default defineConfig({
 
 没有 `languages` 时，站点的行为与之前完全相同：只有一种语言，即位于 `/` 的英语。
 
-## 标记文章的语言 [#marking-an-articles-language]
+## 标记文章的语言 {#marking-an-articles-language}
 
 文件的语言按以下顺序确定：
 
@@ -62,7 +62,7 @@ export default defineConfig({
 
 不对应任何已配置语言的后缀会被视为文件名的一部分，因此 `vite.config.md` 仍然是一篇英语文章。
 
-## 翻译配置中的文本 [#translating-config-texts]
+## 翻译配置中的文本 {#translating-config-texts}
 
 `title`、`description` 和 `banner`，栏目的 `title`、`siteTitle` 和 `siteDescription`，以及链接的 `title`，都既可以是字符串，也可以按语言代码分别给出值。缺少某种语言时，回退到默认语言的值。
 
@@ -75,11 +75,11 @@ sections: [
 
 文章栏目和博客栏目会为每种语言复制一份：西班牙语站点获得 `/es/` 和 `/es/blog/`，各自拥有独立的侧边栏、标签和 RSS 订阅源。更新日志栏目同样会复制到 `/es/changelog/`：每个版本外围的页面是西班牙语的，而版本说明保持更新日志文件中的原文，并将英语页面标为规范页面，因此它们不会出现在 sitemap 中。栏目前缀不能以某种语言的代码开头，上例中的 `/es/` 已保留给西班牙语。
 
-## 未翻译的页面 [#untranslated-pages]
+## 未翻译的页面 {#untranslated-pages}
 
 某种语言的侧边栏仍会列出没有对应翻译的默认语言文章，并以默认语言的代码标注，链接到原始页面。语言前缀下不会复制任何内容，因此搜索引擎只会看到每个页面一次。
 
-## 界面字符串 [#ui-strings]
+## 界面字符串 {#ui-strings}
 
 Livemark 自身的标签文字（“On this page”、“Search docs...”、“Edit on GitHub” 等）内置英语、德语、西班牙语、法语、日语、俄语和中文版本，并根据语言的 `locale` 选用。你可以按语言覆盖其中任意一项：
 
@@ -107,7 +107,7 @@ export function Footer() {
 }
 ```
 
-## 每种语言获得的内容 [#what-each-language-gets]
+## 每种语言获得的内容 {#what-each-language-gets}
 
 - 来自该语言的 `<html lang>` 和 `dir`，以及按其 locale 格式化的日期
 - 翻译之间的 `hreflang` 链接、指向默认语言的 `x-default` 链接，以及 `og:locale`

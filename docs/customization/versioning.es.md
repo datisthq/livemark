@@ -15,7 +15,7 @@ Livemark no tiene una función de versionado dedicada: las piezas que ya ofrece 
 
 La mayoría de los proyectos solo necesitan mantener la documentación más reciente y la de la versión mayor anterior. Si de las versiones antiguas solo necesitas las notas, basta con una [sección de registro de cambios](/es/customization/article-sections/#changelog-sections).
 
-## Una sección por versión [#a-section-per-version]
+## Una sección por versión {#a-section-per-version}
 
 Guarda los artículos de cada versión antigua en su propia carpeta y dales `path`s bajo un prefijo de versión. La documentación actual se queda en `/` y cada versión antigua se convierte en una sección:
 
@@ -59,7 +59,7 @@ Conviene saber:
 - La búsqueda indexa todo el sitio, así que los resultados incluyen los artículos de todas las versiones.
 - Copiar una carpeta por versión duplica contenido; congela la carpeta antigua y corrígela solo cuando sea necesario.
 
-## Un despliegue por versión [#one-deploy-per-version]
+## Un despliegue por versión {#one-deploy-per-version}
 
 Cuando cada versión mayor vive en su propia rama (`main`, `v1`, …), compila cada rama como un sitio independiente y sírvelo desde su propia dirección: un subdominio (`v1.docs.example.com`) o una subruta (`docs.example.com/v1/`) con [`base`](/es/deployment/github-pages/#configure-base-for-project-sites).
 
@@ -86,7 +86,7 @@ sections: [
 
 Cada despliegue tiene su propio índice de búsqueda, sitemap y `llms.txt`, así que las versiones nunca se mezclan. El coste es una compilación y un job de CI por cada rama mantenida; consulta [Despliegue](/es/deployment/) para configurar el hosting. La mayoría de los hostings despliegan las ramas en sus propias URL sin configuración adicional.
 
-## Ver también [#see-also]
+## Ver también {#see-also}
 
 - [Secciones de artículos](/es/customization/article-sections/): tipos de sección, prefijos y coincidencia.
 - [Metadatos del sitio](/es/customization/site-metadata/): los campos `banner`, `title` y `site` usados arriba.

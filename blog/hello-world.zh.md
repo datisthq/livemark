@@ -11,7 +11,7 @@ tags: [announcement, getting-started]
 
 欢迎来到 Livemark 博客！这是我们的第一篇文章，我们会在这里分享项目的最新动态。
 
-## Livemark 是什么？ [#what-is-livemark]
+## Livemark 是什么？ {#what-is-livemark}
 
 Livemark 是一个 Markdown 站点生成器，可以把你的 `.md` 文件变成漂亮的文档网站。它支持：
 

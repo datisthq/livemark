@@ -11,7 +11,7 @@ order: 8
 
 [Hugo](https://gohugo.io) es un generador de sitios estáticos de propósito general escrito en Go. Se distribuye como un único binario, compila extremadamente rápido y da vida a todo tipo de sitios, desde blogs y portfolios hasta sitios de documentación mediante temas de la comunidad como [Docsy](https://www.docsy.dev) y [Hugo Book](https://github.com/alex-shpak/hugo-book).
 
-## De un vistazo [#at-a-glance]
+## De un vistazo {#at-a-glance}
 
 | Eje                        | Livemark                                     | Hugo                               |
 | -------------------------- | -------------------------------------------- | ---------------------------------- |
@@ -22,7 +22,7 @@ order: 8
 | Licencia                   | MIT, autoalojado                             | Apache-2.0, autoalojado            |
 | Modelo de salida           | Estático prerenderizado (compatible con SSR) | Estático prerenderizado            |
 
-## Arquitectura [#architecture]
+## Arquitectura {#architecture}
 
 Livemark es una CLI de Node construida sobre Vite + TanStack Start + React. La autoría sigue las convenciones de JS/TS.
 
@@ -32,7 +32,7 @@ Hugo no es específico para documentación. El mismo binario da vida a blogs, si
 
 La organización del contenido no tiene restricciones en el lado de Livemark: escanea por glob (`include`/`exclude` en `livemark.config.ts`), y la URL de cada artículo sigue la ubicación del archivo bajo su glob de `include`, salvo que la defina un campo `path:` del frontmatter. No hay una carpeta `docs/` obligatoria: un proyecto puede tomar artículos de `README.md`, `docs/`, `blog/`, los README de los paquetes o de cualquier otro lugar. Hugo lee desde `content/` con una estructura de URLs que refleja el árbol de directorios (y sobrescrituras del frontmatter por sección).
 
-## Superficie de contenido [#content-surface]
+## Superficie de contenido {#content-surface}
 
 Ambas herramientas aceptan Markdown con frontmatter.
 
@@ -42,7 +42,7 @@ Hugo admite extensiones de Markdown basadas en Goldmark (notas al pie, tablas, l
 
 La forma del frontmatter difiere: Hugo acepta frontmatter en TOML, YAML o JSON con campos como `title`, `date`, `draft`, `weight`, `taxonomies`, además de campos definidos por el usuario. Livemark usa YAML en línea con `path`, `order`, `icon`, `sidebar`, `date`, `tags`.
 
-## Matriz de funcionalidades [#feature-matrix]
+## Matriz de funcionalidades {#feature-matrix}
 
 | Capacidad                   | Livemark                                           | Hugo                                                |
 | --------------------------- | -------------------------------------------------- | --------------------------------------------------- |
@@ -54,16 +54,16 @@ La forma del frontmatter difiere: Hugo acepta frontmatter en TOML, YAML o JSON c
 | Sitemap                     | Sí                                                 | Sí (integrado)                                      |
 | RSS                         | Sí (por sección de blog)                           | Sí (integrado, por sección)                         |
 | Temas                       | Sobrescritura de componentes mediante `.livemark/` | Directorios de tema con sobrescritura de plantillas |
-| Plugins                     | Plugins de Vite + remark/rehype                    | Hugo Modules (Go), shortcodes, hooks                |
+| Plugins                     | Plugins de Vite + textlane                         | Hugo Modules (Go), shortcodes, hooks                |
 | Rutas personalizadas        | `.livemark/routes/` (TanStack Router)              | Layouts + secciones de contenido                    |
 | Toolchain independiente     | Node + npm                                         | Un único binario de Go                              |
 | Velocidad de compilación    | Rápida como Vite                                   | Entre los SSG más rápidos                           |
 
-## Salida y despliegue [#output--deployment]
+## Salida y despliegue {#output--deployment}
 
 Ambas herramientas producen HTML estático + recursos listos para cualquier hosting estático. Hugo emite en `public/` por defecto; Livemark emite en `.livemark/build/client/`. El alojamiento es el mismo: consulta [Despliegue](/es/deployment/) de Livemark para ver guías por proveedor.
 
-## Ver también [#see-also]
+## Ver también {#see-also}
 
 - [Autoría](/es/authoring/): la superficie de Markdown de Livemark.
 - [Personalización](/es/customization/): las opciones de configuración de Livemark y la sobrescritura de componentes.

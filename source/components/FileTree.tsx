@@ -2,7 +2,9 @@ import { File, Folder } from "lucide-react"
 
 interface TreeItem {
   name: string
-  isDir: boolean
+  type: "directory" | "file" | "placeholder"
+  comment?: string
+  highlighted?: boolean
   children?: TreeItem[]
 }
 
@@ -29,16 +31,29 @@ function TreeItems(props: { items: TreeItem[]; depth: number }) {
 
 function TreeNode(props: { item: TreeItem; depth: number }) {
   const { item, depth } = props
+  const isDir = item.type === "directory"
 
   return (
     <li className="py-0.5">
       <span className="inline-flex items-center gap-2">
-        {item.isDir ? (
-          <Folder className="size-4 shrink-0 text-primary" />
-        ) : (
+        {isDir && <Folder className="size-4 shrink-0 text-primary" />}
+        {item.type === "file" && (
           <File className="size-4 shrink-0 text-muted-foreground" />
         )}
-        <span className={item.isDir ? "font-semibold" : ""}>{item.name}</span>
+        <span
+          className={[
+            isDir && "font-semibold",
+            item.type === "placeholder" && "text-muted-foreground",
+            item.highlighted && "rounded bg-primary/10 px-1 text-primary",
+          ]
+            .filter(Boolean)
+            .join(" ")}
+        >
+          {item.name}
+        </span>
+        {item.comment && (
+          <span className="font-sans text-xs text-muted-foreground">{item.comment}</span>
+        )}
       </span>
       {item.children && item.children.length > 0 && (
         <TreeItems items={item.children} depth={depth + 1} />

@@ -13,7 +13,7 @@ GitHub Pages sirve un directorio de archivos estáticos con una de dos formas de
 - **Sitio de usuario u organización**: `https://<user>.github.io/`, servido desde un repositorio llamado `<user>.github.io`. Sin subruta.
 - **Sitio de proyecto**: `https://<user>.github.io/<repo>/`, servido desde cualquier otro repositorio. El prefijo `/<repo>/` importa: las rutas y las URLs de los recursos deben incluirlo.
 
-## Compila el sitio [#build-the-site]
+## Compila el sitio {#build-the-site}
 
 ```bash
 livemark build
@@ -21,7 +21,7 @@ livemark build
 
 La salida queda en `.livemark/build/client/`.
 
-## Configura `base` para sitios de proyecto [#configure-base-for-project-sites]
+## Configura `base` para sitios de proyecto {#configure-base-for-project-sites}
 
 Si publicas bajo `https://<user>.github.io/<repo>/`, define el campo `base` para que cada ruta y URL de recurso lleve el prefijo correcto. La forma de función mantiene simple el desarrollo: `livemark start` sigue sirviendo en `/` y solo la compilación de producción se monta bajo `/<repo>/`:
 
@@ -40,7 +40,7 @@ Para sitios de usuario u organización en la raíz, omite `base` por completo.
 Los dominios personalizados omiten la subruta `/<repo>/` incluso en sitios de proyecto. Si asocias un dominio como `docs.example.com`, deja `base` sin definir y define `site` con el dominio final.
 :::
 
-## Despliega manualmente [#deploy-manually]
+## Despliega manualmente {#deploy-manually}
 
 El despliegue puntual más sencillo usa el paquete [`gh-pages`](https://www.npmjs.com/package/gh-pages):
 
@@ -51,7 +51,7 @@ gh-pages -d .livemark/build/client
 
 Esto sube la compilación a la rama `gh-pages`. En la configuración de tu repositorio, define **Pages → Source** como "Deploy from a branch" y elige `gh-pages` / `/ (root)`.
 
-## Despliega con GitHub Actions [#deploy-with-github-actions]
+## Despliega con GitHub Actions {#deploy-with-github-actions}
 
 Las acciones oficiales de Pages son el camino más limpio: sin rama adicional ni tokens de servicio:
 
@@ -100,7 +100,7 @@ jobs:
 
 Define **Pages → Source** como "GitHub Actions" en la configuración de tu repositorio.
 
-## Dominio personalizado [#custom-domain]
+## Dominio personalizado {#custom-domain}
 
 Añade un archivo `CNAME` con tu dominio en `.livemark/public/`:
 
@@ -110,7 +110,7 @@ docs.example.com
 
 Todo lo que hay en `.livemark/public/` se copia tal cual a la salida de compilación, así que el archivo acaba en la raíz de tu despliegue. Configura el DNS en tu registrador (un registro `CNAME` que apunte a `<user>.github.io`) y define el dominio en **Pages → Custom domain**.
 
-## Ver también [#see-also]
+## Ver también {#see-also}
 
 - [Metadatos del sitio](/es/customization/site-metadata/): `site` es necesario para las URLs absolutas en el sitemap, RSS y las etiquetas Open Graph.
 - [Despliegue](/es/deployment/): vuelve al índice de hostings.

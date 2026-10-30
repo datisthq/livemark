@@ -55,7 +55,7 @@ Frontmatter shape differs: Starlight uses `title`, `description`, `sidebar`, `ta
 | Sitemap                     | Yes                                      | Yes                                     |
 | RSS                         | Yes (per blog section)                   | Via `@astrojs/rss` integration          |
 | Themes                      | Component overrides via `.livemark/`     | Component overrides via Starlight slots |
-| Plugins                     | Vite plugins + remark/rehype             | Astro integrations + Starlight plugins  |
+| Plugins                     | Vite plugins + textlane                  | Astro integrations + Starlight plugins  |
 | Custom routes               | `.livemark/routes/` (TanStack Router)    | Astro pages alongside Starlight content |
 
 ## Output & deployment

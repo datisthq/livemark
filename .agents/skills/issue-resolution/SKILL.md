@@ -46,8 +46,9 @@ Never work on the root checkout, and never switch its branch. Other sessions sha
 Write a unit test, beside its module as `<module>.unit.ts`, that fails **for the issue's
 reason**: wrong output, not a crash in the test setup.
 
-- **Plugin** (remark, rehype, shiki): run it on the issue's Markdown and assert on the tree or
-  HTML it yields.
+- **Markdown rendering**: compile the issue's Markdown with `compileArticle`, as
+  `actions/article/compile.unit.ts` does, and assert on the HTML it renders. A bug inside a
+  textlane plugin belongs upstream in textlane, with a conformance case there.
 - **Action or model**: assert on what `loadConfig`, the changelog build or the zod schema returns
   for the issue's input.
 - **Component, element, style or route**: no unit test renders a page. Extract the logic into a

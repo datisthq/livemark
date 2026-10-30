@@ -10,7 +10,7 @@ order: 4
 
 Livemark ofrece un puñado de puntos de ajuste para adaptar el aspecto de tu sitio, lo que contiene y cómo fluyen los archivos durante la compilación. Cada área tiene su propia página.
 
-## Temas [#topics]
+## Temas {#topics}
 
 :::card{title="Configuración" href="/es/customization/config-file/" icon="layers"}
 Lo básico de `livemark.config.ts`: globs `include`/`exclude` para tu contenido.

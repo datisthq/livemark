@@ -11,7 +11,7 @@ tags: [announcement, getting-started]
 
 ¡Te damos la bienvenida al blog de Livemark! Esta es nuestra primera entrada, donde compartimos novedades sobre el proyecto.
 
-## ¿Qué es Livemark? [#what-is-livemark]
+## ¿Qué es Livemark? {#what-is-livemark}
 
 Livemark es un generador de sitios Markdown que convierte tus archivos `.md` en un sitio web de documentación atractivo. Admite:
 

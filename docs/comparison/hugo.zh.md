@@ -11,7 +11,7 @@ order: 8
 
 [Hugo](https://gohugo.io) 是一款用 Go 编写的通用静态站点生成器。它以单个二进制文件分发，构建速度极快，借助 [Docsy](https://www.docsy.dev) 和 [Hugo Book](https://github.com/alex-shpak/hugo-book) 等社区主题，可用于从博客、作品集到文档站点的各种场景。
 
-## 概览 [#at-a-glance]
+## 概览 {#at-a-glance}
 
 | 维度          | Livemark                   | Hugo                           |
 | ------------- | -------------------------- | ------------------------------ |
@@ -22,7 +22,7 @@ order: 8
 | 许可证        | MIT，自托管                | Apache-2.0，自托管             |
 | 输出模型      | 预渲染静态页面（支持 SSR） | 预渲染静态页面                 |
 
-## 架构 [#architecture]
+## 架构 {#architecture}
 
 Livemark 是一个基于 Vite + TanStack Start + React 构建的 Node CLI。编写遵循 JS/TS 的惯例。
 
@@ -32,7 +32,7 @@ Hugo 并非专门面向文档。同一个二进制文件可用于博客、营销
 
 在 Livemark 这边，内容的组织方式不受限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 默认取决于文件在其 `include` glob 下的位置，也可以由前置元数据 frontmatter 中的 `path:` 字段指定。不要求必须有 `docs/` 文件夹，项目可以从 `README.md`、`docs/`、`blog/`、各个包的 README 或任何其他位置获取文章。Hugo 从 `content/` 读取内容，URL 结构与目录树保持一致（并支持按栏目覆盖 frontmatter）。
 
-## 内容能力 [#content-surface]
+## 内容能力 {#content-surface}
 
 两款工具都接受带 frontmatter 的 Markdown。
 
@@ -42,7 +42,7 @@ Hugo 支持基于 Goldmark 的 Markdown 扩展（脚注、表格、定义列表�
 
 frontmatter 的结构不同：Hugo 接受 TOML、YAML 或 JSON 格式的 frontmatter，字段包括 `title`、`date`、`draft`、`weight`、`taxonomies` 以及用户自定义字段。Livemark 使用内联 YAML，字段为 `path`、`order`、`icon`、`sidebar`、`date`、`tags`。
 
-## 功能矩阵 [#feature-matrix]
+## 功能矩阵 {#feature-matrix}
 
 | 能力           | Livemark                               | Hugo                                 |
 | -------------- | -------------------------------------- | ------------------------------------ |
@@ -54,16 +54,16 @@ frontmatter 的结构不同：Hugo 接受 TOML、YAML 或 JSON 格式的 frontma
 | Sitemap        | 是                                     | 是（内置）                           |
 | RSS            | 是（按博客栏目）                       | 是（内置，按栏目）                   |
 | 主题           | 通过 `.livemark/` 覆盖组件             | 支持模板覆盖的主题目录               |
-| 插件           | Vite 插件 + remark/rehype              | Hugo Modules（Go）、shortcode、hooks |
+| 插件           | Vite 插件 + textlane                   | Hugo Modules（Go）、shortcode、hooks |
 | 自定义路由     | `.livemark/routes/`（TanStack Router） | 布局 + 内容栏目                      |
 | 独立工具链     | Node + npm                             | 单个 Go 二进制文件                   |
 | 构建速度       | Vite 级别的速度                        | 最快的 SSG 之一                      |
 
-## 输出与部署 [#output--deployment]
+## 输出与部署 {#output--deployment}
 
 两款工具都产出静态 HTML + 静态资源，可直接用于任意静态托管服务。Hugo 默认输出到 `public/`；Livemark 输出到 `.livemark/build/client/`。托管方式相同，各托管平台的指南请参阅 Livemark 的[部署](/zh/deployment/)。
 
-## 另请参阅 [#see-also]
+## 另请参阅 {#see-also}
 
 - [编写](/zh/authoring/)——Livemark 的 Markdown 能力。
 - [定制](/zh/customization/)——Livemark 的配置项与组件覆盖。

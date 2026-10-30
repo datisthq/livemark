@@ -14,7 +14,7 @@ order: 3
 - **Changelog**：单个源文件（或 GitHub releases），按版本拆分为多篇文章。
 - **Custom**：链接到任意 URL（内部或外部）的标签页，自身不包含文章。
 
-## 基本用法 [#basic-usage]
+## 基本用法 {#basic-usage}
 
 ```typescript title="livemark.config.ts"
 import { defineConfig } from "livemark"
@@ -38,7 +38,7 @@ export default defineConfig({
 
 省略 `sections` 时，所有文章都渲染到一个默认栏目中，适合小型站点。
 
-## 通用字段 [#common-fields]
+## 通用字段 {#common-fields}
 
 无论哪种类型，每个栏目都接受以下字段：
 
@@ -57,7 +57,7 @@ export default defineConfig({
 
 在移动端，所有栏目都会收进侧边栏。在栏目内部，它们变成一个选择器，点开后弹出底部面板：选中某个栏目后，侧边栏会显示该栏目的文章、博文或版本，而无需离开当前页面。
 
-## 文章栏目 [#article-sections]
+## 文章栏目 {#article-sections}
 
 普通文档。侧边栏显示文章树。这是默认类型，你可以完全省略 `type`：
 
@@ -65,7 +65,7 @@ export default defineConfig({
 { title: "Docs", prefix: "/" }
 ```
 
-## 博客栏目 [#blog-sections]
+## 博客栏目 {#blog-sections}
 
 博客栏目按 `date` 对文章排序（最新的在前），在栏目前缀处渲染自动生成的索引页，并提供按标签划分的页面。
 
@@ -92,7 +92,7 @@ Livemark 会自动生成：
 - `/blog/`：列出所有博文的索引页，最新的在前。
 - `/blog/tags/<tag>/`：每个标签一个页面。
 
-## 更新日志栏目 [#changelog-sections]
+## 更新日志栏目 {#changelog-sections}
 
 更新日志栏目从一个 `source` 文件读取内容，并按每个 `##` 标题将其拆分为一篇篇文章。
 
@@ -134,7 +134,7 @@ sections: [
 | `source`  | `string`  | —       | 更新日志源文件的路径，相对于项目根目录。     |
 | `version` | `boolean` | `false` | 为 true 时，在顶栏标签页标题旁显示最新版本。 |
 
-## 自定义栏目 [#custom-sections]
+## 自定义栏目 {#custom-sections}
 
 自定义栏目使用 `url` 而不是 `prefix`，只渲染为一个标签页。内部 URL（如 `/about/`，例如一个[自定义路由](/zh/customization/custom-routes/)）会在你访问它时高亮该标签页；绝对 URL 则打开其他站点。
 
@@ -142,13 +142,13 @@ sections: [
 { title: "About", type: "custom", url: "/about/" }
 ```
 
-## 排序与匹配 [#ordering-and-matching]
+## 排序与匹配 {#ordering-and-matching}
 
 文章路径按最长前缀优先的规则匹配到栏目。对于 `/blog/2024/launch/`，以及前缀分别为 `/` 和 `/blog/` 的栏目，该文章会被放入 `/blog/`。
 
 前缀请保留末尾斜杠（`/blog/`，而不是 `/blog`），以便匹配结果可预测。
 
-## 另请参阅 [#see-also]
+## 另请参阅 {#see-also}
 
 - [外部链接](/zh/customization/external-links/)：在栏目标签页旁添加外部链接。
 - [Frontmatter](/zh/authoring/frontmatter/)：决定栏目内容的 `path`、`order`、`date` 和 `tags` 字段。

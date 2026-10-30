@@ -9,7 +9,7 @@ order: 7
 
 Los bloques de código delimitados se resaltan con Shiki usando los temas catppuccin. Cada bloque de código incluye un botón que alterna entre desplazamiento horizontal y líneas ajustadas. Un bloque sin lenguaje, o con uno que Shiki no conoce, se renderiza como texto plano con el mismo estilo.
 
-## Títulos [#titles]
+## Títulos {#titles}
 
 Añade un nombre de archivo o un título a los bloques de código:
 
@@ -29,7 +29,7 @@ export default defineConfig({
 })
 ```
 
-## Resaltado de líneas [#line-highlighting]
+## Resaltado de líneas {#line-highlighting}
 
 Resalta líneas concretas con la sintaxis `{line,range}` en la cadena meta o con comentarios `// [!code highlight]` dentro del bloque de código.
 
@@ -71,12 +71,12 @@ const target = "world" // [!code highlight]
 
 Las anotaciones en comentarios se eliminan de la salida renderizada. También se admite la sintaxis de comentario de bloque `/* [!code highlight] */`.
 
-## Resaltado de palabras [#word-highlighting]
+## Resaltado de palabras {#word-highlighting}
 
-Resalta todas las apariciones de una palabra con la sintaxis `{word:TERM}`:
+Resalta todas las apariciones de una palabra con la sintaxis `/TERM/`:
 
 ````md
-```typescript {word:config}
+```typescript /config/
 const config = loadConfig()
 export default config
 ```
@@ -84,12 +84,12 @@ export default config
 
 Se renderiza así:
 
-```typescript {word:config}
+```typescript /config/
 const config = loadConfig()
 export default config
 ```
 
-## Números de línea [#line-numbers]
+## Números de línea {#line-numbers}
 
 Muestra números de línea junto al código con `lineNumbers`:
 
@@ -125,7 +125,7 @@ const b = 2
 const c = 3
 ```
 
-## Líneas de diff [#diff-lines]
+## Líneas de diff {#diff-lines}
 
 Marca líneas como añadidas o eliminadas con `// [!code ++]` y `// [!code --]`:
 
@@ -143,7 +143,7 @@ const old = "removed" // [!code --]
 const next = "added" // [!code ++]
 ```
 
-## Líneas enfocadas [#focus-lines]
+## Líneas enfocadas {#focus-lines}
 
 Atenúa todas las líneas excepto las enfocadas con `// [!code focus]`:
 
@@ -163,7 +163,7 @@ const b = 2 // [!code focus]
 const c = 3
 ```
 
-## Errores y advertencias [#error-and-warning]
+## Errores y advertencias {#error-and-warning}
 
 Marca líneas como errores o advertencias con `// [!code error]` y `// [!code warning]`:
 
@@ -183,7 +183,7 @@ const invalid = null! // [!code error]
 const risky = getValue() // [!code warning]
 ```
 
-## Código plegable [#collapsible-code]
+## Código plegable {#collapsible-code}
 
 Limita la altura visible de los bloques de código largos con `maxLines=N`. Un botón "Expand" muestra el código completo:
 
@@ -209,7 +209,7 @@ const e = 5
 const f = 6
 ```
 
-## Iconos de lenguaje [#language-icons]
+## Iconos de lenguaje {#language-icons}
 
 Los bloques de código muestran automáticamente un icono del lenguaje en la barra de título cuando hay un título. Los lenguajes admitidos incluyen TypeScript, JavaScript, React, Python, Rust y shell.
 
@@ -225,7 +225,7 @@ greeting = "hello"
 let greeting = "hello";
 ```
 
-## Soporte de TypeScript [#typescript-support]
+## Soporte de TypeScript {#typescript-support}
 
 Añade `twoslash` a un bloque de código TypeScript para activar la información de tipos en línea. Pasa el cursor sobre los identificadores resaltados para ver sus tipos:
 
@@ -250,7 +250,7 @@ Usa `// @errors: 2304` para mostrar errores esperados:
 const x = unknown_var
 ```
 
-## Comandos de npm [#npm-commands]
+## Comandos de npm {#npm-commands}
 
 Escribe comandos de npm y obtén automáticamente pestañas para todos los gestores de paquetes:
 

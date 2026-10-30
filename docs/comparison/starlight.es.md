@@ -11,7 +11,7 @@ order: 4
 
 [Starlight](https://starlight.astro.build) es el tema oficial de documentación de Astro, mantenido por el equipo de Astro. Usa la arquitectura de islas de Astro (cero JavaScript por defecto, componentes interactivos opcionales) y admite contenido MDX.
 
-## De un vistazo [#at-a-glance]
+## De un vistazo {#at-a-glance}
 
 | Eje                             | Livemark                                     | Starlight                                                                    |
 | ------------------------------- | -------------------------------------------- | ---------------------------------------------------------------------------- |
@@ -22,7 +22,7 @@ order: 4
 | Licencia                        | MIT, autoalojado                             | MIT, autoalojado                                                             |
 | Modelo de salida                | Estático prerenderizado (compatible con SSR) | Estático prerenderizado (compatible con SSR mediante adaptadores)            |
 
-## Arquitectura [#architecture]
+## Arquitectura {#architecture}
 
 Livemark renderiza React en tiempo de compilación (prerenderizado) y en tiempo de ejecución (hidratación en el cliente). Cada página incluye React; la interactividad es universal.
 
@@ -32,7 +32,7 @@ Ambos compilan con Vite. El modelo de componentes de Astro es su propia sintaxis
 
 En Livemark la organización del contenido no tiene restricciones: escanea mediante glob (`include`/`exclude` en `livemark.config.ts`), y la URL de cada artículo sigue la ubicación del archivo bajo su glob de `include`, salvo que la fije un campo `path:` del frontmatter. No hace falta una carpeta `docs/`: un proyecto puede tomar artículos de `README.md`, `docs/`, `blog/`, los README de paquetes o cualquier otro lugar. Starlight exige el contenido en `src/content/docs/` (el directorio de content collections de Astro), con rutas derivadas de las rutas de archivo bajo esa raíz.
 
-## Superficie de contenido [#content-surface]
+## Superficie de contenido {#content-surface}
 
 Ambas herramientas aceptan Markdown + MDX con frontmatter.
 
@@ -42,7 +42,7 @@ Los componentes de Livemark en archivos `.mdx` son React; la hidratación es uni
 
 La forma del frontmatter difiere: Starlight usa `title`, `description`, `sidebar`, `tableOfContents`, `editUrl`, `lastUpdated`. Livemark usa `path`, `order`, `icon`, `sidebar`, `date`, `tags`.
 
-## Matriz de funcionalidades [#feature-matrix]
+## Matriz de funcionalidades {#feature-matrix}
 
 | Capacidad                   | Livemark                                      | Starlight                                           |
 | --------------------------- | --------------------------------------------- | --------------------------------------------------- |
@@ -55,16 +55,16 @@ La forma del frontmatter difiere: Starlight usa `title`, `description`, `sidebar
 | Sitemap                     | Sí                                            | Sí                                                  |
 | RSS                         | Sí (por sección de blog)                      | Con la integración `@astrojs/rss`                   |
 | Temas                       | Sobrescritura de componentes vía `.livemark/` | Sobrescritura de componentes vía slots de Starlight |
-| Plugins                     | Plugins de Vite + remark/rehype               | Integraciones de Astro + plugins de Starlight       |
+| Plugins                     | Plugins de Vite + textlane                    | Integraciones de Astro + plugins de Starlight       |
 | Rutas personalizadas        | `.livemark/routes/` (TanStack Router)         | Páginas de Astro junto al contenido de Starlight    |
 
-## Salida y despliegue [#output--deployment]
+## Salida y despliegue {#output--deployment}
 
 Ambos producen un directorio de HTML estático + recursos. Starlight emite en `dist/` por defecto; Livemark emite en `.livemark/build/client/`. El alojamiento es igual en ambos casos; consulta [Despliegue](/es/deployment/) de Livemark para las guías por hosting.
 
 Starlight hereda el sistema de adaptadores de Astro, que admite SSR en Cloudflare, Netlify, Vercel, Node y Deno. Livemark se apoya en los presets de Nitro de TanStack Start para los mismos despliegues dinámicos.
 
-## Ver también [#see-also]
+## Ver también {#see-also}
 
 - [Redacción](/es/authoring/): la superficie Markdown de Livemark.
 - [Personalización](/es/customization/): las opciones de configuración de Livemark y la sobrescritura de componentes.

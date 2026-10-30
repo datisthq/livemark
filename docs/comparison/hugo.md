@@ -54,7 +54,7 @@ Frontmatter shape differs: Hugo accepts TOML, YAML, or JSON frontmatter with fie
 | Sitemap                     | Yes                                      | Yes (built-in)                            |
 | RSS                         | Yes (per blog section)                   | Yes (built-in, per section)               |
 | Themes                      | Component overrides via `.livemark/`     | Theme directories with template overrides |
-| Plugins                     | Vite plugins + remark/rehype             | Hugo Modules (Go), shortcodes, hooks      |
+| Plugins                     | Vite plugins + textlane                  | Hugo Modules (Go), shortcodes, hooks      |
 | Custom routes               | `.livemark/routes/` (TanStack Router)    | Layouts + content sections                |
 | Standalone toolchain        | Node + npm                               | Single Go binary                          |
 | Build speed                 | Vite-fast                                | Among the fastest SSGs                    |

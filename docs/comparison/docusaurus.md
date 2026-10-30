@@ -34,7 +34,7 @@ Content layout is unconstrained on the Livemark side: it scans by glob (`include
 
 Both tools accept Markdown and MDX with frontmatter. Both let you embed React components inside `.mdx` files.
 
-Livemark's directives (`:::card`, `:::tip`, `:::tab`, …) are processed by remark plugins shipped in the package. Docusaurus uses MDX components plus an `admonition` extension for callouts.
+Livemark's directives (`:::card`, `:::tip`, `:::tab`, …) are compiled by textlane, the Rust Markdown pipeline Livemark runs. Docusaurus uses MDX components plus an `admonition` extension for callouts.
 
 Frontmatter shape differs: Livemark uses `path`, `order`, `icon`, `sidebar`, `date`, `tags`. Docusaurus uses `id`, `slug`, `sidebar_position`, `sidebar_label`, `tags`.
 
@@ -50,7 +50,7 @@ Frontmatter shape differs: Livemark uses `path`, `order`, `icon`, `sidebar`, `da
 | Sitemap                     | Yes                                           | Yes                                    |
 | RSS                         | Yes (per blog section)                        | Yes (for blog plugin)                  |
 | Themes                      | Component overrides via `.livemark/`          | Theme packages (`@docusaurus/theme-*`) |
-| Plugins                     | Vite plugins + remark/rehype                  | First-class plugin API                 |
+| Plugins                     | Vite plugins + textlane                       | First-class plugin API                 |
 | Custom routes               | `.livemark/routes/` (TanStack Router)         | Plugin-defined routes                  |
 
 ## Output & deployment

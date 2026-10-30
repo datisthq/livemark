@@ -14,7 +14,7 @@ Cloudflare Workers 可以直接提供静态资源目录：无需额外的计算�
 本指南发布的是预渲染的静态输出。Livemark 基于 [TanStack Start](https://tanstack.com/start) 构建，它还支持通过 Nitro 预设在 Cloudflare Workers 上进行完全动态的 SSR：`.livemark/build/` 会变成一个可部署的 Worker 包。如需切换，参见 [TanStack Start → Hosting](https://tanstack.com/start/latest/docs/framework/react/guide/hosting)。
 :::
 
-## 构建站点 [#build-the-site]
+## 构建站点 {#build-the-site}
 
 ```bash
 livemark build
@@ -22,7 +22,7 @@ livemark build
 
 输出位于 `.livemark/build/client/`。
 
-## 配置 `wrangler.jsonc` [#configure-wranglerjsonc]
+## 配置 `wrangler.jsonc` {#configure-wranglerjsonc}
 
 将以下内容放到项目根目录：
 
@@ -44,7 +44,7 @@ livemark build
 | `assets.directory` | 让 Wrangler 指向 Livemark 的构建输出。每个文件都按原样提供。   |
 | `workers_dev`      | 测试期间为你提供一个 `<name>.<account>.workers.dev` 预览 URL。 |
 
-## 从本机部署 [#deploy-from-your-machine]
+## 从本机部署 {#deploy-from-your-machine}
 
 ```bash
 livemark build
@@ -53,7 +53,7 @@ wrangler deploy
 
 首次运行时会提示你执行 `wrangler login`，以授权访问你的 Cloudflare 账户。
 
-## 使用 GitHub Actions 部署 [#deploy-with-github-actions]
+## 使用 GitHub Actions 部署 {#deploy-with-github-actions}
 
 ```yaml title=".github/workflows/deploy.yaml"
 name: deploy
@@ -82,7 +82,7 @@ jobs:
 
 在 **My Profile → API Tokens** 中创建一个限定权限的 API 令牌（“Edit Cloudflare Workers” 模板恰好授予所需权限），并将这两个值保存为仓库密钥。
 
-## 自定义域名 [#custom-domain]
+## 自定义域名 {#custom-domain}
 
 当你的域名区域（zone）托管在 Cloudflare 上后，添加一个 `routes` 块：
 
@@ -101,7 +101,7 @@ jobs:
 Livemark 仓库自己的 `wrangler.jsonc` 就是一份可用的参考，参见[项目根目录](https://github.com/datisthq/livemark/blob/main/wrangler.jsonc)。
 :::
 
-## 面向智能体的 Markdown [#markdown-for-agents]
+## 面向智能体的 Markdown {#markdown-for-agents}
 
 AI 智能体通过发送 `Accept: text/markdown` 来请求页面的 Markdown 版本。静态资源总是返回 HTML，因此需要在你的域名区域中添加一条 URL Rewrite Rule，把这类请求指向页面的 [Markdown 副本](/zh/customization/ai-agents/)。URL Rewrite Rules 在所有套餐（包括免费套餐）中均可用，站点也依然保持完全静态。
 
@@ -124,7 +124,7 @@ any(http.request.headers["accept"][*] contains "text/markdown") and ends_with(ht
 在启用该规则之前，先部署一个包含 Markdown 副本的构建。否则，请求 Markdown 的智能体会得到 404。
 :::
 
-## 另请参阅 [#see-also]
+## 另请参阅 {#see-also}
 
 - [AI 智能体](/zh/customization/ai-agents/)：构建为智能体发布了哪些内容。
 

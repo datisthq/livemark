@@ -10,7 +10,7 @@ order: 11
 
 Cada `livemark build` publica tu sitio en los formatos que buscan los agentes de IA, junto al HTML que reciben los navegadores. No necesitas configurar nada para ello. Las dos opciones de abajo solo lo ajustan.
 
-## Qué genera la compilación [#what-the-build-emits]
+## Qué genera la compilación {#what-the-build-emits}
 
 | Archivo                                | Propósito                                                                                             |
 | -------------------------------------- | ----------------------------------------------------------------------------------------------------- |
@@ -25,7 +25,7 @@ Cada página de artículo incluye además `<link rel="alternate" type="text/mark
 
 Un archivo con el mismo nombre que incluyas en `.livemark/public/` reemplaza al generado. `_headers` es la única excepción: tus reglas se conservan y la regla `Link` generada se añade después de ellas. Los archivos solo los escribe `livemark build`, así que `livemark start` no los sirve.
 
-## Señales de contenido [#content-signals]
+## Señales de contenido {#content-signals}
 
 `contentSignals` controla la línea de [Content Signals](https://contentsignals.org/) en `robots.txt`. Las tres señales son `true` por defecto:
 
@@ -41,7 +41,7 @@ export default defineConfig({
 
 La línea que produce va en el grupo `User-agent: *`: `Content-Signal: search=yes, ai-input=yes, ai-train=no`.
 
-## Skills de agente [#agent-skills]
+## Skills de agente {#agent-skills}
 
 Si tu proyecto incluye [Agent Skills](https://agentskills.io/specification), apunta `skills` a sus archivos `SKILL.md`:
 
@@ -53,11 +53,11 @@ export default defineConfig({
 
 Cada skill encontrada se publica en `/.well-known/agent-skills/<name>/SKILL.md` y se lista en `index.json` con un digest `sha256`. Su frontmatter necesita un `name` (letras minúsculas, dígitos y guiones simples) y una `description`, y la compilación falla si falta alguno.
 
-## Markdown bajo petición [#markdown-on-request]
+## Markdown bajo petición {#markdown-on-request}
 
 Los agentes piden Markdown enviando `Accept: text/markdown` a la URL de la página. Un hosting estático no puede responder a eso por sí solo, pero una reescritura en tu CDN puede servir `<page>/index.md` para esas peticiones y dejar el HTML para todos los demás. Cada artículo y listado de sección tiene un gemelo, así que la reescritura nunca apunta a un archivo inexistente. Para una regla lista para usar, consulta [Cloudflare → Markdown para agentes](/es/deployment/cloudflare/#markdown-for-agents).
 
-## Usar la CLI [#driving-the-cli]
+## Usar la CLI {#driving-the-cli}
 
 El propio comando `livemark` está pensado para agentes y scripts además de personas. `livemark --llms` imprime un manifiesto con cada comando como herramienta al estilo de [MCP](https://modelcontextprotocol.io/), cada una con un JSON Schema para su entrada y su salida. Añade `--json` a cualquier comando para obtener su resultado como JSON en stdout, y pasa un valor para dar también la entrada en JSON:
 
@@ -69,7 +69,7 @@ livemark escape --json '{"paths":["components/Footer.tsx"]}'
 
 Con `--json`, los registros van a stderr, así que stdout contiene solo el resultado. `start` y `preview` imprimen sus URL en cuanto el servidor escucha y siguen en marcha. `--config` (`-c`) o la variable `LIVEMARK_CONFIG` apuntan cualquier comando a una configuración distinta de `./livemark.config.ts`.
 
-## Ver también [#see-also]
+## Ver también {#see-also}
 
 - [Agent Skills](/es/agent-skills/): instala las skills propias de Livemark en tu agente de programación.
 - [Archivo de configuración](/es/customization/config-file/): todas las opciones de nivel superior.

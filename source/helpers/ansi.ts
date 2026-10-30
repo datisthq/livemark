@@ -1,6 +1,3 @@
-import type { Root } from "mdast"
-import type { Plugin } from "unified"
-
 interface AnsiState {
   bold: boolean
   dim: boolean
@@ -211,35 +208,3 @@ export function ansiToHtml(input: string): string {
 }
 
 /** Walk a mdast tree and convert ansi code blocks into AnsiCode JSX elements */
-export function transformAnsiCodeBlocks(tree: Root) {
-  const children = tree.children
-  for (let i = 0; i < children.length; i++) {
-    const node = children[i]
-    if (node?.type !== "code" || node.lang !== "ansi") continue
-
-    const html = ansiToHtml(node.value)
-
-    const jsxNode = {
-      type: "mdxJsxFlowElement" as const,
-      name: "AnsiCode",
-      attributes: [
-        {
-          type: "mdxJsxAttribute" as const,
-          name: "html",
-          value: html,
-        },
-      ],
-      children: [],
-    }
-
-    // @ts-expect-error mdxJsxFlowElement is not in mdast types
-    children[i] = jsxNode
-  }
-}
-
-/** Remark plugin that converts ansi code blocks into colored HTML output */
-export const remarkAnsi: Plugin<[], Root> = () => {
-  return tree => {
-    transformAnsiCodeBlocks(tree)
-  }
-}

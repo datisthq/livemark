@@ -8,7 +8,7 @@ order: 1
 
 Livemark 能把普通的 Markdown 变成一个快速、现代的文档站点。只需指向一个包含 `.md` 文件的文件夹，它就会为你生成一个可部署的 React + Vite 站点，内置搜索、语法高亮、博客和更新日志栏目、深色模式，以及一套可定制的组件库。
 
-## 你将获得 [#what-you-get]
+## 你将获得 {#what-you-get}
 
 - **只管写 Markdown。** 开箱即用地支持 GitHub 风格的 Markdown，包括前置元数据 frontmatter、自定义标题 ID、脚注、定义列表和 gemoji。
 - **精美的代码块。** 由 [Shiki](https://shiki.style/) 提供语法高亮，支持 100 多种语言、浅色/深色双主题、行高亮、diff 以及 TwoSlash 类型提示。
@@ -19,17 +19,17 @@ Livemark 能把普通的 Markdown 变成一个快速、现代的文档站点。�
 - **可定制主题。** Tailwind v4、shadcn 风格的基础元素、深色模式，以及通过 `.livemark/` 文件夹进行的按文件覆盖。
 - **基于 TanStack Start 构建。** SSR、预渲染、sitemap 和路由全部免费获得。
 
-## 快速开始 [#quick-start]
+## 快速开始 {#quick-start}
 
 你需要 [Node.js](https://nodejs.org/) 24+ 和一个包管理器（pnpm、npm、yarn 或 bun）。
 
-### 安装 [#install]
+### 安装 {#install}
 
 ```bash
 npm install livemark
 ```
 
-### 配置 [#configure]
+### 配置 {#configure}
 
 在项目根目录创建 `livemark.config.ts`：
 
@@ -43,7 +43,7 @@ export default defineConfig({
 })
 ```
 
-### 添加内容 [#add-content]
+### 添加内容 {#add-content}
 
 ```text title="docs/"
 docs/
@@ -66,7 +66,7 @@ order: 1
 Welcome!
 ```
 
-### 运行 [#run]
+### 运行 {#run}
 
 ```bash
 npx livemark start    # dev server with HMR at http://localhost:8000 (--host: also on the LAN, --open: in the browser)
@@ -77,7 +77,7 @@ npx livemark clear    # wipe the generated .livemark/.serve/, .build/ and .cache
 
 这就是完整的流程。记得把 `.livemark/build/` 加入 `.gitignore`。
 
-## 项目结构 [#project-structure]
+## 项目结构 {#project-structure}
 
 一个典型的 Livemark 站点：
 
@@ -92,7 +92,7 @@ my-project/
 
 `.livemark/components/`、`.livemark/elements/` 或 `.livemark/styles/` 下的任何文件都会覆盖 Livemark 中同路径的默认文件，因此你无需 fork 这个包，就能定制组件、基础元素和基础 CSS。运行 `npx livemark escape <path>` 可将某个默认文件复制到 `.livemark/` 中，以便直接编辑。
 
-## 定制 [#customization]
+## 定制 {#customization}
 
 Livemark 的目标是零配置也足够好看，而在你需要更多控制时又不会碍手碍脚。常见的定制项：
 
@@ -104,7 +104,7 @@ Livemark 的目标是零配置也足够好看，而在你需要更多控制时�
 - **覆盖（escape）**：在你的项目中替换任意内置组件或样式表。参见[覆盖（escape）](/zh/customization/overriding-escaping/)。
 - **自定义路由**：在 `.livemark/routes/` 中放入一个 `.tsx` 文件，即可添加一个完全自定义的页面。参见[自定义路由](/zh/customization/custom-routes/)。
 
-## 文档 [#documentation]
+## 文档 {#documentation}
 
 完整文档位于 **[livemark.dev](https://livemark.dev)**：
 
@@ -113,13 +113,13 @@ Livemark 的目标是零配置也足够好看，而在你需要更多控制时�
 - [更新日志](/changelog/)：版本发布说明
 - [贡献指南](/zh/contributing/)：本地环境搭建和 PR 流程
 
-## 资源 [#resources]
+## 资源 {#resources}
 
 - **npm**：[npmjs.com/package/livemark](https://www.npmjs.com/package/livemark)
 - **GitHub**：[github.com/datisthq/livemark](https://github.com/datisthq/livemark)
 - **Issues**：[github.com/datisthq/livemark/issues](https://github.com/datisthq/livemark/issues)
 - **讨论**：[github.com/datisthq/livemark/discussions](https://github.com/datisthq/livemark/discussions)
 
-## 许可证 [#license]
+## 许可证 {#license}
 
 MIT，参见 [LICENSE.md](https://github.com/datisthq/livemark/blob/main/LICENSE.md)。

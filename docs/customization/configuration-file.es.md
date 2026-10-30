@@ -13,7 +13,7 @@ El archivo de configuración es opcional. Por defecto, Livemark recoge todos los
 
 Livemark se configura con un único archivo en la raíz de tu proyecto: **`livemark.config.ts`**. Colócalo junto a tu `package.json`, exporta una llamada `defineConfig({...})` y Livemark lo detecta automáticamente, sin flags ni variables de entorno.
 
-## Configuración mínima [#minimal-config]
+## Configuración mínima {#minimal-config}
 
 Todos los campos son opcionales. La configuración válida más pequeña es una llamada vacía:
 
@@ -25,7 +25,7 @@ export default defineConfig({})
 
 Eso recoge todos los archivos `.md` de tu proyecto (por defecto `include: "**/*.md"`) y los renderiza con el tema estándar de Livemark: barra lateral, búsqueda, resaltado de sintaxis, modo oscuro, todo con valores por defecto.
 
-## Qué puedes configurar [#what-you-can-configure]
+## Qué puedes configurar {#what-you-can-configure}
 
 Cada campo tiene un valor por defecto razonable. El conjunto completo:
 
@@ -56,7 +56,7 @@ El esquema completo está en [`source/models/config.ts`](https://github.com/dati
 
 `title`, `description` y `banner` aceptan una cadena o [un valor por código de idioma](/es/customization/translations/#translating-config-texts).
 
-## Ejemplo completo [#worked-example]
+## Ejemplo completo {#worked-example}
 
 La mayoría de los sitios reales acaban pareciéndose a esto:
 
@@ -83,7 +83,7 @@ export default defineConfig({
 })
 ```
 
-## Siguientes pasos [#where-to-go-next]
+## Siguientes pasos {#where-to-go-next}
 
 - [Metadatos del sitio](/es/customization/site-metadata/): título, descripción, favicon, logo.
 - [Secciones de artículos](/es/customization/article-sections/): divide el contenido en varios prefijos de URL (docs / blog / registro de cambios).

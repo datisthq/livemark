@@ -17,7 +17,9 @@ minimumReleaseAge: 10080
 # compromised, these would sail through. trustPolicy: no-downgrade is the control for that.
 minimumReleaseAgeExclude:
   - "@fairspec/*"
+  - "@textlane/*"
   - fireargs
+  - textlane
   # Transitive, with no exact pin to lower. Exempted at this one version and pruned
   # automatically once it ages past the window (minimumReleaseAgeExcludePrune).
   - "@iconify/utils@3.1.5"

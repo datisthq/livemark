@@ -17,15 +17,15 @@ Headings automatically generate anchor IDs for linking.
 
 Renders as `<h2 id="my-heading">My Heading</h2>`. IDs are generated using GitHub-compatible slugging.
 
-## Custom Heading IDs [#custom-ids]
+## Custom Heading IDs {#custom-ids}
 
-Override the auto-generated ID with `[#custom-id]` syntax:
+Override the auto-generated ID with `{#custom-id}` syntax:
 
 ```md
-## My Heading [#custom-id]
+## My Heading {#custom-id}
 ```
 
-This generates `<h2 id="custom-id">My Heading</h2>`. Link to it with `#custom-id`. This heading itself uses `[#custom-ids]`.
+This generates `<h2 id="custom-id">My Heading</h2>`. Link to it with `#custom-id`. This heading itself uses `{#custom-ids}`.
 
 ## Heading Levels
 

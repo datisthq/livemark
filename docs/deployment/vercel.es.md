@@ -14,7 +14,7 @@ Vercel detecta Vite automáticamente, pero no adivina el directorio de compilaci
 Esta guía publica la salida estática prerenderizada. Livemark está construido sobre [TanStack Start](https://tanstack.com/start), que también admite SSR totalmente dinámico mediante el preset de Vercel: `.livemark/build/` se convierte en una función serverless desplegable. Consulta [TanStack Start → Hosting](https://tanstack.com/start/latest/docs/framework/react/guide/hosting) para hacer el cambio.
 :::
 
-## Compila el sitio [#build-the-site]
+## Compila el sitio {#build-the-site}
 
 ```bash
 livemark build
@@ -22,7 +22,7 @@ livemark build
 
 La salida queda en `.livemark/build/client/`.
 
-## Configura `vercel.json` [#configure-verceljson]
+## Configura `vercel.json` {#configure-verceljson}
 
 Coloca esto en la raíz de tu proyecto para que Vercel use el comando correcto y sirva el directorio correcto:
 
@@ -35,11 +35,11 @@ Coloca esto en la raíz de tu proyecto para que Vercel use el comando correcto y
 
 Esa es toda la configuración: Vercel se encarga a partir de ahí de la instalación, la compilación y el servicio estático.
 
-## Despliega con la integración git [#deploy-with-the-git-integration]
+## Despliega con la integración git {#deploy-with-the-git-integration}
 
 El camino recomendado: importa tu repositorio en [vercel.com/new](https://vercel.com/new). Vercel detecta Vite como framework (Livemark se construye sobre Vite + TanStack Start), lee `vercel.json` y ejecuta el mismo `livemark build` que ejecutarías en local. Cada push a `main` va a producción; cualquier otra rama y PR recibe una URL de vista previa única.
 
-## Despliega con la CLI [#deploy-with-the-cli]
+## Despliega con la CLI {#deploy-with-the-cli}
 
 Para despliegues puntuales o automatizados con scripts:
 
@@ -50,7 +50,7 @@ vercel deploy --prod
 
 La primera ejecución te pide `vercel login` y vincula el directorio a un proyecto de Vercel.
 
-## Despliega con GitHub Actions [#deploy-with-github-actions]
+## Despliega con GitHub Actions {#deploy-with-github-actions}
 
 La integración git de Vercel suele bastar por sí sola, pero puedes condicionar los despliegues a las pruebas de CI:
 
@@ -84,11 +84,11 @@ jobs:
 
 `vercel build` ejecuta el `buildCommand` de `vercel.json` (`livemark build`) y empaqueta `.livemark/build/client/` en `.vercel/output/`, que `vercel deploy --prebuilt` sube tal cual. Necesitarás `VERCEL_TOKEN`, `VERCEL_ORG_ID` y `VERCEL_PROJECT_ID` como secretos (los dos últimos están en `.vercel/project.json` tras el primer `vercel link` en local).
 
-## Dominio personalizado [#custom-domain]
+## Dominio personalizado {#custom-domain}
 
 En el panel del proyecto, **Settings → Domains → Add**. Vercel te guía por los registros DNS y aprovisiona un certificado automáticamente. Define el mismo dominio como `site` en `livemark.config.ts`.
 
-## Ver también [#see-also]
+## Ver también {#see-also}
 
 - [Metadatos del sitio](/es/customization/site-metadata/): `site` rellena las URLs del sitemap y del feed RSS.
 - [Despliegue](/es/deployment/): vuelve al índice de hostings.

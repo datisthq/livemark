@@ -73,10 +73,10 @@ Comment annotations are removed from the rendered output. Block comment syntax `
 
 ## Word Highlighting
 
-Highlight all occurrences of a word with `{word:TERM}` syntax:
+Highlight all occurrences of a word with `/TERM/` syntax:
 
 ````md
-```typescript {word:config}
+```typescript /config/
 const config = loadConfig()
 export default config
 ```
@@ -84,7 +84,7 @@ export default config
 
 Renders as:
 
-```typescript {word:config}
+```typescript /config/
 const config = loadConfig()
 export default config
 ```

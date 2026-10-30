@@ -13,7 +13,7 @@ order: 10
 
 较早的开源静态生成器 `gitbook-cli` 已于 2018 年弃用，与如今的产品无关；本页介绍的是当前的托管平台。
 
-## 概览 [#at-a-glance]
+## 概览 {#at-a-glance}
 
 | 维度          | Livemark                   | GitBook                                                 |
 | ------------- | -------------------------- | ------------------------------------------------------- |
@@ -24,7 +24,7 @@ order: 10
 | 许可证        | MIT，自托管                | 专有；免费版 + 付费方案；仅 Enterprise 支持自托管       |
 | 输出模型      | 预渲染静态页面（支持 SSR） | 托管在 GitBook 基础设施上                               |
 
-## 架构 [#architecture]
+## 架构 {#architecture}
 
 Livemark 基于 Vite、TanStack Start 和 React 构建。编写遵循 JS/TS 的惯例（`livemark.config.ts`、可通过 npm 安装的插件、用 React 编写的 MDX 组件），页面在构建时预渲染为静态 HTML。
 
@@ -34,15 +34,15 @@ Git Sync 是一项可选集成，用于把 GitBook 空间映射到 GitHub 或 Gi
 
 在 Livemark 这边，内容的组织方式不受限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 默认取决于文件在其 `include` glob 下的位置，也可以由前置元数据 frontmatter 中的 `path:` 字段指定。不要求必须有 `docs/` 文件夹。GitBook 的内容按产品固定的层级组织（**组织 → 集合 → 空间 → 页面**），站点 URL 由这棵树推导而来。Git Sync 镜像以嵌套目录的形式反映这一层级。
 
-## 内容能力 [#content-surface]
+## 内容能力 {#content-surface}
 
-Livemark 接受 Markdown + MDX，支持嵌入 React 组件，将 frontmatter 作为一等概念（`path`、`order`、`icon`、`sidebar`、`date`、`tags`），并在构建时应用 remark/rehype 插件。
+Livemark 接受 Markdown + MDX，支持嵌入 React 组件，将 frontmatter 作为一等概念（`path`、`order`、`icon`、`sidebar`、`date`、`tags`），并在构建时由 textlane 编译。
 
 GitBook 的内容能力就是编辑器的块面板：段落、标题、列表、表格、提示（info/warning/danger/success）、标签页、可展开块、带标签组的代码块、文件、图片、绘图、数学公式（KaTeX）、嵌入内容（Figma、Loom 等）、API 方法块、OpenAPI 参考，以及内容引用（跨空间嵌入）。用户无法扩展自定义组件，可用的块就是 GitBook 提供的那些。Git Sync 使用的 Markdown 方言通过类似 Liquid 的标签来表示 CommonMark 中没有的块，例如 `{% hint style="info" %}…{% endhint %}` 和 `{% tabs %}…{% endtabs %}`。
 
 OpenAPI 是一等输入：GitBook 可以导入 OpenAPI 规范并据此渲染 API 参考页面，这一点更接近 Mintlify 的能力，而不是 Livemark 的。
 
-## 功能矩阵 [#feature-matrix]
+## 功能矩阵 {#feature-matrix}
 
 | 能力                     | Livemark                               | GitBook                                                |
 | ------------------------ | -------------------------------------- | ------------------------------------------------------ |
@@ -54,18 +54,18 @@ OpenAPI 是一等输入：GitBook 可以导入 OpenAPI 规范并据此渲染 API
 | Sitemap                  | 是                                     | 是（由平台生成）                                       |
 | RSS                      | 是（按博客栏目）                       | 否                                                     |
 | 主题                     | 通过 `.livemark/` 覆盖组件             | 通过站点设置自定义（颜色、字体、布局）；不能覆盖模板   |
-| 插件                     | Vite 插件 + remark/rehype              | 专有集成（Intercom、Segment、GA 等）                   |
+| 插件                     | Vite 插件 + textlane                   | 专有集成（Intercom、Segment、GA 等）                   |
 | 自定义路由               | `.livemark/routes/`（TanStack Router） | 否（URL 遵循空间 → 页面的层级）                        |
 | 基于 OpenAPI 的 API 参考 | 否（手动）                             | 是（内置）                                             |
 | 独立工具链               | Node + npm                             | 用户侧无；SaaS                                         |
 
-## 输出与部署 [#output--deployment]
+## 输出与部署 {#output--deployment}
 
 Livemark 产出一个包含预渲染 HTML + 静态资源的目录（`.livemark/build/client/`），可以上传到任意静态托管服务。各托管平台的指南请参阅[部署](/zh/deployment/)。
 
 GitBook 不产出可部署的产物。站点默认托管在 `<space>.gitbook.io`，也可以通过 DNS 绑定自定义域名。CDN、TLS、重定向、访问控制和分析都在 GitBook 控制台中配置。自托管仅限 Enterprise 方案，标准方案不提供。最接近“你的内容”的产物，是 Git Sync 镜像写入所连接仓库的那些文件，而它们只是内容，并不是可构建的站点。
 
-## 另请参阅 [#see-also]
+## 另请参阅 {#see-also}
 
 - [编写](/zh/authoring/)——Livemark 的 Markdown 能力。
 - [定制](/zh/customization/)——Livemark 的配置项与组件覆盖。

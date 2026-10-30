@@ -10,7 +10,7 @@ order: 11
 
 每次 `livemark build` 都会以 AI 智能体所需的形式发布你的站点，与浏览器获取的 HTML 并列。这一切无需任何配置，下面的两个选项只是对其进行调整。
 
-## 构建产物 [#what-the-build-emits]
+## 构建产物 {#what-the-build-emits}
 
 | 文件                                   | 用途                                                                            |
 | -------------------------------------- | ------------------------------------------------------------------------------- |
@@ -25,7 +25,7 @@ order: 11
 
 你在 `.livemark/public/` 下放置的同名文件会替换生成的文件。`_headers` 是唯一的例外：你的规则会被保留，生成的 `Link` 规则追加在其后。这些文件只由 `livemark build` 写出，因此 `livemark start` 不会提供它们。
 
-## 内容信号 [#content-signals]
+## 内容信号 {#content-signals}
 
 `contentSignals` 控制 `robots.txt` 中的 [Content Signals](https://contentsignals.org/) 行。三个信号默认都为 `true`：
 
@@ -41,7 +41,7 @@ export default defineConfig({
 
 生成的这一行位于 `User-agent: *` 分组中：`Content-Signal: search=yes, ai-input=yes, ai-train=no`。
 
-## 智能体技能 [#agent-skills]
+## 智能体技能 {#agent-skills}
 
 如果你的项目附带 [Agent Skills](https://agentskills.io/specification)，将 `skills` 指向它们的 `SKILL.md` 文件：
 
@@ -53,11 +53,11 @@ export default defineConfig({
 
 每个匹配到的技能都会发布到 `/.well-known/agent-skills/<name>/SKILL.md`，并连同 `sha256` 摘要一起列在 `index.json` 中。它的 frontmatter 需要一个 `name`（小写字母、数字和单个连字符）和一个 `description`，缺少任何一个都会导致构建失败。
 
-## 按需提供 Markdown [#markdown-on-request]
+## 按需提供 Markdown {#markdown-on-request}
 
 智能体通过向页面 URL 发送 `Accept: text/markdown` 来请求 Markdown。静态托管本身无法响应这种请求，但 CDN 上的重写规则可以为这些请求提供 `<page>/index.md`，而其他所有人仍然获得 HTML。每篇文章和栏目列表都有副本，因此重写永远不会指向不存在的文件。现成的规则请参阅 [Cloudflare → 面向智能体的 Markdown](/zh/deployment/cloudflare/#markdown-for-agents)。
 
-## 驱动 CLI [#driving-the-cli]
+## 驱动 CLI {#driving-the-cli}
 
 `livemark` 命令本身既面向人，也面向智能体和脚本。`livemark --llms` 会把每个命令输出为 [MCP](https://modelcontextprotocol.io/) 风格的工具清单，每个工具都带有输入和输出的 JSON Schema。给任意命令加上 `--json`，结果会以 JSON 写到 stdout；再传入一个值，输入也可以用 JSON 提供：
 
@@ -69,7 +69,7 @@ livemark escape --json '{"paths":["components/Footer.tsx"]}'
 
 使用 `--json` 时日志写到 stderr，stdout 只包含结果。`start` 和 `preview` 在服务器开始监听后输出 URL，并保持运行。`--config`（`-c`）或 `LIVEMARK_CONFIG` 环境变量可让任意命令使用 `./livemark.config.ts` 以外的配置文件。
 
-## 另请参阅 [#see-also]
+## 另请参阅 {#see-also}
 
 - [智能体技能](/zh/agent-skills/)：将 Livemark 自带的技能安装到你的编码智能体中。
 - [配置文件](/zh/customization/config-file/)：所有顶层选项。

@@ -52,7 +52,7 @@ Frontmatter shape differs: MkDocs reads `title`, `summary`, `tags` (with a plugi
 | Sitemap                     | Yes                                      | Yes                                 |
 | RSS                         | Yes (per blog section)                   | Via plugin                          |
 | Themes                      | Component overrides via `.livemark/`     | Theme packages + Jinja overrides    |
-| Plugins                     | Vite plugins + remark/rehype             | Python plugins (`mkdocs-*` on PyPI) |
+| Plugins                     | Vite plugins + textlane                  | Python plugins (`mkdocs-*` on PyPI) |
 | Custom routes               | `.livemark/routes/` (TanStack Router)    | No (content-only)                   |
 | Standalone toolchain        | Node + npm                               | Python + pip                        |
 

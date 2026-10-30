@@ -11,7 +11,7 @@ order: 5
 
 [Fumadocs](https://fumadocs.dev) es un framework de documentación basado en Next.js y construido en torno al App Router. Reparte las responsabilidades entre paquetes separados: `fumadocs-core` (lógica headless), `fumadocs-ui` (componentes de UI por defecto) y `fumadocs-mdx` (cargador de fuentes de contenido).
 
-## De un vistazo [#at-a-glance]
+## De un vistazo {#at-a-glance}
 
 | Eje                        | Livemark                                     | Fumadocs                            |
 | -------------------------- | -------------------------------------------- | ----------------------------------- |
@@ -22,7 +22,7 @@ order: 5
 | Licencia                   | MIT, autoalojado                             | MIT, autoalojado                    |
 | Modelo de salida           | Estático prerenderizado (compatible con SSR) | Estático o SSR (modos de Next.js)   |
 
-## Arquitectura [#architecture]
+## Arquitectura {#architecture}
 
 Livemark envuelve Vite + TanStack Start. Las rutas, el prerenderizado y la sobrescritura de componentes provienen de TanStack Start; Livemark añade content-collections para cargar el contenido y una capa por defecto de barra lateral, layout y componentes por encima.
 
@@ -32,7 +32,7 @@ La división en paquetes es intencionada: `fumadocs-core` expone hooks y primiti
 
 La organización del contenido no tiene restricciones en el lado de Livemark: escanea por glob (`include`/`exclude` en `livemark.config.ts`), y la URL de cada artículo sigue la ubicación del archivo bajo su glob de `include`, salvo que la defina un campo `path:` del frontmatter. No hay una carpeta `docs/` obligatoria: un proyecto puede tomar artículos de `README.md`, `docs/`, `blog/`, los README de los paquetes o de cualquier otro lugar. Fumadocs lee desde un único directorio de contenido configurado (definido en el plugin de origen de `fumadocs-mdx`); las rutas se derivan de las rutas de archivo bajo esa raíz.
 
-## Superficie de contenido [#content-surface]
+## Superficie de contenido {#content-surface}
 
 Ambas herramientas aceptan Markdown + MDX con frontmatter y componentes de React incrustados.
 
@@ -42,7 +42,7 @@ Livemark usa content-collections internamente con el mismo fin: frontmatter vali
 
 La forma del frontmatter difiere: Fumadocs usa `title`, `description`, `icon`, `full`. Livemark usa `path`, `order`, `icon`, `sidebar`, `date`, `tags`.
 
-## Matriz de funcionalidades [#feature-matrix]
+## Matriz de funcionalidades {#feature-matrix}
 
 | Capacidad                   | Livemark                                           | Fumadocs                                              |
 | --------------------------- | -------------------------------------------------- | ----------------------------------------------------- |
@@ -58,13 +58,13 @@ La forma del frontmatter difiere: Fumadocs usa `title`, `description`, `icon`, `
 | Rutas personalizadas        | `.livemark/routes/` (TanStack Router)              | Cualquier página del App Router de Next               |
 | CLI independiente           | Sí (`livemark build`)                              | No (comandos de Next.js)                              |
 
-## Salida y despliegue [#output--deployment]
+## Salida y despliegue {#output--deployment}
 
 Livemark prerenderiza cada ruta en tiempo de compilación. La salida es un directorio estático que puedes desplegar en cualquier sitio: consulta [Despliegue](/es/deployment/).
 
 Fumadocs hereda los modos de salida de Next.js: exportación estática completa (`output: 'export'`), SSG/SSR híbrido o totalmente dinámico. El despliegue se ajusta a lo que admita Next.js: Vercel es el destino por defecto, pero funciona cualquier host de Node o Cloudflare Workers (mediante OpenNext).
 
-## Ver también [#see-also]
+## Ver también {#see-also}
 
 - [Autoría](/es/authoring/): la superficie de Markdown de Livemark.
 - [Personalización](/es/customization/): las opciones de configuración de Livemark y la sobrescritura de componentes.

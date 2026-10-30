@@ -10,7 +10,7 @@ order: 2
 
 `livemark.config.ts` 中的几个顶层字段负责向浏览器、搜索引擎和社交卡片描述你的站点。
 
-## 字段 [#fields]
+## 字段 {#fields}
 
 ```typescript title="livemark.config.ts"
 import { defineConfig } from "livemark"
@@ -37,11 +37,11 @@ export default defineConfig({
 | `banner`      | `string` | —                           | 每个页面顶栏上方的公告横条                              |
 | `head`        | `object` | —                           | 每个页面 `<head>` 中额外的 `meta`、`links` 和 `scripts` |
 
-## Sitemap 与 `site` [#sitemap-and-site]
+## Sitemap 与 `site` {#sitemap-and-site}
 
 如果设置了 `site`，Livemark 会在 `livemark build` 期间于输出目录根部生成 `sitemap.xml`，并以 `site` 作为每个 URL 的绝对源地址。未设置 `site` 时，会跳过 sitemap 的生成。
 
-## Logo 与 favicon [#logo-and-favicon]
+## Logo 与 favicon {#logo-and-favicon}
 
 - `logo` 和 `favicon` 接受任意 URL 或相对于根路径的路径（`/logo.svg`）。放在 `.livemark/public/` 中的资源会在 `/…` 下提供，很适合用在这里。
 - 如果省略 `favicon`，Livemark 会回退到 `logo`，最后回退到其内置的标志。
@@ -51,7 +51,7 @@ export default defineConfig({
 `logo` 文件请尽量小（SVG 最理想）。它会内联到每个页面的顶栏中。
 :::
 
-## 横幅 [#banner]
+## 横幅 {#banner}
 
 `banner` 会在每个页面的顶栏上方显示一条全宽横条；页面滚动时它会滚走，而顶栏保持固定。其值是行内 Markdown（链接、`**bold**`、`_emphasis_` 和 `` `code` ``），因此一行公告无需任何自定义组件：
 
@@ -63,11 +63,11 @@ banner: "Livemark is in technical preview · [Share feedback →](https://github
 - 原始 HTML 标签会被丢弃。如需图标或自定义标记，请改为 escape `components/Banner.tsx`（[覆盖（escape）](/zh/customization/overriding-escaping/)）。
 - 横条使用 `--banner` 和 `--banner-foreground` 颜色令牌。
 
-## 页面级标签 [#per-page-tags]
+## 页面级标签 {#per-page-tags}
 
 每个文章页面都会用自己的 `<title>`、`description`、`og:title`、`og:description` 和 `og:type`（`article`）覆盖站点默认值。设置了 `site` 时，它还会获得 `og:url`、`<link rel="canonical">`，以及根据 frontmatter 中的 `image` 生成的绝对 `og:image`。
 
-## 额外的 head 标签 [#extra-head-tags]
+## 额外的 head 标签 {#extra-head-tags}
 
 `head` 会在默认标签之后向每个页面添加标签。`name` 或 `property` 与某个默认标签相同的 `meta` 条目会替换该默认标签：
 
@@ -95,7 +95,7 @@ export function customizeHead(head: RootHead) {
 }
 ```
 
-## 另请参阅 [#see-also]
+## 另请参阅 {#see-also}
 
 - [外部链接](/zh/customization/external-links/)：位于标题旁边的顶栏/侧边栏链接。
 - [文章栏目](/zh/customization/article-sections/)：组织站点本身的内容结构。

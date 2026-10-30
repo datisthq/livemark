@@ -33,15 +33,15 @@ Renders as: Use `const x = 1` for inline code.
 
 ## Inline Code Highlighting
 
-Add language-specific syntax highlighting to inline code with a `{:lang}` prefix:
+Add language-specific syntax highlighting to inline code with a `{:lang}` suffix:
 
 ```md
-Use `{:ts}const x = 1` for inline TypeScript or `{:py}print("hello")` for Python.
+Use `const x = 1{:ts}` for inline TypeScript or `print("hello"){:py}` for Python.
 ```
 
 Renders as:
 
-Use `{:ts}const x = 1` for inline TypeScript or `{:py}print("hello")` for Python.
+Use `const x = 1{:ts}` for inline TypeScript or `print("hello"){:py}` for Python.
 
 ## Blockquotes
 

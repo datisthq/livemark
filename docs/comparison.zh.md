@@ -10,7 +10,7 @@ order: 6
 
 Livemark 与主流文档工具之间的逐项技术对比。每个页面涵盖技术栈、内容能力、功能对等情况和输出模型，不提供推荐，也不给出“如果……就选 X”之类的建议。结论由你自己得出。
 
-## 工具 [#tools]
+## 工具 {#tools}
 
 :::card{title="Docusaurus vs Livemark" href="/zh/comparison/docusaurus/" icon="book-text"}
 Meta 出品的 React + MDX 文档框架，基于 Webpack。
@@ -52,7 +52,7 @@ Next.js 文档框架，提供主题包并使用 MDX 内容。
 托管 SaaS，提供块编辑器、Git Sync 镜像和内置 API 参考。
 :::
 
-## 每篇对比涵盖的内容 [#what-every-comparison-covers]
+## 每篇对比涵盖的内容 {#what-every-comparison-covers}
 
 - **概览**：语言、框架、构建工具、内容格式、许可证、输出模型。
 - **架构**：各工具如何构建、依赖什么。

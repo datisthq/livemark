@@ -10,7 +10,7 @@ order: 1
 
 Livemark 的构建产物就是一个由 `.html`、`.css`、`.js` 和资源文件组成的普通目录。任何能提供文件目录服务的程序都可以使用。本指南介绍几种常见的配置方式。
 
-## 构建站点 [#build-the-site]
+## 构建站点 {#build-the-site}
 
 ```bash
 livemark build
@@ -18,7 +18,7 @@ livemark build
 
 输出位于 `.livemark/build/client/`。请将该目录作为文档根目录。
 
-## 预渲染与 SPA 回退 [#prerendering-vs-spa-fallback]
+## 预渲染与 SPA 回退 {#prerendering-vs-spa-fallback}
 
 Livemark 会在 `livemark build` 期间把每个路由预渲染到磁盘上。像 `/customization/site-metadata/` 这样的深层链接会落到 `customization/site-metadata/index.html` 这个真实文件上，已知页面无需客户端路由回退。
 
@@ -83,11 +83,11 @@ RewriteRule ^ index.html [L]
 
 将构建产物放到文档根目录。两条 `RewriteCond` 确保真实存在的文件和目录直接提供，只有未匹配的路径才会回退。
 
-## 其他托管平台 [#other-hosts]
+## 其他托管平台 {#other-hosts}
 
 同样的方法也适用于 Render Static、Surge、Fly Static、Bunny，或任何搭配 CDN 的对象存储：上传目录，将域名指向它，并确保未知路径回退到 `index.html`。
 
-## 使用 GitHub Actions 部署 [#deploy-with-github-actions]
+## 使用 GitHub Actions 部署 {#deploy-with-github-actions}
 
 一个基于 nginx/SSH 的最简示例：
 
@@ -122,7 +122,7 @@ jobs:
 
 对于 S3，将部署步骤换成 `aws-actions/configure-aws-credentials` + `aws s3 sync`。
 
-## 另请参阅 [#see-also]
+## 另请参阅 {#see-also}
 
 - [站点元数据](/zh/customization/site-metadata/)：`site` 支撑绝对 URL 和订阅源的生成。
 - [部署](/zh/deployment/)：返回托管平台索引。

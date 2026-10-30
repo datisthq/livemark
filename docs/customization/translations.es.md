@@ -9,7 +9,7 @@ order: 8
 
 El array `languages` convierte un proyecto en un sitio multilingüe. El primer idioma es el predeterminado y conserva sus URL; cualquier otro idioma se sirve bajo su código, así que `/guide/` en español vive en `/es/guide/`.
 
-## Uso básico [#basic-usage]
+## Uso básico {#basic-usage}
 
 ```typescript title="livemark.config.ts"
 import { defineConfig } from "livemark"
@@ -37,7 +37,7 @@ Después coloca cada traducción junto a su original, con el código de idioma a
 
 `guide.es.md` mantiene el mismo `path` de frontmatter que `guide.md` —`/guide/`— y Livemark lo sirve en `/es/guide/`. Los dos archivos se emparejan por esa ruta, así que el selector de idioma de la cabecera salta entre ellos.
 
-## Idiomas [#languages]
+## Idiomas {#languages}
 
 | Campo      | Tipo                | Por defecto         | Propósito                                                         |
 | ---------- | ------------------- | ------------------- | ----------------------------------------------------------------- |
@@ -52,7 +52,7 @@ El selector de la cabecera muestra la bandera de cada idioma. Por defecto se tom
 
 Sin `languages`, un sitio se comporta exactamente como antes: un único idioma, inglés, en `/`.
 
-## Marcar el idioma de un artículo [#marking-an-articles-language]
+## Marcar el idioma de un artículo {#marking-an-articles-language}
 
 El idioma de un archivo se determina, por orden, a partir de:
 
@@ -62,7 +62,7 @@ El idioma de un archivo se determina, por orden, a partir de:
 
 Un sufijo que no nombra ningún idioma configurado forma parte del nombre del archivo, así que `vite.config.md` sigue siendo un artículo en inglés.
 
-## Traducir textos de la configuración [#translating-config-texts]
+## Traducir textos de la configuración {#translating-config-texts}
 
 `title`, `description` y `banner`, el `title` de una sección, `siteTitle` y `siteDescription`, y el `title` de un enlace aceptan una cadena o un valor por código de idioma. Un idioma que falte recurre al valor del idioma predeterminado.
 
@@ -75,11 +75,11 @@ sections: [
 
 Las secciones de artículos y de blog se replican para cada idioma: el sitio en español obtiene `/es/` y `/es/blog/`, cada una con su propia barra lateral, etiquetas y feed RSS. Las secciones de registro de cambios también se replican, en `/es/changelog/`: la página que rodea cada versión está en español, mientras que las notas de la versión se mantienen tal como están en el archivo del registro y señalan la página en inglés como canónica, por lo que no aparecen en el sitemap. El prefijo de una sección no puede empezar por el código de un idioma: `/es/` del ejemplo está reservado para el español.
 
-## Páginas sin traducir [#untranslated-pages]
+## Páginas sin traducir {#untranslated-pages}
 
 La barra lateral de un idioma sigue listando los artículos del idioma predeterminado que no tienen traducción, marcados con el código del idioma predeterminado y enlazados a la página original. No se duplica nada bajo el prefijo del idioma, así que los buscadores ven cada página una sola vez.
 
-## Cadenas de la interfaz [#ui-strings]
+## Cadenas de la interfaz {#ui-strings}
 
 Las etiquetas propias de Livemark —"On this page", "Search docs...", "Edit on GitHub" y el resto— vienen en inglés, alemán, español, francés, japonés, ruso y chino, y se eligen según el `locale` del idioma. Puedes sobrescribir cualquiera de ellas por idioma:
 
@@ -107,7 +107,7 @@ export function Footer() {
 }
 ```
 
-## Qué recibe cada idioma [#what-each-language-gets]
+## Qué recibe cada idioma {#what-each-language-gets}
 
 - `<html lang>` y `dir` según el idioma, y fechas con el formato de su locale
 - enlaces `hreflang` entre traducciones, un enlace `x-default` al idioma predeterminado y `og:locale`

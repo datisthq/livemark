@@ -11,7 +11,7 @@ tags: [features, announcement]
 
 Acabamos de lanzar dos funcionalidades importantes: secciones configurables y soporte de blog.
 
-## Secciones [#sections]
+## Secciones {#sections}
 
 Ahora puedes dividir tu sitio en varias secciones. Cada sección aparece como una pestaña en la cabecera, y la barra lateral muestra solo los artículos de la sección activa.
 
@@ -24,6 +24,6 @@ export default defineConfig({
 })
 ```
 
-## Blog [#blog]
+## Blog {#blog}
 
 Las secciones de blog tienen un diseño de barra lateral distinto, optimizado para entradas cronológicas, y una página de índice generada automáticamente que lista todas las entradas por fecha.

@@ -54,7 +54,7 @@ livemark/
 │   ├── styles/         # base CSS (overridable)
 │   ├── helpers/        # internal utilities (private)
 │   ├── hooks/          # public React hooks
-│   ├── plugins/        # remark / rehype / vite plugins
+│   ├── plugins/        # Vite plugins and the twoslash stage
 │   ├── routes/         # TanStack Start routes
 │   ├── models/         # Zod schemas
 │   ├── content/        # content-collections derivations

@@ -15,7 +15,7 @@ Livemark 没有专门的版本管理功能：它已有的构建模块足以覆�
 
 大多数项目只需要保留最新文档和上一个主版本的文档。如果旧版本只需要保留版本说明，一个[更新日志栏目](/zh/customization/article-sections/#changelog-sections)就足够了。
 
-## 每个版本一个栏目 [#a-section-per-version]
+## 每个版本一个栏目 {#a-section-per-version}
 
 将每个旧版本的文章放在各自的文件夹中，并为它们设置位于版本前缀下的 `path`。当前文档保留在 `/`，每个旧版本成为一个栏目：
 
@@ -59,7 +59,7 @@ You are reading the docs for v1. [See the latest version](/getting-started/).
 - 搜索会索引整个站点，因此结果中会包含所有版本的文章。
 - 每个版本复制一个文件夹会造成内容重复；请冻结旧文件夹，只在必要时修改。
 
-## 每个版本一次部署 [#one-deploy-per-version]
+## 每个版本一次部署 {#one-deploy-per-version}
 
 当每个主版本都位于独立分支（`main`、`v1`、…）时，将每个分支构建为独立的站点，并从各自的地址提供：子域名（`v1.docs.example.com`），或借助 [`base`](/zh/deployment/github-pages/#configure-base-for-project-sites) 使用子路径（`docs.example.com/v1/`）。
 
@@ -86,7 +86,7 @@ sections: [
 
 每个部署都有独立的搜索索引、sitemap 和 `llms.txt`，因此不同版本永远不会混在一起。代价是每个维护中的分支都需要一次构建和一个 CI 任务。各托管平台的配置请参阅[部署](/zh/deployment/)；大多数托管平台开箱即可将分支部署到各自的 URL。
 
-## 另请参阅 [#see-also]
+## 另请参阅 {#see-also}
 
 - [文章栏目](/zh/customization/article-sections/)：栏目类型、前缀与匹配。
 - [站点元数据](/zh/customization/site-metadata/)：上文用到的 `banner`、`title` 和 `site` 字段。

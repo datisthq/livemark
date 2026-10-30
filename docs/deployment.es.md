@@ -12,7 +12,7 @@ order: 5
 
 Estas guías recorren los destinos más habituales. Elige uno: cada guía es independiente y muestra tanto el comando manual como un flujo de CI.
 
-## Hostings [#hosts]
+## Hostings {#hosts}
 
 :::card{title="Hosting estático" href="/es/deployment/static-hosting/" icon="server"}
 Cualquier hosting que sirva un directorio de archivos: nginx, S3 + CloudFront, Caddy y similares.
@@ -34,7 +34,7 @@ Conectado a git, con vistas previas por cada pull request y dominios sin configu
 Conectado a git, con despliegues por rama, publicaciones atómicas y gestión de formularios integrada.
 :::
 
-## Lo que asume cada guía [#what-every-guide-assumes]
+## Lo que asume cada guía {#what-every-guide-assumes}
 
 - Ejecutas `livemark build` y la salida queda en `.livemark/build/client/`.
 - Has definido `site` en `livemark.config.ts` si quieres que el sitemap, robots.txt y RSS se generen con URLs absolutas; consulta [Metadatos del sitio](/es/customization/site-metadata/).

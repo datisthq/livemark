@@ -9,7 +9,7 @@ order: 3
 
 Livemark 开箱即支持标准 Markdown，并为文档站点精选了一组扩展：前置元数据 frontmatter、提示框、标签页、带语法高亮的代码、图表、数学公式等。下面每个页面分别介绍内容编写的一个方面。
 
-## 功能 [#features]
+## 功能 {#features}
 
 :::card{title="Frontmatter" href="/zh/authoring/frontmatter/" icon="file-text"}
 用于标题、描述、图标和页面排序的 YAML 元数据。

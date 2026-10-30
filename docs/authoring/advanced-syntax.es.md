@@ -7,7 +7,7 @@ order: 8
 
 # Sintaxis avanzada
 
-## Bloques HTML [#html-blocks]
+## Bloques HTML {#html-blocks}
 
 Las etiquetas HTML estándar se admiten directamente en los archivos Markdown. Algunos ejemplos habituales son `<kbd>` para atajos de teclado, `<sup>`/`<sub>` para superíndices y subíndices, y `<details>`/`<summary>` para acordeones.
 
@@ -33,7 +33,7 @@ Se renderiza así:
   Un contenedor con estilos hechos con utilidades de Tailwind.
 </div>
 
-## Archivos MDX [#mdx-files]
+## Archivos MDX {#mdx-files}
 
 Un archivo `.md` es Markdown simple, así que las llaves y los corchetes angulares en la prosa siempre son seguros. Un archivo `.mdx`, o cualquier artículo con `format: "mdx"` en su [frontmatter](/es/authoring/frontmatter/#format), se compila como MDX, así que puedes usar expresiones JSX y componentes directamente:
 
@@ -55,7 +55,7 @@ En MDX, los atributos HTML siguen las convenciones de JSX: `className` en lugar 
 
 Es una vía de escape para casos de uso avanzados. Cuando sea posible, prefiere la sintaxis estándar de Markdown y de directivas.
 
-## Expresiones LaTeX [#latex-expressions]
+## Expresiones LaTeX {#latex-expressions}
 
 Las expresiones matemáticas LaTeX se admiten mediante KaTeX.
 
@@ -77,7 +77,7 @@ $$
 \begin{bmatrix} a & b \\ c & d \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = \begin{bmatrix} ax + by \\ cx + dy \end{bmatrix}
 $$
 
-## Diagramas Mermaid [#mermaid-diagrams]
+## Diagramas Mermaid {#mermaid-diagrams}
 
 Renderiza diagramas con la sintaxis de Mermaid. Los diagramas se adaptan automáticamente a los temas claro y oscuro.
 
@@ -119,7 +119,7 @@ pie title Languages
     "Other" : 10
 ```
 
-## Documentos incluidos [#included-documents]
+## Documentos incluidos {#included-documents}
 
 Incluye contenido de otros archivos con la directiva `::include`. Los archivos Markdown se insertan en línea sin su frontmatter. Los archivos de código se envuelven automáticamente en un bloque de código cercado, con el lenguaje detectado a partir de la extensión del archivo.
 

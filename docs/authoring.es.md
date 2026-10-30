@@ -9,7 +9,7 @@ order: 3
 
 Livemark admite Markdown estándar desde el primer momento, además de un conjunto seleccionado de extensiones para sitios de documentación: frontmatter, avisos, pestañas, código con resaltado de sintaxis, diagramas, matemáticas y más. Cada página a continuación cubre un área de la redacción.
 
-## Funcionalidades [#features]
+## Funcionalidades {#features}
 
 :::card{title="Frontmatter" href="/es/authoring/frontmatter/" icon="file-text"}
 Metadatos YAML para títulos, descripciones, iconos y orden de las páginas.

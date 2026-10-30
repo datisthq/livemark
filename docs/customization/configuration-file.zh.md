@@ -13,7 +13,7 @@ order: 1
 
 Livemark 通过项目根目录下的单个文件进行配置：**`livemark.config.ts`**。把它放在 `package.json` 旁边，导出一个 `defineConfig({...})` 调用，Livemark 就会自动识别它，无需任何命令行参数或环境变量。
 
-## 最小配置 [#minimal-config]
+## 最小配置 {#minimal-config}
 
 所有字段都是可选的。最小的有效配置就是一个空调用：
 
@@ -25,7 +25,7 @@ export default defineConfig({})
 
 这会读取项目下的所有 `.md` 文件（默认 `include: "**/*.md"`），并使用标准的 Livemark 主题渲染：侧边栏、搜索、语法高亮、深色模式，全部采用默认设置。
 
-## 可配置的内容 [#what-you-can-configure]
+## 可配置的内容 {#what-you-can-configure}
 
 每个字段都有合理的默认值。完整列表：
 
@@ -56,7 +56,7 @@ export default defineConfig({})
 
 `title`、`description` 和 `banner` 可以是字符串，也可以是[按语言代码分别给出的值](/zh/customization/translations/#translating-config-texts)。
 
-## 完整示例 [#worked-example]
+## 完整示例 {#worked-example}
 
 大多数真实站点最终都类似这样：
 
@@ -83,7 +83,7 @@ export default defineConfig({
 })
 ```
 
-## 下一步 [#where-to-go-next]
+## 下一步 {#where-to-go-next}
 
 - [站点元数据](/zh/customization/site-metadata/)：标题、描述、favicon、logo。
 - [文章栏目](/zh/customization/article-sections/)：将内容拆分到多个 URL 前缀下（文档 / 博客 / 更新日志）。

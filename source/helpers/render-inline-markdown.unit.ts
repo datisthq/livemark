@@ -14,7 +14,7 @@ describe("renderInlineMarkdown", () => {
 
   it("should open absolute links in a new tab", () => {
     expect(renderInlineMarkdown("[x](https://example.com)", undefined)).toBe(
-      '<a href="https://example.com" target="_blank" rel="noopener noreferrer">x</a>',
+      '<a href="https://example.com" rel="noopener noreferrer" target="_blank">x</a>',
     )
   })
 

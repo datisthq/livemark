@@ -11,7 +11,7 @@ A veces un archivo Markdown sirve a la vez como contenido del sitio y como archi
 
 `patches` te permite inyectar campos de frontmatter para un archivo concreto desde `livemark.config.ts` en lugar de editar el archivo en disco.
 
-## Uso básico [#basic-usage]
+## Uso básico {#basic-usage}
 
 ```typescript title="livemark.config.ts"
 import { defineConfig } from "livemark"
@@ -33,7 +33,7 @@ export default defineConfig({
 
 El archivo en disco queda limpio, pero Livemark lo renderiza como si el YAML anterior estuviera al principio.
 
-## Campos [#fields]
+## Campos {#fields}
 
 | Campo     | Tipo               | Propósito                                                          |
 | --------- | ------------------ | ------------------------------------------------------------------ |
@@ -48,7 +48,7 @@ Un campo del artículo como `format` funciona igual. Para fijar un archivo como 
 
 La coincidencia es una comparación exacta de cadenas con la ruta de archivo que recoge Livemark. Si la ruta no coincide con ningún artículo, el parche no hace nada en silencio, algo útil cuando parcheas de forma defensiva un archivo que puede existir o no.
 
-## Semántica de fusión [#merge-semantics]
+## Semántica de fusión {#merge-semantics}
 
 Los campos `article` de un parche se fusionan sobre el frontmatter propio del archivo. Todo lo que no especifiques en el parche conserva su valor normal (el del archivo o el de los valores automáticos de Livemark).
 
@@ -60,7 +60,7 @@ Así, un README sin frontmatter más:
 
 se renderiza como un artículo titulado "Overview". Todos los demás campos (descripción, icono, ruta, etc.) recurren a sus valores por defecto.
 
-## Lo que no puedes parchear [#what-you-cant-patch]
+## Lo que no puedes parchear {#what-you-cant-patch}
 
 La clave `content` se rechaza al cargar la configuración:
 
@@ -71,7 +71,7 @@ La clave `content` se rechaza al cargar la configuración:
 
 Los parches son para metadatos; el contenido del archivo es siempre el contenido del archivo.
 
-## Ver también [#see-also]
+## Ver también {#see-also}
 
 - [Frontmatter](/es/authoring/frontmatter/): todos los campos que puedes definir, ya sea en el archivo o mediante un parche.
 - [Configuración](/es/customization/config-file/): el glob `include` que decide qué archivos puede alcanzar un parche.

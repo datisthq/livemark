@@ -14,7 +14,7 @@ Netlify lee un pequeño `netlify.toml` en la raíz de tu proyecto para obtener e
 Esta guía publica la salida estática prerenderizada. Livemark está construido sobre [TanStack Start](https://tanstack.com/start), que también admite SSR totalmente dinámico mediante el preset de Netlify: `.livemark/build/` se convierte en una función de Netlify desplegable. Consulta [TanStack Start → Hosting](https://tanstack.com/start/latest/docs/framework/react/guide/hosting) para hacer el cambio.
 :::
 
-## Compila el sitio [#build-the-site]
+## Compila el sitio {#build-the-site}
 
 ```bash
 livemark build
@@ -22,7 +22,7 @@ livemark build
 
 La salida queda en `.livemark/build/client/`.
 
-## Configura `netlify.toml` [#configure-netlifytoml]
+## Configura `netlify.toml` {#configure-netlifytoml}
 
 ```toml title="netlify.toml"
 [build]
@@ -32,11 +32,11 @@ publish = ".livemark/build/client"
 
 Es todo lo que Netlify necesita. El mismo archivo habilita `netlify dev` en local si alguna vez quieres reproducir el comportamiento en el edge de la plataforma.
 
-## Despliega con la integración git [#deploy-with-the-git-integration]
+## Despliega con la integración git {#deploy-with-the-git-integration}
 
 El camino recomendado: conecta tu repositorio en [app.netlify.com/start](https://app.netlify.com/start). Netlify lee `netlify.toml`, ejecuta la compilación y lleva a producción cada push a `main`. Las demás ramas y PR reciben automáticamente URLs de vista previa únicas.
 
-## Despliega con la CLI [#deploy-with-the-cli]
+## Despliega con la CLI {#deploy-with-the-cli}
 
 Para despliegues puntuales o automatizados con scripts:
 
@@ -47,7 +47,7 @@ netlify deploy --prod --dir=.livemark/build/client
 
 La primera ejecución te pide `netlify login` y vincula el directorio a un sitio.
 
-## Despliega con GitHub Actions [#deploy-with-github-actions]
+## Despliega con GitHub Actions {#deploy-with-github-actions}
 
 La integración git de Netlify suele bastar, pero un flujo de trabajo te permite condicionar el despliegue a que pasen las pruebas:
 
@@ -82,11 +82,11 @@ jobs:
 
 Obtén el token de autenticación en **User settings → Applications → Personal access tokens**, y el ID del sitio en **Site settings → General**.
 
-## Dominio personalizado [#custom-domain]
+## Dominio personalizado {#custom-domain}
 
 En el panel del sitio, **Domain management → Add a domain**. Netlify aprovisiona el DNS y un certificado. Define el mismo dominio como `site` en `livemark.config.ts`.
 
-## Ver también [#see-also]
+## Ver también {#see-also}
 
 - [Metadatos del sitio](/es/customization/site-metadata/): `site` rellena las URLs del sitemap y del feed RSS.
 - [Despliegue](/es/deployment/): vuelve al índice de hostings.

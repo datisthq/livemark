@@ -11,7 +11,7 @@ order: 5
 
 [Fumadocs](https://fumadocs.dev) 是一款基于 Next.js、围绕 App Router 构建的文档框架。它将职责拆分到几个独立的包中：`fumadocs-core`（无界面逻辑）、`fumadocs-ui`（默认 UI 组件）和 `fumadocs-mdx`（内容来源加载器）。
 
-## 概览 [#at-a-glance]
+## 概览 {#at-a-glance}
 
 | 维度          | Livemark                   | Fumadocs                          |
 | ------------- | -------------------------- | --------------------------------- |
@@ -22,7 +22,7 @@ order: 5
 | 许可证        | MIT，自托管                | MIT，自托管                       |
 | 输出模型      | 预渲染静态页面（支持 SSR） | 静态或 SSR（Next.js 的各种模式）  |
 
-## 架构 [#architecture]
+## 架构 {#architecture}
 
 Livemark 封装了 Vite + TanStack Start。路由、预渲染和组件覆盖都来自 TanStack Start；Livemark 在此之上加入 content-collections 来加载内容，并提供一层默认的侧边栏、布局和组件。
 
@@ -32,7 +32,7 @@ Fumadocs 假定你已经有（或打算有）一个 Next.js 应用。它不是�
 
 在 Livemark 这边，内容的组织方式不受限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 默认取决于文件在其 `include` glob 下的位置，也可以由前置元数据 frontmatter 中的 `path:` 字段指定。不要求必须有 `docs/` 文件夹，项目可以从 `README.md`、`docs/`、`blog/`、各个包的 README 或任何其他位置获取文章。Fumadocs 从单个已配置的内容目录读取（在 `fumadocs-mdx` 的 source 插件中定义）；路由由该根目录下的文件路径推导而来。
 
-## 内容能力 [#content-surface]
+## 内容能力 {#content-surface}
 
 两款工具都接受带 frontmatter 和内嵌 React 组件的 Markdown + MDX。
 
@@ -42,7 +42,7 @@ Livemark 在底层使用 content-collections 实现同样的目的：经过校�
 
 frontmatter 的结构不同：Fumadocs 使用 `title`、`description`、`icon`、`full`；Livemark 使用 `path`、`order`、`icon`、`sidebar`、`date`、`tags`。
 
-## 功能矩阵 [#feature-matrix]
+## 功能矩阵 {#feature-matrix}
 
 | 能力           | Livemark                               | Fumadocs                          |
 | -------------- | -------------------------------------- | --------------------------------- |
@@ -58,13 +58,13 @@ frontmatter 的结构不同：Fumadocs 使用 `title`、`description`、`icon`�
 | 自定义路由     | `.livemark/routes/`（TanStack Router） | 任意 Next App Router 页面         |
 | 独立 CLI       | 是（`livemark build`）                 | 否（Next.js 命令）                |
 
-## 输出与部署 [#output--deployment]
+## 输出与部署 {#output--deployment}
 
 Livemark 在构建时预渲染每个路由。产物是一个静态目录，可以部署到任何地方，请参阅[部署](/zh/deployment/)。
 
 Fumadocs 沿用 Next.js 的输出模式：完全静态导出（`output: 'export'`）、SSG/SSR 混合，或完全动态。部署方式与 Next.js 支持的方式一致：默认目标是 Vercel，但任何 Node 托管平台或 Cloudflare Workers（通过 OpenNext）都可以。
 
-## 另请参阅 [#see-also]
+## 另请参阅 {#see-also}
 
 - [编写](/zh/authoring/)——Livemark 的 Markdown 能力。
 - [定制](/zh/customization/)——Livemark 的配置项与组件覆盖。

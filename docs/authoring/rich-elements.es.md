@@ -7,7 +7,7 @@ order: 6
 
 # Elementos enriquecidos
 
-## Tablas [#tables]
+## Tablas {#tables}
 
 Tablas GFM estándar con columnas ordenables: haz clic en cualquier cabecera para ordenar:
 
@@ -29,7 +29,7 @@ Se renderiza así:
 | Rust       | 2010 | Estático |
 | JavaScript | 1995 | Dinámico |
 
-## Avisos [#callouts]
+## Avisos {#callouts}
 
 Los avisos destacan información importante. Tipos disponibles: note, tip, info, warning, danger.
 
@@ -82,7 +82,7 @@ Contexto adicional.
 Esta API se ha eliminado en la v2.
 :::
 
-## Desplegables [#expandable]
+## Desplegables {#expandable}
 
 Crea contenido desplegable con la directiva `:::details`:
 
@@ -112,7 +112,7 @@ export default defineConfig({
 
 :::
 
-## Pestañas de código [#code-tabs]
+## Pestañas de código {#code-tabs}
 
 Agrupa bloques de código consecutivos en pestañas con la meta `tab="name"`:
 
@@ -148,7 +148,7 @@ print("hello")
 ```
 ````
 
-## Pestañas de contenido [#content-tabs]
+## Pestañas de contenido {#content-tabs}
 
 Agrupa contenido arbitrario en pestañas con la directiva `:::tab`. Las pestañas consecutivas se agrupan automáticamente.
 
@@ -200,7 +200,7 @@ Vue usa **componentes de un solo archivo** con secciones de plantilla, script y 
 
 :::
 
-## Pasos [#steps]
+## Pasos {#steps}
 
 Añade `[step]` a los encabezados para crear guías numeradas paso a paso:
 
@@ -220,19 +220,19 @@ Push to production.
 
 Se renderiza así:
 
-### Instalar dependencias [#install-dependencies] [step]
+### Instalar dependencias {#install-dependencies} [step]
 
 Ejecuta `npm install` para añadir todos los paquetes necesarios.
 
-### Configurar el proyecto [#configure-project] [step]
+### Configurar el proyecto {#configure-project} [step]
 
 Crea un archivo de configuración en la raíz del proyecto.
 
-### Desplegar [#deploy] [step]
+### Desplegar {#deploy} [step]
 
 Publica en producción.
 
-## Tarjetas [#cards]
+## Tarjetas {#cards}
 
 Crea tarjetas de contenido con la directiva `:::card`. Las tarjetas consecutivas se agrupan automáticamente en una cuadrícula.
 
@@ -266,7 +266,7 @@ Consulta el código fuente en GitHub.
 Esta página documenta todas las funcionalidades de markdown.
 :::
 
-## Insignias [#badges]
+## Insignias {#badges}
 
 Insignias de estado en línea con la directiva `:badge`:
 
@@ -280,7 +280,7 @@ Se renderiza así:
 
 Variantes disponibles: `default`, `secondary`, `positive`, `warning`, `destructive`, `outline`, `ghost`, `link`.
 
-## Botones [#buttons]
+## Botones {#buttons}
 
 Botones de enlace para llamadas a la acción con la directiva hoja `::button`:
 
@@ -310,7 +310,7 @@ Se renderiza así:
 
 Variantes disponibles: `default`, `outline`, `secondary`, `ghost`, `positive`, `warning`, `destructive`, `link`. Tamaños disponibles: `default`, `sm`, `lg`.
 
-## Iconos [#icons]
+## Iconos {#icons}
 
 Iconos en línea de la biblioteca Lucide con la directiva `:icon`:
 
@@ -332,7 +332,7 @@ Se renderiza así:
 
 :icon{name="check" className="text-positive"} Correcto :icon{name="x" className="text-destructive"} Fallo :icon{name="star" className="text-warning"} Estrella
 
-## Árbol de archivos [#file-tree]
+## Árbol de archivos {#file-tree}
 
 Muestra estructuras de archivos y directorios con la directiva `:::filetree`. Los directorios se indican con una `/` final:
 
@@ -367,7 +367,7 @@ Se renderiza así:
 
 :::
 
-## Columnas [#columns]
+## Columnas {#columns}
 
 Coloca contenido lado a lado con directivas `:::column` consecutivas. Se agrupan automáticamente en una cuadrícula:
 

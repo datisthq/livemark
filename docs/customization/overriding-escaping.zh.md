@@ -22,7 +22,7 @@ Livemark 附带一套 React 组件库、shadcn 风格的基础元素和一份基
 
 无需修改任何 import。Livemark 的其余部分会自动使用被覆盖的文件。
 
-## `livemark escape` 命令 [#the-livemark-escape-command]
+## `livemark escape` 命令 {#the-livemark-escape-command}
 
 查找并复制要覆盖的默认文件这一步已经自动化：
 
@@ -43,7 +43,7 @@ livemark escape components/Footer.tsx elements/button.tsx
 
 删除覆盖文件即可恢复默认文件：开发服务器运行时会立即生效，否则在下一次 `start` 或 `build` 时生效。
 
-## 示例：自定义页脚 [#example-custom-footer]
+## 示例：自定义页脚 {#example-custom-footer}
 
 ```bash
 livemark escape components/Footer.tsx
@@ -63,7 +63,7 @@ export function Footer() {
 
 保存后，开发服务器会立即应用它。
 
-## 示例：重新设计按钮样式 [#example-retheme-buttons]
+## 示例：重新设计按钮样式 {#example-retheme-buttons}
 
 ```bash
 livemark escape elements/button.tsx
@@ -71,7 +71,7 @@ livemark escape elements/button.tsx
 
 编辑 `.livemark/elements/button.tsx` 中 `cva` 的类名列表，即可全局修改按钮样式。由于 Livemark 自带的每个组件都通过覆盖机制导入 `Button`，你的变体会在所有地方生效。
 
-## 示例：调整设计令牌 [#example-tweak-a-token]
+## 示例：调整设计令牌 {#example-tweak-a-token}
 
 ```bash
 livemark escape styles/general.css
@@ -85,7 +85,7 @@ livemark escape styles/general.css
 }
 ```
 
-## 在覆盖文件中导入其他 Livemark 模块 [#importing-other-livemark-modules-from-an-override]
+## 在覆盖文件中导入其他 Livemark 模块 {#importing-other-livemark-modules-from-an-override}
 
 在覆盖文件中，可以通过 `livemark/<subdir>/*` 子路径导出导入其他 Livemark 模块：
 
@@ -96,7 +96,7 @@ import { Button } from "livemark/elements/button"
 
 这些路径在构建时解析，并经过同样的覆盖查找：如果你也覆盖了 `button`，那么这里同样会使用你的版本。
 
-### 覆盖文件的类型检查 [#type-checking-overrides]
+### 覆盖文件的类型检查 {#type-checking-overrides}
 
 escape 出来的文件会保留其所复制的默认文件中的相对 import（`../hooks/site.ts`）。这些 import 在 Livemark 为 `start` 和 `build` 生成的挂载目录中解析，而不是在 `.livemark/` 旁边，因此你项目自身的 `tsc --noEmit` 无法检查 escape 出来的文件，请把 `.livemark/` 排除在其程序之外。真正校验覆盖文件的是 `livemark build`：它会把覆盖文件与 Livemark 的其余部分一起打包，并在 import 无法解析时失败。
 
@@ -108,13 +108,13 @@ escape 出来的文件会保留其所复制的默认文件中的相对 import（
 
 不要自己声明 `livemark:virtual`：手写的声明会与真实的配置类型逐渐脱节。
 
-## 无法以这种方式覆盖的内容 [#what-you-cant-override-this-way]
+## 无法以这种方式覆盖的内容 {#what-you-cant-override-this-way}
 
 - **新页面**：它们属于[自定义路由](/zh/customization/custom-routes/)，添加在同一个 `.livemark/routes/` 文件夹下。
 - **服务端代码**（`actions/`、`commands/`）：无法覆盖；如需修改，请 fork 仓库。
 - **配置 schema**：`livemark.config.ts` 的结构是固定的。
 
-## 另请参阅 [#see-also]
+## 另请参阅 {#see-also}
 
 - [语法主题](/zh/customization/syntax-themes/)：如果只想更改代码的配色，这是更轻量的选项。
 - [自定义路由](/zh/customization/custom-routes/)：编写新页面（而不是替换现有页面）。

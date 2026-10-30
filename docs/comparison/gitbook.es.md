@@ -13,7 +13,7 @@ order: 10
 
 El antiguo generador estático de código abierto `gitbook-cli` quedó obsoleto en 2018 y no tiene relación con el producto actual; esta página cubre la plataforma alojada actual.
 
-## De un vistazo [#at-a-glance]
+## De un vistazo {#at-a-glance}
 
 | Eje                        | Livemark                                     | GitBook                                                                         |
 | -------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------- |
@@ -24,7 +24,7 @@ El antiguo generador estático de código abierto `gitbook-cli` quedó obsoleto 
 | Licencia                   | MIT, autoalojado                             | Propietaria; plan gratuito + planes de pago; autoalojamiento solo en Enterprise |
 | Modelo de salida           | Estático prerenderizado (compatible con SSR) | Alojado en la infraestructura de GitBook                                        |
 
-## Arquitectura [#architecture]
+## Arquitectura {#architecture}
 
 Livemark se apoya en Vite, TanStack Start y React. La autoría sigue las convenciones de JS/TS (`livemark.config.ts`, plugins instalables con npm, componentes MDX escritos en React) y las páginas se prerenderizan a HTML estático en tiempo de compilación.
 
@@ -34,15 +34,15 @@ Git Sync es una integración opcional que vincula un espacio de GitBook a una ra
 
 La organización del contenido no tiene restricciones en el lado de Livemark: escanea por glob (`include`/`exclude` en `livemark.config.ts`), y la URL de cada artículo sigue la ubicación del archivo bajo su glob de `include`, salvo que la defina un campo `path:` del frontmatter. No hay una carpeta `docs/` obligatoria. El contenido de GitBook se organiza en una jerarquía fijada por el producto (**Organizaciones → Colecciones → Espacios → Páginas**), con URLs del sitio derivadas de ese árbol. El espejo de Git Sync refleja esta jerarquía como directorios anidados.
 
-## Superficie de contenido [#content-surface]
+## Superficie de contenido {#content-surface}
 
-Livemark acepta Markdown + MDX con incrustación de componentes de React, el frontmatter como concepto de primera clase (`path`, `order`, `icon`, `sidebar`, `date`, `tags`) y plugins de remark/rehype aplicados en tiempo de compilación.
+Livemark acepta Markdown + MDX con incrustación de componentes de React, el frontmatter como concepto de primera clase (`path`, `order`, `icon`, `sidebar`, `date`, `tags`), compilados en tiempo de compilación por textlane.
 
 La superficie de GitBook es la paleta de bloques del editor: párrafos, encabezados, listas, tablas, notas (info/warning/danger/success), pestañas, bloques desplegables, bloques de código con grupos de pestañas, archivos, imágenes, dibujos, matemáticas (KaTeX), incrustaciones (Figma, Loom, etc.), bloques de métodos de API, referencias OpenAPI y referencias de contenido (transclusión entre espacios). Los componentes personalizados no son extensibles por el usuario: el conjunto de bloques es el que ofrece GitBook. La variante de Markdown de Git Sync codifica los bloques que no están en CommonMark mediante etiquetas al estilo Liquid, como `{% hint style="info" %}…{% endhint %}` y `{% tabs %}…{% endtabs %}`.
 
 OpenAPI es una entrada de primera clase: GitBook puede importar una especificación OpenAPI y renderizar páginas de referencia de API a partir de ella, lo que se acerca más a la superficie de Mintlify que a la de Livemark.
 
-## Matriz de funcionalidades [#feature-matrix]
+## Matriz de funcionalidades {#feature-matrix}
 
 | Capacidad                       | Livemark                                           | GitBook                                                                                                |
 | ------------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
@@ -54,18 +54,18 @@ OpenAPI es una entrada de primera clase: GitBook puede importar una especificaci
 | Sitemap                         | Sí                                                 | Sí (generado por la plataforma)                                                                        |
 | RSS                             | Sí (por sección de blog)                           | No                                                                                                     |
 | Temas                           | Sobrescritura de componentes mediante `.livemark/` | Personalización mediante los ajustes del sitio (colores, fuentes, layout); sin sobrescribir plantillas |
-| Plugins                         | Plugins de Vite + remark/rehype                    | Integraciones propietarias (Intercom, Segment, GA, etc.)                                               |
+| Plugins                         | Plugins de Vite + textlane                         | Integraciones propietarias (Intercom, Segment, GA, etc.)                                               |
 | Rutas personalizadas            | `.livemark/routes/` (TanStack Router)              | No (las URLs siguen la jerarquía espacio → página)                                                     |
 | Referencia de API desde OpenAPI | No (manual)                                        | Sí (integrada)                                                                                         |
 | Toolchain independiente         | Node + npm                                         | Ninguna por parte del usuario; SaaS                                                                    |
 
-## Salida y despliegue [#output--deployment]
+## Salida y despliegue {#output--deployment}
 
 Livemark produce un directorio de HTML prerenderizado + recursos (`.livemark/build/client/`) que puede subirse a cualquier hosting estático. Consulta [Despliegue](/es/deployment/) para ver guías por proveedor.
 
 GitBook no genera un artefacto desplegable. El sitio se aloja en `<space>.gitbook.io` por defecto, o se asocia a un dominio propio mediante DNS. La CDN, el TLS, las redirecciones, el control de acceso y la analítica se configuran en el panel de GitBook. El autoalojamiento está restringido al plan Enterprise y no está disponible en los planes estándar. Lo más parecido a "tu contenido" es lo que el espejo de Git Sync escribe en el repositorio conectado, que es solo contenido, no un sitio compilable.
 
-## Ver también [#see-also]
+## Ver también {#see-also}
 
 - [Autoría](/es/authoring/): la superficie de Markdown de Livemark.
 - [Personalización](/es/customization/): las opciones de configuración de Livemark y la sobrescritura de componentes.

@@ -7,7 +7,7 @@ order: 8
 
 # 高级语法
 
-## HTML 块 [#html-blocks]
+## HTML 块 {#html-blocks}
 
 Markdown 文件中可以直接使用标准 HTML 标签。常见的例子包括用于键盘快捷键的 `<kbd>`、用于上标和下标的 `<sup>`/`<sub>`，以及用于折叠面板的 `<details>`/`<summary>`。
 
@@ -33,7 +33,7 @@ Press <kbd>Ctrl</kbd> + <kbd>C</kbd> to copy. Water is H<sub>2</sub>O.
   一个使用 Tailwind 工具类设置样式的容器。
 </div>
 
-## MDX 文件 [#mdx-files]
+## MDX 文件 {#mdx-files}
 
 `.md` 文件是纯 Markdown，因此正文中的花括号和尖括号始终是安全的。`.mdx` 文件，或在 [frontmatter](/zh/authoring/frontmatter/#format) 中设置了 `format: "mdx"` 的文章，会改为按 MDX 编译，因此可以直接使用 JSX 表达式和组件：
 
@@ -55,7 +55,7 @@ import { authors } from "./data.ts"
 
 这是为高级用例准备的一种兜底手段。只要可能，请优先使用标准 Markdown 和指令语法。
 
-## LaTeX 表达式 [#latex-expressions]
+## LaTeX 表达式 {#latex-expressions}
 
 通过 KaTeX 支持 LaTeX 数学表达式。
 
@@ -77,7 +77,7 @@ $$
 \begin{bmatrix} a & b \\ c & d \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = \begin{bmatrix} ax + by \\ cx + dy \end{bmatrix}
 $$
 
-## Mermaid 图表 [#mermaid-diagrams]
+## Mermaid 图表 {#mermaid-diagrams}
 
 使用 Mermaid 语法渲染图表。图表会自动适配浅色和深色主题。
 
@@ -119,7 +119,7 @@ pie title Languages
     "Other" : 10
 ```
 
-## 引入文档 [#included-documents]
+## 引入文档 {#included-documents}
 
 使用 `::include` 指令引入其他文件中的内容。Markdown 文件会去掉 frontmatter 后内联插入。代码文件会被自动包裹在围栏代码块中，并根据文件扩展名识别语言。
 

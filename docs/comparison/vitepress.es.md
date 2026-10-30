@@ -11,7 +11,7 @@ order: 2
 
 [VitePress](https://vitepress.dev) es el framework oficial de documentación de Vue, construido sobre Vite. Está centrado en Markdown, incluye un tema por defecto minimalista y es lo que impulsa la mayor parte de la documentación del ecosistema Vue (el propio Vue, Vite, Pinia, …).
 
-## De un vistazo [#at-a-glance]
+## De un vistazo {#at-a-glance}
 
 | Eje                             | Livemark                                     | VitePress                             |
 | ------------------------------- | -------------------------------------------- | ------------------------------------- |
@@ -22,7 +22,7 @@ order: 2
 | Licencia                        | MIT, autoalojado                             | MIT, autoalojado                      |
 | Modelo de salida                | Estático prerenderizado (compatible con SSR) | Estático prerenderizado (SSG)         |
 
-## Arquitectura [#architecture]
+## Arquitectura {#architecture}
 
 Ambas herramientas son nativas de Vite. La diferencia está en todo lo que hay por encima de Vite: Livemark añade TanStack Start (router + funciones de servidor + pipeline de prerenderizado) y renderiza React; VitePress envuelve Vite con su propio pipeline SSG y renderiza Vue.
 
@@ -30,7 +30,7 @@ El entorno de ejecución de VitePress es `vue-router` más un tema por defecto i
 
 En Livemark la organización del contenido no tiene restricciones: escanea mediante glob (`include`/`exclude` en `livemark.config.ts`), y la URL de cada artículo sigue la ubicación del archivo bajo su glob de `include`, salvo que la fije un campo `path:` del frontmatter. No hace falta una carpeta `docs/`: un proyecto puede tomar artículos de `README.md`, `docs/`, `blog/`, los README de paquetes o cualquier otro lugar. VitePress espera todo el contenido bajo una única raíz de código fuente (`docs/` por defecto, configurable mediante `srcDir`), con rutas derivadas de las rutas de archivo.
 
-## Superficie de contenido [#content-surface]
+## Superficie de contenido {#content-surface}
 
 VitePress acepta Markdown con plantillas de Vue integradas: puedes usar componentes Vue y bloques `<script setup>` dentro de archivos `.md`. **No** admite MDX en el sentido de React.
 
@@ -40,7 +40,7 @@ Ambos admiten frontmatter para los metadatos de cada página. VitePress usa `tit
 
 Avisos/admoniciones: VitePress usa contenedores `::: tip` / `::: warning` (la misma sintaxis que las directivas `:::tip` de Livemark, evaluada por parsers distintos).
 
-## Matriz de funcionalidades [#feature-matrix]
+## Matriz de funcionalidades {#feature-matrix}
 
 | Capacidad                   | Livemark                                      | VitePress                                    |
 | --------------------------- | --------------------------------------------- | -------------------------------------------- |
@@ -52,14 +52,14 @@ Avisos/admoniciones: VitePress usa contenedores `::: tip` / `::: warning` (la mi
 | Sitemap                     | Sí                                            | Sí                                           |
 | RSS                         | Sí (por sección de blog)                      | No                                           |
 | Temas                       | Sobrescritura de componentes vía `.livemark/` | Temas personalizados vía `.vitepress/theme/` |
-| Plugins                     | Plugins de Vite + remark/rehype               | Plugins de Vite + plugins de markdown-it     |
+| Plugins                     | Plugins de Vite + textlane                    | Plugins de Vite + plugins de markdown-it     |
 | Rutas personalizadas        | `.livemark/routes/` (TanStack Router)         | Rutas dinámicas mediante `paths()`           |
 
-## Salida y despliegue [#output--deployment]
+## Salida y despliegue {#output--deployment}
 
 Ambos producen un directorio de HTML estático + recursos listo para cualquier hosting estático. VitePress emite en `.vitepress/dist/` por defecto; Livemark emite en `.livemark/build/client/`. El alojamiento es idéntico; consulta [Despliegue](/es/deployment/) de Livemark para las guías por hosting.
 
-## Ver también [#see-also]
+## Ver también {#see-also}
 
 - [Redacción](/es/authoring/): la superficie Markdown de Livemark.
 - [Personalización](/es/customization/): las opciones de configuración de Livemark y la sobrescritura de componentes.

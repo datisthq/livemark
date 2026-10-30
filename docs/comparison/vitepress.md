@@ -52,7 +52,7 @@ Callouts/admonitions: VitePress uses `::: tip` / `::: warning` containers (same 
 | Sitemap                     | Yes                                      | Yes                                   |
 | RSS                         | Yes (per blog section)                   | No                                    |
 | Themes                      | Component overrides via `.livemark/`     | Custom themes via `.vitepress/theme/` |
-| Plugins                     | Vite plugins + remark/rehype             | Vite plugins + markdown-it plugins    |
+| Plugins                     | Vite plugins + textlane                  | Vite plugins + markdown-it plugins    |
 | Custom routes               | `.livemark/routes/` (TanStack Router)    | Dynamic routes via `paths()`          |
 
 ## Output & deployment

@@ -1,6 +1,8 @@
 import { Check, ChevronDown, Clipboard, WrapText } from "lucide-react"
-import { useRef, useState } from "react"
+import { isValidElement, useRef, useState } from "react"
+import type { ReactNode } from "react"
 import { Tooltip, TooltipContent, TooltipTrigger } from "../elements/tooltip.tsx"
+import { readCodeIcon } from "../helpers/code-icon.ts"
 import { useMessages } from "../hooks/site.ts"
 
 export function CodeBlock(props: React.ComponentProps<"pre">) {
@@ -13,7 +15,8 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
   const meta = extra["data-meta"] as string | undefined
   const title = meta?.match(/title="([^"]+)"/)?.[1]
   const maxLines = meta?.match(/maxLines=(\d+)/)?.[1]
-  const icon = extra.icon as string | undefined
+  const icon = readCodeIcon(readLanguage(props.children))
+  const lineNumbers = meta?.match(/\blineNumbers(?:=(\d+))?(?!\S)/)
   const style = props.style as Record<string, string> | undefined
   const collapsedHeight = maxLines ? `${Number(maxLines) * 1.5 + 1.75}rem` : undefined
 
@@ -104,12 +107,20 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
         <pre
           {...props}
           ref={preRef}
-          style={undefined}
-          className={
+          style={
+            lineNumbers
+              ? { counterReset: `line ${Number(lineNumbers[1] ?? 1) - 1}` }
+              : undefined
+          }
+          className={[
+            props.className,
+            lineNumbers && "line-numbers",
             wrap
               ? "min-w-full whitespace-pre-wrap break-words [&>code]:flex [&>code]:flex-col"
-              : "min-w-full w-max [&>code]:flex [&>code]:flex-col"
-          }
+              : "min-w-full w-max [&>code]:flex [&>code]:flex-col",
+          ]
+            .filter(Boolean)
+            .join(" ")}
         />
       </div>
       {collapsedHeight && !expanded && (
@@ -124,4 +135,10 @@ export function CodeBlock(props: React.ComponentProps<"pre">) {
       )}
     </figure>
   )
+}
+
+// html.highlight names the language in a class of the `<code>` inside `<pre>`
+function readLanguage(children: ReactNode) {
+  if (!isValidElement<{ className?: string }>(children)) return undefined
+  return children.props.className?.match(/\blanguage-(\S+)/)?.[1]
 }

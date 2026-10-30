@@ -11,7 +11,7 @@ order: 6
 
 [Nextra](https://nextra.site) 是一个基于 Next.js、采用主题包架构的文档框架。它最初基于 Pages Router，后来也迁移支持了 App Router。文档站点选择一个主题（文档用 `nextra-theme-docs`，博客用 `nextra-theme-blog`）并对其进行配置。
 
-## 概览 [#at-a-glance]
+## 概览 {#at-a-glance}
 
 | 维度          | Livemark                   | Nextra                       |
 | ------------- | -------------------------- | ---------------------------- |
@@ -22,7 +22,7 @@ order: 6
 | 许可证        | MIT，自托管                | MIT，自托管                  |
 | 输出模式      | 预渲染静态站点（支持 SSR） | 静态或 SSR（Next.js 模式）   |
 
-## 架构 [#architecture]
+## 架构 {#architecture}
 
 Livemark 是一个基于 Vite + TanStack Start 的 CLI：一个工具、一个配置文件，内容放在 `.md` 文件中。
 
@@ -32,7 +32,7 @@ Nextra 是构建在现有 Next.js 应用之上的一层。搭建时需要安装 
 
 Livemark 对内容布局没有限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 默认取决于文件在其 `include` glob 下的位置，也可以由前置元数据 frontmatter 中的 `path:` 字段指定。不强制要求 `docs/` 文件夹——项目可以从 `README.md`、`docs/`、`blog/`、各个包的 README 或其他任何地方获取文章。Nextra 从 `pages/`（Pages Router）或 `content/`（App Router）读取内容，路由由文件路径和同级的 `_meta.json` 文件决定。
 
-## 内容能力 [#content-surface]
+## 内容能力 {#content-surface}
 
 两者都支持带 frontmatter 和嵌入 React 组件的 Markdown + MDX。
 
@@ -40,7 +40,7 @@ Nextra 通过 `next-mdx-remote` 支持远程 MDX，通过插件支持 KaTeX/Merm
 
 frontmatter 的结构不同：Nextra 使用 `title`、`description`、`searchable`、`hide_title`，并通过每个目录下的 `_meta.json` 定义导航。Livemark 的所有设置都写在内联 frontmatter 中（`path`、`order`、`icon`、`sidebar`、`date`、`tags`），站点级导航则由单个 `livemark.config.ts` 定义。
 
-## 功能对比 [#feature-matrix]
+## 功能对比 {#feature-matrix}
 
 | 能力           | Livemark                               | Nextra                                       |
 | -------------- | -------------------------------------- | -------------------------------------------- |
@@ -55,13 +55,13 @@ frontmatter 的结构不同：Nextra 使用 `title`、`description`、`searchabl
 | 自定义路由     | `.livemark/routes/`（TanStack Router） | 任意 Next 页面 / 路由                        |
 | 独立 CLI       | 是（`livemark build`）                 | 否（使用 Next.js 命令）                      |
 
-## 输出与部署 [#output--deployment]
+## 输出与部署 {#output--deployment}
 
 Livemark 在构建时预渲染每个路由——输出位于 `.livemark/build/client/`，可部署到任何静态托管平台（参见[部署](/zh/deployment/)）。
 
 Nextra 沿用 Next.js 的输出模式。最常见的文档配置是完全静态导出（`output: 'export'`），生成的静态目录可以部署到任何地方。SSR 配置则面向 Vercel 或 Node 托管平台。
 
-## 另请参阅 [#see-also]
+## 另请参阅 {#see-also}
 
 - [编写](/zh/authoring/)——Livemark 的 Markdown 能力。
 - [定制](/zh/customization/)——Livemark 的配置项与组件覆盖。

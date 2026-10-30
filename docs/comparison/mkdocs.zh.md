@@ -11,7 +11,7 @@ order: 7
 
 [MkDocs](https://www.mkdocs.org) 是一个基于 Python 的文档生成器。内容是纯 Markdown，布局是 Jinja2 模板，主题是可通过 pip 安装的 Python 包。事实上的标准主题是 [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/)，大多数用户实际使用的正是它。
 
-## 概览 [#at-a-glance]
+## 概览 {#at-a-glance}
 
 | 维度          | Livemark                   | MkDocs                                        |
 | ------------- | -------------------------- | --------------------------------------------- |
@@ -22,7 +22,7 @@ order: 7
 | 许可证        | MIT，自托管                | BSD-2-Clause，自托管                          |
 | 输出模式      | 预渲染静态站点（支持 SSR） | 预渲染静态站点                                |
 
-## 架构 [#architecture]
+## 架构 {#architecture}
 
 Livemark 基于 Vite、TanStack Start 和 React 构建。编写遵循 JS/TS 的惯例（`livemark.config.ts`、可通过 npm 安装的插件、用 React 编写的 MDX 组件）。
 
@@ -32,7 +32,7 @@ Material for MkDocs 提供了精心打磨的主题、基于 lunr.js 的搜索索
 
 Livemark 对内容布局没有限制：它按 glob 扫描（`livemark.config.ts` 中的 `include`/`exclude`），每篇文章的 URL 默认取决于文件在其 `include` glob 下的位置，也可以由前置元数据 frontmatter 中的 `path:` 字段指定。不强制要求 `docs/` 文件夹——项目可以从 `README.md`、`docs/`、`blog/`、各个包的 README 或其他任何地方获取文章。MkDocs 从 `docs/` 读取内容（可通过 `mkdocs.yml` 中的 `docs_dir` 配置），路由由该目录下的文件路径推导而来。
 
-## 内容能力 [#content-surface]
+## 内容能力 {#content-surface}
 
 两者都支持带 frontmatter 的 Markdown。最大的差异在于组件嵌入：Livemark 支持 MDX（在 `.mdx` 文件中使用 React 组件）；MkDocs 只支持 Markdown。
 
@@ -40,7 +40,7 @@ MkDocs 通过 Python-Markdown 扩展（提示框、标签页、脚注、定义�
 
 frontmatter 的结构不同：MkDocs 读取 `title`、`summary`、`tags`（需插件）、`template`，并使用 `mkdocs.yml` 定义导航。Livemark 使用 `path`、`order`、`icon`、`sidebar`、`date`、`tags`。
 
-## 功能对比 [#feature-matrix]
+## 功能对比 {#feature-matrix}
 
 | 能力           | Livemark                               | MkDocs (Material)                   |
 | -------------- | -------------------------------------- | ----------------------------------- |
@@ -52,15 +52,15 @@ frontmatter 的结构不同：MkDocs 读取 `title`、`summary`、`tags`（需�
 | 站点地图       | 是                                     | 是                                  |
 | RSS            | 是（每个博客栏目）                     | 通过插件                            |
 | 主题           | 通过 `.livemark/` 覆盖组件             | 主题包 + Jinja 模板覆盖             |
-| 插件           | Vite 插件 + remark/rehype              | Python 插件（PyPI 上的 `mkdocs-*`） |
+| 插件           | Vite 插件 + textlane                   | Python 插件（PyPI 上的 `mkdocs-*`） |
 | 自定义路由     | `.livemark/routes/`（TanStack Router） | 否（仅内容）                        |
 | 独立工具链     | Node + npm                             | Python + pip                        |
 
-## 输出与部署 [#output--deployment]
+## 输出与部署 {#output--deployment}
 
 两者都生成可部署到任何静态托管平台的静态 HTML 和资源文件。MkDocs 默认输出到 `site/`；Livemark 输出到 `.livemark/build/client/`。托管方式完全相同——各平台指南参见 Livemark 的[部署](/zh/deployment/)。
 
-## 另请参阅 [#see-also]
+## 另请参阅 {#see-also}
 
 - [编写](/zh/authoring/)——Livemark 的 Markdown 能力。
 - [定制](/zh/customization/)——Livemark 的配置项与组件覆盖。

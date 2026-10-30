@@ -10,7 +10,7 @@ order: 1
 
 La compilación de Livemark es un simple directorio de archivos `.html`, `.css`, `.js` y recursos. Cualquier cosa capaz de servir un directorio de archivos funcionará. Esta guía cubre las configuraciones habituales.
 
-## Compila el sitio [#build-the-site]
+## Compila el sitio {#build-the-site}
 
 ```bash
 livemark build
@@ -18,7 +18,7 @@ livemark build
 
 La salida queda en `.livemark/build/client/`. Trata ese directorio como la raíz de documentos.
 
-## Prerenderizado frente a fallback SPA [#prerendering-vs-spa-fallback]
+## Prerenderizado frente a fallback SPA {#prerendering-vs-spa-fallback}
 
 Livemark prerenderiza cada ruta en disco durante `livemark build`. Un enlace profundo como `/customization/site-metadata/` cae en un archivo real en `customization/site-metadata/index.html`, sin necesidad de un fallback de enrutado en el cliente para las páginas conocidas.
 
@@ -83,11 +83,11 @@ RewriteRule ^ index.html [L]
 
 Coloca la compilación en la raíz de documentos. Las dos `RewriteCond` garantizan que los archivos y directorios reales se sirvan directamente; solo las rutas sin coincidencia recurren al fallback.
 
-## Otros hostings [#other-hosts]
+## Otros hostings {#other-hosts}
 
 La misma receta funciona en Render Static, Surge, Fly Static, Bunny o cualquier almacenamiento de objetos con CDN: sube el directorio, apunta un dominio a él y asegúrate de que las rutas desconocidas recurran a `index.html`.
 
-## Despliega con GitHub Actions [#deploy-with-github-actions]
+## Despliega con GitHub Actions {#deploy-with-github-actions}
 
 Un ejemplo mínimo con nginx/SSH:
 
@@ -122,7 +122,7 @@ jobs:
 
 Para S3, sustituye el paso de despliegue por `aws-actions/configure-aws-credentials` + `aws s3 sync`.
 
-## Ver también [#see-also]
+## Ver también {#see-also}
 
 - [Metadatos del sitio](/es/customization/site-metadata/): `site` hace posibles las URLs absolutas y la generación de feeds.
 - [Despliegue](/es/deployment/): vuelve al índice de hostings.

@@ -10,7 +10,7 @@ order: 6
 
 Comparativas técnicas lado a lado entre Livemark y las principales herramientas de documentación. Cada página cubre el stack, la superficie de contenido, la paridad de funcionalidades y el modelo de salida, sin recomendaciones ni consejos del tipo "elige X si". Saca tus propias conclusiones.
 
-## Herramientas [#tools]
+## Herramientas {#tools}
 
 :::card{title="Docusaurus vs Livemark" href="/es/comparison/docusaurus/" icon="book-text"}
 Framework de documentación con React + MDX de Meta, basado en Webpack.
@@ -52,7 +52,7 @@ Herramienta de documentación sin compilación que descarga y renderiza Markdown
 SaaS alojado con editor de bloques, espejo Git Sync y referencia de API integrada.
 :::
 
-## Qué cubre cada comparativa [#what-every-comparison-covers]
+## Qué cubre cada comparativa {#what-every-comparison-covers}
 
 - **De un vistazo**: lenguaje, framework, herramienta de compilación, formato de contenido, licencia, modelo de salida.
 - **Arquitectura**: cómo está construida cada herramienta y de qué depende.

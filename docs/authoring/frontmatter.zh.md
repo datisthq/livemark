@@ -18,7 +18,7 @@ order: 1
 ---
 ```
 
-## 文章元数据 [#article-metadata]
+## 文章元数据 {#article-metadata}
 
 文章的标识与展示。
 
@@ -33,7 +33,7 @@ order: 1
 | `date`        | `string`             | —                             | ISO 日期。决定博客栏目中的排序。                                                |
 | `tags`        | `string[]`           | —                             | 博客栏目用它来生成 `<博客前缀>tags/<tag>/` 页面，例如 `/blog/tags/release/`。   |
 
-## 侧边栏设置 [#sidebar-settings]
+## 侧边栏设置 {#sidebar-settings}
 
 文章在左侧导航中的显示方式。
 
@@ -44,7 +44,7 @@ order: 1
 | `toc`         | `boolean` | `true`                 | 设为 false 时，隐藏右侧的目录。                                               |
 | `breadcrumbs` | `boolean` | 配置中的 `breadcrumbs` | 设为 false 时，隐藏标题上方的面包屑导航；设为 true 时，即使配置关闭也会显示。 |
 
-### 排序规则 [#ordering-rules]
+### 排序规则 {#ordering-rules}
 
 `order` 采用两段式排序方案：
 
@@ -54,7 +54,7 @@ order: 1
 
 这样你就可以把「快速上手」固定在顶部（`order: 1`），把「常见问题」固定在底部（`order: -1`），中间部分保持不变。
 
-## URL [#url]
+## URL {#url}
 
 | 字段       | 类型     | 默认值                                             | 用途                                                          |
 | ---------- | -------- | -------------------------------------------------- | ------------------------------------------------------------- |
@@ -70,7 +70,7 @@ order: 1
 
 每个路径段都会转换为 slug，因此 `docs/Getting Started.md` 会变成 `/getting-started/`。两篇文章若得到相同的路径，构建会失败，并给出这两个文件的名字。
 
-## 源文件链接 [#source-link]
+## 源文件链接 {#source-link}
 
 页面工具栏会把每篇文章链接到它的源文件。未设置 `sourceUrl` 时，链接指向该文件在 GitHub 上的编辑页面，由项目 git 的 `origin` 和默认分支得出；不是 GitHub 仓库的项目不显示该链接。
 
@@ -79,7 +79,7 @@ order: 1
 | `sourceUrl`    | `string`           | 该文件在 GitHub 上的编辑页面 | 源文件链接指向的地址。                                                             |
 | `sourceAction` | `"edit" \| "view"` | `"edit"`                     | 将链接标为带铅笔图标的 **在 GitHub 上编辑**，或带眼睛图标的 **在 GitHub 上查看**。 |
 
-## 格式 [#format]
+## 格式 {#format}
 
 | 字段     | 类型            | 默认值                               | 用途                                                                                  |
 | -------- | --------------- | ------------------------------------ | ------------------------------------------------------------------------------------- |
@@ -87,11 +87,11 @@ order: 1
 
 纯 Markdown 接受任意文本：`{…}` 保持原样，原始 HTML 按 HTML 渲染。MDX 增加了 JSX 和 `{表达式}`，因此正文中多余的花括号或 `<` 会导致构建失败。
 
-## 无需编辑即可覆盖 [#overriding-without-editing]
+## 无需编辑即可覆盖 {#overriding-without-editing}
 
 如果你无法修改某个文件的 frontmatter（例如同时用作 GitHub 首页的 `README.md`），可以通过 [Article Patches](/zh/customization/article-patches/) 从 `livemark.config.ts` 注入相同的字段。
 
-## 另请参阅 [#see-also]
+## 另请参阅 {#see-also}
 
 - [Article Sections](/zh/customization/article-sections/) —— `order` 和 `date` 如何与博客和更新日志栏目配合使用。
 - [Article Patches](/zh/customization/article-patches/) —— 通过配置设置 frontmatter，无需改动文件。

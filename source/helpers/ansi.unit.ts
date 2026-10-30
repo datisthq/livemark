@@ -1,10 +1,5 @@
-import type { Root } from "mdast"
 import { describe, expect, it } from "vite-plus/test"
-import { ansiToHtml, transformAnsiCodeBlocks } from "./remark-ansi.ts"
-
-function makeTree(...children: Root["children"]): Root {
-  return { type: "root", children }
-}
+import { ansiToHtml } from "./ansi.ts"
 
 describe("ansiToHtml", () => {
   it("should return plain text unchanged", () => {
@@ -124,62 +119,5 @@ describe("ansiToHtml", () => {
     expect(ansiToHtml(input)).toBe(
       '<span style="font-weight:bold;font-style:italic">bold italic</span><span style="font-weight:bold">not italic</span>',
     )
-  })
-})
-
-describe("transformAnsiCodeBlocks", () => {
-  function process(tree: Root) {
-    transformAnsiCodeBlocks(tree)
-    return tree
-  }
-
-  it("should convert ansi code block to AnsiCode JSX element", () => {
-    const tree = process(
-      makeTree({ type: "code", lang: "ansi", value: "\x1b[31mhello\x1b[0m" }),
-    )
-
-    const node = tree.children[0]
-    expect(node).toMatchObject({
-      type: "mdxJsxFlowElement",
-      name: "AnsiCode",
-      attributes: [
-        {
-          type: "mdxJsxAttribute",
-          name: "html",
-          value: '<span style="color:#bf616a">hello</span>',
-        },
-      ],
-    })
-  })
-
-  it("should ignore non-ansi code blocks", () => {
-    const tree = process(
-      makeTree({ type: "code", lang: "javascript", value: "const x = 1" }),
-    )
-
-    const node = tree.children[0]
-    expect(node).toMatchObject({
-      type: "code",
-      lang: "javascript",
-    })
-  })
-
-  it("should handle plain text in ansi code block", () => {
-    const tree = process(
-      makeTree({ type: "code", lang: "ansi", value: "no escapes here" }),
-    )
-
-    const node = tree.children[0]
-    expect(node).toMatchObject({
-      type: "mdxJsxFlowElement",
-      name: "AnsiCode",
-      attributes: [
-        {
-          type: "mdxJsxAttribute",
-          name: "html",
-          value: "no escapes here",
-        },
-      ],
-    })
   })
 })

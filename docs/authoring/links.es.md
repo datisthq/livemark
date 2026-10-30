@@ -7,7 +7,7 @@ order: 3
 
 # Enlaces
 
-## Enlaces internos [#internal-links]
+## Enlaces internos {#internal-links}
 
 Enlaza a otras páginas de tu documentación:
 
@@ -17,7 +17,7 @@ Enlaza a otras páginas de tu documentación:
 
 Se renderiza así: [Primeros pasos](/es/introduction/)
 
-## Enlaces externos [#external-links]
+## Enlaces externos {#external-links}
 
 Enlaza a recursos externos:
 
@@ -27,7 +27,7 @@ Enlaza a recursos externos:
 
 Se renderiza así: [GitHub](https://github.com)
 
-## Enlaces a anclas [#anchor-links]
+## Enlaces a anclas {#anchor-links}
 
 Enlaza a un encabezado concreto: en la página actual solo con el `#id`, en otra página tras su ruta:
 
@@ -38,7 +38,7 @@ Enlaza a un encabezado concreto: en la página actual solo con el `#id`, en otra
 
 Se renderiza así: [Ver Enlaces automáticos](#auto-links) y [Ver IDs de encabezado personalizados](/es/authoring/headings/#custom-ids)
 
-## Enlaces automáticos [#auto-links]
+## Enlaces automáticos {#auto-links}
 
 Las URL se convierten automáticamente en enlaces:
 
