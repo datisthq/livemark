@@ -82,7 +82,6 @@
     "react-medium-image-zoom": "^5.4.9",
     "react-resizable-panels": "4.14.4",
     "recharts": "3.10.1",
-    "rehype-sanitize": "6.0.0",
     "shadcn": "4.21.4",
     "shiki": "4.5.0",
     "sonner": "2.0.8",
