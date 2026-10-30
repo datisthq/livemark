@@ -1,7 +1,9 @@
 import { resolve } from "node:path"
+import type { Interface } from "node:readline"
 import type { CommandConfig, CommandContext } from "fireargs"
 import { f } from "fireargs"
 import pc from "picocolors"
+import type { PreviewServer, ViteDevServer } from "vite"
 import { z } from "zod"
 
 export const helpConfiguration: CommandConfig["configureHelp"] = {
@@ -42,6 +44,18 @@ export async function divertStdout<T>(fn: () => Promise<T>) {
   } finally {
     process.stdout.write = write
   }
+}
+
+/** Bind Vite's keyboard shortcuts and close the server on Ctrl+C or a lost terminal. */
+export function bindShortcuts(server: ViteDevServer | PreviewServer) {
+  server.bindCLIShortcuts({ print: true })
+  const exit = () => void server.close().finally(() => process.exit())
+  process.once("SIGINT", exit)
+  process.once("SIGTERM", exit)
+  // A Ctrl+C landing mid-rebuild lets the shell reclaim the terminal first; Vite's
+  // private readline then reads EIO and, with no listener, crashes with a stack trace.
+  const state = (server as { _shortcutsState?: { rl: Interface } })._shortcutsState
+  state?.rl.on("error", exit)
 }
 
 export const serverOutput = z.object({

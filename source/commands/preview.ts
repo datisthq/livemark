@@ -2,6 +2,7 @@ import { join } from "node:path"
 import { f } from "fireargs"
 import { preview as vitePreview } from "vite"
 import {
+  bindShortcuts,
   divertStdout,
   selectConfig,
   serverInput,
@@ -28,7 +29,7 @@ export const preview = f
     const server = await (context.json ? divertStdout(run) : run())
     if (!context.json) {
       server.printUrls()
-      server.bindCLIShortcuts({ print: true })
+      bindShortcuts(server)
     }
     return {
       local: server.resolvedUrls?.local ?? [],

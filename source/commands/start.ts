@@ -4,6 +4,7 @@ import { f } from "fireargs"
 import { createServer } from "vite"
 import type { z } from "zod"
 import {
+  bindShortcuts,
   divertStdout,
   selectConfig,
   serverInput,
@@ -42,7 +43,7 @@ async function startServer(
     await server.listen()
     if (!json) {
       server.printUrls()
-      server.bindCLIShortcuts({ print: true })
+      bindShortcuts(server)
     }
     return {
       local: server.resolvedUrls?.local ?? [],
