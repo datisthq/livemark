@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.34.0](https://github.com/datisthq/livemark/compare/v0.33.1...v0.34.0) (2026-10-30)
+
+
+### Features
+
+* add --open to start and preview, like vite ([86b5c89](https://github.com/datisthq/livemark/commit/86b5c89afc91f890a440540314f234556c905987))
+
+
+### Bug Fixes
+
+* close the server cleanly on Ctrl+C or a lost terminal in start and preview ([60cc572](https://github.com/datisthq/livemark/commit/60cc572d5b2fb8c75d108d5433ec9e55af6632f4))
+
 ## [0.33.1](https://github.com/datisthq/livemark/compare/v0.33.0...v0.33.1) (2026-10-29)
 
 
