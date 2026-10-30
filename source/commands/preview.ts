@@ -24,7 +24,7 @@ export const preview = f
       vitePreview({
         configFile,
         logLevel: context.json ? "warn" : undefined,
-        preview: { port: 8000, host: input.host },
+        preview: { port: 8000, host: input.host, open: input.open ?? false },
       })
     const server = await (context.json ? divertStdout(run) : run())
     if (!context.json) {

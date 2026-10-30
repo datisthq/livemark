@@ -24,21 +24,21 @@ export const start = f
   .handler(async (input, context) => {
     selectConfig(input.config)
     return context.json
-      ? divertStdout(() => startServer(true, input.host))
-      : startServer(false, input.host)
+      ? divertStdout(() => startServer(true, input))
+      : startServer(false, input)
   })
 
 // A broken config fails `createServer` before Vite's watcher exists, so without this
 // the process exits and the fix has nobody to pick it up.
 async function startServer(
   json: boolean,
-  host: boolean,
+  input: Pick<z.infer<typeof serverInput>, "host" | "open">,
 ): Promise<z.infer<typeof serverOutput>> {
   try {
     const server = await createServer({
       configFile,
       logLevel: json ? "warn" : undefined,
-      server: { port: 8000, host },
+      server: { port: 8000, host: input.host, open: input.open ?? false },
     })
     await server.listen()
     if (!json) {
@@ -53,7 +53,7 @@ async function startServer(
     console.error(error)
     console.error("\nWaiting for a file change to retry…")
     await waitForChange(process.cwd())
-    return await startServer(json, host)
+    return await startServer(json, input)
   }
 }
 

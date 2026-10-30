@@ -22,6 +22,10 @@ export const serverInput = configInput.extend({
     .option()
     .schema(z.boolean().default(false))
     .describe("Serve on the local network too, not only on localhost"),
+  open: f
+    .option({ preset: "/" })
+    .schema(z.string().optional())
+    .describe("Open the site in the browser, at the given path"),
 })
 
 /** Hand the chosen config to `loadConfig()`, which `vite.config.ts` and
