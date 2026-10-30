@@ -75,6 +75,9 @@ function readLastUpdatedDates() {
         "--format=%x00%cI",
         "--name-only",
         "--relative",
+        "--no-renames",
+        "--",
+        ...buildGitPathspecs(),
       ],
       {
         cwd: config.root,
@@ -92,6 +95,13 @@ function readLastUpdatedDates() {
   } catch {
     return dates
   }
+}
+
+// Git's glob magic lacks braces, negation and extglobs; such a pattern would silently
+// drop dates, so it falls back to the whole history
+function buildGitPathspecs() {
+  if (configInclude.some(pattern => /[{}!()]/.test(pattern))) return []
+  return configInclude.map(pattern => `:(glob)${pattern}`)
 }
 
 function hasTwoslash() {
