@@ -7,6 +7,12 @@ import type { Config } from "../models/config.ts"
 
 const TWOSLASH = /(?:^|\s)twoslash(?:\s|$)/
 
+// Each transformer starts its own TypeScript environment, ~250 ms; one serves every block
+let transformer: ReturnType<typeof transformerTwoslash> | undefined
+
+// Translated pages repeat the same blocks, which twoslash would check again
+const rendered = new Map<string, Element>()
+
 /** Re-highlight the code blocks whose meta names `twoslash` with Shiki's twoslash
  *  transformer: the one stage textlane cannot run natively, as it needs TypeScript. */
 export function twoslashStage(options: { config: Config }) {
@@ -27,19 +33,27 @@ export function twoslashStage(options: { config: Config }) {
       themes: [themes.light, themes.dark],
       langs: [],
     })
+    transformer ??= transformerTwoslash({ explicitTrigger: true })
     for (const block of blocks) {
       const lang = block.lang in bundledLanguages ? (block.lang as BundledLanguage) : "ts"
-      await highlighter.loadLanguage(lang)
-      const fragment = highlighter.codeToHast(toString(block.node), {
-        lang,
-        themes,
-        meta: { __raw: block.meta, "data-meta": block.meta },
-        transformers: [transformerTwoslash({ explicitTrigger: true })],
-      })
-      const pre = fragment.children[0]
-      if (pre?.type !== "element") continue
-      block.node.properties = pre.properties
-      block.node.children = pre.children as ElementContent[]
+      const code = toString(block.node)
+      const key = JSON.stringify([lang, block.meta, themes, code])
+      let pre = rendered.get(key)
+      if (!pre) {
+        await highlighter.loadLanguage(lang)
+        const fragment = highlighter.codeToHast(code, {
+          lang,
+          themes,
+          meta: { __raw: block.meta, "data-meta": block.meta },
+          transformers: [transformer],
+        })
+        const first = fragment.children[0]
+        if (first?.type !== "element") continue
+        pre = first
+        rendered.set(key, pre)
+      }
+      block.node.properties = structuredClone(pre.properties)
+      block.node.children = structuredClone(pre.children) as ElementContent[]
     }
   }
 }
