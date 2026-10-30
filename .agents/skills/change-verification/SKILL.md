@@ -46,7 +46,7 @@ Pick the **highest** rung the diff reaches, and run everything that rung lists.
    slice does not show that a callout is the right colour.
 3. **Logic** — an action, helper, model or plugin. Add `vp test related <files> --run`. A new or
    changed test runs on its own first (`vp test <file>`), and fails before the fix.
-4. **Build-shaped** — `source/vite.config.ts`, `content-collections.ts`, `program.ts`, a command,
+4. **Build-shaped** — `source/vite.config.ts`, `program.ts`, a command,
    the escape settings, dependencies, `vite.config.ts`, a `tsconfig`. Run `pnpm test`, then
    `pnpm build:docs`; add `pnpm build` when `tsconfig.build.json` or the `exports` map changed.
    No cherry-picking here.

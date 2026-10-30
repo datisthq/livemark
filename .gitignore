@@ -65,7 +65,6 @@ messages.js
 tmuxp.yaml
 /.claude/
 /.cursor/
-.content-collections/
 .tanstack/
 /.playwright-mcp/
 .vitest/

@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vite-plus/test"
 import {
-  readGeneratedArticles,
+  assertUniquePaths,
   renderArticlesModule,
   renderBodyModule,
   renderSearchModule,
 } from "./article-modules.ts"
 
-const articles = readGeneratedArticles([
+const articles = [
   {
     path: "/guide/",
     language: "en",
@@ -15,20 +15,18 @@ const articles = readGeneratedArticles([
     content: "# Guide",
     tocItems: [],
     searchText: "guide text",
-    _meta: { filePath: "guide.md" },
   },
   { path: "/es/guide/", language: "es", title: "Guía", searchText: "texto" },
-  { title: "no path" },
-])
+]
 
-describe("readGeneratedArticles", () => {
-  it("keeps entries with a path and a language", () => {
-    expect(articles.map(a => a.path)).toEqual(["/guide/", "/es/guide/"])
+describe("assertUniquePaths", () => {
+  it("accepts distinct paths", () => {
+    expect(() => assertUniquePaths(articles)).not.toThrow()
   })
 
   it("rejects two articles at one path, naming both files", () => {
     const read = () =>
-      readGeneratedArticles([
+      assertUniquePaths([
         { path: "/a/", language: "en", file: "docs/a1.md" },
         { path: "/a/", language: "en", file: "docs/a2.md" },
       ])
@@ -43,7 +41,6 @@ describe("renderArticlesModule", () => {
     expect(source).toContain('"title":"Guide"')
     expect(source).not.toContain('"mdx"')
     expect(source).not.toContain("guide text")
-    expect(source).not.toContain("_meta")
   })
 
   it("loads each body and each language's search text on demand", () => {

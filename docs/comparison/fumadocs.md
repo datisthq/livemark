@@ -24,7 +24,7 @@ order: 5
 
 ## Architecture
 
-Livemark wraps Vite + TanStack Start. Routes, prerender, and component overrides are all from TanStack Start; Livemark adds content-collections for content loading and a default sidebar/layout/component layer on top.
+Livemark wraps Vite + TanStack Start. Routes, prerender, and component overrides are all from TanStack Start; Livemark adds its own content loading and a default sidebar/layout/component layer on top.
 
 Fumadocs assumes you already have (or want) a Next.js application. It's not a self-contained CLI — you scaffold a Next project, install Fumadocs packages, and wire `fumadocs-core` and `fumadocs-ui` into your App Router. Content is read by `fumadocs-mdx` from `.md`/`.mdx` files and surfaced as typed objects.
 
@@ -38,7 +38,7 @@ Both tools accept Markdown + MDX with frontmatter and embedded React components.
 
 Fumadocs uses `fumadocs-mdx` (a custom MDX loader) which produces TypeScript-typed content objects with full IntelliSense for frontmatter. Custom components live alongside your Next app code.
 
-Livemark uses content-collections under the hood for the same purpose: validated frontmatter (via Zod schemas) and typed article exports.
+Livemark loads content itself for the same purpose: validated frontmatter (via Zod schemas) and typed article exports.
 
 Frontmatter shape differs: Fumadocs uses `title`, `description`, `icon`, `full`. Livemark uses `path`, `order`, `icon`, `sidebar`, `date`, `tags`.
 

@@ -70,8 +70,8 @@ function readWorker() {
   if (worker) return worker
   const thread = new Worker(WORKER_SOURCE, {
     eval: true,
-    // the config is bundled into `.content-collections/`, so the worker imports the
-    // packages this module resolves rather than resolving them from its own place
+    // an eval'd worker resolves bare specifiers from the cwd, so it imports the
+    // packages this module resolves rather than resolving them itself
     workerData: {
       shiki: import.meta.resolve("shiki"),
       twoslash: import.meta.resolve("@shikijs/twoslash"),

@@ -24,7 +24,7 @@ order: 1
 
 ## 架构 {#architecture}
 
-Livemark 将 Vite、TanStack Start 和 React 封装进一个零配置的 CLI。内容由 content-collections 从 glob 匹配到的 `.md` 文件中加载，在构建时按 Markdown 编译（`.mdx` 文件按 MDX 编译），并为每个路由预渲染为静态 HTML。
+Livemark 将 Vite、TanStack Start 和 React 封装进一个零配置的 CLI。内容从 glob 匹配到的 `.md` 文件中加载，在构建时按 Markdown 编译（`.mdx` 文件按 MDX 编译），并为每个路由预渲染为静态 HTML。
 
 Docusaurus 基于 Webpack 构建。其运行时由 React Router + Docusaurus 核心组成，核心负责主题、插件和内容来源。插件是一等公民：每个内置功能（文档、博客、页面、搜索）本身都是插件，第三方也以同样的方式扩展系统。
 

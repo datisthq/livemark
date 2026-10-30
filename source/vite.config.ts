@@ -10,11 +10,13 @@ import { agents } from "./plugins/vite-agents.ts"
 import { content } from "./plugins/vite-content.ts"
 import { livemark } from "./plugins/vite-livemark.ts"
 import { robots } from "./plugins/vite-robots.ts"
+import { createArticleStore } from "./helpers/article-store.ts"
 import { listRoutePages } from "./helpers/route-pages.ts"
 import { buildSites } from "./helpers/site.ts"
 
 const config = await loadConfig()
 const sites = buildSites(config)
+const store = createArticleStore(config)
 
 // Per-blog-section RSS feed paths to prerender. Gated on `config.site`
 // because feed URLs are absolute (matching the sitemap/robots.txt gate)
@@ -41,12 +43,12 @@ export default defineConfig({
   plugins: [
     livemark({ config }),
     robots({ config }),
-    agents({ config }),
+    agents({ config, store }),
     // Its server-to-browser console piping and Vite's browser-to-server forwarding echo
     // any browser error back and forth forever.
     devtools({ consolePiping: { enabled: false } }),
     tailwind(),
-    content({ configPath: "content-collections.ts", contentDir: config.root }),
+    content({ store, contentDir: config.root }),
     tanstackStart({
       srcDirectory: ".",
       // Seed path must match what the crawler produces (router-emitted

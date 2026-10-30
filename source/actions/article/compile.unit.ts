@@ -1,9 +1,9 @@
 import { createElement } from "react"
-import type { ComponentType, ReactNode } from "react"
-import * as runtime from "react/jsx-runtime"
+import type { ReactNode } from "react"
 import { renderToStaticMarkup } from "react-dom/server"
 import { describe, expect, it } from "vite-plus/test"
 import { Config } from "../../models/config.ts"
+import { createMdxComponent } from "../../helpers/mdx-component.ts"
 import { compileArticle } from "./compile.ts"
 
 const CHANGELOG = [
@@ -62,15 +62,10 @@ describe("compileArticle", () => {
 
 async function renderArticle(filePath: string, content: string, format?: "md" | "mdx") {
   const article = await compileFixture(filePath, content, format)
-  const scope: unknown = new Function("React", "ReactDOM", "_jsx_runtime", article.mdx)(
-    undefined,
-    undefined,
-    runtime,
-  )
-  if (!isModule(scope)) throw new Error("the article exports no default component")
+  const Content = createMdxComponent(article.mdx)
   const Callout = (props: { type: string; children: ReactNode }) =>
     createElement("aside", { "data-type": props.type }, props.children)
-  return renderToStaticMarkup(createElement(scope.default, { components: { Callout } }))
+  return renderToStaticMarkup(createElement(Content, { components: { Callout } }))
 }
 
 function compileFixture(filePath: string, content: string, format?: "md" | "mdx") {
@@ -78,22 +73,5 @@ function compileFixture(filePath: string, content: string, format?: "md" | "mdx"
     ...Config.parse({ root: ".", configPath: "livemark.config.ts" }),
     base: undefined,
   }
-  return compileArticle(
-    { cache: async (input, compute) => compute(input) },
-    { _meta: makeMeta(filePath), content },
-    { format, config, filePath },
-  )
-}
-
-function isModule(
-  value: unknown,
-): value is { default: ComponentType<{ components: object }> } {
-  return typeof value === "object" && value !== null && "default" in value
-}
-
-function makeMeta(filePath: string) {
-  const fileName = filePath.split("/").pop() ?? filePath
-  const extension = fileName.split(".").pop() ?? ""
-  const path = filePath.replace(/\.\w+$/, "")
-  return { filePath, fileName, directory: ".", extension, path }
+  return compileArticle({ content, filePath, format, config })
 }

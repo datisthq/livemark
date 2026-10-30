@@ -1,8 +1,6 @@
 import { existsSync, readFileSync } from "node:fs"
 import { join, resolve } from "node:path"
-import { pathToFileURL } from "node:url"
 import type { Plugin } from "vite"
-import { z } from "zod"
 import {
   buildSkillFileName,
   loadAgentSkills,
@@ -14,40 +12,25 @@ import {
   renderMarkdownTwin,
   renderSectionIndex,
 } from "../helpers/llms.ts"
+import type { ArticleStore } from "../helpers/article-store.ts"
 import { resolveIncludes } from "../helpers/resolve-includes.ts"
 import { buildSites } from "../helpers/site.ts"
 import type { Config } from "../models/config.ts"
 
 export interface AgentsOptions {
   config: Config
+  store: ArticleStore
 }
-
-const GeneratedArticles = z.array(
-  z.object({
-    path: z.string(),
-    title: z.string(),
-    description: z.string().optional(),
-    order: z.number().optional(),
-    date: z.string().optional(),
-    file: z.string(),
-    content: z.string(),
-    language: z.string(),
-  }),
-)
 
 /** Emit what AI agents look for into the client build: a Markdown twin of
  *  every article and section listing at `<path>index.md`, `llms.txt`, the Agent Skills index for
  *  `config.skills`, and a `_headers` file whose `Link` points agents at them. */
 export function agents(opts: AgentsOptions): Plugin {
   const publicDir = join(opts.config.root, ".livemark", "public")
-  let root = ""
   return {
     name: "livemark:agents",
     applyToEnvironment(env) {
       return env.name === "client"
-    },
-    configResolved(resolved) {
-      root = resolved.root
     },
     async generateBundle() {
       // Vite copies the publicDir before writeBundle, so emitting a file the
@@ -57,7 +40,7 @@ export function agents(opts: AgentsOptions): Plugin {
         this.emitFile({ type: "asset", fileName, source })
       }
 
-      const articles = await loadGeneratedArticles(root)
+      const articles = await opts.store.list()
       const contents = await Promise.all(
         articles.map(article =>
           resolveIncludes(article.content, resolve(opts.config.root, article.file)),
@@ -137,10 +120,4 @@ export function renderHeaders(props: {
   const rule = `${base}/\n  Link: ${links.join(", ")}\n`
   const existing = props.existing?.trimEnd()
   return existing ? `${existing}\n\n${rule}` : rule
-}
-
-async function loadGeneratedArticles(root: string) {
-  const file = join(root, ".content-collections", "generated", "allArticles.js")
-  const module: { default: unknown } = await import(pathToFileURL(file).href)
-  return GeneratedArticles.parse(module.default)
 }

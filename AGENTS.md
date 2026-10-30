@@ -1,6 +1,6 @@
 # livemark
 
-TypeScript package and CLI that turns a folder of Markdown into a static documentation site, built on TanStack Start, Vite and content-collections. This repo also hosts Livemark's own docs site, built with Livemark.
+TypeScript package and CLI that turns a folder of Markdown into a static documentation site, built on TanStack Start, Vite and textlane. This repo also hosts Livemark's own docs site, built with Livemark.
 
 ## Terminology
 
@@ -75,14 +75,14 @@ Shipped skills live in `skills/` and are published in the package for people who
 
 Everything the package runs is under `source/`; Node loads `build/*.js`, while Vite bundles the raw TypeScript from `source/` in a project.
 
-- `actions/<entity>/<verb>.ts` — build-time **operations** (load and define config, build the changelog, prepare the target)
+- `actions/<entity>/<verb>.ts` — build-time **operations** (load and define config, prepare and load articles, build the changelog, prepare the target)
 - `commands/<command>.ts` — one per `livemark <command>`, wired in `program.ts` and started from `entrypoints/main.ts`
 - `components/` — Livemark UI, escapable · `elements/` — shadcn-style primitives, escapable · `styles/` — base CSS, escapable
 - `routes/` — TanStack Start routes, escapable · `plugins/` — Vite plugins and the twoslash stage · `actions/processor/` — the textlane pipeline
-- `models/<entity>.ts` — zod schemas plus derived types · `content/` — content-collections derivations
+- `models/<entity>.ts` — zod schemas plus derived types · `content/` — derivations over the loaded articles
 - `messages/<code>.ts` — bundled UI strings per language; English is the defaults of `models/message.ts`
 - `helpers/<name>.ts` — internal utilities · `hooks/` — React hooks exposed through `exports`
-- Root files are single-concern: `settings.ts`, `program.ts`, `client.tsx`, `server.ts`, `router.tsx`, `head.ts`, `content-collections.ts`, `vite.config.ts`, `index.ts`. `routeTree.gen.ts` is generated
+- Root files are single-concern: `settings.ts`, `program.ts`, `client.tsx`, `server.ts`, `router.tsx`, `head.ts`, `vite.config.ts`, `index.ts`. `routeTree.gen.ts` is generated
 - Unit tests sit beside their module as `<module>.unit.ts`; snapshots land in a sibling `fixtures/generated/`
 
 Non-package code: `scripts/` repo tooling and repo-wide guards, and the dot-directories `.agents/` repo skills, `.livemark/` the docs site's own escapes, `.release/` release-please config.

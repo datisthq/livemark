@@ -1,31 +1,20 @@
-import type { Context, Meta } from "@content-collections/core"
 import type { Config } from "../../models/config.ts"
 import type { TocItem } from "../../models/toc.ts"
 import { createProcessor } from "../processor/create.ts"
 
 /** Compile an article body with textlane into an MDX function body and its table of
  *  contents, as plain Markdown or as MDX: `format` wins, else a `.mdx` file is MDX. */
-export async function compileArticle(
-  context: Pick<Context, "cache">,
-  document: { _meta: Meta; content: string },
-  options: { format?: "md" | "mdx"; config: Config; filePath: string },
-) {
-  const format =
-    options.format ?? (document._meta.filePath.endsWith(".mdx") ? "mdx" : "md")
-  const twoslash = TWOSLASH_FENCE.test(document.content)
-  const key = { content: document.content, _meta: document._meta, format }
-  return context.cache(
-    key,
-    async () => {
-      const processor = readProcessor(options.config, format, twoslash)
-      const file = await processor.process({
-        value: document.content,
-        path: options.filePath,
-      })
-      return { mdx: wrapRuntime(file.value), tocItems: flattenToc(file.data.toc) }
-    },
-    { key: "__article" },
-  )
+export async function compileArticle(props: {
+  content: string
+  filePath: string
+  format?: "md" | "mdx"
+  config: Config
+}) {
+  const format = props.format ?? (props.filePath.endsWith(".mdx") ? "mdx" : "md")
+  const twoslash = TWOSLASH_FENCE.test(props.content)
+  const processor = readProcessor(props.config, format, twoslash)
+  const file = await processor.process({ value: props.content, path: props.filePath })
+  return { mdx: file.value, tocItems: flattenToc(file.data.toc) }
 }
 
 /** A fenced code block whose meta names `twoslash` */
@@ -42,12 +31,6 @@ function readProcessor(config: Config, format: "md" | "mdx", twoslash: boolean) 
     processors.set(key, processor)
   }
   return processor
-}
-
-// mdx.compile's function body reads its JSX runtime from `arguments[0]`, where
-// content-collections' MDXContent passes React first and the runtime third
-function wrapRuntime(body: string) {
-  return `return (function () {\n${body}\n})(_jsx_runtime)`
 }
 
 interface TocEntry {

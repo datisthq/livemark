@@ -98,4 +98,4 @@ After authoring, run:
 
 - Full frontmatter reference: https://livemark.dev/authoring/frontmatter/.
 - Schema source of truth: `source/models/article.ts`.
-- Transform pipeline: `source/content-collections.ts`; default paths in `source/helpers/article-path.ts`.
+- Transform pipeline: `source/actions/article/load.ts`; default paths in `source/helpers/article-path.ts`.

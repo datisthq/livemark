@@ -26,12 +26,13 @@ export function buildTarget(props: {
 }) {
   const targetDir = targetDirFor(props.configPath, props.command)
   const overridesRoot = dirname(targetDir)
-  // `.target/` was the mount before `.serve/` and `.build/`; an upgrade must not keep it.
+  // `.target/` was the mount before `.serve/` and `.build/`; an upgrade must not keep it,
+  // nor the output content-collections left in the mount, which Tailwind would scan.
   removeTargetDir(join(overridesRoot, ".target"))
+  rmSync(join(targetDir, ".content-collections"), { recursive: true, force: true })
   mkdirSync(targetDir, { recursive: true })
   writeFileSync(join(targetDir, ".gitignore"), "*\n")
-  // Under a `"type": "commonjs"` project Node would load content-collections' `.js`
-  // output as CommonJS, and Vite would name the server bundle `server.mjs`.
+  // Under a `"type": "commonjs"` project Vite would name the server bundle `server.mjs`.
   writeFileSync(join(targetDir, "package.json"), ESM_PACKAGE_JSON)
 
   cpSync(props.sourceDir, targetDir, {

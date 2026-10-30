@@ -50,7 +50,7 @@ export async function loadConfig(path?: string): Promise<Config> {
   }
   const validated = defineConfig(input)
   // Resolve the function form of `base` once, here, using the livemark
-  // CLI verb. Downstream consumers (Vite plugin, content-collections,
+  // CLI verb. Downstream consumers (Vite plugins, article loading,
   // runtime) get a plain string|undefined and never see the function.
   const base = resolveBase(validated.base, detectCommand())
   return {

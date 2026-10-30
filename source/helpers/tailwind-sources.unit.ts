@@ -4,11 +4,10 @@ import { excludeTailwindSources } from "./tailwind-sources.ts"
 const targetDir = "/project/.livemark/.serve"
 
 describe("excludeTailwindSources", () => {
-  it("excludes the dependency link and the content cache from a Tailwind entry", () => {
+  it("excludes the dependency link from a Tailwind entry", () => {
     const css = `@import "tailwindcss";\n@import "./shape.css";`
     expect(excludeTailwindSources({ css, targetDir })).toBe(
-      `${css}\n@source not "/project/.livemark/.serve/node_modules";\n` +
-        `@source not "/project/.livemark/.serve/.content-collections/cache";\n`,
+      `${css}\n@source not "/project/.livemark/.serve/node_modules";\n`,
     )
   })
 

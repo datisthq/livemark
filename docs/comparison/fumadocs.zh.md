@@ -24,7 +24,7 @@ order: 5
 
 ## 架构 {#architecture}
 
-Livemark 封装了 Vite + TanStack Start。路由、预渲染和组件覆盖都来自 TanStack Start；Livemark 在此之上加入 content-collections 来加载内容，并提供一层默认的侧边栏、布局和组件。
+Livemark 封装了 Vite + TanStack Start。路由、预渲染和组件覆盖都来自 TanStack Start；Livemark 在此之上加入自己的内容加载，并提供一层默认的侧边栏、布局和组件。
 
 Fumadocs 假定你已经有（或打算有）一个 Next.js 应用。它不是一个自包含的 CLI：你需要先搭建一个 Next 项目，安装 Fumadocs 的包，再把 `fumadocs-core` 和 `fumadocs-ui` 接入你的 App Router。内容由 `fumadocs-mdx` 从 `.md`/`.mdx` 文件中读取，并以带类型的对象形式提供。
 
@@ -38,7 +38,7 @@ Fumadocs 假定你已经有（或打算有）一个 Next.js 应用。它不是�
 
 Fumadocs 使用 `fumadocs-mdx`（一个自定义的 MDX 加载器），生成带 TypeScript 类型的内容对象，frontmatter 具备完整的 IntelliSense 支持。自定义组件与你的 Next 应用代码放在一起。
 
-Livemark 在底层使用 content-collections 实现同样的目的：经过校验的 frontmatter（通过 Zod schema）和带类型的文章导出。
+Livemark 自行加载内容，实现同样的目的：经过校验的 frontmatter（通过 Zod schema）和带类型的文章导出。
 
 frontmatter 的结构不同：Fumadocs 使用 `title`、`description`、`icon`、`full`；Livemark 使用 `path`、`order`、`icon`、`sidebar`、`date`、`tags`。
 

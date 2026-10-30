@@ -40,8 +40,7 @@ const stringifier = textlane()
   .freeze()
 
 /** Glob (absolute path) covering the cached changelog markdown files of
- *  one changelog section. Used by content-collections to include them in
- *  the article scan. */
+ *  one changelog section, which the article scan includes. */
 export function cacheIncludeGlob(section: ChangelogSection, config: Config) {
   return join(changelogCacheDir(section, config), "*.md")
 }

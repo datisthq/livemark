@@ -28,8 +28,8 @@ export const serverInput = configInput.extend({
     .describe("Open the site in the browser, at the given path"),
 })
 
-/** Hand the chosen config to `loadConfig()`, which `vite.config.ts` and
- *  `content-collections.ts` call without arguments. */
+/** Hand the chosen config to `loadConfig()`, which `vite.config.ts` calls without
+ *  arguments. */
 export function selectConfig(path?: string) {
   if (path) process.env.LIVEMARK_CONFIG = resolve(path)
 }

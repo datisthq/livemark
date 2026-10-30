@@ -34,7 +34,6 @@ allowBuilds:
   workerd: true
 peerDependencyRules:
   allowedVersions:
-    "@content-collections/vite>vite": "8"
     vite: "*"
     vitest: "*"
   allowAny:

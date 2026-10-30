@@ -11,7 +11,6 @@ import type { ConfigEnv, Plugin, UserConfig as ViteUserConfig, ViteDevServer } f
 import { mergeConfig } from "vite"
 import packageJson from "../../package.json" with { type: "json" }
 import { buildTarget, ESM_PACKAGE_JSON } from "../actions/target/build.ts"
-import { collectLocalImports } from "../helpers/local-imports.ts"
 import { renderInlineMarkdown } from "../helpers/render-inline-markdown.ts"
 import { excludeTailwindSources } from "../helpers/tailwind-sources.ts"
 import { buildSites } from "../helpers/site.ts"
@@ -131,14 +130,10 @@ export function livemark(opts: LivemarkOptions): Plugin {
     },
     configureServer(server) {
       // Vite restarts only for its own config's imports; the project config's
-      // imports and, in livemark's own dev, the content-collections config's
       // imports need it too. A restart rebuilds the target, so no sync is lost.
       const restartFiles = new Set([
         opts.config.configPath,
         ...opts.config.configDependencies,
-        ...(IS_INSTALLED
-          ? []
-          : collectLocalImports(join(SOURCE_DIR, "content-collections.ts"))),
       ])
       // Vite watches only its root (the target); the files the target is
       // copied from join its watcher here. `.livemark/` always exists

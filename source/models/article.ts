@@ -25,7 +25,7 @@ export const Article = z.object({
   format: z.enum(["md", "mdx"]).optional(),
 })
 
-/** Processed article ready for page rendering (result of content-collections transform). */
+/** Processed article ready for page rendering (result of `loadArticle`). */
 export interface ArticleView {
   path: string
   language?: string

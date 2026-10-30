@@ -1,8 +1,8 @@
-import { useRef } from "react"
-import { MDXContent } from "@content-collections/mdx/react"
+import { useMemo, useRef } from "react"
 import { Calendar, History, User } from "lucide-react"
 import type { ArticleView } from "../models/article.ts"
 import { formatShortDate } from "../helpers/date.ts"
+import { createMdxComponent } from "../helpers/mdx-component.ts"
 import { useSearchHighlight } from "../helpers/search-highlight.ts"
 import { TocContext } from "../helpers/toc-context.ts"
 import { Abbr } from "./Abbr.tsx"
@@ -50,6 +50,7 @@ import { useMessages, useSite } from "../hooks/site.ts"
 export function Article(props: { article: ArticleView; highlight?: string }) {
   const { article } = props
   const prose = useRef<HTMLDivElement>(null)
+  const Content = useMemo(() => createMdxComponent(article.mdx), [article.mdx])
   useSearchHighlight(prose, article.path, props.highlight)
   const site = useSite()
   const t = useMessages()
@@ -118,8 +119,7 @@ export function Article(props: { article: ArticleView; highlight?: string }) {
                 className="!mt-0 !mb-6 w-full rounded-card border shadow-sm"
               />
             )}
-            <MDXContent
-              code={article.mdx}
+            <Content
               components={{
                 hr: Separator,
                 img: ZoomImage,

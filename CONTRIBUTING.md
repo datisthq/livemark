@@ -57,7 +57,7 @@ livemark/
 │   ├── plugins/        # Vite plugins and the twoslash stage
 │   ├── routes/         # TanStack Start routes
 │   ├── models/         # Zod schemas
-│   ├── content/        # content-collections derivations
+│   ├── content/        # derivations over the loaded articles
 │   └── vite.config.ts  # the Vite config consumers run against
 ├── build/              # compiled JS, used by Node CLI
 ├── skills/             # agent skills shipped to people who install Livemark

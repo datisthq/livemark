@@ -24,7 +24,7 @@ order: 1
 
 ## Arquitectura {#architecture}
 
-Livemark envuelve Vite, TanStack Start y React en una única CLI sin configuración. El contenido lo carga content-collections a partir de archivos `.md` seleccionados por glob, se compila como Markdown, o como MDX en los archivos `.mdx`, en tiempo de compilación y se prerenderiza a HTML estático para cada ruta.
+Livemark envuelve Vite, TanStack Start y React en una única CLI sin configuración. El contenido se carga a partir de archivos `.md` seleccionados por glob, se compila como Markdown, o como MDX en los archivos `.mdx`, en tiempo de compilación y se prerenderiza a HTML estático para cada ruta.
 
 Docusaurus está construido sobre Webpack. El runtime es React Router + un núcleo de Docusaurus que gestiona los temas, los plugins y las fuentes de contenido. Los plugins son de primera clase: cada funcionalidad integrada (docs, blog, páginas, búsqueda) es en sí misma un plugin, y los terceros extienden el sistema de la misma forma.
 
