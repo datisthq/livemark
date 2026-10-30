@@ -28,7 +28,8 @@ export async function compileArticle(
   )
 }
 
-const TWOSLASH_FENCE = /^[ \t>]*(?:`{3,}|~{3,})[^\n]*\btwoslash\b/m
+/** A fenced code block whose meta names `twoslash` */
+export const TWOSLASH_FENCE = /^[ \t>]*(?:`{3,}|~{3,})[^\n]*\btwoslash\b/m
 
 // A frozen processor runs any number of articles, so each variant is built once a build
 const processors = new Map<string, ReturnType<typeof createProcessor>>()

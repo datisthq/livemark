@@ -1,12 +1,13 @@
 import { execFileSync } from "node:child_process"
-import { existsSync } from "node:fs"
+import { existsSync, globSync, readFileSync } from "node:fs"
 import { basename, relative, resolve } from "node:path"
 import { DEFAULT_EXCLUDES } from "./settings.ts"
 import { defineCollection, defineConfig } from "@content-collections/core"
-import { compileArticle } from "./actions/article/compile.ts"
+import { TWOSLASH_FENCE, compileArticle } from "./actions/article/compile.ts"
 import { loadConfig } from "./actions/config/load.ts"
 import { buildChangelog, cacheIncludeGlob } from "./actions/changelog/build.ts"
 import { Article } from "./models/article.ts"
+import { warmTwoslash } from "./plugins/twoslash.ts"
 import { buildEditUrl, readRepository } from "./helpers/edit-url.ts"
 import { resolveArticlePath } from "./helpers/article-path.ts"
 import { resolveAssetPath } from "./helpers/resolve-asset-path.ts"
@@ -53,6 +54,10 @@ const exclude = [...defaultExclude, ...userExclude]
 const baseDir = resolve(import.meta.dirname, "../..")
 const directory = relative(baseDir, config.root) || "."
 
+// TypeScript takes ~0.8 s to start for twoslash; started here, in its worker, it is
+// ready by the time the build reaches a page with a twoslash block
+if (hasTwoslash()) warmTwoslash()
+
 const lastUpdatedByFile = readLastUpdatedDates()
 const repository = readRepository(config.root)
 
@@ -87,6 +92,13 @@ function readLastUpdatedDates() {
   } catch {
     return dates
   }
+}
+
+function hasTwoslash() {
+  const files = globSync(include, { cwd: config.root, exclude })
+  return files.some(file =>
+    TWOSLASH_FENCE.test(readFileSync(resolve(config.root, file), "utf-8")),
+  )
 }
 
 function extractTitle(content: string, path: string) {
