@@ -1,6 +1,6 @@
 import { existsSync, globSync, readFileSync } from "node:fs"
 import { availableParallelism } from "node:os"
-import { isAbsolute, matchesGlob, relative, resolve } from "node:path"
+import { isAbsolute, matchesGlob, relative, resolve, sep } from "node:path"
 import type { Config } from "../models/config.ts"
 import { TWOSLASH_FENCE } from "../actions/article/compile.ts"
 import { loadArticle, type LoadedArticle } from "../actions/article/load.ts"
@@ -24,7 +24,7 @@ export function createArticleStore(config: Config) {
     /** Reload or drop the article at an absolute path; false when it is none. */
     async sync(path: string) {
       const current = await readScope()
-      const file = relative(config.root, path)
+      const file = readProjectFile(config, path)
       if (!isArticleFile(current, file)) return false
       if (!existsSync(path)) return articles.delete(file)
       const article = await loadOrReport(current, file)
@@ -48,7 +48,7 @@ export function createArticleStore(config: Config) {
       cwd: config.root,
       exclude: current.exclude,
     })
-      .map(file => (isAbsolute(file) ? relative(config.root, file) : file))
+      .map(file => readProjectFile(config, file))
       .sort((a, b) => a.localeCompare(b))
     // TypeScript takes ~0.8 s to start for twoslash; started now, in its worker, it is
     // ready by the time the build reaches a page with a twoslash block
@@ -81,6 +81,12 @@ async function loadOrReport(scope: ArticleScope, file: string) {
     console.error(`[livemark] skipped ${file}: ${message}`)
     return undefined
   }
+}
+
+// Article keys are "/"-separated on every platform: they derive URLs and match globs
+function readProjectFile(config: Config, path: string) {
+  const file = isAbsolute(path) ? relative(config.root, path) : path
+  return file.split(sep).join("/")
 }
 
 function isArticleFile(scope: ArticleScope, file: string) {
