@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.35.0](https://github.com/datisthq/livemark/compare/v0.34.0...v0.35.0) (2026-10-31)
+
+
+### Features
+
+* compile Markdown with textlane ([b10d5ef](https://github.com/datisthq/livemark/commit/b10d5ef2809f0ef63df90d410235c396a68e6207))
+
+
+### Bug Fixes
+
+* key in-memory articles by forward-slash paths on Windows ([2360144](https://github.com/datisthq/livemark/commit/2360144e53a12859b8088f7ee04e18c06e3f26de))
+
+
+### Performance Improvements
+
+* adopt textlane 0.3.0 and drop the unist tree helpers ([aa0810f](https://github.com/datisthq/livemark/commit/aa0810f74e901e8f9d9f0fe595310104f2f0156b))
+* limit the last-updated git log to the included paths ([04cac52](https://github.com/datisthq/livemark/commit/04cac52df8bb33de7ce8b1be2863701e069d11e7))
+* load articles in memory instead of through content-collections ([3b01eaa](https://github.com/datisthq/livemark/commit/3b01eaaee0b1d8e482f33d7fa3b913ac2cc17f47))
+* share one twoslash environment and reuse blocks repeated across translations ([d8f7293](https://github.com/datisthq/livemark/commit/d8f7293a2244ac3901a6376fbfe9e8fabd8a99ab))
+* ship only the icons, flags and search code a page needs ([1a93bb8](https://github.com/datisthq/livemark/commit/1a93bb853245e6a19bf408f80fe2dddd840e2668))
+* start twoslash's TypeScript in a worker as the config loads ([768d872](https://github.com/datisthq/livemark/commit/768d8725d773fcb71dbe03a18365910994d2da6e))
+
 ## [0.34.0](https://github.com/datisthq/livemark/compare/v0.33.1...v0.34.0) (2026-10-30)
 
 
