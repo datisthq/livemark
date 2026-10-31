@@ -118,6 +118,30 @@ describe("buildChangelog", () => {
       }
     }))
 
+  it("drops an entry's own title and moves its subsections up one level", () =>
+    temporaryDirectoryTask(async root => {
+      const section: ChangelogSection = {
+        type: "changelog",
+        title: "Changelog",
+        prefix: "/changelog/",
+        source: "CHANGELOG.md",
+        position: "sidebar",
+      }
+      const config = makeConfig(root, [section])
+      const notes = "## 1.0.0\n\n# 1.0.0 (2026-01-01)\n\n### Features\n\n- one\n"
+      await writeFile(join(root, "CHANGELOG.md"), notes, "utf-8")
+
+      await buildChangelog(section, config)
+
+      const entry = await readFile(
+        join(changelogCacheDir(section, config), "1-0-0.md"),
+        "utf-8",
+      )
+      expect(entry).not.toContain("(2026-01-01)")
+      expect(entry).toContain("## Features")
+      expect(entry).not.toContain("### Features")
+    }))
+
   it("keeps sections apart when their prefixes slugify to the same key", () =>
     temporaryDirectoryTask(async root => {
       const configPath = join(root, "livemark.config.ts")

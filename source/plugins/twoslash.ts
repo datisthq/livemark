@@ -1,7 +1,6 @@
 import { Worker } from "node:worker_threads"
-import type { Element, ElementContent, Root } from "hast"
-import { toString } from "hast-util-to-string"
-import { visit } from "unist-util-visit"
+import type { Element, ElementContent, Root, RootContent } from "hast"
+import { readNodeText } from "../helpers/node-text.ts"
 import type { Config } from "../models/config.ts"
 
 const TWOSLASH = /(?:^|\s)twoslash(?:\s|$)/
@@ -11,19 +10,23 @@ const TWOSLASH = /(?:^|\s)twoslash(?:\s|$)/
 export function twoslashStage(options: { config: Config }) {
   return async (tree: Root) => {
     const blocks: { node: Element; meta: string; lang: string }[] = []
-    visit(tree, "element", node => {
-      if (node.tagName !== "pre") return
+    for (const node of walkElements(tree)) {
+      if (node.tagName !== "pre") continue
       const meta = node.properties["data-meta"] ?? node.properties.dataMeta
-      if (typeof meta !== "string" || !TWOSLASH.test(meta)) return
+      if (typeof meta !== "string" || !TWOSLASH.test(meta)) continue
       blocks.push({ node, meta, lang: readLanguage(node) })
-    })
+    }
     const themes = {
       light: options.config.codeThemeLight,
       dark: options.config.codeThemeDark,
     }
     await Promise.all(
       blocks.map(async block => {
-        const pre = await renderBlock({ ...block, code: toString(block.node), themes })
+        const pre = await renderBlock({
+          ...block,
+          code: readNodeText(block.node),
+          themes,
+        })
         if (!pre) return
         block.node.properties = structuredClone(pre.properties)
         block.node.children = structuredClone(pre.children) as ElementContent[]
@@ -153,4 +156,9 @@ function readLanguage(pre: Element) {
     ? classes.find(item => typeof item === "string" && item.startsWith("language-"))
     : undefined
   return typeof name === "string" ? name.slice("language-".length) : "ts"
+}
+
+function* walkElements(node: Root | RootContent): Generator<Element> {
+  if (node.type === "element") yield node
+  if ("children" in node) for (const child of node.children) yield* walkElements(child)
 }

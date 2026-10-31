@@ -3,14 +3,12 @@ import { access, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promise
 import { dirname, join, resolve } from "node:path"
 import slugify from "@sindresorhus/slugify"
 import type { Root, RootContent } from "mdast"
-import { toString as mdastToString } from "mdast-util-to-string"
 import { textlane } from "textlane"
-import type { Node } from "textlane"
 import * as md from "textlane/md"
-import { visit } from "unist-util-visit"
 import type { Config } from "../../models/config.ts"
 import type { ChangelogSection } from "../../models/section.ts"
 import { isGitHubUrl, parseGitHubRepo } from "../../helpers/changelog-source.ts"
+import { readNodeText } from "../../helpers/node-text.ts"
 import { cacheDirFor } from "../../helpers/target-dir.ts"
 
 interface Release {
@@ -35,8 +33,11 @@ interface ChangelogEntry {
 }
 
 const parser = textlane().use(md.parse()).freeze()
-const stringifier = textlane()
-  .use(md.stringify({ bullet: "-", fences: true, emphasis: "_" }))
+const STRINGIFY_OPTIONS = { bullet: "-", fences: true, emphasis: "_" } as const
+const stringifier = textlane().use(md.stringify(STRINGIFY_OPTIONS)).freeze()
+const bodyWriter = textlane()
+  .use(md.shiftHeading({ shift: -1 }))
+  .use(md.stringify(STRINGIFY_OPTIONS))
   .freeze()
 
 /** Glob (absolute path) covering the cached changelog markdown files of
@@ -91,14 +92,14 @@ async function buildFromLocal(source: string, root: string) {
 
 /** Parse CHANGELOG.md into per-version entries using mdast */
 export function splitLocalChangelog(body: string): ChangelogEntry[] {
-  const tree = parseMarkdown(body)
+  const tree = parser.parse(body)
   const entries: ChangelogEntry[] = []
   let current: { heading: string; children: RootContent[] } | undefined
 
   for (const child of tree.children) {
     if (child.type === "heading" && child.depth === 2) {
       if (current) entries.push(finalizeEntry(current))
-      current = { heading: mdastToString(child), children: [] }
+      current = { heading: readNodeText(child), children: [] }
     } else if (current) {
       current.children.push(child)
     }
@@ -123,35 +124,21 @@ function finalizeEntry(input: {
   }
 }
 
-// textlane types its trees as JSON nodes with any fields, which mdast's types do not
-// convert to or from without going through `unknown`
-function parseMarkdown(body: string) {
-  return parser.parse(body) as unknown as Root
-}
-
-function stringifyMarkdown(tree: Root) {
-  return stringifier.stringify(tree as unknown as Node)
-}
-
 /** Serialize an entry's mdast children back to markdown */
 function renderEntryBody(children: RootContent[]) {
   const root: Root = { type: "root", children }
-  return stringifyMarkdown(root).trimEnd()
+  return stringifier.stringify(root).trimEnd()
 }
 
-/** Drop the body's leading h1 (typically the conventional-changelog
- * `# 0.7.2 (2026-04-25)` boilerplate that duplicates the article's title),
- * shift h2–h6 up by one so subsection headings become h1 / h2 / …, and
- * escape stray `<` outside code so MDX doesn't mistake them for JSX. */
+/** Drop the body's leading title (conventional-changelog's `# 0.7.2 (2026-04-25)` or
+ * release-please's `## [0.7.2](…)`, which duplicates the article's), shift h2–h6 up by
+ * one, and escape stray `<` outside code so MDX doesn't mistake them for JSX. */
 function processBody(body: string) {
-  const tree = parseMarkdown(body)
-  visit(tree, "heading", node => {
-    if (node.depth > 1) node.depth = (node.depth - 1) as 1 | 2 | 3 | 4 | 5
-  })
-  if (tree.children[0]?.type === "heading" && tree.children[0].depth === 1) {
-    tree.children.shift()
-  }
-  return escapeMdxAngles(stringifyMarkdown(tree).trimEnd())
+  const tree = parser.parse(body)
+  // An h2 counts too: shifted, it would be the h1 that repeats the article's title
+  const [first] = tree.children
+  if (first?.type === "heading" && first.depth <= 2) tree.children.shift()
+  return escapeMdxAngles(bodyWriter.stringify(bodyWriter.runSync(tree)).trimEnd())
 }
 
 /** Escape `<` to `&lt;` outside fenced code blocks and inline backtick spans
