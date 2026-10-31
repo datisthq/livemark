@@ -1,7 +1,8 @@
-import { Suspense, lazy, useState } from "react"
+import { Suspense, lazy, useRef, useState } from "react"
 import { useHotkey } from "@tanstack/react-hotkeys"
 import { Search as SearchIcon } from "lucide-react"
 import { cn } from "cn"
+import { holdTypedKeys } from "../helpers/typed-keys.ts"
 import { isMobileNow } from "../hooks/media.ts"
 import { useMessages } from "../hooks/site.ts"
 
@@ -15,7 +16,7 @@ const SearchDialog = lazy(() =>
   importSearchDialog().then(m => ({ default: m.SearchDialog })),
 )
 
-/** Search button with "S" keyboard shortcut: a command palette from `lg`, an in-header field below.
+/** Search button with "S" and Ctrl/⌘+K keyboard shortcuts: a command palette from `lg`, an in-header field below.
  * `compact` keeps it an icon from `lg` too, when header sections need the room */
 export function Search(props: { compact?: boolean }) {
   const [open, setOpen] = useState(false)
@@ -23,7 +24,15 @@ export function Search(props: { compact?: boolean }) {
   // Mounted from the first open on, so later closes keep their exit animation
   const [dialogUsed, setDialogUsed] = useState(false)
   const t = useMessages()
+  const heldKeys = useRef<ReturnType<typeof holdTypedKeys>>(undefined)
+  const takeTypedKeys = () => {
+    const typed = heldKeys.current?.release() ?? ""
+    heldKeys.current = undefined
+    return typed
+  }
   const openSearch = () => {
+    heldKeys.current?.release()
+    heldKeys.current = holdTypedKeys()
     if (isMobileNow()) return setHeaderOpen(true)
     setDialogUsed(true)
     setOpen(true)
@@ -33,6 +42,7 @@ export function Search(props: { compact?: boolean }) {
   }
 
   useHotkey("S", openSearch)
+  useHotkey("Mod+K", openSearch)
 
   return (
     <>
@@ -68,8 +78,19 @@ export function Search(props: { compact?: boolean }) {
         </kbd>
       </button>
       <Suspense>
-        {headerOpen && <HeaderSearch onClose={() => setHeaderOpen(false)} />}
-        {dialogUsed && <SearchDialog open={open} onOpenChange={setOpen} />}
+        {headerOpen && (
+          <HeaderSearch
+            onClose={() => setHeaderOpen(false)}
+            takeTypedKeys={takeTypedKeys}
+          />
+        )}
+        {dialogUsed && (
+          <SearchDialog
+            open={open}
+            onOpenChange={setOpen}
+            takeTypedKeys={takeTypedKeys}
+          />
+        )}
       </Suspense>
     </>
   )

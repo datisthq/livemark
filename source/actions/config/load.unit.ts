@@ -24,6 +24,29 @@ describe("loadConfig", () => {
       }
     }))
 
+  it("should name the config file and the field when validation fails", () =>
+    temporaryDirectoryTask(async tmpDir => {
+      const configPath = join(tmpDir, "livemark.config.ts")
+      fs.writeFileSync(configPath, 'export default { titel: "typo" }\n')
+      const error = await loadConfig(configPath).catch((caught: unknown) => caught)
+      expect(error).toBeInstanceOf(Error)
+      expect(String(error)).toMatch(/livemark\.config\.ts/)
+      expect(String(error)).toMatch(/Unrecognized key: "titel"/)
+      expect(String(error)).not.toMatch(/"code"/)
+    }))
+
+  it("should explain a validation error thrown by the config's own defineConfig", () =>
+    temporaryDirectoryTask(async tmpDir => {
+      const configPath = join(tmpDir, "livemark.config.ts")
+      const define = join(import.meta.dirname, "define.ts")
+      fs.writeFileSync(
+        configPath,
+        `import { defineConfig } from ${JSON.stringify(define)}\nexport default defineConfig({ titel: "typo" })\n`,
+      )
+      const error = await loadConfig(configPath).catch((caught: unknown) => caught)
+      expect(String(error)).toMatch(/Invalid livemark\.config\.ts:[\s\S]*"titel"/)
+    }))
+
   it("should load config from explicit path", () =>
     temporaryDirectoryTask(async tmpDir => {
       const configPath = join(tmpDir, "livemark.config.ts")

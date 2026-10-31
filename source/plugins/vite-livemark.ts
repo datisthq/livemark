@@ -60,9 +60,15 @@ export function livemark(opts: LivemarkOptions): Plugin {
   const overridesRoot = join(opts.config.root, ".livemark")
   const outDir = join(overridesRoot, "build")
   let targetDir = ""
+  let restarting = false
   return {
     name: "livemark",
     enforce: "pre",
+    // The new server rewrites files the old one still watches; a reload it sent would
+    // land on the closing socket and leave the browser on a connection error.
+    hotUpdate(ctx) {
+      return restarting ? [] : ctx.modules
+    },
     async config(_, env) {
       targetDir = buildTarget({
         configPath: opts.config.configPath,
@@ -152,7 +158,10 @@ export function livemark(opts: LivemarkOptions): Plugin {
 
       function onChange(file: string, kind: "change" | "add" | "unlink") {
         if (restartFiles.has(file)) {
-          server.restart()
+          restarting = true
+          void server.restart().finally(() => {
+            restarting = false
+          })
           return
         }
         if (isWithin(file, targetDir) || isWithin(file, outDir)) return

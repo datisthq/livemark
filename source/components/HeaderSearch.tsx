@@ -6,7 +6,10 @@ import { Command, CommandEmpty, CommandInput, CommandList } from "../elements/co
 import { useMessages } from "../hooks/site.ts"
 
 /** Search field that takes over the header below `lg`, with results dropping under it */
-export function HeaderSearch(props: { onClose: () => void }) {
+export function HeaderSearch(props: {
+  onClose: () => void
+  takeTypedKeys: () => string
+}) {
   const search = useArticleSearch()
   const bar = useRef<HTMLDivElement>(null)
   const [panelTop, setPanelTop] = useState<number>()
@@ -43,6 +46,10 @@ export function HeaderSearch(props: { onClose: () => void }) {
             placeholder={t("search.placeholder")}
             value={search.query}
             onValueChange={search.searchArticles}
+            onFocus={() => {
+              const typed = props.takeTypedKeys()
+              if (typed) search.searchArticles(search.query + typed)
+            }}
           />
         </div>
         <button

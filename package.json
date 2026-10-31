@@ -11,6 +11,8 @@
   "files": [
     "build",
     "source",
+    "!source/**/*.unit.ts",
+    "!source/**/fixtures",
     "skills"
   ],
   "type": "module",

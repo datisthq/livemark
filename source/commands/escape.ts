@@ -1,6 +1,7 @@
 import { join } from "node:path"
 import { autocompleteMultiselect, cancel, isCancel } from "@clack/prompts"
 import { f } from "fireargs"
+import { helpConfiguration } from "../helpers/program.ts"
 import pc from "picocolors"
 import { z } from "zod"
 import { copyEscape } from "../actions/escape/copy.ts"
@@ -23,7 +24,10 @@ const escapeFile = z.object({
  * destination already exists.
  */
 export const escape = f
-  .command({ description: "Pick, list or copy escapable livemark files into .livemark/" })
+  .command({
+    description: "Pick, list or copy escapable livemark files into .livemark/",
+    configureHelp: helpConfiguration,
+  })
   .input(
     z.object({
       paths: f

@@ -1,13 +1,15 @@
 import {
-  cpSync,
+  copyFileSync,
   existsSync,
   mkdirSync,
+  readdirSync,
+  readFileSync,
   readlinkSync,
   rmSync,
   symlinkSync,
   writeFileSync,
 } from "node:fs"
-import { basename, dirname, join, relative, resolve } from "node:path"
+import { dirname, join, relative, resolve, sep } from "node:path"
 import { resolveDependencyDir } from "../../helpers/dependency-dir.ts"
 import { removeTargetDir } from "../../helpers/target-dir.ts"
 import { ESCAPABLE_FILES, ESCAPABLE_FOLDERS } from "../../settings.ts"
@@ -16,7 +18,7 @@ import { ESCAPABLE_FILES, ESCAPABLE_FOLDERS } from "../../settings.ts"
  * Synthesize the project's Vite mount — `.livemark/.serve/` for the dev server,
  * `.livemark/.build/` for a production build or preview: livemark's `source/` with the
  * project's `.livemark/` escapes copied over it, plus a `node_modules` link to livemark's
- * dependencies. Escapable folders are rebuilt on every run, so a removed escape never
+ * dependencies. Escapable folders are synced on every run, so a removed escape never
  * keeps rendering. Returns the target dir.
  */
 export function buildTarget(props: {
@@ -31,26 +33,30 @@ export function buildTarget(props: {
   removeTargetDir(join(overridesRoot, ".target"))
   rmSync(join(targetDir, ".content-collections"), { recursive: true, force: true })
   mkdirSync(targetDir, { recursive: true })
-  writeFileSync(join(targetDir, ".gitignore"), "*\n")
+  writeIfChanged(join(targetDir, ".gitignore"), "*\n")
   // Under a `"type": "commonjs"` project Vite would name the server bundle `server.mjs`.
-  writeFileSync(join(targetDir, "package.json"), ESM_PACKAGE_JSON)
+  writeIfChanged(join(targetDir, "package.json"), ESM_PACKAGE_JSON)
 
-  cpSync(props.sourceDir, targetDir, {
-    recursive: true,
-    filter: src => isPackageFile(src) && !isEscapableFolder(src, props.sourceDir),
-  })
+  // Only changed bytes are written: a rewrite of every file on a dev-server restart
+  // sends the browser a reload into the server that is shutting down.
+  const plan = new Map<string, string>()
+  for (const file of listFiles(props.sourceDir)) {
+    if (isPackageFile(file)) plan.set(file, join(props.sourceDir, file))
+  }
   for (const folder of ESCAPABLE_FOLDERS) {
-    const dest = join(targetDir, folder)
-    rmSync(dest, { recursive: true, force: true })
-    const source = join(props.sourceDir, folder)
-    if (existsSync(source))
-      cpSync(source, dest, { recursive: true, filter: isPackageFile })
     const overlay = join(overridesRoot, folder)
-    if (existsSync(overlay)) cpSync(overlay, dest, { recursive: true })
+    for (const file of listFiles(overlay))
+      plan.set(join(folder, file), join(overlay, file))
   }
   for (const file of ESCAPABLE_FILES) {
     const overlay = join(overridesRoot, file)
-    if (existsSync(overlay)) cpSync(overlay, join(targetDir, file))
+    if (existsSync(overlay)) plan.set(file, overlay)
+  }
+  for (const [file, source] of plan) copyIfChanged(source, join(targetDir, file))
+  for (const folder of ESCAPABLE_FOLDERS) {
+    for (const file of listFiles(join(targetDir, folder))) {
+      if (!plan.has(join(folder, file))) rmSync(join(targetDir, folder, file))
+    }
   }
 
   linkDependencies(targetDir, resolveDependencyDir(props.sourceDir))
@@ -68,12 +74,26 @@ export function targetDirFor(configPath: string, command: TargetCommand = "serve
   return join(dirname(configPath), ".livemark", `.${command}`)
 }
 
-function isPackageFile(src: string) {
-  return !/\.unit\.tsx?$/.test(src) && basename(src) !== "fixtures"
+function isPackageFile(file: string) {
+  return !/\.unit\.tsx?$/.test(file) && !file.split(sep).includes("fixtures")
 }
 
-function isEscapableFolder(src: string, sourceDir: string) {
-  return ESCAPABLE_FOLDERS.includes(relative(sourceDir, src))
+function listFiles(dir: string) {
+  if (!existsSync(dir)) return []
+  return readdirSync(dir, { recursive: true, withFileTypes: true })
+    .filter(entry => entry.isFile())
+    .map(entry => relative(dir, join(entry.parentPath, entry.name)))
+}
+
+function copyIfChanged(source: string, dest: string) {
+  if (existsSync(dest) && readFileSync(dest).equals(readFileSync(source))) return
+  mkdirSync(dirname(dest), { recursive: true })
+  copyFileSync(source, dest)
+}
+
+function writeIfChanged(path: string, content: string) {
+  if (existsSync(path) && readFileSync(path, "utf-8") === content) return
+  writeFileSync(path, content)
 }
 
 function linkDependencies(targetDir: string, dependencyDir: string) {

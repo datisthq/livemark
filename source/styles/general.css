@@ -177,11 +177,6 @@
     @apply bg-background text-foreground;
   }
 
-  ::highlight(search-match) {
-    background-color: var(--highlight);
-    color: var(--highlight-foreground);
-  }
-
   html {
     scroll-behavior: smooth;
     scrollbar-color: #ddd transparent;

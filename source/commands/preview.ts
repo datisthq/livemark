@@ -3,7 +3,9 @@ import { f } from "fireargs"
 import { preview as vitePreview } from "vite"
 import {
   bindShortcuts,
+  createViteLogger,
   divertStdout,
+  helpConfiguration,
   selectConfig,
   serverInput,
   serverOutput,
@@ -15,7 +17,10 @@ const configFile = join(import.meta.dirname, "..", "..", "source", "vite.config.
  * Preview the production build locally.
  */
 export const preview = f
-  .command({ description: "Preview the production build locally" })
+  .command({
+    description: "Preview the production build locally",
+    configureHelp: helpConfiguration,
+  })
   .input(serverInput)
   .output(serverOutput)
   .handler(async (input, context) => {
@@ -23,7 +28,7 @@ export const preview = f
     const run = () =>
       vitePreview({
         configFile,
-        logLevel: context.json ? "warn" : undefined,
+        customLogger: createViteLogger(context.json ? "warn" : undefined),
         preview: { port: 8000, host: input.host, open: input.open ?? false },
       })
     const server = await (context.json ? divertStdout(run) : run())

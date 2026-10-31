@@ -24,6 +24,10 @@ describe("parseFrontmatter", () => {
     })
   })
 
+  it("counts a YAML error's line from the top of the file", () => {
+    expect(() => parseFrontmatter("---\ntitle: a: b\n---\nBody")).toThrow(/at line 2,/)
+  })
+
   it("closes only on a line of its own", () => {
     expect(parseFrontmatter("---\ntitle: a---\n---\nBody").data).toEqual({
       title: "a---",

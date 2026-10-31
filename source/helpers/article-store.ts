@@ -1,8 +1,11 @@
 import { existsSync, globSync, readFileSync } from "node:fs"
 import { availableParallelism } from "node:os"
 import { isAbsolute, matchesGlob, relative, resolve, sep } from "node:path"
+import { ZodError, prettifyError } from "zod"
 import type { Config } from "../models/config.ts"
 import { TWOSLASH_FENCE } from "../actions/article/compile.ts"
+import { DIRECTIVE_NAMES } from "../actions/processor/create.ts"
+import { findContentWarnings } from "./content-warnings.ts"
 import { loadArticle, type LoadedArticle } from "../actions/article/load.ts"
 import { prepareArticles, type ArticleScope } from "../actions/article/prepare.ts"
 import { warmTwoslash } from "../plugins/twoslash.ts"
@@ -13,6 +16,8 @@ export type ArticleStore = ReturnType<typeof createArticleStore>
  *  current one file at a time. */
 export function createArticleStore(config: Config) {
   const articles = new Map<string, LoadedArticle>()
+  const failures = new Map<string, string>()
+  const warnings = new Map<string, string>()
   let scope: Promise<ArticleScope> | undefined
 
   return {
@@ -26,12 +31,26 @@ export function createArticleStore(config: Config) {
       const current = await readScope()
       const file = readProjectFile(config, path)
       if (!isArticleFile(current, file)) return false
-      if (!existsSync(path)) return articles.delete(file)
+      if (!existsSync(path)) {
+        failures.delete(file)
+        return articles.delete(file)
+      }
       const article = await loadOrReport(current, file)
       if (article) articles.set(file, article)
       else articles.delete(file)
       sortArticles()
       return true
+    },
+    /** The articles left out, by project-relative file, with why. */
+    readFailures() {
+      return [...failures]
+    },
+    /** Throw, naming each, when an article was left out: a build must not ship without it. */
+    assertLoaded() {
+      if (failures.size === 0) return
+      const count = failures.size === 1 ? "1 article" : `${failures.size} articles`
+      const files = [...failures.keys()].join(", ")
+      throw new Error(`${count} failed to load, as reported above: ${files}`)
     },
   }
 
@@ -61,6 +80,34 @@ export function createArticleStore(config: Config) {
     await current.cache.prune()
   }
 
+  // A broken article is reported and left out, so one typo cannot take the site down.
+  // An editor's save fires the watcher twice; an unchanged error is reported once.
+  async function loadOrReport(current: ArticleScope, file: string) {
+    try {
+      const article = await loadArticle(current, file)
+      failures.delete(file)
+      reportWarnings(file)
+      return article
+    } catch (error) {
+      const message = formatFailure(error)
+      if (failures.get(file) !== message)
+        console.error(`[livemark] skipped ${file}:\n${message}`)
+      failures.set(file, message)
+      return undefined
+    }
+  }
+
+  function reportWarnings(file: string) {
+    const found = findContentWarnings({
+      text: readText(file),
+      filePath: resolve(config.root, file),
+      directives: KNOWN_DIRECTIVES,
+    }).join("\n")
+    if (found && warnings.get(file) !== found)
+      console.warn(`[livemark] ${file}:\n${found}`)
+    warnings.set(file, found)
+  }
+
   function sortArticles() {
     const sorted = [...articles].sort(([a], [b]) => a.localeCompare(b))
     articles.clear()
@@ -72,15 +119,12 @@ export function createArticleStore(config: Config) {
   }
 }
 
-// A broken article is reported and left out, so one typo cannot take the site down
-async function loadOrReport(scope: ArticleScope, file: string) {
-  try {
-    return await loadArticle(scope, file)
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error)
-    console.error(`[livemark] skipped ${file}: ${message}`)
-    return undefined
-  }
+// `::include` is resolved before the article compiles
+const KNOWN_DIRECTIVES = new Set([...DIRECTIVE_NAMES, "include"])
+
+function formatFailure(error: unknown) {
+  if (error instanceof ZodError) return prettifyError(error)
+  return error instanceof Error ? error.message : String(error)
 }
 
 // Article keys are "/"-separated on every platform: they derive URLs and match globs

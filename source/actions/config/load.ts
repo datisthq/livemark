@@ -1,6 +1,7 @@
 import { existsSync } from "node:fs"
-import { dirname, resolve } from "node:path"
+import { basename, dirname, resolve } from "node:path"
 import { runnerImport } from "vite"
+import { ZodError, prettifyError } from "zod"
 import type { Config, UserConfig } from "../../models/config.ts"
 import { resolveBase } from "../../helpers/resolve-base.ts"
 import { defineConfig } from "./define.ts"
@@ -35,20 +36,25 @@ function detectCommand() {
  */
 export async function loadConfig(path?: string): Promise<Config> {
   const explicit = path ?? process.env.LIVEMARK_CONFIG
-  const resolved = resolve(explicit ?? "livemark.config.ts")
+  const resolved = resolveConfigPath(path)
   let input: UserConfig = {}
   let configDependencies: string[] = []
   if (existsSync(resolved)) {
     // Not `import()`: Node caches the files a config imports for the process lifetime,
     // so a dev-server restart would keep their old contents.
-    const result = await runnerImport<{ default?: UserConfig }>(resolved)
+    // A config calling `defineConfig()` throws its ZodError from inside the import
+    const result = await runnerImport<{ default?: UserConfig }>(resolved).catch(
+      (error: unknown) => {
+        throw explainConfigError(error, resolved)
+      },
+    )
     input = result.module.default ?? {}
     // Vite ids use `/` even on Windows, where the watcher reports `\` paths.
     configDependencies = result.dependencies.map(dependency => resolve(dependency))
   } else if (explicit) {
     throw new Error(`Config file not found: ${resolved}`)
   }
-  const validated = defineConfig(input)
+  const validated = validateConfig(input, resolved)
   // Resolve the function form of `base` once, here, using the livemark
   // CLI verb. Downstream consumers (Vite plugins, article loading,
   // runtime) get a plain string|undefined and never see the function.
@@ -60,4 +66,29 @@ export async function loadConfig(path?: string): Promise<Config> {
     configPath: resolved,
     configDependencies,
   }
+}
+
+/** The config file `loadConfig()` reads, without reading it. */
+export function resolveConfigPath(path?: string) {
+  return resolve(path ?? process.env.LIVEMARK_CONFIG ?? "livemark.config.ts")
+}
+
+function validateConfig(input: UserConfig, path: string) {
+  try {
+    return defineConfig(input)
+  } catch (error) {
+    throw explainConfigError(error, path)
+  }
+}
+
+// By shape, not `instanceof`: one from the config's import comes from another zod copy
+function explainConfigError(error: unknown, path: string) {
+  if (!(error instanceof ZodError) && !isZodLike(error)) return error
+  return new Error(`Invalid ${basename(path)}:\n${prettifyError(error)}`, {
+    cause: error,
+  })
+}
+
+function isZodLike(error: unknown): error is ZodError {
+  return error instanceof Error && error.name === "ZodError" && "issues" in error
 }

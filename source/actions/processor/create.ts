@@ -203,3 +203,8 @@ const COMPONENTS = {
   ],
   unknownDirectives: "source" as const,
 }
+
+/** Every directive name an article may use; any other renders as its source text. */
+export const DIRECTIVE_NAMES = new Set(
+  COMPONENTS.directives.flatMap(directive => directive.name),
+)

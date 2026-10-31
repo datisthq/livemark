@@ -1,14 +1,16 @@
 import { type ComponentProps, useEffect, useState } from "react"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "../elements/hover-card.tsx"
+import { useArticleHref } from "../helpers/article-link.ts"
 import { useMessages } from "../hooks/site.ts"
 
 const FOOTNOTE_PREFIX = "#user-content-fn-"
 
-/** Wraps footnote reference links in a HoverCard that previews footnote content inline */
+/** Wraps footnote reference links in a HoverCard that previews footnote content inline,
+ *  and points relative links to Markdown files at their articles */
 export function FootnoteRef(props: ComponentProps<"a">) {
-  const href = props.href ?? ""
+  const href = useArticleHref(props.href) ?? ""
   if (!href.startsWith(FOOTNOTE_PREFIX)) {
-    return <a {...props} />
+    return <a {...props} href={props.href && href} />
   }
 
   return <FootnoteHoverCard {...props} href={href} />

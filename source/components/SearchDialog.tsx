@@ -12,6 +12,7 @@ import { useMessages } from "../hooks/site.ts"
 export function SearchDialog(props: {
   open: boolean
   onOpenChange: (open: boolean) => void
+  takeTypedKeys: () => string
 }) {
   const search = useArticleSearch()
   const t = useMessages()
@@ -29,6 +30,10 @@ export function SearchDialog(props: {
         placeholder={t("search.placeholder")}
         value={search.query}
         onValueChange={search.searchArticles}
+        onFocus={() => {
+          const typed = props.takeTypedKeys()
+          if (typed) search.searchArticles(search.query + typed)
+        }}
         onClear={() => search.searchArticles("")}
       />
       <CommandList className="max-h-80">

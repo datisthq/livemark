@@ -54,6 +54,7 @@ format: mdx # md (plain Markdown) or mdx; default: mdx for a .mdx file, else md
 4. **Nesting.** The sidebar nests an article under the one whose `path` is its parent (`/guide/install/` under `/guide/`), so give a folder an `index.md` to head it.
 5. **Translations.** On a site with `languages`, put `guide.es.md` beside `guide.md` and keep the same `path`: Livemark serves it at `/es/guide/` and pairs the two by that path. Don't add the `/es/` prefix yourself.
 6. **Images.** Relative paths in `image`, Markdown `![](...)`, and MDX `<img src>` resolve against the article file — keep assets co-located or under `docs/images/`.
+7. **Links between articles.** Prefer a relative link to the file, `[Install](./install.md#steps)`: Livemark points it at that article's page, honouring its `path`, and at the reader's translation. It also works on GitHub. A link to a file no article comes from stays as written and fails the build.
 
 ## Patching a file you can't touch
 
@@ -91,7 +92,8 @@ description: What's new in 0.3, in 400 words.
 
 After authoring, run:
 
-- `npx livemark build` — confirms the file prerenders without error.
+- `npx livemark build` — confirms the file prerenders without error. A file whose frontmatter fails to parse or validate fails the build, naming the file and the field; `livemark start` leaves it out of the site and shows the error in the browser instead.
+- Read any `[livemark] <file>:` warning lines: a directive written `::: tip` or under an unknown name renders as plain text, and a relative image whose file is missing renders broken. Neither fails the build.
 - Grep built HTML (`.livemark/build/client/<path>/index.html`) to confirm title and metadata land as intended.
 
 ## References

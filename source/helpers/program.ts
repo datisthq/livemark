@@ -3,7 +3,7 @@ import type { Interface } from "node:readline"
 import type { CommandConfig, CommandContext } from "fireargs"
 import { f } from "fireargs"
 import pc from "picocolors"
-import type { PreviewServer, ViteDevServer } from "vite"
+import { createLogger, type LogLevel, type PreviewServer, type ViteDevServer } from "vite"
 import { z } from "zod"
 
 export const helpConfiguration: CommandConfig["configureHelp"] = {
@@ -35,8 +35,38 @@ export function selectConfig(path?: string) {
 }
 
 export function renderError(error: unknown, context: CommandContext) {
-  if (!context.json) throw error
-  return { error: error instanceof Error ? error.message : String(error) }
+  if (context.json)
+    return { error: error instanceof Error ? error.message : String(error) }
+  // A throw would reach Node, which prints the source line and the whole stack
+  return formatError(error)
+}
+
+/** A failure as the terminal shows it: its message, or its stack when `DEBUG` is set. */
+export function formatError(error: unknown) {
+  if (process.env.DEBUG && error instanceof Error && error.stack) return error.stack
+  return readCauses(error)
+    .map(cause =>
+      pc.red(`Error: ${cause instanceof Error ? cause.message : String(cause)}`),
+    )
+    .join("\n")
+}
+
+// Rolldown's "Build failed with N errors" message embeds each plugin error's stack
+function readCauses(error: unknown) {
+  if (error instanceof Error && "errors" in error && Array.isArray(error.errors))
+    return error.errors.length > 0 ? error.errors : [error]
+  return [error]
+}
+
+/** Vite's logger without its "failed to load config from" line, which names livemark's
+ *  own `vite.config.ts`; the error logged after it names the project's file. */
+export function createViteLogger(level?: LogLevel) {
+  const logger = createLogger(level)
+  const error = logger.error
+  logger.error = (message, options) => {
+    if (!message.startsWith("failed to load config from")) error(message, options)
+  }
+  return logger
 }
 
 /** Run `fn` with stdout writes sent to stderr, so build logs cannot corrupt `--json`. */

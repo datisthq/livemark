@@ -43,6 +43,52 @@ describe("createArticleStore", () => {
       error.mockRestore()
     }))
 
+  it("reports a broken article readably, once per error, until it is fixed", () =>
+    withProject(async (root, store) => {
+      const path = join(root, "docs/broken.md")
+      writeFileSync(path, "---\norder: first\n---\nBody")
+      const error = vi.spyOn(console, "error").mockImplementation(() => {})
+      await store.list()
+      await store.sync(path)
+      expect(error).toHaveBeenCalledTimes(1)
+      expect(error.mock.calls[0]?.[0]).toMatch(/order/)
+      expect(error.mock.calls[0]?.[0]).not.toMatch(/"code"/)
+      expect(store.readFailures()).toEqual([
+        ["docs/broken.md", expect.stringMatching(/expected number/)],
+      ])
+
+      writeFileSync(path, "---\norder: 1\n---\nBody")
+      await store.sync(path)
+      expect(store.readFailures()).toEqual([])
+      error.mockRestore()
+    }))
+
+  it("refuses to vouch for a site that left an article out", () =>
+    withProject(async (root, store) => {
+      writeFileSync(join(root, "docs/broken.md"), "---\norder: first\n---\nBody")
+      const error = vi.spyOn(console, "error").mockImplementation(() => {})
+      await store.list()
+      expect(() => store.assertLoaded()).toThrow(
+        "1 article failed to load, as reported above: docs/broken.md",
+      )
+      writeFileSync(join(root, "docs/broken.md"), "---\norder: 1\n---\nBody")
+      await store.sync(join(root, "docs/broken.md"))
+      expect(() => store.assertLoaded()).not.toThrow()
+      error.mockRestore()
+    }))
+
+  it("warns once about Markdown that renders wrong, again only when it changes", () =>
+    withProject(async (root, store) => {
+      const path = join(root, "docs/guide.md")
+      writeFileSync(path, "# Guide\n\n::: tip\nHi\n:::")
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {})
+      await store.list()
+      await store.sync(path)
+      expect(warn).toHaveBeenCalledTimes(1)
+      expect(warn.mock.calls[0]?.[0]).toMatch(/docs\/guide\.md:\nline 3: "::: tip"/)
+      warn.mockRestore()
+    }))
+
   it("serves a cached compile from a second store", () =>
     withProject(async (root, store) => {
       const [first] = await store.list()

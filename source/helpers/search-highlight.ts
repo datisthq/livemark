@@ -31,6 +31,7 @@ export function useSearchHighlight(
     if (!pattern || !root.current || typeof CSS === "undefined" || !CSS.highlights) return
 
     const ranges = collectMatchRanges(root.current, pattern)
+    insertHighlightStyle()
     CSS.highlights.set(HIGHLIGHT_NAME, new Highlight(...ranges))
 
     // An explicit anchor in the URL wins over the first match. The frame delay lets
@@ -45,6 +46,18 @@ export function useSearchHighlight(
     }
   }, [root, page, query])
 }
+
+// Not in styles/general.css: Lightning CSS, which optimizes it, does not know
+// `::highlight()` and warns on every build. Still in `base`, so a project's CSS wins.
+function insertHighlightStyle() {
+  if (document.getElementById(HIGHLIGHT_STYLE_ID)) return
+  const style = document.createElement("style")
+  style.id = HIGHLIGHT_STYLE_ID
+  style.textContent = `@layer base { ::highlight(${HIGHLIGHT_NAME}) { background-color: var(--highlight); color: var(--highlight-foreground); } }`
+  document.head.append(style)
+}
+
+const HIGHLIGHT_STYLE_ID = "livemark-search-highlight"
 
 function collectMatchRanges(root: HTMLElement, pattern: RegExp) {
   const ranges: Range[] = []

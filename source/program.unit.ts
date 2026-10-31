@@ -1,4 +1,4 @@
-import { execFileSync } from "node:child_process"
+import { execFileSync, spawnSync } from "node:child_process"
 import { join } from "node:path"
 import { temporaryDirectoryTask } from "tempy"
 import { describe, expect, it } from "vite-plus/test"
@@ -31,4 +31,22 @@ describe("program", () => {
         files: [{ path: "components/Footer.tsx", escaped: true }],
       })
     }))
+
+  it("reports a failed command as one line of error, not a stack trace", () =>
+    temporaryDirectoryTask(tmpDir => {
+      const run = spawnSync("node", [MAIN, "build", "--config", "missing.ts"], {
+        cwd: tmpDir,
+        encoding: "utf8",
+        env: { ...process.env, DEBUG: "" },
+      })
+      expect(run.status).toBe(1)
+      expect(run.stderr).toContain("Error: Config file not found:")
+      expect(run.stderr).not.toMatch(/^\s+at /m)
+    }))
+
+  it("formats a command's help like the program's", () => {
+    const help = execFileSync("node", [MAIN, "build", "--help"], { encoding: "utf8" })
+    expect(help).toMatch(/^USAGE /m)
+    expect(help).toMatch(/^OPTIONS$/m)
+  })
 })

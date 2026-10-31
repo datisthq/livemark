@@ -1,4 +1,11 @@
-import { existsSync, readFileSync, readlinkSync, realpathSync } from "node:fs"
+import {
+  existsSync,
+  readFileSync,
+  readlinkSync,
+  realpathSync,
+  statSync,
+  utimesSync,
+} from "node:fs"
 import { mkdir, rm, symlink, writeFile } from "node:fs/promises"
 import { dirname, join } from "node:path"
 import { temporaryDirectoryTask } from "tempy"
@@ -75,6 +82,24 @@ describe("buildTarget", () => {
       expect(read(targetDir, "head.ts")).toBe("head")
     }))
 
+  it("leaves unchanged files untouched on a rerun", () =>
+    temporaryDirectoryTask(async root => {
+      const { configPath, sourceDir } = await createFixture(root)
+      await put(join(root, "project/.livemark/components/Footer.tsx"), "escaped")
+      const targetDir = buildTarget({ configPath, sourceDir })
+      const past = new Date("2020-01-01")
+      for (const path of ["components/Footer.tsx", "helpers/util.ts", "package.json"])
+        utimesSync(join(targetDir, path), past, past)
+      await put(join(sourceDir, "routes/index.tsx"), "changed")
+
+      buildTarget({ configPath, sourceDir })
+
+      expect(readMtime(targetDir, "components/Footer.tsx")).toBe(past.getTime())
+      expect(readMtime(targetDir, "helpers/util.ts")).toBe(past.getTime())
+      expect(readMtime(targetDir, "package.json")).toBe(past.getTime())
+      expect(read(targetDir, "routes/index.tsx")).toBe("changed")
+    }))
+
   it("keeps generated entries between runs", () =>
     temporaryDirectoryTask(async root => {
       const { configPath, sourceDir } = await createFixture(root)
@@ -126,4 +151,8 @@ async function put(path: string, content: string) {
 
 function read(dir: string, path: string) {
   return readFileSync(join(dir, path), "utf-8")
+}
+
+function readMtime(dir: string, path: string) {
+  return statSync(join(dir, path)).mtimeMs
 }

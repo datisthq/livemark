@@ -7,7 +7,8 @@ export function parseFrontmatter(source: string) {
   const text = source.replace(/^﻿/, "")
   const match = FRONTMATTER.exec(text)
   if (!match) return { data: {}, content: text.trim() }
-  const data: unknown = parse(match[1] ?? "")
+  // The leading newline stands for the opening `---`, so YAML errors name file lines
+  const data: unknown = parse(`\n${match[1] ?? ""}`)
   return {
     data: typeof data === "object" && data !== null ? data : {},
     content: text.slice(match[0].length).trim(),

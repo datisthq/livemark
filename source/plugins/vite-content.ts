@@ -35,6 +35,7 @@ export function content(opts: ContentOptions): Plugin {
   // The code each loaded module was last served, to tell which an edit changed
   const served = new Map<string, string>()
   let watcher: FSWatcher | undefined
+  let building = false
   return {
     name: "livemark:content",
     resolveId(id) {
@@ -48,8 +49,12 @@ export function content(opts: ContentOptions): Plugin {
       if (code !== undefined) served.set(id, code)
       return code
     },
+    configResolved(config) {
+      building = config.command === "build"
+    },
     async buildStart() {
       await opts.store.list()
+      if (building) opts.store.assertLoaded()
     },
     configureServer(server) {
       const root = opts.config.root
@@ -57,9 +62,13 @@ export function content(opts: ContentOptions): Plugin {
         if (!filename) return
         const file = join(root, filename)
         queue.enqueue(file, async () => {
-          if (await opts.store.sync(file)) await reloadChanged(server)
+          if (!(await opts.store.sync(file))) return
+          await reloadChanged(server)
+          showFailures(server)
         })
       })
+      // A reload or a new tab must see a broken article too, not only the open page
+      server.ws.on("connection", () => showFailures(server))
       // An escaped component can start using an icon; the watcher above skips `.livemark/`
       server.watcher.on("change", file => {
         if (!file.startsWith(join(root, ".livemark", ""))) return
@@ -70,6 +79,22 @@ export function content(opts: ContentOptions): Plugin {
       watcher?.close()
       watcher = undefined
     },
+  }
+
+  // Vite's overlay shows one error; after the reload above, so its update can't clear it
+  function showFailures(server: ViteDevServer) {
+    const [failure] = opts.store.readFailures()
+    if (!failure) return
+    const [file, message] = failure
+    server.ws.send({
+      type: "error",
+      err: {
+        message: `${file} was left out of the site:\n${message}`,
+        stack: "",
+        id: join(opts.config.root, file),
+        plugin: "livemark",
+      },
+    })
   }
 
   async function reloadChanged(server: ViteDevServer) {

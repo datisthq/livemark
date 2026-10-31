@@ -3,9 +3,14 @@ import { join } from "node:path"
 import { f } from "fireargs"
 import { createServer } from "vite"
 import type { z } from "zod"
+import { resolveConfigPath } from "../actions/config/load.ts"
+import { claimServerLock } from "../helpers/server-lock.ts"
 import {
   bindShortcuts,
+  createViteLogger,
   divertStdout,
+  formatError,
+  helpConfiguration,
   selectConfig,
   serverInput,
   serverOutput,
@@ -18,14 +23,16 @@ const IGNORED_DIRS = /(^|[/\\])(node_modules|\.git|\.livemark)([/\\]|$)/
  * Start a development server.
  */
 export const start = f
-  .command({ description: "Start a live server" })
+  .command({ description: "Start a live server", configureHelp: helpConfiguration })
   .input(serverInput)
   .output(serverOutput)
   .handler(async (input, context) => {
     selectConfig(input.config)
+    const lock = claimServerLock(resolveConfigPath())
+    process.once("exit", () => lock.release())
     return context.json
-      ? divertStdout(() => startServer(true, input))
-      : startServer(false, input)
+      ? divertStdout(() => startServer(true, input, lock))
+      : startServer(false, input, lock)
   })
 
 // A broken config fails `createServer` before Vite's watcher exists, so without this
@@ -33,14 +40,16 @@ export const start = f
 async function startServer(
   json: boolean,
   input: Pick<z.infer<typeof serverInput>, "host" | "open">,
+  lock: ReturnType<typeof claimServerLock>,
 ): Promise<z.infer<typeof serverOutput>> {
   try {
     const server = await createServer({
       configFile,
-      logLevel: json ? "warn" : undefined,
+      customLogger: createViteLogger(json ? "warn" : undefined),
       server: { port: 8000, host: input.host, open: input.open ?? false },
     })
     await server.listen()
+    lock.announce(server.resolvedUrls?.local[0])
     if (!json) {
       server.printUrls()
       bindShortcuts(server)
@@ -50,10 +59,10 @@ async function startServer(
       network: server.resolvedUrls?.network ?? [],
     }
   } catch (error) {
-    console.error(error)
+    console.error(formatError(error))
     console.error("\nWaiting for a file change to retry…")
     await waitForChange(process.cwd())
-    return await startServer(json, input)
+    return await startServer(json, input, lock)
   }
 }
 

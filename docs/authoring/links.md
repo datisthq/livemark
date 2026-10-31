@@ -38,6 +38,19 @@ Link to a specific heading — on the current page with the `#id` alone, on anot
 
 Renders as: [See Auto Links](#auto-links) and [See Custom Heading IDs](/authoring/headings/#custom-ids)
 
+## Links to Markdown Files
+
+Link to another article by its file, relative to the current one, as you would on GitHub. The link points at the page built from that file, honouring its `path`, and at its translation for a reader of another language:
+
+```md
+[Headings](./headings.md)
+[Custom IDs](./headings.md#custom-ids)
+```
+
+Renders as: [Headings](./headings.md) and [Custom IDs](./headings.md#custom-ids)
+
+A link to a Markdown file that no article comes from is left as written, and fails the build as a broken link.
+
 ## Auto Links
 
 URLs are automatically converted to links:

@@ -5,6 +5,7 @@ import { formatShortDate } from "../helpers/date.ts"
 import { createMdxComponent } from "../helpers/mdx-component.ts"
 import { useSearchHighlight } from "../helpers/search-highlight.ts"
 import { TocContext } from "../helpers/toc-context.ts"
+import { ArticleSourceContext } from "../helpers/article-link.ts"
 import { Abbr } from "./Abbr.tsx"
 import { AnsiCode } from "./AnsiCode.tsx"
 import { Breadcrumbs } from "./Breadcrumbs.tsx"
@@ -65,6 +66,10 @@ export function Article(props: { article: ArticleView; highlight?: string }) {
     : []
   const hasMeta = publishedDate || authors.length > 0 || lastUpdated
   const breadcrumbs = article.breadcrumbs ?? site.config.breadcrumbs ?? true
+  const source = useMemo(
+    () => ({ file: article.file, language: article.language ?? site.language.code }),
+    [article.file, article.language, site.language.code],
+  )
 
   return (
     <TocContext.Provider value={article.tocItems}>
@@ -119,44 +124,46 @@ export function Article(props: { article: ArticleView; highlight?: string }) {
                 className="!mt-0 !mb-6 w-full rounded-card border shadow-sm"
               />
             )}
-            <Content
-              components={{
-                hr: Separator,
-                img: ZoomImage,
-                pre: CodeBlock,
-                table: SortableTable,
-                thead: TableHeader,
-                tbody: TableBody,
-                tr: TableRow,
-                th: TableHead,
-                td: TableCell,
-                a: FootnoteRef,
-                Abbr,
-                AnsiCode,
-                Callout,
-                Card,
-                Cards,
-                Column,
-                Columns,
-                CodeTabs,
-                ContentTab,
-                ContentTabs,
-                DefinitionDetail,
-                DefinitionList,
-                DefinitionTerm,
-                Details,
-                FileTree,
-                InlineBadge,
-                InlineIcon,
-                InlineToc,
-                LinkButton,
-                Mermaid,
-                PackageTabs,
-                SoundCloud,
-                YouTube,
-                ...headingComponents,
-              }}
-            />
+            <ArticleSourceContext.Provider value={source}>
+              <Content
+                components={{
+                  hr: Separator,
+                  img: ZoomImage,
+                  pre: CodeBlock,
+                  table: SortableTable,
+                  thead: TableHeader,
+                  tbody: TableBody,
+                  tr: TableRow,
+                  th: TableHead,
+                  td: TableCell,
+                  a: FootnoteRef,
+                  Abbr,
+                  AnsiCode,
+                  Callout,
+                  Card,
+                  Cards,
+                  Column,
+                  Columns,
+                  CodeTabs,
+                  ContentTab,
+                  ContentTabs,
+                  DefinitionDetail,
+                  DefinitionList,
+                  DefinitionTerm,
+                  Details,
+                  FileTree,
+                  InlineBadge,
+                  InlineIcon,
+                  InlineToc,
+                  LinkButton,
+                  Mermaid,
+                  PackageTabs,
+                  SoundCloud,
+                  YouTube,
+                  ...headingComponents,
+                }}
+              />
+            </ArticleSourceContext.Provider>
           </div>
           <PrevNext path={article.path} />
           <Footer />
