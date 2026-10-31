@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.36.0](https://github.com/datisthq/livemark/compare/v0.35.0...v0.36.0) (2026-10-31)
+
+
+### Features
+
+* fix the dev loop, Markdown links, search and CLI errors found in UX testing ([0729fa8](https://github.com/datisthq/livemark/commit/0729fa82129da3145b74b662bdb7eb641b3bbb17))
+
+
+### Bug Fixes
+
+* name broken-link source pages with forward slashes on Windows ([f5d4923](https://github.com/datisthq/livemark/commit/f5d4923cba095f6eb6544fe4a8f9372d92e5989d))
+
 ## [0.35.0](https://github.com/datisthq/livemark/compare/v0.34.0...v0.35.0) (2026-10-31)
 
 
