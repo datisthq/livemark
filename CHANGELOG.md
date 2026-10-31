@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.37.0](https://github.com/datisthq/livemark/compare/v0.36.0...v0.37.0) (2026-10-31)
+
+
+### Features
+
+* lead H and L across sections and from the landing page ([e2c8379](https://github.com/datisthq/livemark/commit/e2c837909a3ad0ac15099aaab62b50263286160e))
+
 ## [0.36.0](https://github.com/datisthq/livemark/compare/v0.35.0...v0.36.0) (2026-10-31)
 
 
