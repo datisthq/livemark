@@ -12,6 +12,7 @@ const en = {
       "Keep your files where they are, add TanStack Start pages, restyle everything with Tailwind, and get docs, a blog and a changelog that shine on every screen.",
     getStarted: "Get started",
     viewSource: "View source",
+    carouselLabel: "Site examples",
     sourceLabel: "Written in plain Markdown",
   },
   slides: {
@@ -218,6 +219,7 @@ const es: LandingCopy = {
       "Deja tus archivos donde están, añade páginas de TanStack Start, cambia el estilo de todo con Tailwind y obtén documentación, un blog y un changelog que lucen bien en cualquier pantalla.",
     getStarted: "Empezar",
     viewSource: "Ver código",
+    carouselLabel: "Ejemplos de sitios",
     sourceLabel: "Escrito en Markdown puro",
   },
   slides: {
@@ -429,6 +431,7 @@ const zh: LandingCopy = {
       "文件原地不动，按需添加 TanStack Start 页面，用 Tailwind 重新定制一切，即可获得在任何屏幕上都出色的文档、博客和更新日志。",
     getStarted: "快速开始",
     viewSource: "查看源码",
+    carouselLabel: "站点示例",
     sourceLabel: "用纯 Markdown 编写",
   },
   slides: {

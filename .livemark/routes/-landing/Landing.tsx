@@ -7,10 +7,12 @@ import {
   FileText,
   FolderTree,
   Github,
+  History,
   Languages,
   LayoutPanelLeft,
   ListChecks,
   Moon,
+  Newspaper,
   Paintbrush,
   Rocket,
   ScrollText,
@@ -23,6 +25,7 @@ import {
 } from "lucide-react"
 import {
   type ComponentType,
+  type KeyboardEvent,
   Fragment,
   type ReactNode,
   type SVGProps,
@@ -152,7 +155,11 @@ function Hero(props: { copy: LandingCopy; prefix: string }) {
           <HeroActions copy={hero} prefix={props.prefix} />
         </div>
         <div className="mt-12 lg:mt-0 xl:w-[60rem] animate-in fade-in-0 slide-in-from-bottom-4 duration-700 ease-out">
-          <HeroCarousel slides={slides} sourceLabel={hero.sourceLabel} />
+          <HeroCarousel
+            slides={slides}
+            label={hero.carouselLabel}
+            sourceLabel={hero.sourceLabel}
+          />
         </div>
       </div>
     </section>
@@ -208,6 +215,7 @@ interface Shot {
 interface Slide {
   id: string
   title: string
+  icon: Icon
   shots: Shot[]
   mobile?: boolean
   source: { file: string; code: ReactNode }
@@ -221,6 +229,7 @@ interface SlideSource extends Omit<Slide, "title" | "shots"> {
 const slideSources: SlideSource[] = [
   {
     id: "docs",
+    icon: BookOpen,
     shots: [
       {
         src: "/screenshots/docs.webp",
@@ -248,6 +257,7 @@ const slideSources: SlideSource[] = [
   },
   {
     id: "blog",
+    icon: Newspaper,
     shots: [
       {
         src: "/screenshots/blog.webp",
@@ -276,6 +286,7 @@ const slideSources: SlideSource[] = [
   },
   {
     id: "changelog",
+    icon: History,
     shots: [
       {
         src: "/screenshots/changelog.webp",
@@ -299,6 +310,7 @@ const slideSources: SlideSource[] = [
   },
   {
     id: "mobile",
+    icon: Smartphone,
     mobile: true,
     shots: [
       {
@@ -331,13 +343,35 @@ const slideSources: SlideSource[] = [
 
 // Every slide is in the prerendered HTML, stacked in one grid cell; only the active
 // one is visible and reachable. All shots share one aspect, so the window never jumps.
-function HeroCarousel(props: { slides: Slide[]; sourceLabel: string }) {
+function HeroCarousel(props: { slides: Slide[]; label: string; sourceLabel: string }) {
   const [active, setActive] = useState(0)
   const [paused, setPaused] = useState(false)
   const [stopped, setStopped] = useState(false)
   // A bar can finish in the same frame as the click that stops it; its end event
   // still holds the old closure, so it checks this instead of `stopped`.
   const stoppedRef = useRef(false)
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
+
+  const selectSlide = (index: number) => {
+    stoppedRef.current = true
+    setActive(index)
+    setStopped(true)
+  }
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    const count = props.slides.length
+    const targets: Record<string, number> = {
+      ArrowRight: (active + 1) % count,
+      ArrowLeft: (active - 1 + count) % count,
+      Home: 0,
+      End: count - 1,
+    }
+    const next = targets[event.key]
+    if (next === undefined) return
+    event.preventDefault()
+    selectSlide(next)
+    tabRefs.current[next]?.focus()
+  }
 
   return (
     <div
@@ -354,19 +388,26 @@ function HeroCarousel(props: { slides: Slide[]; sourceLabel: string }) {
             <span className="size-2.5 rounded-full bg-yellow-400/60" />
             <span className="size-2.5 rounded-full bg-green-400/60" />
           </span>
-          <div role="tablist" className="flex min-w-0 gap-1">
+          <div
+            role="tablist"
+            aria-label={props.label}
+            onKeyDown={handleKeyDown}
+            className="flex min-w-0 gap-1 overflow-x-auto"
+          >
             {props.slides.map((slide, index) => (
               <button
                 key={slide.id}
                 type="button"
+                ref={element => {
+                  tabRefs.current[index] = element
+                }}
+                id={`hero-tab-${slide.id}`}
                 role="tab"
+                tabIndex={index === active ? 0 : -1}
                 aria-selected={index === active}
                 aria-controls={`hero-slide-${slide.id}`}
-                onClick={() => {
-                  stoppedRef.current = true
-                  setActive(index)
-                  setStopped(true)
-                }}
+                title={slide.title}
+                onClick={() => selectSlide(index)}
                 className={cn(
                   "relative flex cursor-pointer items-center gap-2 overflow-hidden rounded-control px-3 py-1.5 text-sm whitespace-nowrap transition-colors",
                   index === active
@@ -374,12 +415,11 @@ function HeroCarousel(props: { slides: Slide[]; sourceLabel: string }) {
                     : "text-muted-foreground hover:text-foreground",
                 )}
               >
-                <span
-                  className={cn("font-mono text-xs", index === active && "text-primary")}
-                >
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span className={index === active ? undefined : "hidden sm:inline"}>
+                <slide.icon
+                  aria-hidden
+                  className={cn("size-4 shrink-0", index === active && "text-primary")}
+                />
+                <span className={index === active ? undefined : "sr-only sm:not-sr-only"}>
                   {slide.title}
                 </span>
                 {index === active ? (
@@ -407,6 +447,7 @@ function HeroCarousel(props: { slides: Slide[]; sourceLabel: string }) {
               key={slide.id}
               id={`hero-slide-${slide.id}`}
               role="tabpanel"
+              aria-labelledby={`hero-tab-${slide.id}`}
               aria-hidden={index !== active}
               className={cn(
                 "[grid-area:1/1] transition-opacity duration-700 motion-reduce:transition-none",
