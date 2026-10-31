@@ -12,9 +12,10 @@ import {
 import { Kbd } from "../elements/kbd.tsx"
 import type { MessageKey } from "../models/message.ts"
 import { useMessages } from "../hooks/site.ts"
+import { usePageNeighbours } from "../helpers/page-neighbours.ts"
 
 // A `targeted` key works only while a visible control announces it with
-// `aria-keyshortcuts`, like the sidebar toggle or the next-article link
+// `aria-keyshortcuts`, like the sidebar toggle; H and L only while a page lies that way
 const SHORTCUTS: { key: string; label: MessageKey; targeted?: boolean }[] = [
   { key: "S", label: "shortcuts.search", targeted: true },
   { key: "T", label: "shortcuts.theme", targeted: true },
@@ -23,15 +24,20 @@ const SHORTCUTS: { key: string; label: MessageKey; targeted?: boolean }[] = [
   { key: "K", label: "shortcuts.scrollUp" },
   { key: "U", label: "shortcuts.top" },
   { key: "D", label: "shortcuts.bottom" },
-  { key: "L", label: "shortcuts.next", targeted: true },
-  { key: "H", label: "shortcuts.previous", targeted: true },
+  { key: "L", label: "shortcuts.next" },
+  { key: "H", label: "shortcuts.previous" },
 ]
 
 /** Header menu listing every keyboard shortcut, disabling the ones this page does not
  * answer to; a row also runs its shortcut. Hidden on a phone, which has no keyboard */
 export function Shortcuts() {
   const t = useMessages()
+  const neighbours = usePageNeighbours()
   const [unavailable, setUnavailable] = useState<string[]>([])
+  const isUnavailable = (key: string) =>
+    unavailable.includes(key) ||
+    (key === "H" && !neighbours.prev) ||
+    (key === "L" && !neighbours.next)
 
   return (
     <DropdownMenu onOpenChange={open => open && setUnavailable(listUnavailable())}>
@@ -54,7 +60,7 @@ export function Shortcuts() {
           {SHORTCUTS.map(item => (
             <DropdownMenuItem
               key={item.key}
-              disabled={unavailable.includes(item.key)}
+              disabled={isUnavailable(item.key)}
               onClick={() => pressKey(item.key)}
               className="cursor-pointer gap-2"
             >

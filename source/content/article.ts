@@ -140,6 +140,14 @@ export function sectionLanding(section: RoutedSection) {
     : (sectionFirstArticle.get(section.prefix) ?? section.prefix)
 }
 
+/** A language's articles in reading order: each routed section's in turn, as its pager
+ *  walks them, or the whole sidebar for a site without sections */
+export function listSiteSequence(site: Site) {
+  const sections = routedSections(site)
+  if (!sections.length) return languageFlatArticles.get(site.language.code) ?? []
+  return sections.flatMap(section => sectionFlatArticles.get(section.prefix) ?? [])
+}
+
 /** The site whose language a path is in */
 export function currentSite(path: string) {
   return matchSite(path, sites)

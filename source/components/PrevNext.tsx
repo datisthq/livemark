@@ -1,5 +1,4 @@
-import { Link, useNavigate } from "@tanstack/react-router"
-import { useHotkey } from "@tanstack/react-hotkeys"
+import { Link } from "@tanstack/react-router"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import {
   sortedArticles,
@@ -23,11 +22,6 @@ export function PrevNext(props: { path: string }) {
   const nextPath = index >= 0 && index < flat.length - 1 ? flat[index + 1] : undefined
   const prev = prevPath ? sortedArticles.find(a => a.path === prevPath) : undefined
   const next = nextPath ? sortedArticles.find(a => a.path === nextPath) : undefined
-
-  const navigate = useNavigate()
-  const goTo = (path: string) => navigate(buildPathLink(path))
-  useHotkey("H", () => prev && goTo(prev.path))
-  useHotkey("L", () => next && goTo(next.path))
 
   if (!prev && !next) return null
 
