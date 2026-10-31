@@ -1,5 +1,5 @@
 import { existsSync, globSync, readFileSync } from "node:fs"
-import { join } from "node:path"
+import { join, sep } from "node:path"
 
 /** A prerender failure in words a project author can act on: the pages that link to a
  *  path nothing is built at, or an empty site. Undefined for any other error. */
@@ -33,6 +33,6 @@ function findLinkingPages(href: string, clientDir: string) {
   const attribute = `href="${href}"`
   return globSync("**/index.html", { cwd: clientDir })
     .filter(file => readFileSync(join(clientDir, file), "utf-8").includes(attribute))
-    .map(file => `/${file.replace(/index\.html$/, "")}`.replace(/^\/+/, "/"))
+    .map(file => `/${file.split(sep).join("/")}`.replace(/index\.html$/, ""))
     .sort()
 }
