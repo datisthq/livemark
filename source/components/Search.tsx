@@ -1,19 +1,36 @@
-import { useState } from "react"
+import { Suspense, lazy, useState } from "react"
 import { useHotkey } from "@tanstack/react-hotkeys"
 import { Search as SearchIcon } from "lucide-react"
 import { cn } from "cn"
 import { isMobileNow } from "../hooks/media.ts"
-import { HeaderSearch } from "./HeaderSearch.tsx"
-import { SearchDialog } from "./SearchDialog.tsx"
 import { useMessages } from "../hooks/site.ts"
+
+// Orama, cmdk and the dialog load on first use, not with every page
+const importHeaderSearch = () => import("./HeaderSearch.tsx")
+const importSearchDialog = () => import("./SearchDialog.tsx")
+const HeaderSearch = lazy(() =>
+  importHeaderSearch().then(m => ({ default: m.HeaderSearch })),
+)
+const SearchDialog = lazy(() =>
+  importSearchDialog().then(m => ({ default: m.SearchDialog })),
+)
 
 /** Search button with "S" keyboard shortcut: a command palette from `lg`, an in-header field below.
  * `compact` keeps it an icon from `lg` too, when header sections need the room */
 export function Search(props: { compact?: boolean }) {
   const [open, setOpen] = useState(false)
   const [headerOpen, setHeaderOpen] = useState(false)
+  // Mounted from the first open on, so later closes keep their exit animation
+  const [dialogUsed, setDialogUsed] = useState(false)
   const t = useMessages()
-  const openSearch = () => (isMobileNow() ? setHeaderOpen(true) : setOpen(true))
+  const openSearch = () => {
+    if (isMobileNow()) return setHeaderOpen(true)
+    setDialogUsed(true)
+    setOpen(true)
+  }
+  const preloadSearch = () => {
+    void (isMobileNow() ? importHeaderSearch() : importSearchDialog())
+  }
 
   useHotkey("S", openSearch)
 
@@ -22,6 +39,8 @@ export function Search(props: { compact?: boolean }) {
       <button
         type="button"
         onClick={openSearch}
+        onPointerEnter={preloadSearch}
+        onFocus={preloadSearch}
         aria-label={t("search.label")}
         aria-keyshortcuts="S"
         title={t("search.label")}
@@ -48,8 +67,10 @@ export function Search(props: { compact?: boolean }) {
           S
         </kbd>
       </button>
-      {headerOpen && <HeaderSearch onClose={() => setHeaderOpen(false)} />}
-      <SearchDialog open={open} onOpenChange={setOpen} />
+      <Suspense>
+        {headerOpen && <HeaderSearch onClose={() => setHeaderOpen(false)} />}
+        {dialogUsed && <SearchDialog open={open} onOpenChange={setOpen} />}
+      </Suspense>
     </>
   )
 }

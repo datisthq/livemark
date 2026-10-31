@@ -14,7 +14,7 @@ import {
 } from "../helpers/llms.ts"
 import type { ArticleStore } from "../helpers/article-store.ts"
 import { resolveIncludes } from "../helpers/resolve-includes.ts"
-import { buildSites } from "../helpers/site.ts"
+import { buildSites } from "../actions/site/build.ts"
 import type { Config } from "../models/config.ts"
 
 export interface AgentsOptions {

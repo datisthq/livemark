@@ -1,10 +1,24 @@
 declare module "livemark:virtual" {
   export const config: import("./models/config.ts").WebsiteConfig
   export const bannerHtml: string | undefined
+  /** The flag of each language the site declares, by lowercase country code. */
+  export const flags: Record<
+    string,
+    | import("react").ComponentType<{ "aria-hidden"?: boolean; className?: string }>
+    | undefined
+  >
   export const sites: readonly [
     import("./models/site.ts").Site,
     ...import("./models/site.ts").Site[],
   ]
+}
+
+declare module "livemark:icons" {
+  /** The Lucide icons the site uses, by their key in Lucide's `icons` map. */
+  export const icons: Record<
+    string,
+    import("react").ComponentType<{ className?: string }> | undefined
+  >
 }
 
 declare module "livemark:articles" {

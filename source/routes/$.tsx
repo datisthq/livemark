@@ -1,6 +1,5 @@
 import { sites } from "livemark:virtual"
 import { createFileRoute, notFound, redirect } from "@tanstack/react-router"
-import { z } from "zod"
 import {
   currentSection,
   currentSite,
@@ -22,7 +21,10 @@ import { buildPathLink } from "../helpers/path-link.ts"
 
 export const Route = createFileRoute("/$")({
   // Loose, so keys this route does not own (UTM tags, devtools flags) survive.
-  validateSearch: z.looseObject({ highlight: z.string().optional().catch(undefined) }),
+  validateSearch: (search: Record<string, unknown>) => ({
+    ...search,
+    highlight: typeof search.highlight === "string" ? search.highlight : undefined,
+  }),
   loader: async ({ params }) => {
     if (!params._splat) {
       const home = homeArticle && (await loadArticle(homeArticle.path))

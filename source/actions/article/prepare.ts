@@ -6,7 +6,8 @@ import type { Config } from "../../models/config.ts"
 import { buildChangelog, cacheIncludeGlob } from "../changelog/build.ts"
 import { createCompileCache } from "../../helpers/compile-cache.ts"
 import { readRepository } from "../../helpers/edit-url.ts"
-import { buildSites, resolveLanguages } from "../../helpers/site.ts"
+import { buildSites } from "../site/build.ts"
+import { resolveLanguages } from "../../helpers/site.ts"
 import { cacheDirFor } from "../../helpers/target-dir.ts"
 
 /** Everything loading one article needs that is shared by all of them. */

@@ -13,7 +13,7 @@ import packageJson from "../../package.json" with { type: "json" }
 import { buildTarget, ESM_PACKAGE_JSON } from "../actions/target/build.ts"
 import { renderInlineMarkdown } from "../helpers/render-inline-markdown.ts"
 import { excludeTailwindSources } from "../helpers/tailwind-sources.ts"
-import { buildSites } from "../helpers/site.ts"
+import { buildSites } from "../actions/site/build.ts"
 import { resolveTargetExport } from "../helpers/target-export.ts"
 import type { Config } from "../models/config.ts"
 import { ESCAPABLE_FILES, ESCAPABLE_FOLDERS } from "../settings.ts"
@@ -48,6 +48,7 @@ const LOCKFILES = [
  *  or load it from disk". */
 const VIRTUAL_ID = "livemark:virtual"
 const VIRTUAL_RESOLVED_ID = `\0${VIRTUAL_ID}`
+const FLAG_MODULE = "country-flag-icons/react/3x2/"
 
 /** Owns the project's `.livemark/.serve/` mount (`.build/` when building, so a build
  *  never rewrites a running dev server's files): synthesizes it via
@@ -122,10 +123,13 @@ export function livemark(opts: LivemarkOptions): Plugin {
           ? renderInlineMarkdown(site.config.banner, site.config.base)
           : undefined,
       }))
+      const flags = [...new Set(sites.map(site => site.language.flag))].filter(hasFlag)
       return [
+        ...flags.map(code => `import ${code} from "${FLAG_MODULE}${code.toUpperCase()}"`),
         `export const sites = ${JSON.stringify(sites)}`,
         "export const config = sites[0].config",
         "export const bannerHtml = sites[0].bannerHtml",
+        `export const flags = { ${flags.join(", ")} }`,
       ].join("\n")
     },
     configureServer(server) {
@@ -303,4 +307,15 @@ async function resolveViteOverride(
 
 function isObject(v: unknown): v is Record<string, unknown> {
   return v !== null && typeof v === "object"
+}
+
+// Only the declared languages' flags reach the bundle; a code the package lacks gets none
+function hasFlag(code: string | undefined): code is string {
+  if (!code || !/^[a-z]{2}$/.test(code)) return false
+  try {
+    import.meta.resolve(`${FLAG_MODULE}${code.toUpperCase()}`)
+    return true
+  } catch {
+    return false
+  }
 }

@@ -75,7 +75,7 @@ Shipped skills live in `skills/` and are published in the package for people who
 
 Everything the package runs is under `source/`; Node loads `build/*.js`, while Vite bundles the raw TypeScript from `source/` in a project.
 
-- `actions/<entity>/<verb>.ts` — build-time **operations** (load and define config, prepare and load articles, build the changelog, prepare the target)
+- `actions/<entity>/<verb>.ts` — build-time **operations** (load and define config, build the per-language sites, prepare and load articles, build the changelog, prepare the target)
 - `commands/<command>.ts` — one per `livemark <command>`, wired in `program.ts` and started from `entrypoints/main.ts`
 - `components/` — Livemark UI, escapable · `elements/` — shadcn-style primitives, escapable · `styles/` — base CSS, escapable
 - `routes/` — TanStack Start routes, escapable · `plugins/` — Vite plugins and the twoslash stage · `actions/processor/` — the textlane pipeline

@@ -48,7 +48,7 @@ export default defineConfig({
 | `flag`     | `string`            | 取决于 locale | 选择器中旗帜对应的两字母国家代码（例如 `br`）。          |
 | `messages` | `Partial<Messages>` | 内置翻译      | 对单个界面字符串的覆盖。                                 |
 
-顶栏中的选择器会显示每种语言的旗帜。默认取自 locale 的地区（`pt-BR` → 巴西），否则取与该语言关联最紧密的国家（`en` → 英国）；设置 `flag` 可以选择其他旗帜。Livemark 未内置旗帜的国家不显示旗帜。
+顶栏中的选择器会显示每种语言的旗帜。默认取自 locale 的地区（`pt-BR` → 巴西），否则取与该语言关联最紧密的国家（`en` → 英国）；设置 `flag` 可以选择其他旗帜。只会打包已声明语言的旗帜；[country-flag-icons](https://gitlab.com/catamphetamine/country-flag-icons) 中没有对应旗帜的代码不显示旗帜。
 
 没有 `languages` 时，站点的行为与之前完全相同：只有一种语言，即位于 `/` 的英语。
 

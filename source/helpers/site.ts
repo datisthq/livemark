@@ -1,16 +1,6 @@
 import type { Config } from "../models/config.ts"
-import { WebsiteConfig } from "../models/config.ts"
 import type { Language, Localized, SiteLanguage } from "../models/language.ts"
-import { Messages } from "../models/message.ts"
-import type { Site } from "../models/site.ts"
-import { de } from "../messages/de.ts"
-import { es } from "../messages/es.ts"
-import { fr } from "../messages/fr.ts"
-import { ja } from "../messages/ja.ts"
-import { ru } from "../messages/ru.ts"
-import { zh } from "../messages/zh.ts"
 
-const BUNDLED_MESSAGES: Record<string, Messages> = { de, es, fr, ja, ru, zh }
 const RTL_LANGUAGES = new Set([
   "ar",
   "dv",
@@ -54,7 +44,8 @@ const LANGUAGE_FLAGS: Record<string, string> = {
   vi: "vn",
   zh: "cn",
 }
-const IMPLICIT_LANGUAGE: Language = { code: "en", label: "English" }
+/** The one language of a config that declares none. */
+export const IMPLICIT_LANGUAGE: Language = { code: "en", label: "English" }
 
 /** The parsed config fields a site is built from. */
 export type SiteSource = Pick<
@@ -72,24 +63,6 @@ export type SiteSource = Pick<
   | "sections"
   | "languages"
 >
-
-/** Build every language's site from a config; a config without `languages` gets one
- *  implicit English site, so its output matches a single-language build. */
-export function buildSites(config: SiteSource) {
-  const languages = resolveLanguages(config.languages)
-  const declared = config.languages ?? [IMPLICIT_LANGUAGE]
-  const [defaultLanguage] = languages
-  const buildSite = (language: SiteLanguage, index: number) => ({
-    language,
-    config: buildSiteConfig(config, language, defaultLanguage),
-    messages: buildMessages(language, declared[index]?.messages),
-  })
-  const [first, ...rest] = languages
-  return [buildSite(first, 0), ...rest.map((l, i) => buildSite(l, i + 1))] satisfies [
-    Site,
-    ...Site[],
-  ]
-}
 
 /** Fill a language's defaults: locale, direction and URL prefix. */
 export function resolveLanguages(
@@ -187,51 +160,11 @@ function resolveLanguage(language: Language, isDefault: boolean): SiteLanguage {
     code: language.code,
     label: language.label,
     locale,
-    dir: language.dir ?? (RTL_LANGUAGES.has(primarySubtag(locale)) ? "rtl" : "ltr"),
+    dir: language.dir ?? (RTL_LANGUAGES.has(readPrimarySubtag(locale)) ? "rtl" : "ltr"),
     flag: language.flag ?? defaultFlag(locale),
     prefix: isDefault ? "/" : `/${language.code}/`,
     default: isDefault,
   }
-}
-
-function buildSiteConfig(
-  config: SiteSource,
-  language: SiteLanguage,
-  defaultLanguage: SiteLanguage,
-) {
-  const localize = (text: Localized) => localizeText(text, language, defaultLanguage)
-  const localizeOptional = (text: Localized | undefined) =>
-    text === undefined ? undefined : localize(text)
-  return WebsiteConfig.parse({
-    site: config.site,
-    favicon: config.favicon,
-    logo: config.logo,
-    head: config.head,
-    breadcrumbs: config.breadcrumbs,
-    base: config.base,
-    title: localize(config.title),
-    description: localize(config.description),
-    banner: localizeOptional(config.banner),
-    links: config.links?.map(link => ({
-      ...link,
-      title: localize(link.title),
-      prefix: link.prefix === undefined ? undefined : localizePath(link.prefix, language),
-    })),
-    sections: config.sections?.map(section => ({
-      ...section,
-      title: localize(section.title),
-      siteTitle: localizeOptional(section.siteTitle),
-      siteDescription: localizeOptional(section.siteDescription),
-      ...(section.type === "custom"
-        ? {}
-        : { prefix: localizePath(section.prefix, language) }),
-    })),
-  })
-}
-
-function buildMessages(language: SiteLanguage, overrides: Language["messages"]) {
-  const bundled = BUNDLED_MESSAGES[primarySubtag(language.locale)]
-  return Messages.parse({ ...bundled, ...overrides })
 }
 
 // A language is flagged by a country: the locale's region when it names one
@@ -239,9 +172,10 @@ function buildMessages(language: SiteLanguage, overrides: Language["messages"]) 
 function defaultFlag(locale: string) {
   const [, ...subtags] = locale.split("-")
   const region = subtags.find(subtag => /^[A-Za-z]{2}$/.test(subtag))
-  return region?.toLowerCase() ?? LANGUAGE_FLAGS[primarySubtag(locale)]
+  return region?.toLowerCase() ?? LANGUAGE_FLAGS[readPrimarySubtag(locale)]
 }
 
-function primarySubtag(locale: string) {
+/** A locale's language subtag, lowercased: `pt-BR` → `pt`. */
+export function readPrimarySubtag(locale: string) {
   return (locale.split("-")[0] ?? locale).toLowerCase()
 }

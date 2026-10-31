@@ -124,6 +124,7 @@ Custom routes win over the Markdown catch-all at exact URLs. Don't create a rout
 9. **Edited Markdown reaches the page through `router.tsx`** — articles are route loader data, and route HMR keeps loader data, so `getRouter` re-runs loaders on Vite's `vite:afterUpdate`. An overridden `router.tsx` must keep that hook, or Markdown edits show only after a reload.
 10. **UI text goes through `useMessages()`** from `livemark/hooks/site` — `t("toc.title")`, keys in `models/message.ts`. An override that hardcodes text, or reads `config` from `livemark:virtual` instead of `useSite().config`, stays in the default language on a multi-language site; `routes/__root.tsx` must keep `lang` and `dir` from `useSite().language`.
 11. **The article list carries no bodies.** `sortedArticles` (and every list in `content/article.ts`) holds frontmatter, path and language only, so every page stays light; an article's `mdx`, `content` and `tocItems` reach its page through the `$` route loader (`loadArticle`), and search text loads with the search box. An override that reads a body off the list gets `undefined`.
+12. **Only the icons a site names are bundled.** `DynamicIcon` and `InlineIcon` resolve names from `livemark:icons`, which the build fills with every Lucide name found in the config, frontmatter, compiled articles and quoted strings in `.livemark/` sources. A name an override computes at runtime renders nothing; spell it as a literal somewhere, or import the icon from `lucide-react` directly. Likewise `LanguageFlag` gets only the declared languages' flags, and `Search` loads its box and dialog on first use — an override that imports `SearchDialog` directly puts search back on every page.
 
 ## Head tags
 
@@ -133,7 +134,7 @@ Add tags with the config `head` field (`livemark-configuration`); escape `head.t
 
 - `actions/`, `commands/`, `program.ts` — server/CLI code. Fork upstream if you need to change these.
 - `livemark.config.ts` schema — fixed.
-- Content-collections transform pipeline. Markdown is compiled by textlane (`source/actions/processor/create.ts`); change it in a fork (or PR upstream).
+- Article loading and the Markdown pipeline. Articles are loaded by `source/actions/article/load.ts` and compiled by textlane (`source/actions/processor/create.ts`); change them in a fork (or PR upstream).
 
 ## Verification
 

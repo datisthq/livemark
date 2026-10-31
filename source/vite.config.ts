@@ -12,7 +12,7 @@ import { livemark } from "./plugins/vite-livemark.ts"
 import { robots } from "./plugins/vite-robots.ts"
 import { createArticleStore } from "./helpers/article-store.ts"
 import { listRoutePages } from "./helpers/route-pages.ts"
-import { buildSites } from "./helpers/site.ts"
+import { buildSites } from "./actions/site/build.ts"
 
 const config = await loadConfig()
 const sites = buildSites(config)
@@ -48,7 +48,7 @@ export default defineConfig({
     // any browser error back and forth forever.
     devtools({ consolePiping: { enabled: false } }),
     tailwind(),
-    content({ store, contentDir: config.root }),
+    content({ config, store }),
     tanstackStart({
       srcDirectory: ".",
       // Seed path must match what the crawler produces (router-emitted

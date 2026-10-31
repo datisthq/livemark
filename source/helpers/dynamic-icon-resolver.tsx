@@ -1,16 +1,9 @@
-import { icons } from "lucide-react"
+import { icons } from "livemark:icons"
+import { toIconKey } from "./icon-names.ts"
 
-function toPascalCase(name: string) {
-  return name
-    .split("-")
-    .map(s => s.charAt(0).toUpperCase() + s.slice(1))
-    .join("")
-}
-
-/** Resolves a Lucide icon by kebab-case name from the full registry */
+/** Resolves a Lucide icon by kebab-case name from the icons the site uses */
 export default function DynamicIconResolver(props: { name: string; className?: string }) {
-  const key = toPascalCase(props.name)
-  if (!(key in icons)) return null
-  const Icon = icons[key as keyof typeof icons]
+  const Icon = icons[toIconKey(props.name)]
+  if (!Icon) return null
   return <Icon className={props.className} />
 }
