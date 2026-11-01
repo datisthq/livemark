@@ -6,10 +6,10 @@ const rich = (...segments: RichSegment[]) => segments
 const en = {
   hero: {
     eyebrow: "Open source · MIT License",
-    titleLines: ["Beautiful", "Markdown sites,"],
-    titleHighlight: "your way.",
+    titleLines: ["Markdown", "site generator"],
+    titleHighlight: "without limits.",
     description:
-      "Keep your files where they are, add TanStack Start pages, restyle everything with Tailwind, and get docs, a blog and a changelog that shine on every screen.",
+      "Organise your Markdown however you like, then customise as far as you want: swap in your own React components, restyle with Tailwind and add TanStack Start pages. Docs, a blog and a changelog come built in.",
     getStarted: "Get started",
     viewSource: "View source",
     carouselLabel: "Site examples",
@@ -213,10 +213,10 @@ export type LandingCopy = typeof en
 const es: LandingCopy = {
   hero: {
     eyebrow: "Código abierto · Licencia MIT",
-    titleLines: ["Sitios Markdown", "preciosos,"],
-    titleHighlight: "a tu manera.",
+    titleLines: ["Generador de sitios", "Markdown"],
+    titleHighlight: "sin límites.",
     description:
-      "Deja tus archivos donde están, añade páginas de TanStack Start, cambia el estilo de todo con Tailwind y obtén documentación, un blog y un changelog que lucen bien en cualquier pantalla.",
+      "Organiza tu Markdown como quieras y personaliza todo lo que necesites: usa tus propios componentes de React, cambia el estilo con Tailwind y añade páginas de TanStack Start. Documentación, blog y changelog incluidos.",
     getStarted: "Empezar",
     viewSource: "Ver código",
     carouselLabel: "Ejemplos de sitios",
@@ -425,10 +425,10 @@ const es: LandingCopy = {
 const zh: LandingCopy = {
   hero: {
     eyebrow: "开源 · MIT 许可证",
-    titleLines: ["精美的", "Markdown 站点，"],
-    titleHighlight: "随心而建。",
+    titleLines: ["Markdown", "站点生成器，"],
+    titleHighlight: "无拘无束。",
     description:
-      "文件原地不动，按需添加 TanStack Start 页面，用 Tailwind 重新定制一切，即可获得在任何屏幕上都出色的文档、博客和更新日志。",
+      "按你喜欢的方式组织 Markdown，再随心定制：替换为你自己的 React 组件，用 Tailwind 重新设计样式，添加 TanStack Start 页面。文档、博客和更新日志开箱即用。",
     getStarted: "快速开始",
     viewSource: "查看源码",
     carouselLabel: "站点示例",
