@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.39.0](https://github.com/datisthq/livemark/compare/v0.38.0...v0.39.0) (2026-11-01)
+
+
+### Features
+
+* let a project add Markdown and HTML plugins to the article pipeline ([9d877b8](https://github.com/datisthq/livemark/commit/9d877b8c8e5cb84f116bcf077567eb58304239ca))
+
 ## [0.38.0](https://github.com/datisthq/livemark/compare/v0.37.0...v0.38.0) (2026-11-01)
 
 
