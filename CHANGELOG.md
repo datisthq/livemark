@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.38.0](https://github.com/datisthq/livemark/compare/v0.37.0...v0.38.0) (2026-11-01)
+
+
+### Features
+
+* name each authoring component after its Markdown directive ([4e15daf](https://github.com/datisthq/livemark/commit/4e15daf7702b366c998ebfa285e2a1d0109f8b8b))
+* take a YouTube url instead of an id in the video directive ([565fd2c](https://github.com/datisthq/livemark/commit/565fd2cff7bcfe7024d902ea73aca0ccaa625f5f))
+
 ## [0.37.0](https://github.com/datisthq/livemark/compare/v0.36.0...v0.37.0) (2026-10-31)
 
 
