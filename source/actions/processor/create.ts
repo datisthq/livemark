@@ -168,8 +168,8 @@ const COMPONENTS = {
       kind: "leaf" as const,
       where: { type: "youtube" },
       component: "Video",
-      attributes: ["id"],
-      required: ["id"],
+      attributes: ["url"],
+      required: ["url"],
     },
     {
       name: "audio",

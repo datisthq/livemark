@@ -68,12 +68,14 @@ order: 4
 使用带 `type` 属性的 `::video` 指令嵌入视频：
 
 ```md
-::video{type="youtube" id="dQw4w9WgXcQ"}
+::video{type="youtube" url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"}
 ```
 
 渲染效果：
 
-::video{type="youtube" id="dQw4w9WgXcQ"}
+::video{type="youtube" url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"}
+
+`url` 可以是任意 YouTube 视频链接：`youtube.com/watch?v=` 页面、`youtu.be` 短链接，或 `/embed/`、`/shorts/`、`/live/` 地址。
 
 ## 音频块 {#audio-blocks}
 

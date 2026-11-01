@@ -68,12 +68,14 @@ All images in articles are zoomable — click any image to expand it to full siz
 Embed videos using the `::video` directive with a `type` attribute:
 
 ```md
-::video{type="youtube" id="dQw4w9WgXcQ"}
+::video{type="youtube" url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"}
 ```
 
 Renders as:
 
-::video{type="youtube" id="dQw4w9WgXcQ"}
+::video{type="youtube" url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"}
+
+The `url` is any YouTube video link: a `youtube.com/watch?v=` page, a `youtu.be` short link, or an `/embed/`, `/shorts/` or `/live/` URL.
 
 ## Audio Blocks
 

@@ -70,7 +70,7 @@ describe("compileArticle", () => {
     ["a :icon{name=star}", ["Icon"]],
     ["a :abbr[HTML]{title=x}", ["Abbr"]],
     ["::toc", ["Toc"]],
-    ["::video{type=youtube id=abc}", ["Video"]],
+    ["::video{type=youtube url=x}", ["Video"]],
     ["::audio{type=soundcloud url=x}", ["Audio"]],
   ])("renders %j as the component named after its directive", async (content, names) => {
     const article = await compileFixture("page.md", content)

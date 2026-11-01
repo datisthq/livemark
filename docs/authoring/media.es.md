@@ -68,12 +68,14 @@ Todas las imágenes de los artículos se pueden ampliar: haz clic en cualquier i
 Inserta vídeos con la directiva `::video` y un atributo `type`:
 
 ```md
-::video{type="youtube" id="dQw4w9WgXcQ"}
+::video{type="youtube" url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"}
 ```
 
 Se renderiza así:
 
-::video{type="youtube" id="dQw4w9WgXcQ"}
+::video{type="youtube" url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"}
+
+La `url` es cualquier enlace a un vídeo de YouTube: una página `youtube.com/watch?v=`, un enlace corto `youtu.be` o una URL `/embed/`, `/shorts/` o `/live/`.
 
 ## Bloques de audio {#audio-blocks}
 
