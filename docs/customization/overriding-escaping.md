@@ -18,6 +18,8 @@ Livemark ships a library of React components, shadcn-style primitives, and a bas
 | `source/routes/<route>.tsx`                               | `.livemark/routes/<route>.tsx`    |
 | `source/client.tsx`, `server.ts`, `router.tsx`, `head.ts` | `.livemark/<same name>`           |
 
+A Markdown directive renders the component named after it: `:::card` is `components/Card.tsx`, `::video` is `components/Video.tsx`, and a group of cards is `components/Cards.tsx`. The note, tip, info, warning and danger callouts all render `components/Callout.tsx`.
+
 The `source/` paths are inside `node_modules/livemark/`. Files under `.livemark/public/` are added to the site's static assets and served from its root.
 
 No import changes are needed. The rest of Livemark picks up the overridden file automatically.

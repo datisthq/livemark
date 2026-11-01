@@ -10,7 +10,7 @@ import { formatShortDate } from "../helpers/date.ts"
 import { TocContext } from "../helpers/toc-context.ts"
 import { Footer } from "./Footer.tsx"
 import { PageToolbar } from "./PageToolbar.tsx"
-import { MobileToc, Toc } from "./Toc.tsx"
+import { MobilePageToc, PageToc } from "./PageToc.tsx"
 import { useMessages, useSite } from "../hooks/site.ts"
 import { buildPathLink } from "../helpers/path-link.ts"
 
@@ -47,9 +47,9 @@ export function BlogIndex(props: { sectionPrefix: string }) {
 
   return (
     <TocContext.Provider value={tocItems}>
-      <MobileToc items={tocItems} title={title}>
+      <MobilePageToc items={tocItems} title={title}>
         <PageToolbar content={content} />
-      </MobileToc>
+      </MobilePageToc>
       <div className="flex flex-1 gap-10 p-4 pt-8 md:p-10 lg:gap-22 lg:pl-22 lg:justify-between">
         <div className="flex-1 min-w-0 mx-auto max-w-3xl max-lg:sidebar-collapsed:max-w-none lg:mx-0 lg:max-w-(--content-max-width)">
           <div className="prose dark:prose-invert max-w-none mb-8">
@@ -95,9 +95,9 @@ export function BlogIndex(props: { sectionPrefix: string }) {
             <Footer />
           </div>
         </div>
-        <Toc items={tocItems}>
+        <PageToc items={tocItems}>
           <PageToolbar content={content} />
-        </Toc>
+        </PageToc>
       </div>
     </TocContext.Provider>
   )

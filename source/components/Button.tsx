@@ -2,7 +2,7 @@ import { buttonVariants } from "../elements/button.tsx"
 import { cn } from "cn"
 
 /** Styled link button rendered from ::button leaf directives */
-export function LinkButton(props: {
+export function Button(props: {
   href: string
   label: string
   variant?:

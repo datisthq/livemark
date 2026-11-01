@@ -1,7 +1,7 @@
 import { Children, isValidElement, useEffect, useState } from "react"
 
 /** Tabbed container component for grouping content tabs with optional sync across groups */
-export function ContentTabs(props: { sync?: string; children: React.ReactNode }) {
+export function Tabs(props: { sync?: string; children: React.ReactNode }) {
   const children = Children.toArray(props.children)
   const titles = children.map(child =>
     isValidElement<{ title: string }>(child) ? child.props.title : "",

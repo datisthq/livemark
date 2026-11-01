@@ -58,6 +58,26 @@ describe("compileArticle", () => {
     expect(html).toContain("<table>")
     expect(html).toContain("<td>2</td>")
   })
+
+  it.each([
+    [":::card\nx\n:::\n:::card\ny\n:::", ["Card", "Cards"]],
+    [":::column\nx\n:::\n:::column\ny\n:::", ["Column", "Columns"]],
+    [":::tab{title=A}\nx\n:::", ["Tab", "Tabs"]],
+    [":::details\nx\n:::", ["Details"]],
+    [":::filetree\n- a\n:::", ["Filetree"]],
+    ["a :badge[x]", ["Badge"]],
+    ["::button[Go]{href=/x}", ["Button"]],
+    ["a :icon{name=star}", ["Icon"]],
+    ["a :abbr[HTML]{title=x}", ["Abbr"]],
+    ["::toc", ["Toc"]],
+    ["::video{type=youtube id=abc}", ["Video"]],
+    ["::audio{type=soundcloud url=x}", ["Audio"]],
+  ])("renders %j as the component named after its directive", async (content, names) => {
+    const article = await compileFixture("page.md", content)
+    for (const name of names) {
+      expect(article.mdx).toMatch(new RegExp(String.raw`_jsxs?\(${name}, `))
+    }
+  })
 })
 
 async function renderArticle(filePath: string, content: string, format?: "md" | "mdx") {

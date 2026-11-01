@@ -49,7 +49,7 @@ export function Header(props: { toggle?: React.ReactNode; menu?: React.ReactNode
         activePrefix={activeSection?.prefix}
         onCompactChange={setCompactSearch}
       />
-      {/* From `xl` the search icon meets the Toc's left edge: its width, the page's p-10,
+      {/* From `xl` the search icon meets the PageToc's left edge: its width, the page's p-10,
           and the search's own px-2.5 plus border */}
       <div className="ml-auto flex shrink-0 items-center justify-end gap-1 pr-2 lg:pr-1 xl:w-[calc(var(--toc-width,14rem)+3.125rem+1px)]">
         <Search compact={compactSearch} />

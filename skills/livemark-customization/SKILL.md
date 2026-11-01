@@ -45,6 +45,8 @@ livemark escape components/Footer.tsx   # → .livemark/components/Footer.tsx
 livemark escape elements/button.tsx styles/general.css   # several at once
 ```
 
+A Markdown directive renders the component named after it — `:::card` → `components/Card.tsx`, `::toc` → `components/Toc.tsx`, a group of cards → `components/Cards.tsx` — and every callout type renders `components/Callout.tsx`. The page's sidebar outline is `components/PageToc.tsx`.
+
 The command refuses to overwrite an existing override (and exits 1 after copying the rest). Delete the override first if you want a fresh start.
 
 ## Typical workflow: override a component
@@ -124,7 +126,7 @@ Custom routes win over the Markdown catch-all at exact URLs. Don't create a rout
 9. **Edited Markdown reaches the page through `router.tsx`** — articles are route loader data, and route HMR keeps loader data, so `getRouter` re-runs loaders on Vite's `vite:afterUpdate`. An overridden `router.tsx` must keep that hook, or Markdown edits show only after a reload.
 10. **UI text goes through `useMessages()`** from `livemark/hooks/site` — `t("toc.title")`, keys in `models/message.ts`. An override that hardcodes text, or reads `config` from `livemark:virtual` instead of `useSite().config`, stays in the default language on a multi-language site; `routes/__root.tsx` must keep `lang` and `dir` from `useSite().language`.
 11. **The article list carries no bodies.** `sortedArticles` (and every list in `content/article.ts`) holds frontmatter, path and language only, so every page stays light; an article's `mdx`, `content` and `tocItems` reach its page through the `$` route loader (`loadArticle`), and search text loads with the search box. An override that reads a body off the list gets `undefined`.
-12. **Only the icons a site names are bundled.** `DynamicIcon` and `InlineIcon` resolve names from `livemark:icons`, which the build fills with every Lucide name found in the config, frontmatter, compiled articles and quoted strings in `.livemark/` sources. A name an override computes at runtime renders nothing; spell it as a literal somewhere, or import the icon from `lucide-react` directly. Likewise `LanguageFlag` gets only the declared languages' flags, and `Search` loads its box and dialog on first use — an override that imports `SearchDialog` directly puts search back on every page.
+12. **Only the icons a site names are bundled.** `DynamicIcon` and `Icon` resolve names from `livemark:icons`, which the build fills with every Lucide name found in the config, frontmatter, compiled articles and quoted strings in `.livemark/` sources. A name an override computes at runtime renders nothing; spell it as a literal somewhere, or import the icon from `lucide-react` directly. Likewise `LanguageFlag` gets only the declared languages' flags, and `Search` loads its box and dialog on first use — an override that imports `SearchDialog` directly puts search back on every page.
 
 ## Head tags
 

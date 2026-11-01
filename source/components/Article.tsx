@@ -8,7 +8,10 @@ import { TocContext } from "../helpers/toc-context.ts"
 import { ArticleSourceContext } from "../helpers/article-link.ts"
 import { Abbr } from "./Abbr.tsx"
 import { AnsiCode } from "./AnsiCode.tsx"
+import { Audio } from "./Audio.tsx"
+import { Badge } from "./Badge.tsx"
 import { Breadcrumbs } from "./Breadcrumbs.tsx"
+import { Button } from "./Button.tsx"
 import { Callout } from "./Callout.tsx"
 import { Card } from "./Card.tsx"
 import { Cards } from "./Cards.tsx"
@@ -16,20 +19,16 @@ import { CodeBlock } from "./CodeBlock.tsx"
 import { CodeTabs } from "./CodeTabs.tsx"
 import { Column } from "./Column.tsx"
 import { Columns } from "./Columns.tsx"
-import { ContentTab } from "./ContentTab.tsx"
-import { ContentTabs } from "./ContentTabs.tsx"
 import { DefinitionDetail, DefinitionList, DefinitionTerm } from "./DefinitionList.tsx"
 import { Details } from "./Details.tsx"
-import { FileTree } from "./FileTree.tsx"
+import { Filetree } from "./Filetree.tsx"
 import { Footer } from "./Footer.tsx"
 import { FootnoteRef } from "./FootnoteRef.tsx"
 import { headingComponents } from "./Heading.tsx"
-import { InlineBadge } from "./InlineBadge.tsx"
-import { InlineIcon } from "./InlineIcon.tsx"
-import { InlineToc } from "./InlineToc.tsx"
-import { LinkButton } from "./LinkButton.tsx"
+import { Icon } from "./Icon.tsx"
 import { Mermaid } from "./Mermaid.tsx"
 import { PackageTabs } from "./PackageTabs.tsx"
+import { MobilePageToc, PageToc } from "./PageToc.tsx"
 import { PageToolbar } from "./PageToolbar.tsx"
 import { PrevNext } from "./PrevNext.tsx"
 import {
@@ -40,9 +39,10 @@ import {
   TableHeader,
   TableRow,
 } from "./SortableTable.tsx"
-import { SoundCloud } from "./SoundCloud.tsx"
-import { MobileToc, Toc } from "./Toc.tsx"
-import { YouTube } from "./YouTube.tsx"
+import { Tab } from "./Tab.tsx"
+import { Tabs } from "./Tabs.tsx"
+import { Toc } from "./Toc.tsx"
+import { Video } from "./Video.tsx"
 import { ZoomImage } from "./ZoomImage.tsx"
 import { Separator } from "../elements/separator.tsx"
 import { useMessages, useSite } from "../hooks/site.ts"
@@ -74,13 +74,13 @@ export function Article(props: { article: ArticleView; highlight?: string }) {
   return (
     <TocContext.Provider value={article.tocItems}>
       {article.toc !== false && (
-        <MobileToc items={article.tocItems} title={article.title}>
+        <MobilePageToc items={article.tocItems} title={article.title}>
           <PageToolbar
             sourceUrl={article.sourceUrl}
             sourceAction={article.sourceAction}
             content={article.content}
           />
-        </MobileToc>
+        </MobilePageToc>
       )}
       {/* From `lg` the content meets the header nav's first link: the header's pl-4,
           the size-8 sidebar trigger, its pr-4 and the nav's px-6 */}
@@ -139,27 +139,27 @@ export function Article(props: { article: ArticleView; highlight?: string }) {
                   a: FootnoteRef,
                   Abbr,
                   AnsiCode,
+                  Audio,
+                  Badge,
+                  Button,
                   Callout,
                   Card,
                   Cards,
                   Column,
                   Columns,
                   CodeTabs,
-                  ContentTab,
-                  ContentTabs,
                   DefinitionDetail,
                   DefinitionList,
                   DefinitionTerm,
                   Details,
-                  FileTree,
-                  InlineBadge,
-                  InlineIcon,
-                  InlineToc,
-                  LinkButton,
+                  Filetree,
+                  Icon,
                   Mermaid,
                   PackageTabs,
-                  SoundCloud,
-                  YouTube,
+                  Tab,
+                  Tabs,
+                  Toc,
+                  Video,
                   ...headingComponents,
                 }}
               />
@@ -169,13 +169,13 @@ export function Article(props: { article: ArticleView; highlight?: string }) {
           <Footer />
         </div>
         {article.toc !== false && (
-          <Toc items={article.tocItems}>
+          <PageToc items={article.tocItems}>
             <PageToolbar
               sourceUrl={article.sourceUrl}
               sourceAction={article.sourceAction}
               content={article.content}
             />
-          </Toc>
+          </PageToc>
         )}
       </div>
     </TocContext.Provider>

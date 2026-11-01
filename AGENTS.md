@@ -91,6 +91,7 @@ Non-package code: `scripts/` repo tooling and repo-wide guards, and the dot-dire
 ## Conventions
 
 - pnpm `^11`, Node `^24`, ES Modules; vite-plus format and lint (2-space, LF, UTF-8, no semicolons, 90 columns)
+- A directive renders the component named after it (`card` → `components/Card.tsx`, its group `Cards`), which htmlpress mirrors as `<htmlpress-card>`; a clash with an element or layout component is resolved by an import alias or renaming the non-authoring side, never a prefix. `source/actions/article/compile.unit.ts` asserts the mapping
 - A `.tsx` module exports only components — a hook or value beside them makes Vite drop Fast Refresh for the file; put it in a `.ts` under `helpers/` or `hooks/`
 - Strict TypeScript with null checks; no explicit return types. Never use `any`, an `as` cast or `!` without permission
 - PascalCase types, interfaces and components; camelCase values. Function names are **verbNoun** (`resolveAssetPath`), never a bare verb or noun; factories are `create*` / `build*` / `make*`

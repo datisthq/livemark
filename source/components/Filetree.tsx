@@ -9,7 +9,7 @@ interface TreeItem {
 }
 
 /** Renders a file/directory tree from a JSON-serialized tree structure */
-export function FileTree(props: { tree: string }) {
+export function Filetree(props: { tree: string }) {
   const items: TreeItem[] = JSON.parse(props.tree)
 
   return (

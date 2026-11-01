@@ -27,7 +27,7 @@ export function HeaderSearch(props: {
     }
   }, [])
 
-  // `data-header-search` lifts the header over the Toc bar and BackToTop (Layout).
+  // `data-header-search` lifts the header over the MobilePageToc bar and BackToTop (Layout).
   return (
     <Command
       ref={bar}
