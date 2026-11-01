@@ -6,7 +6,8 @@ import type { Config } from "../../models/config.ts"
 import { twoslashStage } from "../../plugins/twoslash.ts"
 
 /** The frozen textlane processor an article compiles with: Markdown or MDX, with the
- *  twoslash stage only for articles that have a `twoslash` fence. */
+ *  twoslash stage only for articles that have a `twoslash` fence, and the project's
+ *  `plugins` in their two slots. */
 export function createProcessor(props: {
   config: Config
   format: "md" | "mdx"
@@ -21,7 +22,9 @@ export function createProcessor(props: {
     .use(md.math())
     .use(md.directive())
   if (props.format === "mdx") processor.use(md.mdx())
+  // Before md.component, which renders an unknown directive as its source text
   processor
+    .use(config.plugins?.md ?? [])
     .use(md.headingId({ attributes: true, markers: HEADING_MARKERS }))
     .use(md.packageCommand({ component: "PackageTabs" }))
     .use(md.component(COMPONENTS))
@@ -56,6 +59,7 @@ export function createProcessor(props: {
   processor.use(html.unwrapImages())
   if (props.twoslash) processor.use(twoslashStage, { config })
   return processor
+    .use(config.plugins?.html ?? [])
     .use(html.slug())
     .use(html.extractToc({ skip: ["data-step", "data-toc-hidden"] }))
     .use(mdx.compile({ outputFormat: "function-body" }))

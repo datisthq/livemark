@@ -50,6 +50,7 @@ export default defineConfig({})
 | `patches`        | [`Patch[]`](/zh/customization/article-patches/)    | 在配置中覆盖 Markdown 文件的 frontmatter，无需编辑文件。                                                    |
 | `contentSignals` | [`ContentSignals`](/zh/customization/ai-agents/)   | 发布在 `robots.txt` 中的 AI 使用偏好。默认：全部为 `true`。                                                 |
 | `skills`         | `string \| string[]`                               | 要作为[智能体技能](/zh/customization/ai-agents/)发布的 `SKILL.md` 文件的 glob。                             |
+| `plugins`        | [`{ md, html }`](/customization/plugins/)          | 你自己的 Markdown 与 HTML 插件，加入文章编译管线。                                                          |
 | `vite`           | `UserConfig \| (env) => UserConfig`                | 额外的 Vite 配置，合并到 Livemark 自身配置之上。                                                            |
 
 完整的 schema 位于 [`source/models/config.ts`](https://github.com/datisthq/livemark/blob/main/source/models/config.ts)：`defineConfig` 会用 Zod 依据它进行校验。未知的键会被拒绝——无论是在顶层，还是在 sections、links、languages、`head`、`contentSignals` 和 patches 内部——因此拼写错误会在启动时给出清晰的报错，而不会被静默忽略。

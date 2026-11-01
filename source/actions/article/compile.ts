@@ -20,15 +20,21 @@ export async function compileArticle(props: {
 /** A fenced code block whose meta names `twoslash` */
 export const TWOSLASH_FENCE = /^[ \t>]*(?:`{3,}|~{3,})[^\n]*\btwoslash\b/m
 
-// A frozen processor runs any number of articles, so each variant is built once a build
-const processors = new Map<string, ReturnType<typeof createProcessor>>()
+// A frozen processor runs any number of articles, so each variant is built once per
+// config: a dev restart reloads the config in this same process
+const processors = new WeakMap<Config, Map<string, ReturnType<typeof createProcessor>>>()
 
 function readProcessor(config: Config, format: "md" | "mdx", twoslash: boolean) {
+  let variants = processors.get(config)
+  if (!variants) {
+    variants = new Map()
+    processors.set(config, variants)
+  }
   const key = `${format}:${twoslash}`
-  let processor = processors.get(key)
+  let processor = variants.get(key)
   if (!processor) {
     processor = createProcessor({ config, format, twoslash })
-    processors.set(key, processor)
+    variants.set(key, processor)
   }
   return processor
 }

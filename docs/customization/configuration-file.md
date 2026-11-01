@@ -50,6 +50,7 @@ Every field falls back to a sensible default. The full set:
 | `patches`        | [`Patch[]`](/customization/article-patches/)    | Override a markdown file's frontmatter from config without editing the file.                                           |
 | `contentSignals` | [`ContentSignals`](/customization/ai-agents/)   | AI usage preferences published in `robots.txt`. Default: all `true`.                                                   |
 | `skills`         | `string \| string[]`                            | Glob(s) for `SKILL.md` files to publish as [agent skills](/customization/ai-agents/).                                  |
+| `plugins`        | [`{ md, html }`](/customization/plugins/)       | Your own Markdown and HTML plugins, added to the article pipeline.                                                     |
 | `vite`           | `UserConfig \| (env) => UserConfig`             | Extra Vite config, merged over Livemark's own.                                                                         |
 
 The full schema lives in [`source/models/config.ts`](https://github.com/datisthq/livemark/blob/main/source/models/config.ts) — `defineConfig` validates against it with Zod. Unknown keys are rejected — at the top level and inside sections, links, languages, `head`, `contentSignals` and patches — so a typo fails with a clear error at start-up instead of being silently ignored.

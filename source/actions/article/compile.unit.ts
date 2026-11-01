@@ -1,7 +1,11 @@
 import { createElement } from "react"
 import type { ReactNode } from "react"
 import { renderToStaticMarkup } from "react-dom/server"
+import type { Element, Root as HtmlRoot } from "hast"
+import type { Root as MdRoot } from "mdast"
+import * as html from "textlane/html"
 import { describe, expect, it } from "vite-plus/test"
+import type { ArticlePlugins } from "../../models/config.ts"
 import { Config } from "../../models/config.ts"
 import { createMdxComponent } from "../../helpers/mdx-component.ts"
 import { compileArticle } from "./compile.ts"
@@ -80,17 +84,83 @@ describe("compileArticle", () => {
   })
 })
 
-async function renderArticle(filePath: string, content: string, format?: "md" | "mdx") {
-  const article = await compileFixture(filePath, content, format)
+describe("compileArticle with project plugins", () => {
+  it("runs `md` plugins before components, so one can render its own directive", async () => {
+    const article = await compileFixture("page.md", "::hello", undefined, {
+      md: [replaceHelloDirective],
+    })
+    expect(article.mdx).toContain("Hello from a plugin")
+    expect(article.mdx).not.toContain("::hello")
+  })
+
+  it("runs `html` plugins before slugs, so a heading they add reaches the outline", async () => {
+    const article = await compileFixture("page.md", "Text", undefined, {
+      html: [prependHeading],
+    })
+    expect(article.tocItems).toEqual([{ url: "#added", title: "Added", depth: 2 }])
+  })
+
+  it("runs a native textlane plugin", async () => {
+    const page = await renderArticle("page.md", "[x](https://example.com)", undefined, {
+      html: [html.externalLinks()],
+    })
+    expect(page).toContain(`<a href="https://example.com" rel="nofollow">`)
+  })
+})
+
+// mdast leaves directive nodes to mdast-util-directive, which this package doesn't need
+declare module "mdast" {
+  interface RootContentMap {
+    leafDirective: { type: "leafDirective"; name: string; children: PhrasingContent[] }
+  }
+}
+
+function replaceHelloDirective() {
+  return (tree: MdRoot) => {
+    tree.children = tree.children.map(node =>
+      node.type === "leafDirective" && node.name === "hello"
+        ? {
+            type: "paragraph",
+            children: [{ type: "text", value: "Hello from a plugin" }],
+          }
+        : node,
+    )
+  }
+}
+
+function prependHeading() {
+  return (tree: HtmlRoot) => {
+    const heading: Element = {
+      type: "element",
+      tagName: "h2",
+      properties: {},
+      children: [{ type: "text", value: "Added" }],
+    }
+    tree.children.unshift(heading)
+  }
+}
+
+async function renderArticle(
+  filePath: string,
+  content: string,
+  format?: "md" | "mdx",
+  plugins?: ArticlePlugins,
+) {
+  const article = await compileFixture(filePath, content, format, plugins)
   const Content = createMdxComponent(article.mdx)
   const Callout = (props: { type: string; children: ReactNode }) =>
     createElement("aside", { "data-type": props.type }, props.children)
   return renderToStaticMarkup(createElement(Content, { components: { Callout } }))
 }
 
-function compileFixture(filePath: string, content: string, format?: "md" | "mdx") {
+function compileFixture(
+  filePath: string,
+  content: string,
+  format?: "md" | "mdx",
+  plugins?: ArticlePlugins,
+) {
   const config = {
-    ...Config.parse({ root: ".", configPath: "livemark.config.ts" }),
+    ...Config.parse({ root: ".", configPath: "livemark.config.ts", plugins }),
     base: undefined,
   }
   return compileArticle({ content, filePath, format, config })

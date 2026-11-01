@@ -50,6 +50,7 @@ Cada campo tiene un valor por defecto razonable. El conjunto completo:
 | `patches`        | [`Patch[]`](/es/customization/article-patches/)    | Sobrescribe el frontmatter de un archivo Markdown desde la configuración sin editarlo.                                          |
 | `contentSignals` | [`ContentSignals`](/es/customization/ai-agents/)   | Preferencias de uso por IA publicadas en `robots.txt`. Por defecto: todas `true`.                                               |
 | `skills`         | `string \| string[]`                               | Glob(s) para archivos `SKILL.md` que se publican como [skills de agente](/es/customization/ai-agents/).                         |
+| `plugins`        | [`{ md, html }`](/customization/plugins/)          | Tus propios plugins de Markdown y HTML, añadidos al pipeline de los artículos.                                                  |
 | `vite`           | `UserConfig \| (env) => UserConfig`                | Configuración extra de Vite, fusionada sobre la de Livemark.                                                                    |
 
 El esquema completo está en [`source/models/config.ts`](https://github.com/datisthq/livemark/blob/main/source/models/config.ts): `defineConfig` lo valida con Zod. Las claves desconocidas se rechazan, tanto en el nivel superior como dentro de secciones, enlaces, idiomas, `head`, `contentSignals` y parches, así que una errata produce un error claro al arrancar en lugar de ignorarse en silencio.

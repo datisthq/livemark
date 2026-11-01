@@ -1,4 +1,5 @@
 import { z } from "zod"
+import type { Pluggable } from "textlane"
 import type { ConfigEnv, UserConfig as ViteUserConfig } from "vite"
 import { Language, Localized } from "./language.ts"
 import { Link, UserLink } from "./link.ts"
@@ -22,6 +23,15 @@ export type ViteOverride =
  *  `/repo/` in production for GitHub Pages). The build pipeline
  *  resolves it to a string before any runtime sees it. */
 export type Base = string | ((command: "build" | "serve") => string | undefined)
+
+/** Plugins a project adds to the article pipeline: unified-style attachers or native
+ *  textlane plugins. `md` runs on the Markdown tree before heading ids and components,
+ *  `html` on the HTML tree before heading slugs and the table of contents. */
+export type ArticlePlugins = z.infer<typeof ArticlePlugins>
+export const ArticlePlugins = z.strictObject({
+  md: z.array(z.custom<Pluggable>()).optional(),
+  html: z.array(z.custom<Pluggable>()).optional(),
+})
 
 /** Extra site-wide `<head>` tags, appended after Livemark's defaults. A meta tag
  *  sharing a default's `name` or `property` replaces it. */
@@ -84,6 +94,7 @@ export const UserConfig = z.strictObject({
   head: Head.optional(),
   contentSignals: ContentSignals.prefault({}),
   skills: z.union([z.string(), z.array(z.string())]).optional(),
+  plugins: ArticlePlugins.optional(),
   // Stored as `unknown` in the schema (zod can't type a Vite UserConfig
   // or a function returning one meaningfully); the public TypeScript
   // surface above lifts it back to ViteOverride for editor support.

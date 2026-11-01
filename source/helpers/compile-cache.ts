@@ -1,14 +1,22 @@
 import { createHash } from "node:crypto"
-import { globSync, readFileSync } from "node:fs"
+import { existsSync, globSync, readFileSync } from "node:fs"
 import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises"
 import { join } from "node:path"
 
 const SOURCE_DIR = join(import.meta.dirname, "..")
 
 /** A disk cache of compiled articles under `dir`, keyed by their input plus a salt
- *  that changes with the config and with Livemark's own code. */
-export function createCompileCache(props: { dir: string; config: object }) {
-  const salt = hashText(JSON.stringify(props.config), fingerprintSource())
+ *  that changes with the config, the files it imports and Livemark's own code. */
+export function createCompileCache(props: {
+  dir: string
+  config: { configDependencies?: string[] }
+}) {
+  // JSON drops functions, so a changed plugin shows only in the files the config imports
+  const salt = hashText(
+    JSON.stringify(props.config),
+    fingerprintFiles(props.config.configDependencies ?? []),
+    fingerprintSource(),
+  )
   const used = new Set<string>()
   let ready: Promise<unknown> | undefined
 
@@ -44,6 +52,15 @@ function fingerprintSource() {
   }).sort()
   const hash = createHash("sha256")
   for (const file of files) hash.update(file).update(readFileSync(join(SOURCE_DIR, file)))
+  return hash.digest("hex")
+}
+
+function fingerprintFiles(files: string[]) {
+  const hash = createHash("sha256")
+  for (const file of [...files].sort()) {
+    hash.update(file).update("\0")
+    if (existsSync(file)) hash.update(readFileSync(file))
+  }
   return hash.digest("hex")
 }
 

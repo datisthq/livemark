@@ -24,6 +24,8 @@ Invoke when the user asks to:
 ```ts
 // livemark.config.ts
 import { defineConfig } from "livemark"
+import * as html from "textlane/html"
+import { remarkHello } from "./plugins/remark-hello.ts"
 
 export default defineConfig({
   // Content: string | string[] of glob patterns; default "**/*.md"
@@ -70,6 +72,12 @@ export default defineConfig({
       version: true,
     },
   ],
+
+  // Optional: article pipeline plugins (unified-style attachers or textlane/md, textlane/html)
+  plugins: {
+    md: [remarkHello], // mdast, before heading ids and directive components
+    html: [html.externalLinks({ target: "_blank" })], // hast, before slugs and the TOC
+  },
 
   // Optional: per-file frontmatter overrides
   patches: [{ file: "README.md", article: { title: "Overview", icon: "sparkles" } }],
@@ -126,6 +134,10 @@ Default `position` is `"header"`. Use `prefix` to scope a sidebar link to a sing
 ## Syntax themes
 
 Any [Shiki theme](https://shiki.style/themes) name works. Defaults keep the catppuccin pairing. If you swap the light theme, audit code-block token contrast against the theme's background (WCAG AA wants 4.5:1).
+
+## Plugins
+
+`plugins.md` and `plugins.html` take what textlane's `use` takes: a unified-style attacher (most remark / rehype transform plugins), a native `textlane/md` or `textlane/html` plugin, or a `[plugin, options]` pair. JS plugins only transform trees — no new syntax; handle a custom directive in an `md` plugin, which runs before Livemark renders directives (an unknown one otherwise renders as source text). `html` plugins run before slugs and the TOC, so headings they add get anchors. A plugin from npm is cached with the articles: after upgrading one, delete `.livemark/.cache/`.
 
 ## Editing rules of thumb
 
