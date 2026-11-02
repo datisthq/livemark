@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.40.0](https://github.com/datisthq/livemark/compare/v0.39.0...v0.40.0) (2026-11-02)
+
+
+### Features
+
+* let a translation inherit its original's path and take an explicit path as written ([bc0c485](https://github.com/datisthq/livemark/commit/bc0c485095b74154a3ba44ea68584d3e6f4f53f0))
+
 ## [0.39.0](https://github.com/datisthq/livemark/compare/v0.38.0...v0.39.0) (2026-11-01)
 
 
