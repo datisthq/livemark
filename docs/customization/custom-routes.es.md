@@ -1,7 +1,6 @@
 ---
 title: Rutas personalizadas
 description: Crea páginas nuevas en .livemark/routes/ junto a tu contenido Markdown.
-path: /customization/custom-routes/
 icon: route
 order: 7
 ---

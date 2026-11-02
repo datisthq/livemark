@@ -2,7 +2,6 @@
 title: VitePress vs Livemark
 label: VitePress
 description: Dos frameworks de documentación nativos de Vite y centrados en Markdown, sobre stacks de UI distintos.
-path: /comparison/vitepress/
 icon: zap
 order: 2
 ---

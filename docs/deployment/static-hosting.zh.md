@@ -1,7 +1,6 @@
 ---
 title: 静态托管
 description: "从任意静态托管平台提供构建目录：nginx、S3 + CloudFront、Caddy 等。"
-path: /deployment/static-hosting/
 icon: server
 order: 1
 ---

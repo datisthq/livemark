@@ -2,7 +2,6 @@
 title: 介绍
 description: 了解如何搭建你的第一个 Livemark 项目。
 icon: rocket
-path: /introduction/
 order: 1
 ---
 

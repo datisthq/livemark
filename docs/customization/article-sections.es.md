@@ -1,6 +1,5 @@
 ---
 description: Organiza los artículos en secciones de Docs, Blog y registro de cambios.
-path: /customization/article-sections/
 icon: layout-panel-left
 order: 3
 ---

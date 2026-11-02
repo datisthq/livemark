@@ -52,7 +52,7 @@ format: mdx # md (plain Markdown) or mdx; default: mdx for a .mdx file, else md
 2. **Order is piecewise.** Positive numbers sort first ascending, unordered articles come next, negative numbers land at the end (`-1` last, `-2` second-to-last). Leave the middle alone — only set `order` on items you want pinned.
 3. **URLs.** Don't set `path` unless you need to override the default. Livemark derives it from the file's folders below the include glob's static base plus its slugified name (`docs/guide/install.md` under `docs/**/*.md` → `/guide/install/`); an `index.md` names its folder. A frontmatter `path` gets its missing slashes added. Two articles at one path fail the build.
 4. **Nesting.** The sidebar nests an article under the one whose `path` is its parent (`/guide/install/` under `/guide/`), so give a folder an `index.md` to head it.
-5. **Translations.** On a site with `languages`, put `guide.es.md` beside `guide.md` and keep the same `path`: Livemark serves it at `/es/guide/` and pairs the two by that path. Don't add the `/es/` prefix yourself.
+5. **Translations.** On a site with `languages`, put `guide.es.md` beside `guide.md` and give it no `path`: it takes the original's URL under `/es/` and pairs with it. A `path` on a translation is its exact URL, so it must start with `/es/`.
 6. **Images.** Relative paths in `image`, Markdown `![](...)`, and MDX `<img src>` resolve against the article file — keep assets co-located or under `docs/images/`.
 7. **Links between articles.** Prefer a relative link to the file, `[Install](./install.md#steps)`: Livemark points it at that article's page, honouring its `path`, and at the reader's translation. It also works on GitHub. A link to a file no article comes from stays as written and fails the build.
 

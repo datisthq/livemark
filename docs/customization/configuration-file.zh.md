@@ -1,6 +1,5 @@
 ---
 description: Livemark 配置放在哪里、控制哪些内容，以及顶层选项一览。
-path: /customization/config-file/
 icon: layers
 order: 1
 ---

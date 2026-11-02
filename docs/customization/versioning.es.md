@@ -1,7 +1,6 @@
 ---
 title: Versionado
 description: Publica documentación de varias versiones en paralelo con secciones o despliegues separados.
-path: /customization/versioning/
 icon: git-branch
 order: 9
 ---

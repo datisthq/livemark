@@ -105,12 +105,14 @@ describe("detectLanguage", () => {
     const detected = detectLanguage({ file: "guide.es.md", languages: pair })
     expect(detected.language.code).toBe("es")
     expect(detected.name).toBe("guide")
+    expect(detected.suffixed).toBe(true)
   })
 
   it("leaves a suffix that names no language in the name", () => {
     const detected = detectLanguage({ file: "vite.config.md", languages: pair })
     expect(detected.language.code).toBe("en")
     expect(detected.name).toBe("vite.config")
+    expect(detected.suffixed).toBe(false)
   })
 
   it("prefers the frontmatter language", () => {

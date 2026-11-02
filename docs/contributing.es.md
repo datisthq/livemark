@@ -2,7 +2,7 @@
 title: Contribuir
 description: Cómo configurar Livemark en local, proponer cambios y publicar una versión.
 icon: heart-handshake
-path: /contributing/
+path: /es/contributing/
 order: -1
 ---
 

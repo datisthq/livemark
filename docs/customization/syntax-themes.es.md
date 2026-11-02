@@ -1,7 +1,6 @@
 ---
 title: Temas de sintaxis
 description: Elige temas claro y oscuro para los bloques de código delimitados.
-path: /customization/syntax-themes/
 icon: palette
 order: 6
 ---

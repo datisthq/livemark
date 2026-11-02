@@ -2,7 +2,6 @@
 title: Nextra vs Livemark
 label: Nextra
 description: Vite + TanStack Start，对比采用成熟主题包模式的 Next.js。
-path: /comparison/nextra/
 icon: square-stack
 order: 6
 ---

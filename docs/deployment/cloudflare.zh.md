@@ -1,7 +1,6 @@
 ---
 title: Cloudflare
 description: 通过 Cloudflare Workers 和静态资源部署，这也是 livemark.dev 本身采用的方案。
-path: /deployment/cloudflare/
 icon: cloud
 order: 3
 ---

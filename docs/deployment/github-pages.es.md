@@ -1,7 +1,6 @@
 ---
 title: GitHub Pages
 description: Despliega tu sitio en GitHub Pages, incluidos los sitios de proyecto bajo una subruta.
-path: /deployment/github-pages/
 icon: github
 order: 2
 ---

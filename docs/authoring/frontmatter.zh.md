@@ -1,6 +1,5 @@
 ---
 title: Frontmatter
-path: /authoring/frontmatter/
 icon: file-text
 order: 1
 ---
@@ -66,7 +65,7 @@ order: 1
 - `docs/guide/install.md` → `/guide/install/`
 - `docs/guide/index.md` → `/guide/`，`index` 文件以其所在文件夹命名
 - `docs/index.md` → `/`
-- `docs/guide/install.es.md` → `/es/guide/install/`，语言后缀会被去掉
+- `docs/guide/install.es.md` → `/es/guide/install/`；若 `install.md` 设置了 `path`，则为该路径加上 `/es/`
 
 每个路径段都会转换为 slug，因此 `docs/Getting Started.md` 会变成 `/getting-started/`。两篇文章若得到相同的路径，构建会失败，并给出这两个文件的名字。
 

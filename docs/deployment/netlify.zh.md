@@ -1,7 +1,6 @@
 ---
 title: Netlify
 description: 通过 Netlify 的 git 集成或 CLI 部署，支持分支预览和原子发布。
-path: /deployment/netlify/
 icon: globe
 order: 5
 ---

@@ -1,7 +1,6 @@
 ---
 title: Agentes de IA
 description: Sirve Markdown, llms.txt, señales de contenido y skills de agente a los agentes de IA.
-path: /customization/ai-agents/
 icon: bot
 order: 11
 ---

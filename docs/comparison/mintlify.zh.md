@@ -2,7 +2,6 @@
 title: Mintlify vs Livemark
 label: Mintlify
 description: 自托管的开源文档，对比托管式商业文档 SaaS。
-path: /comparison/mintlify/
 icon: sparkles
 order: 3
 ---

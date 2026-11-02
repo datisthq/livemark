@@ -2,7 +2,6 @@
 title: Docusaurus vs Livemark
 label: Docusaurus
 description: Comparativa técnica lado a lado de dos frameworks de documentación con React + MDX.
-path: /comparison/docusaurus/
 icon: book-text
 order: 1
 ---

@@ -1,6 +1,5 @@
 ---
 description: 用一份配置以多种语言发布你的文档。
-path: /customization/translations/
 icon: languages
 order: 8
 ---
@@ -35,7 +34,9 @@ export default defineConfig({
 
 :::
 
-`guide.es.md` 与 `guide.md` 使用相同的 frontmatter `path`（`/guide/`），Livemark 会在 `/es/guide/` 提供它。两个文件通过这个路径配对，因此顶栏中的语言选择器可以在它们之间切换。
+`guide.es.md` 不需要 `path`：它沿用原文的 URL 并加上所属语言的前缀。`guide.md` 位于 `/guide/`（或 frontmatter `path: /start/`）时，它就位于 `/es/guide/`（或 `/es/start/`）。页面按去掉语言前缀后的 URL 配对，因此顶栏中的语言选择器可以在它们之间切换。
+
+译文上的 frontmatter `path` 和其他地方一样是确切的 URL：要完整写出 `path: /es/guia/`。它必须以该语言的前缀开头；URL 与原文不同的译文不再与原文配对。
 
 ## 语言 {#languages}
 

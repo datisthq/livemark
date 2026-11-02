@@ -35,7 +35,9 @@ Then put a translation next to its original, with the language code before the e
 
 :::
 
-`guide.es.md` keeps the same frontmatter `path` as `guide.md` — `/guide/` — and Livemark serves it at `/es/guide/`. The two files are paired by that path, so the language picker in the header jumps between them.
+`guide.es.md` needs no `path`: it takes the original's URL under its language's prefix, so `guide.md` at `/guide/` — or at a frontmatter `path: /start/` — puts it at `/es/guide/` — or `/es/start/`. Pages are paired by their URL without the language prefix, so the language picker in the header jumps between them.
+
+A frontmatter `path` on a translation is its exact URL, as anywhere else: write `path: /es/guia/` in full. It must start with the language's prefix, and a translation at a different URL from its original is no longer paired with it.
 
 ## Languages
 

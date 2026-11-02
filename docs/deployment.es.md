@@ -1,7 +1,6 @@
 ---
 title: Despliegue
 description: Cómo publicar tu sitio Livemark compilado en un hosting.
-path: /deployment/
 icon: cloud-upload
 order: 5
 ---

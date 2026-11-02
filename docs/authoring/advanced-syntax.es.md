@@ -1,6 +1,5 @@
 ---
 title: Sintaxis avanzada
-path: /authoring/advanced-syntax/
 icon: puzzle
 order: 8
 ---

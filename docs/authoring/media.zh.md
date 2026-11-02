@@ -1,6 +1,5 @@
 ---
 title: 媒体
-path: /authoring/media/
 icon: image
 order: 4
 ---

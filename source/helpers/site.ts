@@ -106,7 +106,7 @@ export function matchSite<S extends { language: SiteLanguage }>(
 
 /** Find an article's language: frontmatter `language`, else a `.<code>.md` file-name
  *  suffix naming a site language, else the default. `name` is the file name without
- *  that suffix and the extension. */
+ *  that suffix and the extension; `suffixed` tells whether it had one. */
 export function detectLanguage(props: {
   file: string
   language?: string
@@ -116,14 +116,15 @@ export function detectLanguage(props: {
   const match = /^(.+)\.([a-z][a-z0-9-]*)$/.exec(stem)
   const suffixed = match && props.languages.find(l => l.code === match[2])
   const name = suffixed && match[1] ? match[1] : stem
+  const result = { name, suffixed: name !== stem }
   if (props.language) {
     const declared = props.languages.find(l => l.code === props.language)
     if (!declared) {
       throw new Error(`${props.file}: language "${props.language}" is not configured`)
     }
-    return { language: declared, name }
+    return { ...result, language: declared }
   }
-  return { language: suffixed || props.languages[0], name }
+  return { ...result, language: suffixed || props.languages[0] }
 }
 
 /** An article's URL in its language: the default keeps its path, others gain a prefix. */

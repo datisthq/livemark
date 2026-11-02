@@ -3,7 +3,6 @@ description: Sobrescribe cualquier componente, elemento u hoja de estilos de Liv
 label: Escape
 icon: file-pen-line
 order: 10
-path: /customization/overriding-escaping/
 ---
 
 # Escapar para sobrescribir componentes

@@ -1,7 +1,6 @@
 ---
 title: 智能体技能
 description: 让你的编程智能体学会编写、配置和定制 Livemark 站点。
-path: /agent-skills/
 icon: sparkles
 order: 2
 ---

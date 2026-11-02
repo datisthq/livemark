@@ -1,7 +1,6 @@
 ---
 title: Skills para agentes
 description: Enseña a tu agente de programación a escribir, configurar y personalizar un sitio de Livemark.
-path: /agent-skills/
 icon: sparkles
 order: 2
 ---

@@ -1,6 +1,5 @@
 ---
 title: 文本格式
-path: /authoring/text-formatting/
 icon: type
 order: 5
 ---

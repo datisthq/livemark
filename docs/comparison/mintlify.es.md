@@ -2,7 +2,6 @@
 title: Mintlify vs Livemark
 label: Mintlify
 description: Documentación autoalojada y de código abierto frente a un SaaS comercial de documentación alojada.
-path: /comparison/mintlify/
 icon: sparkles
 order: 3
 ---

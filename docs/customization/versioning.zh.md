@@ -1,7 +1,6 @@
 ---
 title: 版本管理
 description: 通过栏目或独立部署，并列发布多个版本的文档。
-path: /customization/versioning/
 icon: git-branch
 order: 9
 ---

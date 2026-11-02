@@ -1,6 +1,5 @@
 ---
 title: Encabezados
-path: /authoring/headings/
 icon: heading
 order: 2
 ---

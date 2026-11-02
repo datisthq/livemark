@@ -2,7 +2,6 @@
 title: GitBook vs Livemark
 label: GitBook
 description: SaaS alojado con editor de bloques y Git Sync frente a documentación estática basada en archivos y autoalojada.
-path: /comparison/gitbook/
 icon: notebook-pen
 order: 10
 ---

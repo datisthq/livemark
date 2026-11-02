@@ -1,6 +1,5 @@
 ---
 title: Multimedia
-path: /authoring/media/
 icon: image
 order: 4
 ---

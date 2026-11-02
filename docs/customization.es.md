@@ -1,7 +1,6 @@
 ---
 title: Personalización
 description: Cómo personalizar tu proyecto Livemark.
-path: /customization/
 icon: sliders-horizontal
 order: 4
 ---

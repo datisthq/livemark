@@ -1,7 +1,6 @@
 ---
 title: Vercel
 description: 通过 Vercel 的 git 集成或 CLI 部署，每个 PR 都有预览 URL。
-path: /deployment/vercel/
 icon: triangle
 order: 4
 ---

@@ -1,6 +1,5 @@
 ---
 description: 在顶栏或侧边栏中添加外部 URL。
-path: /customization/external-links/
 icon: external-link
 order: 5
 ---

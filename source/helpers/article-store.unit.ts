@@ -89,6 +89,43 @@ describe("createArticleStore", () => {
       warn.mockRestore()
     }))
 
+  it("gives a translation without a path its original's, prefixed", () =>
+    withProject(async (root, store) => {
+      writeFileSync(join(root, "docs/guide.md"), "---\npath: /start/\n---\n# Guide")
+      writeFileSync(join(root, "docs/guide.es.md"), "# Guía")
+      writeFileSync(join(root, "docs/hola.md"), "---\nlanguage: es\n---\n# Hola")
+      const articles = await store.list()
+      expect(articles.map(a => [a.file, a.path, a.key])).toEqual([
+        ["docs/guide.es.md", "/es/start/", "/start/"],
+        ["docs/guide.md", "/start/", "/start/"],
+        ["docs/hola.md", "/es/hola/", "/hola/"],
+        ["docs/index.md", "/", "/"],
+      ])
+    }, LANGUAGES))
+
+  it("serves an explicit translation path as written, rejecting one off its prefix", () =>
+    withProject(async (root, store) => {
+      writeFileSync(join(root, "docs/guide.es.md"), "---\npath: /es/guia/\n---\n# Guía")
+      writeFileSync(join(root, "docs/index.es.md"), "---\npath: /inicio/\n---\n# Inicio")
+      const error = vi.spyOn(console, "error").mockImplementation(() => {})
+      const articles = await store.list()
+      expect(articles.find(a => a.file === "docs/guide.es.md")?.path).toBe("/es/guia/")
+      expect(store.readFailures()).toEqual([
+        ["docs/index.es.md", expect.stringMatching(/must start with "\/es\/"/)],
+      ])
+      error.mockRestore()
+    }, LANGUAGES))
+
+  it("moves a translation with its original's path", () =>
+    withProject(async (root, store) => {
+      writeFileSync(join(root, "docs/guide.es.md"), "# Guía")
+      await store.list()
+      writeFileSync(join(root, "docs/guide.md"), "---\npath: /start/\n---\n# Guide")
+      await store.sync(join(root, "docs/guide.md"))
+      const articles = await store.list()
+      expect(articles.find(a => a.file === "docs/guide.es.md")?.path).toBe("/es/start/")
+    }, LANGUAGES))
+
   it("serves a cached compile from a second store", () =>
     withProject(async (root, store) => {
       const [first] = await store.list()
@@ -100,22 +137,31 @@ describe("createArticleStore", () => {
 
 function withProject(
   test: (root: string, store: ReturnType<typeof createArticleStore>) => Promise<void>,
+  options: Record<string, unknown> = {},
 ) {
   return temporaryDirectoryTask(async root => {
     mkdirSync(join(root, "docs"))
     writeFileSync(join(root, ".gitignore"), "")
     writeFileSync(join(root, "docs/index.md"), "# Home\n\nWelcome")
     writeFileSync(join(root, "docs/guide.md"), "# Guide\n\n## Part")
-    await test(root, createArticleStore(readConfig(root)))
+    await test(root, createArticleStore(readConfig(root, options)))
   })
 }
 
-function readConfig(root: string) {
+const LANGUAGES = {
+  languages: [
+    { code: "en", label: "English" },
+    { code: "es", label: "Español" },
+  ],
+}
+
+function readConfig(root: string, options: Record<string, unknown> = {}) {
   return {
     ...Config.parse({
       root,
       configPath: join(root, "livemark.config.ts"),
       include: "docs/**/*.md",
+      ...options,
     }),
     base: undefined,
   }

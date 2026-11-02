@@ -2,7 +2,6 @@
 title: Fumadocs vs Livemark
 label: Fumadocs
 description: 用于文档的 Vite + TanStack Start 与 Next.js App Router 对比。
-path: /comparison/fumadocs/
 icon: square-dashed
 order: 5
 ---

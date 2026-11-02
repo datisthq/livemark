@@ -1,7 +1,6 @@
 ---
 title: 语法主题
 description: 为围栏代码块选择浅色和深色主题。
-path: /customization/syntax-themes/
 icon: palette
 order: 6
 ---

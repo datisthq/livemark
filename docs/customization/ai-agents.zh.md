@@ -1,7 +1,6 @@
 ---
 title: AI 智能体
 description: 向 AI 智能体提供 Markdown、llms.txt、内容信号和智能体技能。
-path: /customization/ai-agents/
 icon: bot
 order: 11
 ---

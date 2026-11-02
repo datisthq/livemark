@@ -1,11 +1,12 @@
 import { existsSync, globSync, readFileSync } from "node:fs"
 import { availableParallelism } from "node:os"
-import { isAbsolute, matchesGlob, relative, resolve, sep } from "node:path"
+import { isAbsolute, matchesGlob, posix, relative, resolve, sep } from "node:path"
 import { ZodError, prettifyError } from "zod"
 import type { Config } from "../models/config.ts"
 import { TWOSLASH_FENCE } from "../actions/article/compile.ts"
 import { DIRECTIVE_NAMES } from "../actions/processor/create.ts"
 import { findContentWarnings } from "./content-warnings.ts"
+import { detectLanguage } from "./site.ts"
 import { loadArticle, type LoadedArticle } from "../actions/article/load.ts"
 import { prepareArticles, type ArticleScope } from "../actions/article/prepare.ts"
 import { warmTwoslash } from "../plugins/twoslash.ts"
@@ -31,13 +32,10 @@ export function createArticleStore(config: Config) {
       const current = await readScope()
       const file = readProjectFile(config, path)
       if (!isArticleFile(current, file)) return false
-      if (!existsSync(path)) {
-        failures.delete(file)
-        return articles.delete(file)
+      // A translation without a `path` takes its original's, so it reloads with it
+      for (const each of [file, ...listTranslationFiles(current, file)]) {
+        await reload(current, each)
       }
-      const article = await loadOrReport(current, file)
-      if (article) articles.set(file, article)
-      else articles.delete(file)
       sortArticles()
       return true
     },
@@ -78,6 +76,32 @@ export function createArticleStore(config: Config) {
       if (article) articles.set(file, article)
     })
     await current.cache.prune()
+  }
+
+  async function reload(current: ArticleScope, file: string) {
+    if (!existsSync(resolve(config.root, file))) {
+      failures.delete(file)
+      articles.delete(file)
+      return
+    }
+    const article = await loadOrReport(current, file)
+    if (article) articles.set(file, article)
+    else articles.delete(file)
+  }
+
+  function listTranslationFiles(current: ArticleScope, file: string) {
+    const stem = file.replace(/\.\w+$/, "")
+    return [...articles.keys(), ...failures.keys()].filter(other => {
+      const detected = detectLanguage({
+        file: posix.basename(other),
+        languages: current.languages,
+      })
+      return (
+        other !== file &&
+        detected.suffixed &&
+        posix.join(posix.dirname(other), detected.name) === stem
+      )
+    })
   }
 
   // A broken article is reported and left out, so one typo cannot take the site down.

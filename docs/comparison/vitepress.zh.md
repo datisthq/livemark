@@ -2,7 +2,6 @@
 title: VitePress vs Livemark
 label: VitePress
 description: 两个基于不同 UI 技术栈、原生基于 Vite 且以 Markdown 为先的文档框架。
-path: /comparison/vitepress/
 icon: zap
 order: 2
 ---

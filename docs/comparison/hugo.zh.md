@@ -2,7 +2,6 @@
 title: Hugo vs Livemark
 label: Hugo
 description: 以文档为先的 Node 工具与通用的 Go 静态站点生成器对比。
-path: /comparison/hugo/
 icon: feather
 order: 8
 ---

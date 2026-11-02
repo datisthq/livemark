@@ -4,11 +4,15 @@ import { Article } from "../../models/article.ts"
 import { buildEditUrl } from "../../helpers/edit-url.ts"
 import { parseFrontmatter } from "../../helpers/frontmatter.ts"
 import { stripLeadingH1 } from "../../helpers/llms.ts"
-import { resolveArticlePath } from "../../helpers/article-path.ts"
+import { findOriginalFile, resolveArticlePath } from "../../helpers/article-path.ts"
 import { resolveAssetPath } from "../../helpers/resolve-asset-path.ts"
 import { resolveIncludes } from "../../helpers/resolve-includes.ts"
 import { extractSearchText } from "../../helpers/search-text.ts"
-import { detectLanguage, localizeArticlePath } from "../../helpers/site.ts"
+import {
+  detectLanguage,
+  localizeArticlePath,
+  unlocalizePath,
+} from "../../helpers/site.ts"
 import { compileArticle } from "./compile.ts"
 import type { ArticleScope } from "./prepare.ts"
 
@@ -30,12 +34,25 @@ export async function loadArticle(scope: ArticleScope, file: string) {
     language: doc.language,
     languages: scope.languages,
   })
-  const key = resolveArticlePath({
-    file,
-    name: detected.name,
-    include: scope.configInclude,
-    path: doc.path,
-  })
+  const path = doc.path
+    ? resolveArticlePath({ file, name: detected.name, include: [], path: doc.path })
+    : localizeArticlePath(
+        resolveArticlePath({
+          file,
+          name: detected.name,
+          include: scope.configInclude,
+          path: detected.suffixed
+            ? await readOriginalPath(scope, file, detected.name)
+            : undefined,
+        }),
+        detected.language,
+      )
+  if (!path.startsWith(detected.language.prefix)) {
+    throw new Error(
+      `${file}: path "${path}" must start with "${detected.language.prefix}", its language's prefix`,
+    )
+  }
+  const key = unlocalizePath(path, detected.language)
   // The layout renders `title` as the h1, so a leading h1 in the body would be a
   // second one, worse when a patch overrides the title
   const bodyContent = stripLeadingH1(content)
@@ -54,13 +71,25 @@ export async function loadArticle(scope: ArticleScope, file: string) {
       ? resolveAssetPath(doc.image, filePath, config.root, config.base)
       : undefined,
     title,
-    path: localizeArticlePath(key, detected.language),
+    path,
     key,
     language: detected.language.code,
     tocItems,
     searchText: extractSearchText(content),
     mdx,
   }
+}
+
+// A translation without a `path` takes its original's, so the two stay paired
+async function readOriginalPath(scope: ArticleScope, file: string, name: string) {
+  const original = findOriginalFile({ root: scope.config.root, file, name })
+  if (!original) return undefined
+  const source = parseFrontmatter(
+    await readFile(resolve(scope.config.root, original), "utf-8"),
+  )
+  const patch = scope.config.patches?.find(p => p.file === original)
+  const parsed = Article.pick({ path: true }).safeParse(source.data)
+  return patch?.article.path ?? parsed.data?.path
 }
 
 function extractTitle(content: string, file: string) {

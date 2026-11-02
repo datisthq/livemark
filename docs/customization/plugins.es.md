@@ -1,6 +1,5 @@
 ---
 description: Añade tus propios plugins de Markdown y HTML al pipeline por el que se compila cada artículo.
-path: /customization/plugins/
 icon: puzzle
 order: 12
 ---

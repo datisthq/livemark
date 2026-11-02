@@ -1,6 +1,5 @@
 ---
 title: Redacción
-path: /authoring/
 icon: file-code
 order: 3
 ---

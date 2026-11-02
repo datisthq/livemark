@@ -1,7 +1,6 @@
 ---
 title: Hosting estático
 description: "Sirve el directorio de compilación desde cualquier hosting estático: nginx, S3 + CloudFront, Caddy y similares."
-path: /deployment/static-hosting/
 icon: server
 order: 1
 ---

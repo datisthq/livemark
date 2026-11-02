@@ -2,7 +2,6 @@
 title: Starlight vs Livemark
 label: Starlight
 description: React + TanStack Start，对比用于文档的 Astro Islands。
-path: /comparison/starlight/
 icon: star
 order: 4
 ---

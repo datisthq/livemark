@@ -1,6 +1,5 @@
 ---
 description: 在配置中覆盖文章的 frontmatter，无需改动文件本身。
-path: /customization/article-patches/
 icon: pencil-ruler
 order: 4
 ---

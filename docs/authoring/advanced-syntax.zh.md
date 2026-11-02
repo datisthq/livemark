@@ -1,6 +1,5 @@
 ---
 title: 高级语法
-path: /authoring/advanced-syntax/
 icon: puzzle
 order: 8
 ---

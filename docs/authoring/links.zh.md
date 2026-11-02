@@ -1,6 +1,5 @@
 ---
 title: 链接
-path: /authoring/links/
 icon: link
 order: 3
 ---

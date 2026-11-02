@@ -1,6 +1,5 @@
 ---
 title: Enlaces
-path: /authoring/links/
 icon: link
 order: 3
 ---

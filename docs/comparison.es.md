@@ -1,7 +1,6 @@
 ---
 title: Comparativa
 description: Comparativas técnicas lado a lado con otras herramientas de documentación.
-path: /comparison/
 icon: scale
 order: 6
 ---

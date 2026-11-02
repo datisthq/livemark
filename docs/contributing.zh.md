@@ -2,7 +2,7 @@
 title: 贡献指南
 description: 如何在本地搭建 Livemark、提出变更并发布新版本。
 icon: heart-handshake
-path: /contributing/
+path: /zh/contributing/
 order: -1
 ---
 

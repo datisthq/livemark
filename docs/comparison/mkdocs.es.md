@@ -2,7 +2,6 @@
 title: MkDocs vs Livemark
 label: MkDocs
 description: TypeScript + React + MDX frente a Python + Jinja2 + Markdown.
-path: /comparison/mkdocs/
 icon: book-marked
 order: 7
 ---

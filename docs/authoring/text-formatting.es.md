@@ -1,6 +1,5 @@
 ---
 title: Formato de texto
-path: /authoring/text-formatting/
 icon: type
 order: 5
 ---

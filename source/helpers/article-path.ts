@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs"
+import { posix, resolve } from "node:path"
 import slugify from "@sindresorhus/slugify"
 
 const GLOB_MAGIC = /[*?[\]{}()!]/
@@ -20,6 +22,15 @@ export function resolveArticlePath(props: {
   const folders = file.slice(base.length).split("/").slice(0, -1)
   const segments = props.name === "index" ? folders : [...folders, props.name]
   return wrapSlashes(segments.map(segment => slugify(segment)).join("/"))
+}
+
+/** The file a `.<code>.md` translation translates: `name` beside it, as `.md` or
+ *  `.mdx`, when one exists. */
+export function findOriginalFile(props: { root: string; file: string; name: string }) {
+  const dir = posix.dirname(props.file)
+  return [".md", ".mdx"]
+    .map(extension => posix.join(dir, `${props.name}${extension}`))
+    .find(file => existsSync(resolve(props.root, file)))
 }
 
 function readGlobBase(pattern: string) {

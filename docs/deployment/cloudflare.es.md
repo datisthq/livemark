@@ -1,7 +1,6 @@
 ---
 title: Cloudflare
 description: Despliega con Cloudflare Workers y recursos estáticos, la configuración que usa el propio livemark.dev.
-path: /deployment/cloudflare/
 icon: cloud
 order: 3
 ---

@@ -3,7 +3,6 @@ description: 将同名文件放入 .livemark/，即可覆盖任意 Livemark 组�
 label: 覆盖
 icon: file-pen-line
 order: 10
-path: /customization/overriding-escaping/
 ---
 
 # 通过 escape 覆盖组件

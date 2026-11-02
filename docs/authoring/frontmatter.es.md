@@ -1,6 +1,5 @@
 ---
 title: Frontmatter
-path: /authoring/frontmatter/
 icon: file-text
 order: 1
 ---
@@ -66,7 +65,7 @@ Sin `path`, la URL sale de la ubicación del archivo bajo el inicio fijo del glo
 - `docs/guide/install.md` → `/guide/install/`
 - `docs/guide/index.md` → `/guide/`, un archivo `index` toma el nombre de su carpeta
 - `docs/index.md` → `/`
-- `docs/guide/install.es.md` → `/es/guide/install/`, sin el sufijo de idioma
+- `docs/guide/install.es.md` → `/es/guide/install/`, o el `path` del original bajo `/es/` cuando `install.md` lo fija
 
 Cada segmento se convierte en slug, así que `docs/Getting Started.md` pasa a ser `/getting-started/`. Dos artículos que acaban con la misma ruta hacen fallar la compilación, que nombra ambos archivos.
 

@@ -2,7 +2,6 @@
 title: Starlight vs Livemark
 label: Starlight
 description: React + TanStack Start frente a Astro Islands para documentación.
-path: /comparison/starlight/
 icon: star
 order: 4
 ---

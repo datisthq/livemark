@@ -1,6 +1,5 @@
 ---
 description: Sobrescribe el frontmatter de un artículo desde tu configuración, sin tocar el archivo.
-path: /customization/article-patches/
 icon: pencil-ruler
 order: 4
 ---

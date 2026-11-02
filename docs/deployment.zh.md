@@ -1,7 +1,6 @@
 ---
 title: 部署
 description: 如何将构建好的 Livemark 站点发布到托管平台。
-path: /deployment/
 icon: cloud-upload
 order: 5
 ---

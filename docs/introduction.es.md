@@ -2,7 +2,6 @@
 title: Introducción
 description: Aprende a configurar tu primer proyecto Livemark.
 icon: rocket
-path: /introduction/
 order: 1
 ---
 

@@ -1,7 +1,6 @@
 ---
 title: 对比
 description: 与其他文档工具的逐项技术对比。
-path: /comparison/
 icon: scale
 order: 6
 ---

@@ -1,7 +1,6 @@
 ---
 title: Metadatos del sitio
 description: Define el título, la descripción, la URL, el logo, el favicon y el banner del sitio.
-path: /customization/site-metadata/
 icon: globe
 order: 2
 ---

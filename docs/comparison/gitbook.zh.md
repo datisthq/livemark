@@ -2,7 +2,6 @@
 title: GitBook vs Livemark
 label: GitBook
 description: 带块编辑器和 Git Sync 的托管 SaaS 与基于文件、自托管的静态文档对比。
-path: /comparison/gitbook/
 icon: notebook-pen
 order: 10
 ---

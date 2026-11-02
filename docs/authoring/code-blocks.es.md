@@ -1,6 +1,5 @@
 ---
 title: Bloques de código
-path: /authoring/code-blocks/
 icon: code
 order: 7
 ---

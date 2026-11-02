@@ -2,7 +2,6 @@
 title: Docusaurus vs Livemark
 label: Docusaurus
 description: 两款 React + MDX 文档框架的逐项技术对比。
-path: /comparison/docusaurus/
 icon: book-text
 order: 1
 ---

@@ -1,7 +1,6 @@
 ---
 title: 站点元数据
 description: 设置站点标题、描述、URL、logo、favicon 和横幅。
-path: /customization/site-metadata/
 icon: globe
 order: 2
 ---

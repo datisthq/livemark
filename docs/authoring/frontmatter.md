@@ -66,7 +66,7 @@ Without a `path`, the URL comes from where the file sits below the fixed start o
 - `docs/guide/install.md` → `/guide/install/`
 - `docs/guide/index.md` → `/guide/`, an `index` file naming its folder
 - `docs/index.md` → `/`
-- `docs/guide/install.es.md` → `/es/guide/install/`, the language suffix stripped
+- `docs/guide/install.es.md` → `/es/guide/install/`, or the original's `path` under `/es/` when `install.md` sets one
 
 Every segment is slugified, so `docs/Getting Started.md` becomes `/getting-started/`. Two articles that end up with the same path fail the build, naming both files.
 

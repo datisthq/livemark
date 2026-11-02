@@ -1,6 +1,5 @@
 ---
 description: 把你自己的 Markdown 和 HTML 插件加入每篇文章的编译管线。
-path: /customization/plugins/
 icon: puzzle
 order: 12
 ---

@@ -2,7 +2,6 @@
 title: Docsify vs Livemark
 label: Docsify
 description: Generador de sitios estáticos frente a renderizador de Markdown en tiempo de ejecución en el navegador.
-path: /comparison/docsify/
 icon: wind
 order: 9
 ---

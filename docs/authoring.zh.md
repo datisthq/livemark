@@ -1,6 +1,5 @@
 ---
 title: 编写
-path: /authoring/
 icon: file-code
 order: 3
 ---

@@ -1,6 +1,5 @@
 ---
 title: 富元素
-path: /authoring/rich-elements/
 icon: layout-grid
 order: 6
 ---

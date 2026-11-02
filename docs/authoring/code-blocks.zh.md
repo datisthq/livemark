@@ -1,6 +1,5 @@
 ---
 title: 代码块
-path: /authoring/code-blocks/
 icon: code
 order: 7
 ---

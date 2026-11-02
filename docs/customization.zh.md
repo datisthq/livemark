@@ -1,7 +1,6 @@
 ---
 title: 定制
 description: 如何定制你的 Livemark 项目。
-path: /customization/
 icon: sliders-horizontal
 order: 4
 ---

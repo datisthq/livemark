@@ -1,7 +1,6 @@
 ---
 title: Vercel
 description: Despliega con la integración git de Vercel o su CLI, con URLs de vista previa por cada PR.
-path: /deployment/vercel/
 icon: triangle
 order: 4
 ---

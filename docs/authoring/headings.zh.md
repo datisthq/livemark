@@ -1,6 +1,5 @@
 ---
 title: 标题
-path: /authoring/headings/
 icon: heading
 order: 2
 ---

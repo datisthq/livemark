@@ -1,6 +1,5 @@
 ---
 title: Elementos enriquecidos
-path: /authoring/rich-elements/
 icon: layout-grid
 order: 6
 ---

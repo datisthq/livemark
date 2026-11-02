@@ -1,7 +1,6 @@
 ---
 title: Netlify
 description: Despliega con la integración git de Netlify o su CLI, con vistas previas por rama y publicaciones atómicas.
-path: /deployment/netlify/
 icon: globe
 order: 5
 ---

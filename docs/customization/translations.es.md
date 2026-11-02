@@ -1,6 +1,5 @@
 ---
 description: Publica tu documentación en varios idiomas con una sola configuración.
-path: /customization/translations/
 icon: languages
 order: 8
 ---
@@ -35,7 +34,9 @@ Después coloca cada traducción junto a su original, con el código de idioma a
 
 :::
 
-`guide.es.md` mantiene el mismo `path` de frontmatter que `guide.md` —`/guide/`— y Livemark lo sirve en `/es/guide/`. Los dos archivos se emparejan por esa ruta, así que el selector de idioma de la cabecera salta entre ellos.
+`guide.es.md` no necesita `path`: toma la URL del original bajo el prefijo de su idioma, así que con `guide.md` en `/guide/` —o en un `path: /start/` de frontmatter— queda en `/es/guide/` —o `/es/start/`—. Las páginas se emparejan por su URL sin el prefijo de idioma, así que el selector de idioma de la cabecera salta entre ellas.
+
+Un `path` de frontmatter en una traducción es su URL exacta, como en cualquier otro sitio: escribe `path: /es/guia/` completo. Debe empezar por el prefijo del idioma, y una traducción en una URL distinta de la de su original deja de emparejarse con él.
 
 ## Idiomas {#languages}
 

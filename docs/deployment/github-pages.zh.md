@@ -1,7 +1,6 @@
 ---
 title: GitHub Pages
 description: 将站点部署到 GitHub Pages，包括子路径下的项目站点。
-path: /deployment/github-pages/
 icon: github
 order: 2
 ---

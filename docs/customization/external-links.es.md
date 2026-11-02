@@ -1,6 +1,5 @@
 ---
 description: Añade URL externas a la cabecera o a la barra lateral.
-path: /customization/external-links/
 icon: external-link
 order: 5
 ---

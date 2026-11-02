@@ -2,7 +2,6 @@
 title: Docsify vs Livemark
 label: Docsify
 description: 静态站点生成器与在浏览器中运行时渲染 Markdown 的工具对比。
-path: /comparison/docsify/
 icon: wind
 order: 9
 ---

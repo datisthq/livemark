@@ -1,7 +1,6 @@
 ---
 title: 自定义路由
 description: 在 .livemark/routes/ 中编写新页面，与 Markdown 内容并存。
-path: /customization/custom-routes/
 icon: route
 order: 7
 ---

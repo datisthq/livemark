@@ -2,7 +2,6 @@
 title: Hugo vs Livemark
 label: Hugo
 description: Herramienta de Node centrada en documentación frente a generador de sitios estáticos de propósito general en Go.
-path: /comparison/hugo/
 icon: feather
 order: 8
 ---

@@ -1,6 +1,5 @@
 ---
 description: 将文章组织为文档、博客和更新日志栏目。
-path: /customization/article-sections/
 icon: layout-panel-left
 order: 3
 ---
