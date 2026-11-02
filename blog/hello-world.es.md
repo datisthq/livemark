@@ -3,7 +3,6 @@ title: Hola, mundo
 description: Nuestra primera entrada del blog, que presenta Livemark
 author: Livemark Team
 date: 2026-04-10
-path: /blog/hello-world/
 tags: [announcement, getting-started]
 ---
 

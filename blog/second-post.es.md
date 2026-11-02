@@ -3,7 +3,6 @@ title: Secciones y soporte de blog
 description: Presentamos las secciones configurables y el soporte de blog en Livemark
 author: Livemark Team
 date: 2026-04-15
-path: /blog/sections-and-blog-support/
 tags: [features, announcement]
 ---
 

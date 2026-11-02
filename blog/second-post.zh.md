@@ -3,7 +3,6 @@ title: 栏目与博客支持
 description: 在 Livemark 中引入可配置的栏目和博客支持
 author: Livemark Team
 date: 2026-04-15
-path: /blog/sections-and-blog-support/
 tags: [features, announcement]
 ---
 

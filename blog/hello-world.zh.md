@@ -3,7 +3,6 @@ title: 你好，世界
 description: 我们的第一篇博客文章，正式介绍 Livemark
 author: Livemark Team
 date: 2026-04-10
-path: /blog/hello-world/
 tags: [announcement, getting-started]
 ---
 
