@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.42.0](https://github.com/datisthq/livemark/compare/v0.41.0...v0.42.0) (2026-11-02)
+
+
+### Features
+
+* refresh the default pixel hash logo ([148b6ec](https://github.com/datisthq/livemark/commit/148b6ecf74e171cbfcc5c9dc49d28dcfb95d657e))
+* ship a PNG of the default logo ([7640189](https://github.com/datisthq/livemark/commit/7640189481fa2ba65a1409c1cd14c14e69eb030c))
+
 ## [0.41.0](https://github.com/datisthq/livemark/compare/v0.40.0...v0.41.0) (2026-11-02)
 
 
