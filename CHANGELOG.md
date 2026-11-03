@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.43.0](https://github.com/datisthq/livemark/compare/v0.42.0...v0.43.0) (2026-11-03)
+
+
+### Features
+
+* use a down chevron as the default logo ([5754f9a](https://github.com/datisthq/livemark/commit/5754f9ae26099bf4225ab85ba987b743a48718db))
+
 ## [0.42.0](https://github.com/datisthq/livemark/compare/v0.41.0...v0.42.0) (2026-11-02)
 
 
