@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.44.1](https://github.com/datisthq/livemark/compare/v0.44.0...v0.44.1) (2026-11-04)
+
+
+### Bug Fixes
+
+* load the toaster after hydration to keep sonner off the first load ([03a44f7](https://github.com/datisthq/livemark/commit/03a44f73654b51569e4475a146f6cef964765c0c))
+* raise catppuccin-latte comment contrast to WCAG AA ([30cf6c6](https://github.com/datisthq/livemark/commit/30cf6c6ce252cde8db485ced60a8eb7e8545827d))
+
 ## [0.44.0](https://github.com/datisthq/livemark/compare/v0.43.0...v0.44.0) (2026-11-04)
 
 
