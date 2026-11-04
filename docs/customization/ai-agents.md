@@ -12,18 +12,18 @@ Every `livemark build` publishes your site in the forms AI agents look for, next
 
 ## What the build emits
 
-| File                                   | Purpose                                                                                  |
-| -------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `<page>/index.md`                      | A Markdown twin of every article and section listing, beside its `index.html`            |
-| `/llms.txt`                            | An [llms.txt](https://llmstxt.org/) index linking every twin, grouped by section         |
-| `/index.md`                            | The home page's twin, or a copy of `llms.txt` when no article sits at `/`                |
-| `/robots.txt`                          | Gains a `Content-Signal` line stating how automated systems may use your content         |
-| `/_headers`                            | A `Link` header on the home page pointing at `llms.txt`, `index.md` and the skills index |
-| `/.well-known/agent-skills/index.json` | An [Agent Skills](https://agentskills.io/) discovery index, when `skills` is set         |
+| File                                   | Purpose                                                                                                                                   |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `<page>/index.md`                      | A Markdown twin of every article and section listing, beside its `index.html`                                                             |
+| `/llms.txt`                            | An [llms.txt](https://llmstxt.org/) index linking every twin, grouped by section                                                          |
+| `/index.md`                            | The home page's twin, or a copy of `llms.txt` when no article sits at `/`                                                                 |
+| `/robots.txt`                          | Gains a `Content-Signal` line stating how automated systems may use your content                                                          |
+| `/_headers`                            | A `Link` header on the home page pointing at `llms.txt`, `index.md` and the skills index, and a year-long cache on the hashed `/assets/*` |
+| `/.well-known/agent-skills/index.json` | An [Agent Skills](https://agentskills.io/) discovery index, when `skills` is set                                                          |
 
 Each article page also carries `<link rel="alternate" type="text/markdown">` pointing at its twin.
 
-A file you ship under `.livemark/public/` with the same name replaces the generated one. `_headers` is the one exception: your rules are kept and the generated `Link` rule is appended after them. The files are written only by `livemark build`, so `livemark start` does not serve them.
+A file you ship under `.livemark/public/` with the same name replaces the generated one. `_headers` is the one exception: your rules are kept and the generated rules are appended after them. The files are written only by `livemark build`, so `livemark start` does not serve them.
 
 ## Content signals
 

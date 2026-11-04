@@ -4,13 +4,15 @@ import { renderHeaders } from "./vite-agents.ts"
 describe("renderHeaders", () => {
   it("links the home page to llms.txt and its markdown twin", () => {
     expect(renderHeaders({ hasSkills: false })).toBe(
-      '/\n  Link: </llms.txt>; rel="describedby"; type="text/plain", </index.md>; rel="alternate"; type="text/markdown"\n',
+      '/\n  Link: </llms.txt>; rel="describedby"; type="text/plain", </index.md>; rel="alternate"; type="text/markdown"\n' +
+        "\n/assets/*\n  Cache-Control: public, max-age=31536000, immutable\n",
     )
   })
 
   it("adds the skills index and mounts everything under base", () => {
     const headers = renderHeaders({ base: "/repo", hasSkills: true })
     expect(headers.startsWith("/repo/\n  Link: </repo/llms.txt>")).toBe(true)
+    expect(headers).toContain("\n/repo/assets/*\n  Cache-Control: ")
     expect(headers).toContain(
       '</repo/.well-known/agent-skills/index.json>; rel="describedby"; type="application/json"',
     )

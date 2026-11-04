@@ -100,8 +100,8 @@ export function agents(opts: AgentsOptions): Plugin {
 }
 
 /** Render `_headers` (Cloudflare, Netlify): a `Link` on the home page naming
- *  `llms.txt`, its Markdown twin and the skills index, after any rules the
- *  project ships itself. */
+ *  `llms.txt`, its Markdown twin and the skills index, and a year-long cache on
+ *  the content-hashed build assets, after any rules the project ships itself. */
 export function renderHeaders(props: {
   base?: string
   hasSkills: boolean
@@ -117,7 +117,10 @@ export function renderHeaders(props: {
       `<${base}/.well-known/agent-skills/index.json>; rel="describedby"; type="application/json"`,
     )
   }
-  const rule = `${base}/\n  Link: ${links.join(", ")}\n`
+  const rules = [
+    `${base}/\n  Link: ${links.join(", ")}\n`,
+    `${base}/assets/*\n  Cache-Control: public, max-age=31536000, immutable\n`,
+  ].join("\n")
   const existing = props.existing?.trimEnd()
-  return existing ? `${existing}\n\n${rule}` : rule
+  return existing ? `${existing}\n\n${rules}` : rules
 }

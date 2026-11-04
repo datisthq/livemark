@@ -11,18 +11,18 @@ Cada `livemark build` publica tu sitio en los formatos que buscan los agentes de
 
 ## Qué genera la compilación {#what-the-build-emits}
 
-| Archivo                                | Propósito                                                                                             |
-| -------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `<page>/index.md`                      | Un gemelo en Markdown de cada artículo y listado de sección, junto a su `index.html`                  |
-| `/llms.txt`                            | Un índice [llms.txt](https://llmstxt.org/) que enlaza todos los gemelos, agrupados por sección        |
-| `/index.md`                            | El gemelo de la página de inicio, o una copia de `llms.txt` si no hay ningún artículo en `/`          |
-| `/robots.txt`                          | Añade una línea `Content-Signal` que indica cómo pueden usar tu contenido los sistemas automatizados  |
-| `/_headers`                            | Una cabecera `Link` en la página de inicio que apunta a `llms.txt`, `index.md` y al índice de skills  |
-| `/.well-known/agent-skills/index.json` | Un índice de descubrimiento de [Agent Skills](https://agentskills.io/), cuando `skills` está definido |
+| Archivo                                | Propósito                                                                                                                                                 |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `<page>/index.md`                      | Un gemelo en Markdown de cada artículo y listado de sección, junto a su `index.html`                                                                      |
+| `/llms.txt`                            | Un índice [llms.txt](https://llmstxt.org/) que enlaza todos los gemelos, agrupados por sección                                                            |
+| `/index.md`                            | El gemelo de la página de inicio, o una copia de `llms.txt` si no hay ningún artículo en `/`                                                              |
+| `/robots.txt`                          | Añade una línea `Content-Signal` que indica cómo pueden usar tu contenido los sistemas automatizados                                                      |
+| `/_headers`                            | Una cabecera `Link` en la página de inicio que apunta a `llms.txt`, `index.md` y al índice de skills, y una caché de un año para los `/assets/*` con hash |
+| `/.well-known/agent-skills/index.json` | Un índice de descubrimiento de [Agent Skills](https://agentskills.io/), cuando `skills` está definido                                                     |
 
 Cada página de artículo incluye además `<link rel="alternate" type="text/markdown">` apuntando a su gemelo.
 
-Un archivo con el mismo nombre que incluyas en `.livemark/public/` reemplaza al generado. `_headers` es la única excepción: tus reglas se conservan y la regla `Link` generada se añade después de ellas. Los archivos solo los escribe `livemark build`, así que `livemark start` no los sirve.
+Un archivo con el mismo nombre que incluyas en `.livemark/public/` reemplaza al generado. `_headers` es la única excepción: tus reglas se conservan y las reglas generadas se añaden después de ellas. Los archivos solo los escribe `livemark build`, así que `livemark start` no los sirve.
 
 ## Señales de contenido {#content-signals}
 

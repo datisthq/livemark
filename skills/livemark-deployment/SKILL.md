@@ -57,7 +57,7 @@ A CI workflow installs dependencies, runs the build through the package manager 
 ## Rules of thumb
 
 1. **Static files go in `.livemark/public/`**, not the build output — a `CNAME` for GitHub Pages, extra `_headers` rules. Anything written into `.livemark/build/client/` by hand is lost on the next build.
-2. **`_headers` is generated.** Cloudflare and Netlify read it. To add rules, ship `.livemark/public/_headers`; Livemark keeps it and appends its own `Link` rule.
+2. **`_headers` is generated.** Cloudflare and Netlify read it. To add rules, ship `.livemark/public/_headers`; Livemark keeps it and appends its own `Link` rule and a year-long immutable `Cache-Control` on `/assets/*`, whose file names are content-hashed.
 3. **Prerendered routes end in `/`.** `/guide/` is the file `guide/index.html`; a host that does not resolve directory indexes serves 404s for every page.
 4. **Agents asking for Markdown** (`Accept: text/markdown`) need a host rewrite from `<path>/` to `<path>/index.md`. On Cloudflare that's a zone URL Rewrite Rule; deploy a build with the twins before enabling it.
 

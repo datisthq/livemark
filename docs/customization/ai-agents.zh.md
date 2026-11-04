@@ -11,18 +11,18 @@ order: 11
 
 ## 构建产物 {#what-the-build-emits}
 
-| 文件                                   | 用途                                                                            |
-| -------------------------------------- | ------------------------------------------------------------------------------- |
-| `<page>/index.md`                      | 每篇文章和栏目列表的 Markdown 副本，位于其 `index.html` 旁边                    |
-| `/llms.txt`                            | 一个 [llms.txt](https://llmstxt.org/) 索引，按栏目分组链接所有副本              |
-| `/index.md`                            | 首页的副本；当 `/` 处没有文章时，则是 `llms.txt` 的拷贝                         |
-| `/robots.txt`                          | 增加一行 `Content-Signal`，声明自动化系统可以如何使用你的内容                   |
-| `/_headers`                            | 首页上的 `Link` 头，指向 `llms.txt`、`index.md` 和技能索引                      |
-| `/.well-known/agent-skills/index.json` | 一个 [Agent Skills](https://agentskills.io/) 发现索引，在设置了 `skills` 时生成 |
+| 文件                                   | 用途                                                                                              |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `<page>/index.md`                      | 每篇文章和栏目列表的 Markdown 副本，位于其 `index.html` 旁边                                      |
+| `/llms.txt`                            | 一个 [llms.txt](https://llmstxt.org/) 索引，按栏目分组链接所有副本                                |
+| `/index.md`                            | 首页的副本；当 `/` 处没有文章时，则是 `llms.txt` 的拷贝                                           |
+| `/robots.txt`                          | 增加一行 `Content-Signal`，声明自动化系统可以如何使用你的内容                                     |
+| `/_headers`                            | 首页上的 `Link` 头，指向 `llms.txt`、`index.md` 和技能索引，以及哈希命名的 `/assets/*` 的一年缓存 |
+| `/.well-known/agent-skills/index.json` | 一个 [Agent Skills](https://agentskills.io/) 发现索引，在设置了 `skills` 时生成                   |
 
 每个文章页面还带有 `<link rel="alternate" type="text/markdown">`，指向它的副本。
 
-你在 `.livemark/public/` 下放置的同名文件会替换生成的文件。`_headers` 是唯一的例外：你的规则会被保留，生成的 `Link` 规则追加在其后。这些文件只由 `livemark build` 写出，因此 `livemark start` 不会提供它们。
+你在 `.livemark/public/` 下放置的同名文件会替换生成的文件。`_headers` 是唯一的例外：你的规则会被保留，生成的规则追加在其后。这些文件只由 `livemark build` 写出，因此 `livemark start` 不会提供它们。
 
 ## 内容信号 {#content-signals}
 
