@@ -102,17 +102,17 @@ function RichText(props: {
  * default Shiki themes the site uses. Declared first: `slideSources` reads it at load.
  */
 const tk = {
-  fm: "text-[#7c7f93] dark:text-[#9399b2]", // frontmatter delimiter / punctuation
+  fm: "text-[#5c5f77] dark:text-[#9399b2]", // frontmatter delimiter / punctuation
   key: "text-[#8839ef] dark:text-[#cba6f7]", // mauve
-  str: "text-[#40a02b] dark:text-[#a6e3a1]", // green
+  str: "text-[#2f7a1f] dark:text-[#a6e3a1]", // green
   head: "text-[#d20f39] dark:text-[#f38ba8] font-bold", // red, bold
-  lang: "text-[#df8e1d] dark:text-[#f9e2af]", // yellow
-  directive: "text-[#179299] dark:text-[#94e2d5]", // teal
+  lang: "text-[#a35f00] dark:text-[#f9e2af]", // yellow
+  directive: "text-[#0f7378] dark:text-[#94e2d5]", // teal
   code: "bg-[#eff1f5] dark:bg-[#313244] rounded px-1", // surface0
   bold: "font-bold text-[#4c4f69] dark:text-[#cdd6f4]",
   em: "italic text-[#4c4f69] dark:text-[#cdd6f4]",
   body: "text-[#4c4f69] dark:text-[#cdd6f4]",
-  dim: "text-[#9ca0b0] dark:text-[#6c7086]",
+  dim: "text-[#6c6f85] dark:text-[#6c7086]",
 }
 
 /* ─────────────────────────── Hero ─────────────────────────── */
@@ -154,7 +154,7 @@ function Hero(props: { copy: LandingCopy; prefix: string }) {
           </p>
           <HeroActions copy={hero} prefix={props.prefix} />
         </div>
-        <div className="mt-12 lg:mt-0 xl:w-[60rem] animate-in fade-in-0 slide-in-from-bottom-4 duration-700 ease-out">
+        <div className="mt-12 lg:mt-0 xl:w-[60rem]">
           <HeroCarousel
             slides={slides}
             label={hero.carouselLabel}
@@ -472,7 +472,7 @@ function HeroCarousel(props: { slides: Slide[]; label: string; sourceLabel: stri
                         phone !== 1 && "mt-[6%]",
                       )}
                     >
-                      <ShotPicture shot={shot} className="h-auto w-full" />
+                      <ShotPicture shot={shot} phone className="h-auto w-full" />
                     </div>
                   ))}
                 </div>
@@ -481,6 +481,7 @@ function HeroCarousel(props: { slides: Slide[]; label: string; sourceLabel: stri
                   <ShotPicture
                     key={shot.src}
                     shot={shot}
+                    priority={index === 0}
                     className="aspect-[16/10] w-full"
                   />
                 ))
@@ -530,19 +531,35 @@ function SourceChip(props: { source: Slide["source"]; label: string }) {
 }
 
 // Two images, not `<picture media>`: the theme is a class on <html>, which a media
-// query never sees. A lazy image that is `display: none` is never fetched.
-function ShotPicture(props: { shot: Shot; className?: string }) {
+// query never sees. A lazy image that is `display: none` is never fetched, so only the
+// light first slide is eager: it is the mobile LCP element.
+function ShotPicture(props: {
+  shot: Shot
+  phone?: boolean
+  priority?: boolean
+  className?: string
+}) {
+  const size = props.phone ? PHONE_SHOT : DESKTOP_SHOT
   return (
     <>
       <img
         src={props.shot.src}
+        srcSet={buildShotSrcSet(props.shot.src, size.width)}
+        sizes={size.sizes}
+        width={size.width}
+        height={size.height}
         alt={props.shot.alt}
-        loading="lazy"
+        loading={props.priority ? "eager" : "lazy"}
+        fetchPriority={props.priority ? "high" : "auto"}
         decoding="async"
         className={cn("block object-cover object-top dark:hidden", props.className)}
       />
       <img
         src={props.shot.srcDark}
+        srcSet={buildShotSrcSet(props.shot.srcDark, size.width)}
+        sizes={size.sizes}
+        width={size.width}
+        height={size.height}
         alt={props.shot.alt}
         loading="lazy"
         decoding="async"
@@ -550,6 +567,18 @@ function ShotPicture(props: { shot: Shot; className?: string }) {
       />
     </>
   )
+}
+
+// Each screenshot has a half-width `<name>-<width / 2>.webp` sibling in public/screenshots.
+const DESKTOP_SHOT = {
+  width: 1920,
+  height: 1200,
+  sizes: "(min-width: 1024px) 60rem, 100vw",
+}
+const PHONE_SHOT = { width: 780, height: 1688, sizes: "(min-width: 1024px) 13rem, 24vw" }
+
+function buildShotSrcSet(src: string, width: number) {
+  return `${src.replace(/\.webp$/, `-${width / 2}.webp`)} ${width / 2}w, ${src} ${width}w`
 }
 
 function BackgroundGrid() {
