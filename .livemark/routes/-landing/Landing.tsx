@@ -537,12 +537,14 @@ function ShotPicture(props: { shot: Shot; className?: string }) {
       <img
         src={props.shot.src}
         alt={props.shot.alt}
+        loading="lazy"
         decoding="async"
         className={cn("block object-cover object-top dark:hidden", props.className)}
       />
       <img
         src={props.shot.srcDark}
         alt={props.shot.alt}
+        loading="lazy"
         decoding="async"
         className={cn("hidden object-cover object-top dark:block", props.className)}
       />
