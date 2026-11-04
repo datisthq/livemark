@@ -29,6 +29,7 @@ import {
   Fragment,
   type ReactNode,
   type SVGProps,
+  useEffect,
   useRef,
   useState,
 } from "react"
@@ -351,6 +352,7 @@ function HeroCarousel(props: { slides: Slide[]; label: string; sourceLabel: stri
   // still holds the old closure, so it checks this instead of `stopped`.
   const stoppedRef = useRef(false)
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const loaded = useWindowLoaded()
 
   const selectSlide = (index: number) => {
     stoppedRef.current = true
@@ -472,7 +474,12 @@ function HeroCarousel(props: { slides: Slide[]; label: string; sourceLabel: stri
                         phone !== 1 && "mt-[6%]",
                       )}
                     >
-                      <ShotPicture shot={shot} phone className="h-auto w-full" />
+                      <ShotPicture
+                        shot={shot}
+                        phone
+                        deferred={!loaded}
+                        className="h-auto w-full"
+                      />
                     </div>
                   ))}
                 </div>
@@ -482,6 +489,7 @@ function HeroCarousel(props: { slides: Slide[]; label: string; sourceLabel: stri
                     key={shot.src}
                     shot={shot}
                     priority={index === 0}
+                    deferred={index !== 0 && !loaded}
                     className="aspect-[16/10] w-full"
                   />
                 ))
@@ -537,9 +545,22 @@ function ShotPicture(props: {
   shot: Shot
   phone?: boolean
   priority?: boolean
+  deferred?: boolean
   className?: string
 }) {
   const size = props.phone ? PHONE_SHOT : DESKTOP_SHOT
+  // A hidden slide is in the viewport at `opacity: 0`, so `loading="lazy"` still
+  // fetches it at once, competing with the first slide; it gets a source after `load`.
+  if (props.deferred) {
+    return (
+      <img
+        width={size.width}
+        height={size.height}
+        alt={props.shot.alt}
+        className={cn("block", props.className)}
+      />
+    )
+  }
   return (
     <>
       <img
@@ -576,6 +597,17 @@ const DESKTOP_SHOT = {
   sizes: "(min-width: 1024px) 60rem, 100vw",
 }
 const PHONE_SHOT = { width: 780, height: 1688, sizes: "(min-width: 1024px) 13rem, 24vw" }
+
+function useWindowLoaded() {
+  const [loaded, setLoaded] = useState(false)
+  useEffect(() => {
+    if (document.readyState === "complete") return setLoaded(true)
+    const markLoaded = () => setLoaded(true)
+    addEventListener("load", markLoaded)
+    return () => removeEventListener("load", markLoaded)
+  }, [])
+  return loaded
+}
 
 function buildShotSrcSet(src: string, width: number) {
   return `${src.replace(/\.webp$/, `-${width / 2}.webp`)} ${width / 2}w, ${src} ${width}w`
