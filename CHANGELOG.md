@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.44.0](https://github.com/datisthq/livemark/compare/v0.43.0...v0.44.0) (2026-11-04)
+
+
+### Features
+
+* cache hashed build assets for a year in the generated _headers ([999b44d](https://github.com/datisthq/livemark/commit/999b44d7ee1920ce255b362ab0b91d205d594073))
+
+
+### Bug Fixes
+
+* build React in production mode after loading the config ([350323d](https://github.com/datisthq/livemark/commit/350323db9edf798de12df8eba5ca747f0f95fda9))
+
 ## [0.43.0](https://github.com/datisthq/livemark/compare/v0.42.0...v0.43.0) (2026-11-03)
 
 
