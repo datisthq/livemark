@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.44.2](https://github.com/datisthq/livemark/compare/v0.44.1...v0.44.2) (2026-11-04)
+
+
+### Bug Fixes
+
+* render dynamic icons inline on the first prerendered page ([0985b27](https://github.com/datisthq/livemark/commit/0985b275fbeb0c6c01d0cb7ff80780ca57343d34))
+
 ## [0.44.1](https://github.com/datisthq/livemark/compare/v0.44.0...v0.44.1) (2026-11-04)
 
 
