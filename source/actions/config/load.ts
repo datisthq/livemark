@@ -43,11 +43,9 @@ export async function loadConfig(path?: string): Promise<Config> {
     // Not `import()`: Node caches the files a config imports for the process lifetime,
     // so a dev-server restart would keep their old contents.
     // A config calling `defineConfig()` throws its ZodError from inside the import
-    const result = await runnerImport<{ default?: UserConfig }>(resolved).catch(
-      (error: unknown) => {
-        throw explainConfigError(error, resolved)
-      },
-    )
+    const result = await importPreservingNodeEnv(resolved).catch((error: unknown) => {
+      throw explainConfigError(error, resolved)
+    })
     input = result.module.default ?? {}
     // Vite ids use `/` even on Windows, where the watcher reports `\` paths.
     configDependencies = result.dependencies.map(dependency => resolve(dependency))
@@ -71,6 +69,18 @@ export async function loadConfig(path?: string): Promise<Config> {
 /** The config file `loadConfig()` reads, without reading it. */
 export function resolveConfigPath(path?: string) {
   return resolve(path ?? process.env.LIVEMARK_CONFIG ?? "livemark.config.ts")
+}
+
+// `runnerImport` resolves a dev-mode Vite config, which sets `NODE_ENV=development`;
+// a later `vite build` keeps an already-set value and bundles React's dev builds
+async function importPreservingNodeEnv(path: string) {
+  const nodeEnv = process.env.NODE_ENV
+  try {
+    return await runnerImport<{ default?: UserConfig }>(path)
+  } finally {
+    if (nodeEnv === undefined) delete process.env.NODE_ENV
+    else process.env.NODE_ENV = nodeEnv
+  }
 }
 
 function validateConfig(input: UserConfig, path: string) {

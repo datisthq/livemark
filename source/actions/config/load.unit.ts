@@ -24,6 +24,23 @@ describe("loadConfig", () => {
       }
     }))
 
+  it("should leave NODE_ENV as it found it after importing the config", () =>
+    temporaryDirectoryTask(async tmpDir => {
+      const configPath = join(tmpDir, "livemark.config.ts")
+      fs.writeFileSync(configPath, "export default {}\n")
+      const nodeEnv = process.env.NODE_ENV
+      try {
+        delete process.env.NODE_ENV
+        await loadConfig(configPath)
+        expect(process.env.NODE_ENV).toBeUndefined()
+        process.env.NODE_ENV = "production"
+        await loadConfig(configPath)
+        expect(process.env.NODE_ENV).toBe("production")
+      } finally {
+        process.env.NODE_ENV = nodeEnv
+      }
+    }))
+
   it("should name the config file and the field when validation fails", () =>
     temporaryDirectoryTask(async tmpDir => {
       const configPath = join(tmpDir, "livemark.config.ts")
