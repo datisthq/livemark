@@ -38,8 +38,11 @@ export function createProcessor(props: {
       // transformers
       defaultLanguage: "text",
       fallbackLanguage: "text",
-      // catppuccin-latte's green sits at 3.2:1 on the code background, under WCAG AA
-      colorReplacements: { "catppuccin-latte": { "#40a02b": "#2a7e16" } },
+      // catppuccin-latte's green (3.2:1) and comment grey (3.8:1) sit under WCAG AA on
+      // the code background
+      colorReplacements: {
+        "catppuccin-latte": { "#40a02b": "#2a7e16", "#7c7f93": "#6c6f85" },
+      },
       addLanguageClass: true,
       metaProperty: "data-meta",
       inline: "tailing-curly-colon",
