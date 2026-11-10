@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.45.1](https://github.com/datisthq/livemark/compare/v0.45.0...v0.45.1) (2026-11-10)
+
+
+### Bug Fixes
+
+* render internal card links without a router in @livemark/vite apps ([dfa98dc](https://github.com/datisthq/livemark/commit/dfa98dc0c3496cdb0b888bd37acd7850c963c22f))
+
 ## [0.45.0](https://github.com/datisthq/livemark/compare/v0.44.2...v0.45.0) (2026-11-10)
 
 
