@@ -13,6 +13,7 @@ import {
   ListChecks,
   Moon,
   Newspaper,
+  Package,
   Paintbrush,
   Rocket,
   ScrollText,
@@ -57,6 +58,7 @@ export function Landing() {
         <Features copy={copy.features} />
         <Showcase copy={copy.showcase} prefix={prefix} />
         <Agents copy={copy.agents} prefix={prefix} />
+        <Vite copy={copy.vite} prefix={prefix} />
         <FinalCta copy={copy.finalCta} prefix={prefix} />
         <Datist copy={copy.datist} />
       </main>
@@ -1121,6 +1123,110 @@ function AgentRequest() {
         Every page has a twin like this one —{"\n"}
         list them all at <span className={tk.code}>/llms.txt</span>.{"\n"}
         <span className={tk.directive}>:::</span>
+      </code>
+    </pre>
+  )
+}
+
+/* ─────────────────────────── Vite ─────────────────────────── */
+
+const vitePoints: { id: keyof LandingCopy["vite"]["points"]; icon: Icon }[] = [
+  { id: "plugin", icon: Package },
+  { id: "components", icon: ListChecks },
+  { id: "styles", icon: Paintbrush },
+]
+
+function Vite(props: { copy: LandingCopy["vite"]; prefix: string }) {
+  return (
+    <section className="border-b border-border bg-primary/5">
+      <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
+        <Reveal>
+          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+              {props.copy.title}
+            </h2>
+            <p className="mt-4 text-muted-foreground text-lg">{props.copy.description}</p>
+          </div>
+        </Reveal>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 items-center">
+          <ul className="space-y-8">
+            {vitePoints.map((p, i) => (
+              <li key={p.id}>
+                <Reveal delayMs={i * 60}>
+                  <PointItem
+                    icon={p.icon}
+                    point={props.copy.points[p.id]}
+                    prefix={props.prefix}
+                  />
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+          <Reveal>
+            <div className="space-y-4">
+              <WindowCard label="vite.config.ts">
+                <ViteConfigSample />
+              </WindowCard>
+              <WindowCard label="routes/blog/post.tsx">
+                <VitePostSample />
+              </WindowCard>
+            </div>
+          </Reveal>
+        </div>
+        <Reveal>
+          <div className="mt-10 text-center md:mt-12">
+            <Link
+              to="/$"
+              params={{ _splat: buildSplat(props.prefix, props.copy.more.link) }}
+              className="text-sm font-medium text-primary underline-offset-4 hover:underline"
+            >
+              {props.copy.more.text}
+            </Link>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
+function ViteConfigSample() {
+  return (
+    <pre className="p-5 text-sm leading-relaxed font-mono overflow-x-auto">
+      <code className={tk.body}>
+        <span className={tk.key}>import</span> markdown{" "}
+        <span className={tk.key}>from</span>{" "}
+        <span className={tk.str}>"@livemark/vite"</span>
+        {"\n"}
+        <span className={tk.key}>import</span> {"{ defineConfig } "}
+        <span className={tk.key}>from</span> <span className={tk.str}>"vite"</span>
+        {"\n\n"}
+        <span className={tk.key}>export default</span>{" "}
+        <span className={tk.directive}>defineConfig</span>({"{"}
+        {"\n"}
+        {"  plugins: ["}
+        <span className={tk.directive}>markdown</span>(){"],"}
+        {"\n"}
+        {"})"}
+      </code>
+    </pre>
+  )
+}
+
+function VitePostSample() {
+  return (
+    <pre className="p-5 text-sm leading-relaxed font-mono overflow-x-auto">
+      <code className={tk.body}>
+        <span className={tk.key}>import</span> Post <span className={tk.key}>from</span>{" "}
+        <span className={tk.str}>"./post.md"</span>
+        {"\n\n"}
+        <span className={tk.key}>export function</span>{" "}
+        <span className={tk.directive}>PostPage</span>() {"{"}
+        {"\n"}
+        {"  "}
+        <span className={tk.key}>return</span> {"<"}
+        <span className={tk.head}>Post</span> {"/>"}
+        {"\n"}
+        {"}"}
       </code>
     </pre>
   )

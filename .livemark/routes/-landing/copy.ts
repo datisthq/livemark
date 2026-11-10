@@ -193,6 +193,40 @@ const en = {
       },
     },
   },
+  vite: {
+    title: "Your website, Livemark's Markdown",
+    description:
+      "Already have a Vite and React app? Render Markdown in it with the same pipeline and components, without adopting Livemark itself.",
+    more: { link: "markdown-vite-plugin", text: "Read the Markdown Vite Plugin guide →" },
+    points: {
+      plugin: {
+        title: "One Vite plugin",
+        description: rich(
+          "Add ",
+          { code: "@livemark/vite" },
+          " and import any ",
+          { code: ".md" },
+          " or ",
+          { code: ".mdx" },
+          " file as a React component, with its frontmatter and table of contents.",
+        ),
+      },
+      components: {
+        title: "The same components",
+        description: rich(
+          "Callouts, tabs, cards, Shiki code blocks, Mermaid and KaTeX render exactly as in a Livemark article. Swap any of them for one render.",
+        ),
+      },
+      styles: {
+        title: "Styled by your Tailwind",
+        description: rich(
+          "One ",
+          { code: "@import" },
+          " brings the Markdown styles into your Tailwind v4 build, themed by your own tokens.",
+        ),
+      },
+    },
+  },
   finalCta: {
     titleLead: "Start writing.",
     titleHighlight: "Let Livemark handle the rest.",
@@ -408,6 +442,43 @@ const es: LandingCopy = {
       },
     },
   },
+  vite: {
+    title: "Tu sitio web, el Markdown de Livemark",
+    description:
+      "¿Ya tienes una app con Vite y React? Renderiza Markdown en ella con el mismo pipeline y los mismos componentes, sin adoptar Livemark.",
+    more: {
+      link: "markdown-vite-plugin",
+      text: "Leer la guía del plugin de Vite para Markdown →",
+    },
+    points: {
+      plugin: {
+        title: "Un solo plugin de Vite",
+        description: rich(
+          "Añade ",
+          { code: "@livemark/vite" },
+          " e importa cualquier archivo ",
+          { code: ".md" },
+          " o ",
+          { code: ".mdx" },
+          " como componente de React, con su frontmatter y su tabla de contenidos.",
+        ),
+      },
+      components: {
+        title: "Los mismos componentes",
+        description: rich(
+          "Avisos, pestañas, tarjetas, bloques de código con Shiki, Mermaid y KaTeX se ven igual que en un artículo de Livemark. Sustituye cualquiera en un renderizado.",
+        ),
+      },
+      styles: {
+        title: "Con el estilo de tu Tailwind",
+        description: rich(
+          "Un ",
+          { code: "@import" },
+          " lleva los estilos de Markdown a tu build de Tailwind v4, con tus propios tokens de tema.",
+        ),
+      },
+    },
+  },
   finalCta: {
     titleLead: "Empieza a escribir.",
     titleHighlight: "Deja que Livemark se encargue del resto.",
@@ -598,6 +669,40 @@ const zh: LandingCopy = {
           " 让 Claude Code、Cursor 或 Codex 学会",
           { link: "agent-skills", text: "编写、配置和定制" },
           "你的 Livemark 站点。",
+        ),
+      },
+    },
+  },
+  vite: {
+    title: "你的网站，Livemark 的 Markdown",
+    description:
+      "已经有 Vite + React 应用？用同样的处理管线和组件在其中渲染 Markdown，无需整体采用 Livemark。",
+    more: { link: "markdown-vite-plugin", text: "阅读 Markdown Vite 插件指南 →" },
+    points: {
+      plugin: {
+        title: "一个 Vite 插件",
+        description: rich(
+          "添加 ",
+          { code: "@livemark/vite" },
+          "，即可把任意 ",
+          { code: ".md" },
+          " 或 ",
+          { code: ".mdx" },
+          " 文件作为 React 组件导入，并附带其 frontmatter 和目录。",
+        ),
+      },
+      components: {
+        title: "相同的组件",
+        description: rich(
+          "提示框、标签页、卡片、Shiki 代码块、Mermaid 和 KaTeX 的渲染效果与 Livemark 文章完全一致。每次渲染都可替换其中任意组件。",
+        ),
+      },
+      styles: {
+        title: "由你的 Tailwind 定制样式",
+        description: rich(
+          "一行 ",
+          { code: "@import" },
+          " 即可把 Markdown 样式引入你的 Tailwind v4 构建，并使用你自己的主题变量。",
         ),
       },
     },

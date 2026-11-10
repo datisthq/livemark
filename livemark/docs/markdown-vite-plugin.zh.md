@@ -1,5 +1,5 @@
 ---
-description: 在你自己的 Vite 或 TanStack Start 应用中，用 Livemark 的管线和组件渲染 Markdown。
+description: 在你自己的 Vite + React 应用中，用 Livemark 的管线和组件渲染 Markdown。
 label: Vite 插件
 icon: package
 order: 7
@@ -7,7 +7,7 @@ order: 7
 
 # Markdown Vite 插件
 
-Livemark 的 Markdown 管线和文章组件单独发布为 `@livemark/vite`。基于 Vite 的应用（例如带博客的 TanStack Start 应用）无需安装 Livemark，就能导入 `.md` 和 `.mdx` 文件，并用与 Livemark 文章相同的提示块、标签页、代码块和卡片来渲染它们。
+Livemark 的 Markdown 管线和文章组件单独发布为 `@livemark/vite`。任何基于 Vite 的 React 应用无需安装 Livemark，就能导入 `.md` 和 `.mdx` 文件，并用与 Livemark 文章相同的提示块、标签页、代码块和卡片来渲染它们。
 
 ```bash
 npm install @livemark/vite

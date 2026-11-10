@@ -1,5 +1,5 @@
 ---
-description: Renderiza Markdown con el pipeline y los componentes de Livemark dentro de tu propia app de Vite o TanStack Start.
+description: Renderiza Markdown con el pipeline y los componentes de Livemark dentro de tu propia app de Vite y React.
 label: Plugin de Vite
 icon: package
 order: 7
@@ -7,7 +7,7 @@ order: 7
 
 # Plugin de Vite para Markdown
 
-El pipeline de Markdown y los componentes de artículo de Livemark se publican por separado como `@livemark/vite`. Una app basada en Vite, como una app de TanStack Start con un blog, puede importar archivos `.md` y `.mdx` y renderizarlos con los mismos callouts, pestañas, bloques de código y tarjetas que un artículo de Livemark, sin instalar Livemark.
+El pipeline de Markdown y los componentes de artículo de Livemark se publican por separado como `@livemark/vite`. Cualquier app de React basada en Vite puede importar archivos `.md` y `.mdx` y renderizarlos con los mismos callouts, pestañas, bloques de código y tarjetas que un artículo de Livemark, sin instalar Livemark.
 
 ```bash
 npm install @livemark/vite
