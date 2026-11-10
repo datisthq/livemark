@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.46.1](https://github.com/datisthq/livemark/compare/v0.46.0...v0.46.1) (2026-11-10)
+
+
+### Bug Fixes
+
+* upgrade textlane to 0.8.1 ([4332771](https://github.com/datisthq/livemark/commit/433277155599006ae6702d14c947d44025267ffa))
+
 ## [0.46.0](https://github.com/datisthq/livemark/compare/v0.45.1...v0.46.0) (2026-11-10)
 
 
