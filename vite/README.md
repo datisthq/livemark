@@ -19,4 +19,4 @@ export function PostPage() {
 }
 ```
 
-Docs: [livemark.dev/customization/markdown-vite-plugin](https://livemark.dev/customization/markdown-vite-plugin/)
+Docs: [livemark.dev/markdown-vite-plugin](https://livemark.dev/markdown-vite-plugin/)
