@@ -2,7 +2,7 @@
 description: 在你自己的 Vite 或 TanStack Start 应用中，用 Livemark 的管线和组件渲染 Markdown。
 label: Vite 插件
 icon: package
-order: 13
+order: 7
 ---
 
 # Markdown Vite 插件

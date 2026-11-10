@@ -2,7 +2,7 @@
 description: Renderiza Markdown con el pipeline y los componentes de Livemark dentro de tu propia app de Vite o TanStack Start.
 label: Plugin de Vite
 icon: package
-order: 13
+order: 7
 ---
 
 # Plugin de Vite para Markdown

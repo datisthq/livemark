@@ -1,9 +1,9 @@
 ---
 description: Render Markdown with Livemark's pipeline and components inside your own Vite or TanStack Start app.
 label: Vite Plugin
-path: /customization/markdown-vite-plugin/
+path: /markdown-vite-plugin/
 icon: package
-order: 13
+order: 7
 ---
 
 # Markdown Vite Plugin
