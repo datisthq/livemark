@@ -15,7 +15,7 @@ describe("markdown collections", () => {
       const code = await plugin.load(String(id))
       expect(code).toContain('"frontmatter":{"title":"A"}')
       expect(code).toContain(
-        `["posts/a", () => import(${JSON.stringify(join(root, "posts/a.md"))})]`,
+        `["posts/a", () => import(${JSON.stringify(join(root, "posts/a.md").replaceAll("\\", "/"))})]`,
       )
       expect(code).not.toContain("Hello")
     })
