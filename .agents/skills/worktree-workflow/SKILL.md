@@ -32,7 +32,7 @@ another session's server.
 ## Running the docs site
 
 Start the server from inside the worktree: `pnpm start` runs the worktree's own `livemark/source/` and `markdown/source/` over
-its own `docs/` and `blog/`. `pnpm build:docs` writes into the worktree's `.livemark/build/`,
+its own `livemark/docs/` and `livemark/blog/`. `pnpm build:docs` writes into the worktree's `.livemark/build/`,
 never the root's.
 
 ## Landing

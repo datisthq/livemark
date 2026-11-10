@@ -10,9 +10,9 @@ export default defineConfig({
     zh: "Markdown 站点生成器",
   },
   favicon: "/logo.png",
-  include: ["docs/**/*.md", "blog/**/*.md", "CONTRIBUTING.md"],
+  include: ["livemark/docs/**/*.md", "livemark/blog/**/*.md", "CONTRIBUTING.md"],
   skills: "livemark/skills/*/SKILL.md",
-  exclude: ["docs/**/includes/**"],
+  exclude: ["livemark/docs/**/includes/**"],
   languages: [
     { code: "en", label: "English" },
     { code: "es", label: "Español" },

@@ -19,7 +19,7 @@ pnpm install
 pnpm start
 ```
 
-`pnpm start` 会基于本仓库自身的 `docs/` 启动开发服务器，让你在修改 Livemark 的同时，在浏览器中查看效果。对 `livemark/source/`、`markdown/source/` 或 `docs/` 的修改会自动重新加载。
+`pnpm start` 会基于本仓库自身的 `livemark/docs/` 启动开发服务器，让你在修改 Livemark 的同时，在浏览器中查看效果。对 `livemark/source/`、`markdown/source/` 或 `livemark/docs/` 的修改会自动重新加载。
 
 ## 仓库结构 {#repository-layout}
 
@@ -38,15 +38,16 @@ pnpm start
 │   │   ├── content/        # derivations over the loaded articles
 │   │   └── vite.config.ts  # the Vite config consumers run against
 │   ├── shims/              # `livemark/components/*` etc. for files that live in markdown/
-│   └── skills/             # agent skills shipped to people who install Livemark
+│   ├── skills/             # agent skills shipped to people who install Livemark
+│   ├── docs/               # livemark.dev's content (not published)
+│   └── blog/               # livemark.dev's blog posts (not published)
 ├── markdown/               # the internal `@livemark/markdown` package
 │   └── source/             # the Markdown pipeline, and the components, elements and
 │                           # styles articles render with (overridable too)
 ├── vite/                   # the public `@livemark/vite` package
 │   └── source/             # the Vite plugin and what apps import beside it
-├── docs/                   # this site's content
-├── blog/                   # this site's blog posts
-└── livemark.config.ts      # this site's livemark config
+├── .scripts/               # repo tooling and repo-wide guards
+└── livemark.config.ts      # livemark.dev's livemark config
 ```
 
 每个包都会发布 `source/` 和 `build/`：Node 加载 `build/*.js`，而 Vite 则打包 `source/*` 中未编译的 TS，使字面量形式的 `.ts` 导入扩展名得以解析。站点按顺序组装：先是 `markdown/source`，其上是 `livemark/source`，最后是项目的 `.livemark/` 覆盖文件；两个包中不存在相同路径。

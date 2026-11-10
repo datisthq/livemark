@@ -6,7 +6,7 @@ TypeScript packages and CLI that turn a folder of Markdown into a static documen
 
 - **package** — `livemark` (`livemark/`: `build/`, `source/`, `shims/`, `skills/`) `@livemark/vite` (`vite/`) or `@livemark/markdown` (`markdown/`), each with `build/` and `source/`; the first two depend on `@livemark/markdown`, which has no public API of its own
 - **project** — a consumer's site that uses the package, configured by its `livemark.config.ts`
-- **docs site** — this repo's own `docs/` and `blog/`, built by `pnpm build:docs` and deployed to livemark.dev
+- **docs site** — this repo's own `livemark/docs/` and `livemark/blog/` (outside the package's `files`), built by `pnpm build:docs` and deployed to livemark.dev
 - **component** — Livemark UI in `<package>/source/components/` (PascalCase files): the site's in `livemark/`, the ones articles render in `markdown/`
 - **element** — a shadcn-style primitive in `<package>/source/elements/` (kebab-case files)
 - **escape** — a project shadowing a package file by putting a same-named file under `.livemark/`
@@ -56,7 +56,7 @@ Shipped skills live in `livemark/skills/` and are published in the package for p
 | `livemark-landing`       | designing a Livemark project's landing page               |
 | `livemark-deployment`    | building and publishing a Livemark site to a host         |
 
-**There is exactly one `AGENTS.md`, at the root.** `scripts/-test/docs.unit.ts` enforces that, along with every path and `pnpm` command these documents name and the two tables above.
+**There is exactly one `AGENTS.md`, at the root.** `.scripts/-test/docs.unit.ts` enforces that, along with every path and `pnpm` command these documents name and the two tables above.
 
 ## Commands
 
@@ -88,7 +88,7 @@ Each package's code is under its `source/`; Node loads `build/*.js`, while Vite 
 - Root files are single-concern: `settings.ts`, `program.ts`, `client.tsx`, `server.ts`, `router.tsx`, `head.ts`, `vite.config.ts`, `index.ts`. `routeTree.gen.ts` is generated
 - Unit tests sit beside their module as `<module>.unit.ts`; snapshots land in a sibling `fixtures/generated/`
 
-Non-package code: `scripts/` repo tooling and repo-wide guards, and the dot-directories `.agents/` repo skills, `.livemark/` the docs site's own escapes, `.release/` release-please config.
+Non-package code: `livemark/docs/` and `livemark/blog/` the docs site's content, and the dot-directories `.scripts/` repo tooling and repo-wide guards, `.agents/` repo skills, `.livemark/` the docs site's own escapes, `.release/` release-please config.
 
 ## Conventions
 

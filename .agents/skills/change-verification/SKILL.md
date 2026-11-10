@@ -38,7 +38,7 @@ All of these run from the repo root (or the worktree root). Raw `vitest` fails t
 Pick the **highest** rung the diff reaches, and run everything that rung lists.
 
 1. **Markdown, copy, CSS.** `vp fmt --check` on the files. For `AGENTS.md`, `README.md`,
-   `CONTRIBUTING.md` or a skill in either directory, add `vp test scripts/-test/docs.unit.ts`:
+   `CONTRIBUTING.md` or a skill in either directory, add `vp test .scripts/-test/docs.unit.ts`:
    it checks every backticked path and `pnpm` command those documents name.
 2. **A component, element, style or route.** fmt + lint on the files, `pnpm check:types`, and
    **look at it**: `pnpm start`, then open the page in Claude in Chrome, in light and dark and at
@@ -53,7 +53,7 @@ Pick the **highest** rung the diff reaches, and run everything that rung lists.
 
 ## Guards `related` cannot see
 
-`scripts/-test/docs.unit.ts` reads documents from disk and imports nothing, so
+`.scripts/-test/docs.unit.ts` reads documents from disk and imports nothing, so
 `vp test related` never selects it. Add it by path whenever the diff touches `AGENTS.md`,
 `README.md`, `CONTRIBUTING.md`, a skill, a renamed path or a renamed script.
 
@@ -93,6 +93,10 @@ gate** once, at the end: `pnpm check` always, then a unit half **you choose**.
 - **Generated artefacts.** A route change needs `livemark/source/routeTree.gen.ts` regenerated; slice
   after regenerating, not before. `pnpm build:docs` writes only `.livemark/.build/routeTree.gen.ts`
   — copy it over, pointing each `./routes/` import of an escaped route at `./../../.livemark/routes/`.
+- **A change that moves code or dependencies between packages.** A worktree's or checkout's
+  older `node_modules` keeps resolving what a package no longer declares. Verify from a clean
+  install (`rm -rf node_modules */node_modules && pnpm install`): `pnpm build` from empty
+  `build/` folders, then `pnpm check`.
 - **A change to what `@livemark/vite` emits or exports.** The repo's own `node_modules` resolves
   any specifier, so a module naming `livemark` or `@livemark/markdown` from an app's side passes
   every unit test. `pnpm build`, `pnpm pack` in `markdown/` and `vite/`, install the vite tarball

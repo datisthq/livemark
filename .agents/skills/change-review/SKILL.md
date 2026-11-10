@@ -40,7 +40,7 @@ more than the generic checklist:
   (`ESCAPABLE_FOLDERS` / `ESCAPABLE_FILES` in `livemark/source/settings.ts`), which silently drops a
   project's `.livemark/` override;
 - a CLI flag, config field or Markdown directive added or changed with the matching shipped skill
-  (`livemark/skills/`) and `docs/` page left as they were;
+  (`livemark/skills/`) and `livemark/docs/` page left as they were;
 - a commit typed `feat` or `fix` that does not change what an installer gets, or a package change
   typed `chore`;
 - a commit marked breaking (`!` or a `BREAKING CHANGE:` footer);

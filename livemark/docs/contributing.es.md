@@ -19,7 +19,7 @@ pnpm install
 pnpm start
 ```
 
-`pnpm start` arranca el servidor de desarrollo sobre el propio `docs/` de este repositorio, para que puedas iterar sobre Livemark mientras ves el resultado en tu navegador. Los cambios en `livemark/source/`, `markdown/source/` o `docs/` se recargan automáticamente.
+`pnpm start` arranca el servidor de desarrollo sobre el propio `livemark/docs/` de este repositorio, para que puedas iterar sobre Livemark mientras ves el resultado en tu navegador. Los cambios en `livemark/source/`, `markdown/source/` o `livemark/docs/` se recargan automáticamente.
 
 ## Estructura del repositorio {#repository-layout}
 
@@ -38,15 +38,16 @@ pnpm start
 │   │   ├── content/        # derivations over the loaded articles
 │   │   └── vite.config.ts  # the Vite config consumers run against
 │   ├── shims/              # `livemark/components/*` etc. for files that live in markdown/
-│   └── skills/             # agent skills shipped to people who install Livemark
+│   ├── skills/             # agent skills shipped to people who install Livemark
+│   ├── docs/               # livemark.dev's content (not published)
+│   └── blog/               # livemark.dev's blog posts (not published)
 ├── markdown/               # the internal `@livemark/markdown` package
 │   └── source/             # the Markdown pipeline, and the components, elements and
 │                           # styles articles render with (overridable too)
 ├── vite/                   # the public `@livemark/vite` package
 │   └── source/             # the Vite plugin and what apps import beside it
-├── docs/                   # this site's content
-├── blog/                   # this site's blog posts
-└── livemark.config.ts      # this site's livemark config
+├── .scripts/               # repo tooling and repo-wide guards
+└── livemark.config.ts      # livemark.dev's livemark config
 ```
 
 Cada paquete incluye `source/` y `build/`: Node carga `build/*.js`, mientras que Vite empaqueta el TS sin compilar de `source/*` para que se resuelvan las extensiones `.ts` literales de los imports. Un sitio se ensambla con `markdown/source`, luego `livemark/source` encima y por último los escapes `.livemark/` del proyecto; ninguna ruta existe en ambos paquetes.

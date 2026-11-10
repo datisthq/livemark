@@ -40,7 +40,7 @@ pnpm install
 pnpm start
 ```
 
-`pnpm start` boots the dev server against this repo's own `docs/` so you can iterate on Livemark while seeing the result in your browser. Edits to `livemark/source/`, `markdown/source/` or `docs/` reload automatically.
+`pnpm start` boots the dev server against this repo's own `livemark/docs/` so you can iterate on Livemark while seeing the result in your browser. Edits to `livemark/source/`, `markdown/source/` or `livemark/docs/` reload automatically.
 
 ### Repository layout
 
@@ -59,15 +59,16 @@ pnpm start
 │   │   ├── content/        # derivations over the loaded articles
 │   │   └── vite.config.ts  # the Vite config consumers run against
 │   ├── shims/              # `livemark/components/*` etc. for files that live in markdown/
-│   └── skills/             # agent skills shipped to people who install Livemark
+│   ├── skills/             # agent skills shipped to people who install Livemark
+│   ├── docs/               # livemark.dev's content (not published)
+│   └── blog/               # livemark.dev's blog posts (not published)
 ├── markdown/               # the internal `@livemark/markdown` package
 │   └── source/             # the Markdown pipeline, and the components, elements and
 │                           # styles articles render with (overridable too)
 ├── vite/                   # the public `@livemark/vite` package
 │   └── source/             # the Vite plugin and what apps import beside it
-├── docs/                   # this site's content
-├── blog/                   # this site's blog posts
-└── livemark.config.ts      # this site's livemark config
+├── .scripts/               # repo tooling and repo-wide guards
+└── livemark.config.ts      # livemark.dev's livemark config
 ```
 
 Each package ships `source/` and `build/`: Node loads `build/*.js`, while Vite bundles raw TS from `source/*` so the literal `.ts` import extensions resolve. A site is assembled from `markdown/source`, then `livemark/source` over it, then the project's `.livemark/` escapes; no path exists in both packages.

@@ -18,7 +18,7 @@ git diff main...HEAD
 git status --short
 ```
 
-The guard in `scripts/-test/docs.unit.ts` already fails the build on a path or `pnpm` command
+The guard in `.scripts/-test/docs.unit.ts` already fails the build on a path or `pnpm` command
 that no longer exists. That is the mechanical half. This is the other half: a paragraph that
 still parses, still points at real files, and is no longer true.
 
@@ -47,7 +47,7 @@ Work through the diff asking each of these:
   makes a skill get picked up at all. A skill whose body drifted is bad; a skill whose
   _description_ drifted is invisible. The shipped `livemark/skills/` reach every project that installs
   Livemark, so a change there is a `feat` or `fix`.
-- `README.md`, `CONTRIBUTING.md` and the docs site under `docs/`, which is the user manual.
+- `README.md`, `CONTRIBUTING.md` and the docs site under `livemark/docs/`, which is the user manual.
 - Comments that assert a repo-wide invariant, not just local ones — the doc comment on
   `ESCAPABLE_FOLDERS`, a guard test's explanation of what it protects.
 
@@ -56,7 +56,7 @@ Work through the diff asking each of these:
 Whether a rule or lesson for agents goes in `AGENTS.md` or a skill: **`agent-documentation`**.
 
 - How to **use** Livemark (a project's config, Markdown, escapes) → the shipped skill in `livemark/skills/`
-  and the matching `docs/` page, kept in step.
+  and the matching `livemark/docs/` page, kept in step.
 - How to **work on** Livemark (checks, review, conventions) → a repo skill in `.agents/skills/`.
 - How a person contributes (setup, commands, the PR flow) → `CONTRIBUTING.md`.
 

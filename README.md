@@ -9,8 +9,8 @@ TanStack Start and Tailwind.
 | npm     | [`livemark`](https://www.npmjs.com/package/livemark)             | `npm install livemark`       |
 | npm     | [`@livemark/vite`](https://www.npmjs.com/package/@livemark/vite) | `npm install @livemark/vite` |
 
-The docs live at [livemark.dev](https://livemark.dev), built with livemark from `docs/` and
-`blog/`. This repository holds three packages released together: `livemark/`, the CLI and site
+The docs live at [livemark.dev](https://livemark.dev), built with livemark from `livemark/docs/`
+and `livemark/blog/`. This repository holds three packages released together: `livemark/`, the CLI and site
 with its agent skills; `vite/`, [`@livemark/vite`](https://livemark.dev/customization/standalone/),
 which renders Markdown with Livemark's components in any Vite app; and `markdown/`, the internal
 pipeline and components both build on.
