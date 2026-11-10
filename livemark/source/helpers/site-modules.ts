@@ -6,6 +6,7 @@ import { dirname, join, relative, resolve, sep } from "node:path"
 export const SITE_MODULES: readonly string[] = [
   "helpers/article-link.ts",
   "helpers/dynamic-icon-resolver.tsx",
+  "helpers/internal-link.tsx",
   "helpers/site-messages.ts",
 ]
 

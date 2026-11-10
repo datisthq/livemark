@@ -1,5 +1,5 @@
-import { Link } from "@tanstack/react-router"
 import { DynamicIcon } from "../helpers/dynamic-icon.tsx"
+import { InternalLink } from "../helpers/internal-link.tsx"
 import {
   Card as CardElement,
   CardContent,
@@ -41,7 +41,7 @@ export function Card(props: {
   }
 
   if (props.href) {
-    return <Link to={props.href}>{card}</Link>
+    return <InternalLink href={props.href}>{card}</InternalLink>
   }
 
   return card

@@ -396,9 +396,6 @@ importers:
       '@tailwindcss/typography':
         specifier: ^0.5.20
         version: 0.5.20(tailwindcss@4.3.3)
-      '@tanstack/react-router':
-        specifier: 1.170.42
-        version: 1.170.42(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@types/hast':
         specifier: 3.0.4
         version: 3.0.4

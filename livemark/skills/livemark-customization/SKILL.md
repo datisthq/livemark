@@ -134,7 +134,7 @@ Add tags with the config `head` field (`livemark-configuration`); escape `head.t
 
 ## Standalone Markdown in another Vite app
 
-A non-Livemark app (e.g. a TanStack Start blog) renders `.md` and `.mdx` files with Livemark's pipeline and article components from `@livemark/vite`, without installing `livemark`; docs: https://livemark.dev/markdown-vite-plugin/.
+Any non-Livemark Vite + React app renders `.md` and `.mdx` files with Livemark's pipeline and article components from `@livemark/vite`, without installing `livemark`; docs: https://livemark.dev/markdown-vite-plugin/.
 
 - `import markdown from "@livemark/vite"` in `vite.config.ts`. Each import exports `default` (a component that already renders with Livemark's components; `components` replaces any per render), `frontmatter` and `toc`; add `/// <reference types="@livemark/vite/env" />` for types.
 - Files compile like articles: `.md` as Markdown, `.mdx` as MDX, frontmatter `format` wins. `allowDangerousHtml: false` drops all raw HTML and fails on anything that would be MDX — use it for untrusted content. Other options: `include`, `exclude`, `codeThemeLight`, `codeThemeDark`, `plugins: { md, html }`, `root`, `base`.
