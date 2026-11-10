@@ -367,8 +367,8 @@ importers:
         specifier: 4.3.3
         version: 4.3.3
       textlane:
-        specifier: 0.3.0
-        version: 0.3.0
+        specifier: 0.8.1
+        version: 0.8.1
       tw-animate-css:
         specifier: 1.4.0
         version: 1.4.0
@@ -439,8 +439,8 @@ importers:
         specifier: 4.3.3
         version: 4.3.3
       textlane:
-        specifier: 0.3.0
-        version: 0.3.0
+        specifier: 0.8.1
+        version: 0.8.1
       tw-animate-css:
         specifier: 1.4.0
         version: 1.4.0
@@ -2478,33 +2478,31 @@ packages:
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
 
-  '@textlane/darwin-arm64@0.3.0':
-    resolution: {integrity: sha512-ZGvqwMqpueS4RiJQrF4nLkKpfAkjlbiLhzSPXj3gnG1h4dbs52gthsBtMmXBIXmIUM14Cu/C7Y6Vgj2QdQYTCw==}
+  '@textlane/darwin-arm64@0.8.1':
+    resolution: {integrity: sha512-H+gickcAXQI8T9TxAuDKhJ5yZIM1ZD5hcc/OtKdPXQGes+c2pxBHAhjdwS0n/3UtHNCmyUN9PQGdqIFFGyZD/g==}
     cpu: [arm64]
     os: [darwin]
 
-  '@textlane/darwin-x64@0.3.0':
-    resolution: {integrity: sha512-VmCZSKGhyZZnNXNExHwOgpBnrv9Z8KIsUxQbT2xslRjndTiv+CTQ49esGp/Q+9YDIWPTk3KaAykpaust3PZuOQ==}
-    cpu: [x64]
-    os: [darwin]
-
-  '@textlane/linux-arm64@0.3.0':
-    resolution: {integrity: sha512-DF2mfe9NT7CIwkYLlsGtdmecIlxbPENXav64CXhiHdrny1PCsNEql7Kd7JATnd3zgi0+fUAmouqnf7CvuYsrQw==}
+  '@textlane/linux-arm64-musl@0.8.1':
+    resolution: {integrity: sha512-m8MWXYHEr6cwdE2bNe+qTppCHvGuN+XPLjFcA4smQn9CtUz6ToxmB13fLFKwi+gVugpchDye3Y+n9QS6tNSXdQ==}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
-  '@textlane/linux-x64@0.3.0':
-    resolution: {integrity: sha512-fQC9vRfIVG9KRvO1Qr43WimjZxFYuFXMtYseLTBRYCEAblCAQrsYWAXIBDTRW3i7t6CHIYo3hrnpHk2etJ4ixA==}
+  '@textlane/linux-arm64@0.8.1':
+    resolution: {integrity: sha512-WMAuhiLJcUtG0dWKjxFbSyShOOde08qW1PTjDP9FZykj/mDEkWqaSQZ9mmlq9gnTWJlPv9VfngPmWjJQ9LMStw==}
+    cpu: [arm64]
+    os: [linux]
+    libc: [glibc]
+
+  '@textlane/linux-x64@0.8.1':
+    resolution: {integrity: sha512-bURLJd4Yg361qml/3jaoabTH8M2JDoTq0A54RXZqmeA/anMWgzdPRCXIf9v1hAsbaKvKVze47sK8Hs2uy8gwSw==}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
-  '@textlane/win32-arm64@0.3.0':
-    resolution: {integrity: sha512-0Oos8+4gCrxhAVodZMaI5tMmo9CPsNkMN2dSdyAT9p9+LgTVNHYrMTt/Z1KHHkykFf8wxZR1n4bjh0qhQYj0Mg==}
-    cpu: [arm64]
-    os: [win32]
-
-  '@textlane/win32-x64@0.3.0':
-    resolution: {integrity: sha512-X3VfXvgQ+8/TjL13FaLoOZuBaQ2qta5k0Ix7Eqe6zT1vqm1aiRYIYsFjC9NdZOhlFmytxENO3vGABDxDotFe5A==}
+  '@textlane/win32-x64@0.8.1':
+    resolution: {integrity: sha512-yyq9mgf589TFZHGGQmJ/1PyQzxvuF9fICk3vNvYLmdftCWexlKh99nlKsmAkJGsXRlm1/q6KXPE6dPybH2a4XQ==}
     cpu: [x64]
     os: [win32]
 
@@ -2612,6 +2610,9 @@ packages:
 
   '@types/deep-eql@4.0.2':
     resolution: {integrity: sha512-c9h9dVVMigMPc4bwTvC5dxqtqJZwQPePsWjPlpSOnojbor6pGqdk541lfA7AqFQr5pB1BRdq0juY9db81BwyFw==}
+
+  '@types/estree-jsx@1.0.5':
+    resolution: {integrity: sha512-52CcUVNFyfb1A2ALocQw/Dd1BQFNmSdkuC3BkZ6iqhdMfQz7JWOFRuJFloOzjk+6WijU56m9oKXFAXc7o3Towg==}
 
   '@types/estree@1.0.9':
     resolution: {integrity: sha512-GhdPgy1el4/ImP05X05Uw4cw2/M93BCUmnEvWZNStlCzEKME4Fkk+YpoA5OiHNQmoS7Cafb8Xa3Pya8m1Qrzeg==}
@@ -4343,8 +4344,8 @@ packages:
     resolution: {integrity: sha512-d79HhZya5Djd7am0q+W4RTsSU+D/aJzM+4Y4AGJGuGlgM2L6sx5ZvOYTmZjqPhrDrV6xJTtRSm1JCLj6V6LHLQ==}
     engines: {node: '>=14.16'}
 
-  textlane@0.3.0:
-    resolution: {integrity: sha512-SCn8xAdJU3FkmpwXTls5I+Dk3TQeTOqEDS3n//TBDfSoIU2y3hUXi+6QGx24LAz1tUgjtGffFk6KtGVmouf36Q==}
+  textlane@0.8.1:
+    resolution: {integrity: sha512-WZarOPMDiFkqGnvI8CuoWtSk/rTfdyfBIkujOBgCVpZWbU2uMTr2Z5WR3fPdBkTGMvRfBwnwL2I/vAFn2YB8pw==}
     engines: {node: '>=20'}
 
   tinybench@6.2.2:
@@ -6421,22 +6422,19 @@ snapshots:
     dependencies:
       '@testing-library/dom': 10.4.1
 
-  '@textlane/darwin-arm64@0.3.0':
+  '@textlane/darwin-arm64@0.8.1':
     optional: true
 
-  '@textlane/darwin-x64@0.3.0':
+  '@textlane/linux-arm64-musl@0.8.1':
     optional: true
 
-  '@textlane/linux-arm64@0.3.0':
+  '@textlane/linux-arm64@0.8.1':
     optional: true
 
-  '@textlane/linux-x64@0.3.0':
+  '@textlane/linux-x64@0.8.1':
     optional: true
 
-  '@textlane/win32-arm64@0.3.0':
-    optional: true
-
-  '@textlane/win32-x64@0.3.0':
+  '@textlane/win32-x64@0.8.1':
     optional: true
 
   '@tybys/wasm-util@0.10.2':
@@ -6569,6 +6567,10 @@ snapshots:
       '@types/d3-zoom': 3.0.8
 
   '@types/deep-eql@4.0.2': {}
+
+  '@types/estree-jsx@1.0.5':
+    dependencies:
+      '@types/estree': 1.0.9
 
   '@types/estree@1.0.9': {}
 
@@ -8194,19 +8196,19 @@ snapshots:
       type-fest: 2.19.0
       unique-string: 3.0.0
 
-  textlane@0.3.0:
+  textlane@0.8.1:
     dependencies:
+      '@types/estree-jsx': 1.0.5
       '@types/hast': 3.0.5
       '@types/mdast': 4.0.4
       '@types/nlcst': 2.0.3
       '@types/unist': 3.0.3
     optionalDependencies:
-      '@textlane/darwin-arm64': 0.3.0
-      '@textlane/darwin-x64': 0.3.0
-      '@textlane/linux-arm64': 0.3.0
-      '@textlane/linux-x64': 0.3.0
-      '@textlane/win32-arm64': 0.3.0
-      '@textlane/win32-x64': 0.3.0
+      '@textlane/darwin-arm64': 0.8.1
+      '@textlane/linux-arm64': 0.8.1
+      '@textlane/linux-arm64-musl': 0.8.1
+      '@textlane/linux-x64': 0.8.1
+      '@textlane/win32-x64': 0.8.1
 
   tinybench@6.2.2: {}
 

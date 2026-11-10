@@ -108,13 +108,6 @@ describe("compileArticle with project plugins", () => {
   })
 })
 
-// mdast leaves directive nodes to mdast-util-directive, which this package doesn't need
-declare module "mdast" {
-  interface RootContentMap {
-    leafDirective: { type: "leafDirective"; name: string; children: PhrasingContent[] }
-  }
-}
-
 function replaceHelloDirective() {
   return (tree: MdRoot) => {
     tree.children = tree.children.map(node =>
