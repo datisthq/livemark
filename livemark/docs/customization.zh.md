@@ -55,6 +55,6 @@ Livemark 提供了一些可调节的入口，用来定制站点的外观、站�
 面向 AI 智能体的 Markdown 副本、`llms.txt`、内容信号和智能体技能。
 :::
 
-:::card{title="独立使用 Markdown" href="/zh/customization/standalone/" icon="package"}
+:::card{title="Markdown Vite 插件" href="/zh/customization/markdown-vite-plugin/" icon="package"}
 在你自己的 Vite 应用中，用 Livemark 的管线和组件渲染 Markdown。
 :::

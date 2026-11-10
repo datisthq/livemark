@@ -1,11 +1,12 @@
 ---
 description: Render Markdown with Livemark's pipeline and components inside your own Vite or TanStack Start app.
-path: /customization/standalone/
+label: Vite Plugin
+path: /customization/markdown-vite-plugin/
 icon: package
 order: 13
 ---
 
-# Standalone Markdown
+# Markdown Vite Plugin
 
 Livemark's Markdown pipeline and article components ship on their own as `@livemark/vite`. An app built on Vite, such as a TanStack Start app with a blog, can import `.md` and `.mdx` files and render them with the same callouts, tabs, code blocks and cards as a Livemark article, without installing Livemark itself.
 

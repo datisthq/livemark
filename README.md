@@ -11,7 +11,7 @@ TanStack Start and Tailwind.
 
 The docs live at [livemark.dev](https://livemark.dev), built with livemark from `livemark/docs/`
 and `livemark/blog/`. This repository holds three packages released together: `livemark/`, the CLI and site
-with its agent skills; `vite/`, [`@livemark/vite`](https://livemark.dev/customization/standalone/),
+with its agent skills; `vite/`, [`@livemark/vite`](https://livemark.dev/customization/markdown-vite-plugin/),
 which renders Markdown with Livemark's components in any Vite app; and `markdown/`, the internal
 pipeline and components both build on.
 See [Contributing](CONTRIBUTING.md) for the layout and the commands.
