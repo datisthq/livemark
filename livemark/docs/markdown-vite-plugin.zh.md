@@ -41,6 +41,7 @@ export default defineConfig({
 | `plugins`            |                    | `{ md, html }` [插件](/zh/customization/plugins/)，与站点相同    |
 | `allowDangerousHtml` | `true`             | `false` 会丢弃所有原始 HTML，并在任何本应按 MDX 编译的文件上报错 |
 | `root`、`base`       |                    | 从 `root` 解析相对图片 URL，并在 `base` 下提供                   |
+| `collections`        |                    | 作为虚拟模块提供的集合                                           |
 
 对于你不完全信任的内容，请设置 `allowDangerousHtml: false`：Markdown 不能运行代码，而 MDX 可以。带 `javascript:` URL 的链接在渲染时会被 React 拦截。插件还会通过 Vite 对静默渲染出错的内容发出警告，例如未知指令。
 
@@ -71,6 +72,62 @@ export function PostPage() {
 
 - **`MessagesProvider`** 提供组件显示的界面文字，例如提示块标题和复制按钮的标签。未提供的键保持英文。键名与语言的 [`messages`](/zh/customization/translations/) 相同。
 - **`@livemark/vite/react`** 中的 **`IconsProvider`** 按 Lucide 键名提供 `:icon` 和 `:::card{icon}` 渲染的图标：传入 lucide-react 的 `icons` 或其子集。没有它时不渲染任何图标。
+
+## 集合
+
+博客索引、标签页或站点地图需要每篇文章的 frontmatter，却不必加载每篇文章。集合列出一组文件而不含正文，并按需加载每篇正文：
+
+```ts title="vite.config.ts"
+import markdown, { defineCollection } from "@livemark/vite"
+import { defineConfig } from "vite"
+import { Post } from "./post.ts"
+
+export const blog = defineCollection({
+  name: "blog",
+  include: "content/blog/**/*.md",
+  schema: Post,
+})
+
+export default defineConfig({
+  plugins: [markdown({ collections: [blog] })],
+})
+```
+
+应用以 `virtual:livemark/collection/<name>` 导入它：
+
+```tsx title="routes/blog/post.tsx"
+import { lazy } from "react"
+import { entries, load } from "virtual:livemark/collection/blog"
+
+const posts = entries.map(entry => ({ ...entry, Body: lazy(() => load(entry.id)) }))
+```
+
+- **`entries`** 按路径排序列出每个文件，形如 `{ id, file, frontmatter, readingTime }`。`readingTime` 以分钟计，按每分钟 200 词，不计代码块。它不含正文，因此索引保持轻量。
+- **`load(id)`** 导入某个条目编译后的模块，与直接导入该文件得到的模块相同。每个文件是独立的 chunk，未知的 id 会使 Promise 被拒绝。
+
+| 选项      | 默认值              | 作用                                                      |
+| --------- | ------------------- | --------------------------------------------------------- |
+| `name`    |                     | 模块名：字母、数字、`_` 和 `-`                            |
+| `include` |                     | `.md` 和 `.mdx` 文件，以相对 `root` 的 glob 表示          |
+| `exclude` |                     | 排除的文件，以相对 `root` 的 glob 表示                    |
+| `root`    | 工作目录            | glob 和 `file` 的起点目录                                 |
+| `schema`  |                     | 校验每个文件的 frontmatter：zod schema 或任何 `{ parse }` |
+| `id`      | 去掉扩展名的 `file` | 由 `file` 得出条目 id，例如 `file => file.split("/")[2]`  |
+
+未通过 `schema` 的 frontmatter 会使构建失败并指出文件名，两个文件共用同一 id 时也是如此。`entries` 以 JSON 序列化，因此把日期转换为 `Date` 的 schema 在应用中得到的是字符串。
+
+`blog.list()` 在 Node 中返回同样的条目，无需 Vite：配置可以用它列出要预渲染的页面。即使插件的 `include` 或 `exclude` 排除了集合中的文件，它们仍会被编译。在开发服务器中，改变 `entries` 的编辑会重新加载页面，而只改正文的编辑照常更新。
+
+若要为 frontmatter 加上类型，在类型引用旁声明一次该模块：
+
+```ts title="env.d.ts"
+declare module "virtual:livemark/collection/blog" {
+  import type { CollectionEntry, MarkdownModule } from "@livemark/vite"
+  import type { Post } from "./post.ts"
+  export const entries: CollectionEntry<Post>[]
+  export function load(id: string): Promise<MarkdownModule>
+}
+```
 
 ## 样式
 
