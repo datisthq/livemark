@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.45.0](https://github.com/datisthq/livemark/compare/v0.44.2...v0.45.0) (2026-11-10)
+
+
+### Features
+
+* split into livemark, @livemark/vite and the internal @livemark/markdown ([565ddd6](https://github.com/datisthq/livemark/commit/565ddd6cdb9607080c60fe07c438e8b77eaae92a))
+
+
+### Bug Fixes
+
+* declare React types in @livemark/markdown so it builds on its own ([ed1cb91](https://github.com/datisthq/livemark/commit/ed1cb91f40ffb7a51a34d5c7379ccad3e7edfa73))
+* point the shipped docs links at the Markdown Vite Plugin page ([236cb27](https://github.com/datisthq/livemark/commit/236cb27b710227125fcefd4c2108b1a53f9f7f07))
+* point the shipped docs links at the top-level Markdown Vite Plugin page ([b5fa2f1](https://github.com/datisthq/livemark/commit/b5fa2f173130f9ef1db65f428569469467b9aaaa))
+
 ## [0.44.2](https://github.com/datisthq/livemark/compare/v0.44.1...v0.44.2) (2026-11-04)
 
 

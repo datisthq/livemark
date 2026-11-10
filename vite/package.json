@@ -1,6 +1,6 @@
 {
   "name": "@livemark/vite",
-  "version": "0.44.2",
+  "version": "0.45.0",
   "description": "Render Markdown and MDX with Livemark's pipeline and components in any Vite app",
   "license": "MIT",
   "author": "Evgeny Karev",
