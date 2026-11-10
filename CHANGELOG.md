@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.46.0](https://github.com/datisthq/livemark/compare/v0.45.1...v0.46.0) (2026-11-10)
+
+
+### Features
+
+* **vite:** add Markdown collections ([eea36a4](https://github.com/datisthq/livemark/commit/eea36a44cf77d7c9b7c6684e5614a38464c6a477))
+
 ## [0.45.1](https://github.com/datisthq/livemark/compare/v0.45.0...v0.45.1) (2026-11-10)
 
 
