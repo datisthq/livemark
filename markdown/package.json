@@ -1,0 +1,64 @@
+{
+  "name": "@livemark/markdown",
+  "version": "0.44.2",
+  "description": "Internal: the Markdown pipeline and components shared by livemark and @livemark/vite",
+  "license": "MIT",
+  "author": "Evgeny Karev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/datisthq/livemark",
+    "directory": "markdown"
+  },
+  "files": [
+    "build",
+    "source",
+    "!source/**/*.unit.ts",
+    "!source/**/fixtures"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    "./standalone.css": "./source/standalone.css",
+    "./package.json": "./package.json",
+    "./components/*": "./source/components/*.tsx",
+    "./elements/*": "./source/elements/*.tsx",
+    "./hooks/*": "./source/hooks/*.ts",
+    "./styles/*": "./source/styles/*.css",
+    "./*.ts": {
+      "source": "./source/*.ts",
+      "types": "./source/*.ts",
+      "default": "./build/*.js"
+    },
+    "./*.tsx": "./source/*.tsx"
+  },
+  "scripts": {
+    "build": "tsgo --project tsconfig.build.json"
+  },
+  "dependencies": {
+    "@base-ui/react": "1.9.0",
+    "@shikijs/twoslash": "^4.5.0",
+    "@tailwindcss/typography": "^0.5.20",
+    "@tanstack/react-router": "1.170.42",
+    "@types/hast": "3.0.4",
+    "@types/mdast": "^4.0.4",
+    "class-variance-authority": "0.7.1",
+    "cn": "0.4.0",
+    "katex": "catalog:",
+    "lucide-react": "0.577.0",
+    "mermaid": "^12.1.0",
+    "react-medium-image-zoom": "^5.4.9",
+    "shiki": "4.5.0",
+    "tailwindcss": "4.3.3",
+    "textlane": "0.3.0",
+    "tw-animate-css": "1.4.0",
+    "yaml": "^2.9.1",
+    "zod": "4.6.6"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "engines": {
+    "node": "^24.11.0"
+  }
+}

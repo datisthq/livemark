@@ -19,48 +19,51 @@ pnpm install
 pnpm start
 ```
 
-`pnpm start` 会基于本仓库自身的 `docs/` 启动开发服务器，让你在修改 Livemark 的同时，在浏览器中查看效果。对 `source/` 或 `docs/` 的修改会自动重新加载。
+`pnpm start` 会基于本仓库自身的 `docs/` 启动开发服务器，让你在修改 Livemark 的同时，在浏览器中查看效果。对 `livemark/source/`、`markdown/source/` 或 `docs/` 的修改会自动重新加载。
 
 ## 仓库结构 {#repository-layout}
 
 ```
-livemark/
-├── source/             # all package code (compiles into build/)
-│   ├── actions/        # build-time orchestration (config, changelog)
-│   ├── commands/       # `livemark <cmd>` CLI entrypoints
-│   ├── components/     # React components (overridable via .livemark/)
-│   ├── elements/       # shadcn-style primitives (overridable)
-│   ├── styles/         # base CSS (overridable)
-│   ├── helpers/        # internal utilities (private)
-│   ├── hooks/          # public React hooks
-│   ├── utils/          # public utilities (e.g. cn)
-│   ├── plugins/        # Vite plugins and the twoslash stage
-│   ├── routes/         # TanStack Start routes
-│   ├── models/         # Zod schemas
-│   ├── content/        # derivations over the loaded articles
-│   └── vite.config.ts  # the Vite config consumers run against
-├── build/              # compiled JS, used by Node CLI
-├── skills/             # agent skills shipped to people who install Livemark
-├── docs/               # this site's content
-├── blog/               # this site's blog posts
-└── livemark.config.ts  # this site's livemark config
+├── livemark/               # the `livemark` package: CLI, site and escapable UI
+│   ├── source/             # its code (compiles into build/)
+│   │   ├── actions/        # build-time orchestration (config, articles, changelog)
+│   │   ├── commands/       # `livemark <cmd>` CLI entrypoints
+│   │   ├── components/     # site React components (overridable via .livemark/)
+│   │   ├── elements/       # shadcn-style primitives (overridable)
+│   │   ├── helpers/        # internal utilities (private)
+│   │   ├── hooks/          # public React hooks
+│   │   ├── plugins/        # the site's Vite plugins
+│   │   ├── routes/         # TanStack Start routes
+│   │   ├── models/         # Zod schemas
+│   │   ├── content/        # derivations over the loaded articles
+│   │   └── vite.config.ts  # the Vite config consumers run against
+│   ├── shims/              # `livemark/components/*` etc. for files that live in markdown/
+│   └── skills/             # agent skills shipped to people who install Livemark
+├── markdown/               # the internal `@livemark/markdown` package
+│   └── source/             # the Markdown pipeline, and the components, elements and
+│                           # styles articles render with (overridable too)
+├── vite/                   # the public `@livemark/vite` package
+│   └── source/             # the Vite plugin and what apps import beside it
+├── docs/                   # this site's content
+├── blog/                   # this site's blog posts
+└── livemark.config.ts      # this site's livemark config
 ```
 
-`source/` 和 `build/` 都会随 npm 包一同发布：Node 加载 `build/*.js`，而 Vite 则打包 `source/*` 中未编译的 TS，使字面量形式的 `.ts` 导入扩展名得以解析。
+每个包都会发布 `source/` 和 `build/`：Node 加载 `build/*.js`，而 Vite 则打包 `source/*` 中未编译的 TS，使字面量形式的 `.ts` 导入扩展名得以解析。站点按顺序组装：先是 `markdown/source`，其上是 `livemark/source`，最后是项目的 `.livemark/` 覆盖文件；两个包中不存在相同路径。
 
 ## 本地命令 {#local-commands}
 
-| 命令               | 作用                                |
-| ------------------ | ----------------------------------- |
-| `pnpm start`       | 基于本仓库的文档运行开发服务器      |
-| `pnpm build:docs`  | 文档站点的生产构建                  |
-| `pnpm build`       | 编译 `source/` → `build/`（`tsgo`） |
-| `pnpm check:types` | 类型检查（不输出文件）              |
-| `pnpm check:lint`  | 通过 vite-plus 进行格式检查 + lint  |
-| `pnpm check`       | lint + 类型检查                     |
-| `pnpm format`      | 自动修复格式                        |
-| `pnpm test:unit`   | 运行单元测试（Vitest）              |
-| `pnpm test`        | lint + 类型检查 + 单元测试          |
+| 命令               | 作用                               |
+| ------------------ | ---------------------------------- |
+| `pnpm start`       | 基于本仓库的文档运行开发服务器     |
+| `pnpm build:docs`  | 文档站点的生产构建                 |
+| `pnpm build`       | 编译各包的 `source/` → `build/`    |
+| `pnpm check:types` | 类型检查（不输出文件）             |
+| `pnpm check:lint`  | 通过 vite-plus 进行格式检查 + lint |
+| `pnpm check`       | lint + 类型检查                    |
+| `pnpm format`      | 自动修复格式                       |
+| `pnpm test:unit`   | 运行单元测试（Vitest）             |
+| `pnpm test`        | lint + 类型检查 + 单元测试         |
 
 当 `pnpm test` 全部通过且 `pnpm build:docs` 构建成功时，变更就可以推送了。
 

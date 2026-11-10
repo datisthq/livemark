@@ -1,0 +1,45 @@
+{
+  "name": "@livemark/vite",
+  "version": "0.44.2",
+  "description": "Render Markdown and MDX with Livemark's pipeline and components in any Vite app",
+  "license": "MIT",
+  "author": "Evgeny Karev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/datisthq/livemark",
+    "directory": "vite"
+  },
+  "files": [
+    "build",
+    "source",
+    "!source/**/*.unit.ts",
+    "!source/**/fixtures"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./build/index.d.ts",
+      "default": "./build/index.js"
+    },
+    "./react": "./source/react.ts",
+    "./env": "./source/env.d.ts",
+    "./styles.css": "./source/styles.css"
+  },
+  "scripts": {
+    "build": "tsgo --project tsconfig.build.json"
+  },
+  "dependencies": {
+    "@livemark/markdown": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "vite": "8.3.4"
+  },
+  "engines": {
+    "node": "^24.11.0"
+  }
+}

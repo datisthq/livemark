@@ -4,7 +4,7 @@ import { describe, expect, it } from "vite-plus/test"
 
 const ROOT = resolve(import.meta.dirname, "..", "..")
 const REPO_SKILLS = join(ROOT, ".agents", "skills")
-const SHIPPED_SKILLS = join(ROOT, "skills")
+const SHIPPED_SKILLS = join(ROOT, "livemark", "skills")
 
 describe("documentation stays true", () => {
   it("wires .claude/skills to .agents/skills", () => {
@@ -93,7 +93,16 @@ describe("documentation stays true", () => {
 
 const PATH_SPAN = /`(\.?[a-z0-9][a-z0-9._@/-]*\/[a-z0-9._@/-]+)`/gi
 
-const PNPM_BUILTINS = ["install", "exec", "add", "remove", "dlx", "run", "publish"]
+const PNPM_BUILTINS = [
+  "install",
+  "exec",
+  "add",
+  "remove",
+  "dlx",
+  "run",
+  "publish",
+  "pack",
+]
 
 // Only spans rooted at a real top-level directory are checked: the docs also hold
 // source-relative (`actions/config/load.ts`) and project-relative (`.livemark/styles/`)

@@ -36,16 +36,16 @@ Work through the diff asking each of these:
   enforced by a test and a rule enforced by hope read identically on the page.
 - **A removed mechanism.** Search the docs for the thing you deleted. A paragraph explaining why
   we do X is worse than useless once X is gone.
-- **A generated artefact.** `source/routeTree.gen.ts` is committed and goes stale quietly —
+- **A generated artefact.** `livemark/source/routeTree.gen.ts` is committed and goes stale quietly —
   neither `pnpm start` nor `pnpm build:docs` rewrites it, only their `.livemark/.serve` and
   `.livemark/.build` copies — so treat it as documentation and regenerate it (**`change-verification`**).
 
 ### Where to look
 
 - `AGENTS.md` — the only one, at the repo root; the guard enforces that.
-- `.agents/skills/*/SKILL.md` and `skills/*/SKILL.md` — including the `description`, which is what
+- `.agents/skills/*/SKILL.md` and `livemark/skills/*/SKILL.md` — including the `description`, which is what
   makes a skill get picked up at all. A skill whose body drifted is bad; a skill whose
-  _description_ drifted is invisible. The shipped `skills/` reach every project that installs
+  _description_ drifted is invisible. The shipped `livemark/skills/` reach every project that installs
   Livemark, so a change there is a `feat` or `fix`.
 - `README.md`, `CONTRIBUTING.md` and the docs site under `docs/`, which is the user manual.
 - Comments that assert a repo-wide invariant, not just local ones — the doc comment on
@@ -55,7 +55,7 @@ Work through the diff asking each of these:
 
 Whether a rule or lesson for agents goes in `AGENTS.md` or a skill: **`agent-documentation`**.
 
-- How to **use** Livemark (a project's config, Markdown, escapes) → the shipped skill in `skills/`
+- How to **use** Livemark (a project's config, Markdown, escapes) → the shipped skill in `livemark/skills/`
   and the matching `docs/` page, kept in step.
 - How to **work on** Livemark (checks, review, conventions) → a repo skill in `.agents/skills/`.
 - How a person contributes (setup, commands, the PR flow) → `CONTRIBUTING.md`.

@@ -67,8 +67,8 @@ hosting.
 - Change only what the root cause needs. No drive-by refactors, renames or reformatting of code
   you did not otherwise change.
 - Never rename or move a file named by `ESCAPABLE_FOLDERS` or `ESCAPABLE_FILES` in
-  `source/settings.ts` as part of a fix: it silently drops a project's override.
-- A behaviour change a project can see updates the matching shipped skill in `skills/` and its
+  `livemark/source/settings.ts` as part of a fix: it silently drops a project's override.
+- A behaviour change a project can see updates the matching shipped skill in `livemark/skills/` and its
   `docs/` page in the same commit.
 
 ## 6. Gate it

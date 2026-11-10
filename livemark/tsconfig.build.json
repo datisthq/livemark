@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+
+  "extends": "../tsconfig.json",
+  "include": ["source/**/*.ts", "source/**/*.tsx"],
+  "exclude": ["source/**/*.unit.ts", "source/**/fixtures"],
+
+  "compilerOptions": {
+    "rootDir": "./source",
+    "outDir": "./build",
+    "declaration": true
+  }
+}

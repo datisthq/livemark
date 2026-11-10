@@ -1,0 +1,7 @@
+/* What an app outside Livemark loads: the shape scale, the Markdown styles, and the
+   sources Tailwind must scan, named from here since the app cannot see this package */
+@import "./styles/shape.css";
+@import "./styles/markdown.css";
+@source "./components";
+@source "./elements";
+@source "./helpers";

@@ -19,7 +19,7 @@ Livemark 附带一套 React 组件库、shadcn 风格的基础元素和一份基
 
 Markdown 指令渲染以其命名的组件：`:::card` 对应 `components/Card.tsx`，`::video` 对应 `components/Video.tsx`，一组卡片对应 `components/Cards.tsx`。note、tip、info、warning 和 danger 提示框都渲染 `components/Callout.tsx`。
 
-`source/` 路径位于 `node_modules/livemark/` 中。`.livemark/public/` 下的文件会加入站点的静态资源，并从站点根路径提供。
+`source/` 路径位于 `node_modules/livemark/` 中；渲染 Markdown 的组件、元素和样式位于 `node_modules/@livemark/markdown/` 中，`livemark escape --list` 会同时列出两者。`.livemark/public/` 下的文件会加入站点的静态资源，并从站点根路径提供。
 
 无需修改任何 import。Livemark 的其余部分会自动使用被覆盖的文件。
 

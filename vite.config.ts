@@ -1,9 +1,17 @@
 import { basename, dirname, join } from "node:path"
-import { coverageConfigDefaults, defineConfig } from "vite-plus"
+import {
+  coverageConfigDefaults,
+  defaultClientConditions,
+  defaultServerConditions,
+  defineConfig,
+} from "vite-plus"
 
 const ignorePatterns = ["**/generated/**", "**.gen.**"]
 
 export default defineConfig({
+  // Workspace packages load from their TypeScript, not their unbuilt `build/`
+  resolve: { conditions: ["source", ...defaultClientConditions] },
+  ssr: { resolve: { conditions: ["source", ...defaultServerConditions] } },
   fmt: {
     semi: false,
     printWidth: 90,
@@ -26,7 +34,7 @@ export default defineConfig({
       "**/.target/**",
       "**/.livemark/.*/**",
     ],
-    env: { NODE_OPTIONS: "--no-warnings" },
+    env: { NODE_OPTIONS: "--no-warnings --conditions=source" },
     pool: "forks",
     // One fork per core re-imports every module in each, for no wall-time gain: import
     // time already dwarfs test time. Half the cores leaves the machine usable.

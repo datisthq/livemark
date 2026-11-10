@@ -19,7 +19,7 @@ Livemark incluye una biblioteca de componentes React, primitivas al estilo shadc
 
 Una directiva de Markdown renderiza el componente que lleva su nombre: `:::card` es `components/Card.tsx`, `::video` es `components/Video.tsx` y un grupo de tarjetas es `components/Cards.tsx`. Los avisos note, tip, info, warning y danger renderizan todos `components/Callout.tsx`.
 
-Las rutas `source/` están dentro de `node_modules/livemark/`. Los archivos de `.livemark/public/` se añaden a los recursos estáticos del sitio y se sirven desde su raíz.
+Las rutas `source/` están dentro de `node_modules/livemark/`, o de `node_modules/@livemark/markdown/` para los componentes, elementos y estilos que renderizan Markdown; `livemark escape --list` muestra ambos. Los archivos de `.livemark/public/` se añaden a los recursos estáticos del sitio y se sirven desde su raíz.
 
 No hace falta cambiar ningún import. El resto de Livemark detecta automáticamente el archivo sobrescrito.
 

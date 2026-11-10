@@ -34,13 +34,13 @@ in it.
 **This repo's own invariants** — these are where a generic reviewer is blind, and they matter
 more than the generic checklist:
 
-- a change to `source/index.ts`, the `exports` map or a public hook, util or model that breaks
+- a change to `livemark/source/index.ts`, the `exports` map or a public hook, util or model that breaks
   an existing project;
 - a renamed or moved file under an escapable folder or an escapable root file
-  (`ESCAPABLE_FOLDERS` / `ESCAPABLE_FILES` in `source/settings.ts`), which silently drops a
+  (`ESCAPABLE_FOLDERS` / `ESCAPABLE_FILES` in `livemark/source/settings.ts`), which silently drops a
   project's `.livemark/` override;
 - a CLI flag, config field or Markdown directive added or changed with the matching shipped skill
-  (`skills/`) and `docs/` page left as they were;
+  (`livemark/skills/`) and `docs/` page left as they were;
 - a commit typed `feat` or `fix` that does not change what an installer gets, or a package change
   typed `chore`;
 - a commit marked breaking (`!` or a `BREAKING CHANGE:` footer);

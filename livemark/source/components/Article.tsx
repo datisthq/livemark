@@ -1,0 +1,113 @@
+import { useMemo, useRef } from "react"
+import { Calendar, History, User } from "lucide-react"
+import type { ArticleView } from "../models/article.ts"
+import { formatShortDate } from "../helpers/date.ts"
+import { createMdxComponent } from "../helpers/mdx-component.ts"
+import { useSearchHighlight } from "../helpers/search-highlight.ts"
+import { TocContext } from "@livemark/markdown/helpers/toc-context.ts"
+import { ArticleSourceContext } from "@livemark/markdown/helpers/article-link.ts"
+import { Breadcrumbs } from "./Breadcrumbs.tsx"
+import { Footer } from "./Footer.tsx"
+import { Markdown } from "@livemark/markdown/components/Markdown"
+import { MobilePageToc, PageToc } from "./PageToc.tsx"
+import { PageToolbar } from "./PageToolbar.tsx"
+import { PrevNext } from "./PrevNext.tsx"
+import { useMessages, useSite } from "../hooks/site.ts"
+
+/** Full-page article layout: MDX content, table of contents, toolbar, prev/next, footer */
+export function Article(props: { article: ArticleView; highlight?: string }) {
+  const { article } = props
+  const prose = useRef<HTMLDivElement>(null)
+  const Content = useMemo(() => createMdxComponent(article.mdx), [article.mdx])
+  useSearchHighlight(prose, article.path, props.highlight)
+  const site = useSite()
+  const t = useMessages()
+  const formatDate = (iso?: string) =>
+    iso ? formatShortDate(iso, site.language.locale) : undefined
+  const lastUpdated = formatDate(article.lastUpdated)
+  const publishedDate = formatDate(article.date)
+  const authors = article.author
+    ? Array.isArray(article.author)
+      ? article.author
+      : [article.author]
+    : []
+  const hasMeta = publishedDate || authors.length > 0 || lastUpdated
+  const breadcrumbs = article.breadcrumbs ?? site.config.breadcrumbs ?? true
+  const source = useMemo(
+    () => ({ file: article.file, language: article.language ?? site.language.code }),
+    [article.file, article.language, site.language.code],
+  )
+
+  return (
+    <TocContext.Provider value={article.tocItems}>
+      {article.toc !== false && (
+        <MobilePageToc items={article.tocItems} title={article.title}>
+          <PageToolbar
+            sourceUrl={article.sourceUrl}
+            sourceAction={article.sourceAction}
+            content={article.content}
+          />
+        </MobilePageToc>
+      )}
+      {/* From `lg` the content meets the header nav's first link: the header's pl-4,
+          the size-8 sidebar trigger, its pr-4 and the nav's px-6 */}
+      <div className="flex flex-1 gap-10 p-4 pt-8 md:p-10 lg:gap-22 lg:pl-22 lg:justify-between">
+        <div className="flex-1 min-w-0 mx-auto max-w-3xl max-lg:sidebar-collapsed:max-w-none lg:mx-0 lg:max-w-(--content-max-width)">
+          {breadcrumbs && <Breadcrumbs path={article.path} title={article.title} />}
+          <div
+            ref={prose}
+            lang={article.contentLanguage}
+            className="prose dark:prose-invert max-w-none"
+          >
+            <h1 id="top">
+              <a href="#top">{article.title}</a>
+            </h1>
+            {hasMeta && (
+              <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground !-mt-4 !mb-6">
+                {authors.length > 0 && (
+                  <span className="flex items-center gap-1.5">
+                    <User className="size-3.5" />
+                    {authors.join(", ")}
+                  </span>
+                )}
+                {publishedDate && (
+                  <span className="flex items-center gap-1.5">
+                    <Calendar className="size-3.5" />
+                    {t("page.published", { date: publishedDate })}
+                  </span>
+                )}
+                {lastUpdated && (
+                  <span className="flex items-center gap-1.5">
+                    <History className="size-3.5" />
+                    {t("page.updated", { date: lastUpdated })}
+                  </span>
+                )}
+              </p>
+            )}
+            {article.image && (
+              <img
+                src={article.image}
+                alt=""
+                className="!mt-0 !mb-6 w-full rounded-card border shadow-sm"
+              />
+            )}
+            <ArticleSourceContext.Provider value={source}>
+              <Markdown component={Content} />
+            </ArticleSourceContext.Provider>
+          </div>
+          <PrevNext path={article.path} />
+          <Footer />
+        </div>
+        {article.toc !== false && (
+          <PageToc items={article.tocItems}>
+            <PageToolbar
+              sourceUrl={article.sourceUrl}
+              sourceAction={article.sourceAction}
+              content={article.content}
+            />
+          </PageToc>
+        )}
+      </div>
+    </TocContext.Provider>
+  )
+}

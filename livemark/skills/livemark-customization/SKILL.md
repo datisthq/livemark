@@ -1,0 +1,162 @@
+---
+name: livemark-customization
+description: Use when overriding Livemark's UI or adding routes — shadow files under .livemark/{components,elements,styles}, add .livemark/routes/*.tsx, `livemark escape` — or rendering Markdown with Livemark's components in another Vite app via `livemark/vite`.
+---
+
+# Livemark Customization
+
+Guidance for customizing the UI layer of a Livemark project beyond what `livemark.config.ts` exposes.
+
+## When to use this skill
+
+Invoke when the user asks to:
+
+- Change a built-in component's layout or markup (Footer, Sidebar, Banner, …).
+- Restyle a shared primitive (buttons, inputs, cards, sheet, …).
+- Rebrand via CSS tokens (colors, radii, typography).
+- Add a brand-new page that isn't a Markdown article (landing hero, pricing page, about page).
+- Replace Livemark's default landing page with a custom React component.
+- Serve a custom `favicon.svg`, `robots.txt`, `og-image.png`, or other static asset.
+
+## Overlapping mechanisms
+
+| Goal                              | Mechanism                                             |
+| --------------------------------- | ----------------------------------------------------- |
+| Replace a default component/style | Drop a file at `.livemark/components/<Name>.tsx` etc. |
+| Add a new page at an exact URL    | Create `.livemark/routes/<path>.tsx`                  |
+| Serve a static asset at `/<path>` | Put the file in `.livemark/public/<path>`             |
+| Extend the generated `_headers`   | `.livemark/public/_headers` — kept, rules appended    |
+| Rewrite site-wide `<head>` tags   | `.livemark/head.ts` exporting `customizeHead(head)`   |
+
+None require config changes. The Vite plugin (`source/plugins/vite-livemark.ts`) watches `.livemark/**` and hot-reloads.
+
+## Discovering what's overridable
+
+Run the `escape` command with `--list` to print every overridable file:
+
+```bash
+livemark escape --list
+```
+
+Output is a flat list: `<subdir>/<file>` across `components/`, `elements/`, `styles/` and `routes/`, plus the root files `client.tsx`, `server.ts`, `router.tsx` and `head.ts`. Without arguments in a terminal the command opens an interactive picker instead — agents should pass `--list` or explicit paths, or add `--json` for a `{ action, files }` result instead of text. With paths, it copies each default into `.livemark/`:
+
+```bash
+livemark escape components/Footer.tsx   # → .livemark/components/Footer.tsx
+livemark escape elements/button.tsx styles/general.css   # several at once
+```
+
+A Markdown directive renders the component named after it — `:::card` → `components/Card.tsx`, `::toc` → `components/Toc.tsx`, a group of cards → `components/Cards.tsx` — and every callout type renders `components/Callout.tsx`. The page's sidebar outline is `components/PageToc.tsx`.
+
+The command refuses to overwrite an existing override (and exits 1 after copying the rest). Delete the override first if you want a fresh start.
+
+## Typical workflow: override a component
+
+1. `livemark escape components/Footer.tsx` — copy the default.
+2. Edit `.livemark/components/Footer.tsx`. All the site's Footer renders shift to the new file on save.
+3. Inside the override, import other Livemark modules from the `livemark/<subdir>/*` subpath exports:
+   ```tsx
+   import { cn } from "cn"
+   import { Button } from "livemark/elements/button"
+   ```
+
+## Typical workflow: announcement banner
+
+Prefer the `banner` config option — an inline Markdown string, rendered to HTML at build time and exposed as `bannerHtml` from `livemark:virtual` (the default language's; `useSite().bannerHtml` from `livemark/hooks/site` gives the current page's language). Escape `components/Banner.tsx` only for icons or custom markup. The strip spans the full page width above both the sidebar and the sticky header — it scrolls away while the sidebar and header pin to the top (the sidebar container is `sticky`, not `fixed`, for this). Let it wrap (`flex-wrap`, `text-balance`, `min-w-0`) rather than `truncate`, so phones neither clip it nor scroll sideways. An escaped strip may keep to one line instead, as livemark.dev's does: `truncate` the message (`min-w-0` lets a flex item shrink), keep the link `shrink-0`, and hide its label with `sr-only sm:not-sr-only` — `hidden` would leave the phone's arrow-only link without a name. Style the injected HTML from the wrapper (`[&_a]:underline`): Tailwind never sees classes inside a config string. Search and the theme toggle sit at the right of the header, not in the sidebar. The header's section strip is `components/HeaderNav.tsx`; it tells `Header` when to render `<Search compact />` and folds what still doesn't fit into a "More" menu. Below `lg`, `Search` opens `components/HeaderSearch.tsx` instead of the dialog: a field that covers the whole header bar, with results dropping full-width beneath it — positioned `absolute` against the sticky header, so an override must stay inside `<header>`.
+
+## Sidebar escapes
+
+`Sidebar` picks the body slot (`SidebarArticles`, `SidebarPosts`, `SidebarReleases`) and passes each, plus `SidebarLinks`, the section to show as an optional `section` prop. On mobile inside a section it swaps the Sections list for `SidebarSectionPicker`, which changes that prop without navigating — an escaped body slot must read `props.section` before falling back to the route's section, or the picker stops working.
+
+## Typical workflow: rebrand
+
+1. `livemark escape styles/general.css`.
+2. Edit the `:root` and `.dark` blocks in `.livemark/styles/general.css`:
+   - `--primary` — brand accent (Tailwind-flavoured oklch values work).
+   - `--positive`, `--warning`, `--destructive` — status tones, each with a `-foreground` for text on the fill and a `-tint` / `-tint-foreground` pair for soft surfaces (callouts, diff lines, badge and button variants).
+   - `--radius` — the `rounded-sm`…`rounded-xl` scale only. Element corners are named tokens in `styles/shape.css` (`rounded-control` pills, `rounded-card`/`rounded-row`/`rounded-menu` 1rem, `rounded-panel` 1.5rem); escape that file to change them, and use those names rather than raw `rounded-md` in new elements.
+   - Sidebar / chart tokens if you want deeper tweaks.
+3. Save — the dev server applies immediately.
+
+Whole-site contrast is audited: light mode targets blue-600, dark mode targets blue-500. Keep new token values AA-compliant on both backgrounds (≥4.5:1 for text).
+
+## Typical workflow: add a page
+
+Custom routes use [TanStack Router](https://tanstack.com/router). Minimal example:
+
+```tsx title=".livemark/routes/about.tsx"
+import { createFileRoute } from "@tanstack/react-router"
+import { Layout } from "livemark/components/Layout"
+
+export const Route = createFileRoute("/about")({
+  component: () => (
+    <Layout>
+      <div className="mx-auto max-w-3xl px-6 py-16 prose">
+        <h1>About</h1>
+        <p>Hello.</p>
+      </div>
+    </Layout>
+  ),
+})
+```
+
+A custom route renders **bare**: the root wraps every route in the headless `components/Root.tsx`, and only the Markdown route, 404 and error pages add chrome. Pick it per route:
+
+- `<Layout>` — banner, header, sidebar sheet and back-to-top, as articles get (`withSidebar` adds the article sidebar)
+- `<Banner />` + `<Header />` — a landing page's chrome without the sidebar; on phones `Header` opens `HeaderMenu`, a flat list of the header sections and links
+- nothing — a fully custom page
+
+`Header` never reads sidebar context: `Layout` passes its `SidebarTrigger`s in as the `toggle` and `menu` slots. A `Header` without `toggle` keeps its title block at sidebar width so the nav lines up with article pages.
+
+Filename maps to URL path: `.livemark/routes/pricing.tsx` → `/pricing/`. Nested paths work via nested folders. Every route without a `$` parameter is prerendered, even one nothing links to.
+
+An `index.tsx` in `.livemark/routes/` **replaces** Livemark's default landing at `/`. For what to put on it, load `livemark-landing`.
+
+Custom routes win over the Markdown catch-all at exact URLs. Don't create a route that collides with an article URL unless you intend to hide the article.
+
+## Rules of thumb
+
+1. **Don't fork the repo** for routine customization. Use `.livemark/` first — it reliably survives Livemark upgrades.
+2. **Same filename, same path under `.livemark/`.** The override plugin is case-sensitive and mirrors the subdirectory structure exactly.
+3. **Override files are full replacements**, not diffs. Copy the default first (via `escape`), then edit.
+4. **Import Livemark internals via `livemark/*`**, not via relative paths — the plugin resolves those to the project's copy, so chained overrides (e.g., your Layout using your Header) compose correctly.
+5. **Static files belong in `.livemark/public/`**, which Vite exposes at the site root.
+6. **Never edit `.livemark/.serve/` or `.livemark/.build/`** — they are the generated mounts Vite runs for the dev server and the production build (Livemark's source with your overrides copied in), rebuilt on every run, so stack traces point there but edits are lost. Each carries its own `.gitignore`.
+7. **Keyboard shortcuts live in the component they drive** — bare keys through `@tanstack/react-hotkeys`, ignored while typing: `M` sidebar (`Sidebar`), `S` search (`Search`), `T` theme (`Theme`), `J`/`K` scroll and `D` to the bottom (`Root`), `U` back to top (`BackToTop`), `L`/`H` next and previous page (`Root`): one chain per language, from a landing page (a project's index route or a home article) through every routed section in config order, so the keys cross where `PrevNext`'s section-scoped cards stop. The header's `Shortcuts` menu lists every key but disables one unless a visible control announces it with `aria-keyshortcuts` (bar `J`/`K`/`U`/`D`, and `L`/`H`, enabled while that chain has a page that way), so a new key needs that attribute and a row there. Overriding one of these drops its key unless the copy keeps the `useHotkey` call; register a key in a component that mounts once, or one press fires twice.
+8. **Search highlights live in `Article`** — picking a result opens the page with `?highlight=<query>`, and `Article` passes it to `useSearchHighlight` with a ref on its `.prose` wrapper. An overridden `components/Article.tsx` must keep that call and ref, or matches stop being marked. Theme the mark through the `--highlight` and `--highlight-foreground` tokens; code blocks are never marked.
+9. **Edited Markdown reaches the page through `router.tsx`** — articles are route loader data, and route HMR keeps loader data, so `getRouter` re-runs loaders on Vite's `vite:afterUpdate`. An overridden `router.tsx` must keep that hook, or Markdown edits show only after a reload.
+10. **UI text goes through `useMessages()`** from `livemark/hooks/site` — `t("toc.title")`, keys in `models/message.ts`. An override that hardcodes text, or reads `config` from `livemark:virtual` instead of `useSite().config`, stays in the default language on a multi-language site; `routes/__root.tsx` must keep `lang` and `dir` from `useSite().language`.
+11. **The article list carries no bodies.** `sortedArticles` (and every list in `content/article.ts`) holds frontmatter, path and language only, so every page stays light; an article's `mdx`, `content` and `tocItems` reach its page through the `$` route loader (`loadArticle`), and search text loads with the search box. An override that reads a body off the list gets `undefined`.
+12. **Only the icons a site names are bundled.** `DynamicIcon` and `Icon` resolve names from `livemark:icons`, which the build fills with every Lucide name found in the config, frontmatter, compiled articles and quoted strings in `.livemark/` sources. A name an override computes at runtime renders nothing; spell it as a literal somewhere, or import the icon from `lucide-react` directly. Likewise `LanguageFlag` gets only the declared languages' flags, and `Search` loads its box and dialog on first use — an override that imports `SearchDialog` directly puts search back on every page.
+
+## Head tags
+
+Add tags with the config `head` field (`livemark-configuration`); escape `head.ts` only to drop or rewrite defaults. `customizeHead` receives the finished `RootHead` (`meta`, `links`, `scripts`, typed from `livemark`) and returns it — mutate or filter, never rebuild, or later Livemark defaults are lost. Per-page `title`, `description`, `og:*` and canonical come from the article route and win over root meta with the same `name`/`property`.
+
+## Standalone Markdown in another Vite app
+
+A non-Livemark app (e.g. a TanStack Start blog) renders `.md` and `.mdx` files with Livemark's pipeline and article components from `@livemark/vite`, without installing `livemark`; docs: https://livemark.dev/customization/standalone/.
+
+- `import markdown from "@livemark/vite"` in `vite.config.ts`. Each import exports `default` (a component that already renders with Livemark's components; `components` replaces any per render), `frontmatter` and `toc`; add `/// <reference types="@livemark/vite/env" />` for types.
+- Files compile like articles: `.md` as Markdown, `.mdx` as MDX, frontmatter `format` wins. `allowDangerousHtml: false` drops all raw HTML and fails on anything that would be MDX — use it for untrusted content. Other options: `include`, `exclude`, `codeThemeLight`, `codeThemeDark`, `plugins: { md, html }`, `root`, `base`.
+- Strings come from `MessagesProvider` (`@livemark/vite/react`, keys as in a language's `messages`, English when missing); icons for `:icon` and `::card{icon}` from `IconsProvider` (`@livemark/vite/react`, Lucide keys such as `ArrowRight`), none without it. `@livemark/markdown`, which both build on, is internal: never import it.
+- Styles: `@import "@livemark/vite/styles.css"` after `@import "tailwindcss"` (it loads the Markdown styles and points Tailwind at the components), plus the typography plugin, a `.dark` custom variant, and the tokens listed on the docs page.
+- Inside a Livemark site, the components articles render (Callout, CodeBlock, Tabs, …) and their elements also come from `@livemark/markdown`; they escape like any other, under the same `.livemark/components/` and `.livemark/elements/` paths.
+
+## What's NOT overridable
+
+- `actions/`, `commands/`, `program.ts` — server/CLI code. Fork upstream if you need to change these.
+- `livemark.config.ts` schema — fixed.
+- Article loading and the Markdown pipeline. Articles are loaded by `source/actions/article/load.ts` and compiled by textlane (`source/actions/processor/create.ts` in `@livemark/markdown`); change them in a fork (or PR upstream).
+
+## Verification
+
+- The project's type check (e.g. `npx tsc --noEmit`) covers files that import only `livemark/*` exports, such as a new route. An escaped copy keeps relative imports that resolve only inside the generated mount, so leave it out of the project's `include`; `npx livemark build` catches its broken imports, though not type errors. `livemark:virtual` types load through `livemark.config.ts`'s import of `livemark`; a program without that file adds `/// <reference types="livemark/env" />`. Never hand-declare the module.
+- `npx livemark build` — smoke-test the override lands in the bundle.
+- Browser: load an article page with the dev server; custom Footer/Sidebar/etc. should render without a full reload.
+
+## References
+
+- Narrative docs: https://livemark.dev/customization/overriding-escaping/, https://livemark.dev/customization/custom-routes/, https://livemark.dev/customization/standalone/.
+- Plugin implementation: `source/plugins/vite-livemark.ts`.
+- Escape command: `source/commands/escape.ts`; list and copy logic in `source/actions/escape/`.
+- Subpath exports: `package.json` `exports` block.

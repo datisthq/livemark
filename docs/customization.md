@@ -55,3 +55,7 @@ Shadow any Livemark component, element, or stylesheet via `.livemark/`.
 :::card{title="AI Agents" href="/customization/ai-agents/" icon="bot"}
 Markdown twins, `llms.txt`, content signals, and agent skills for AI agents.
 :::
+
+:::card{title="Standalone Markdown" href="/customization/standalone/" icon="package"}
+Render Markdown with Livemark's pipeline and components in your own Vite app.
+:::

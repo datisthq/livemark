@@ -95,7 +95,7 @@ languages: [
 ]
 ```
 
-Una clave desconocida hace fallar la comprobación de la configuración, así que una errata no puede dejar en silencio el texto en inglés. Para un idioma que Livemark no incluye, define en `messages` todas las cadenas que quieras traducir. La lista completa de claves es el esquema `Messages` en `source/models/message.ts`.
+Una clave desconocida hace fallar la comprobación de la configuración, así que una errata no puede dejar en silencio el texto en inglés. Para un idioma que Livemark no incluye, define en `messages` todas las cadenas que quieras traducir. La lista completa de claves es el esquema `Messages` en `markdown/source/models/message.ts`.
 
 Un componente que sobrescribas en `.livemark/` lee las mismas cadenas con el hook `useMessages`:
 

@@ -95,7 +95,7 @@ languages: [
 ]
 ```
 
-未知的键会导致配置检查失败，因此拼写错误不会悄无声息地保留英文文本。对于 Livemark 未内置的语言，请在 `messages` 中设置所有需要翻译的字符串。完整的键列表见 `source/models/message.ts` 中的 `Messages` schema。
+未知的键会导致配置检查失败，因此拼写错误不会悄无声息地保留英文文本。对于 Livemark 未内置的语言，请在 `messages` 中设置所有需要翻译的字符串。完整的键列表见 `markdown/source/models/message.ts` 中的 `Messages` schema。
 
 你在 `.livemark/` 下覆盖的组件可以通过 `useMessages` hook 读取相同的字符串：
 

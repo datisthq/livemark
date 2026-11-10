@@ -40,33 +40,37 @@ pnpm install
 pnpm start
 ```
 
-`pnpm start` boots the dev server against this repo's own `docs/` so you can iterate on Livemark while seeing the result in your browser. Edits to `source/` or `docs/` reload automatically.
+`pnpm start` boots the dev server against this repo's own `docs/` so you can iterate on Livemark while seeing the result in your browser. Edits to `livemark/source/`, `markdown/source/` or `docs/` reload automatically.
 
 ### Repository layout
 
 ```
-livemark/
-├── source/             # all package code (compiles into build/)
-│   ├── actions/        # build-time orchestration (config, changelog)
-│   ├── commands/       # `livemark <cmd>` CLI entrypoints
-│   ├── components/     # React components (overridable via .livemark/)
-│   ├── elements/       # shadcn-style primitives (overridable)
-│   ├── styles/         # base CSS (overridable)
-│   ├── helpers/        # internal utilities (private)
-│   ├── hooks/          # public React hooks
-│   ├── plugins/        # Vite plugins and the twoslash stage
-│   ├── routes/         # TanStack Start routes
-│   ├── models/         # Zod schemas
-│   ├── content/        # derivations over the loaded articles
-│   └── vite.config.ts  # the Vite config consumers run against
-├── build/              # compiled JS, used by Node CLI
-├── skills/             # agent skills shipped to people who install Livemark
-├── docs/               # this site's content
-├── blog/               # this site's blog posts
-└── livemark.config.ts  # this site's livemark config
+├── livemark/               # the `livemark` package: CLI, site and escapable UI
+│   ├── source/             # its code (compiles into build/)
+│   │   ├── actions/        # build-time orchestration (config, articles, changelog)
+│   │   ├── commands/       # `livemark <cmd>` CLI entrypoints
+│   │   ├── components/     # site React components (overridable via .livemark/)
+│   │   ├── elements/       # shadcn-style primitives (overridable)
+│   │   ├── helpers/        # internal utilities (private)
+│   │   ├── hooks/          # public React hooks
+│   │   ├── plugins/        # the site's Vite plugins
+│   │   ├── routes/         # TanStack Start routes
+│   │   ├── models/         # Zod schemas
+│   │   ├── content/        # derivations over the loaded articles
+│   │   └── vite.config.ts  # the Vite config consumers run against
+│   ├── shims/              # `livemark/components/*` etc. for files that live in markdown/
+│   └── skills/             # agent skills shipped to people who install Livemark
+├── markdown/               # the internal `@livemark/markdown` package
+│   └── source/             # the Markdown pipeline, and the components, elements and
+│                           # styles articles render with (overridable too)
+├── vite/                   # the public `@livemark/vite` package
+│   └── source/             # the Vite plugin and what apps import beside it
+├── docs/                   # this site's content
+├── blog/                   # this site's blog posts
+└── livemark.config.ts      # this site's livemark config
 ```
 
-Both `source/` and `build/` ship in the npm package: Node loads `build/*.js`, while Vite bundles raw TS from `source/*` so the literal `.ts` import extensions resolve.
+Each package ships `source/` and `build/`: Node loads `build/*.js`, while Vite bundles raw TS from `source/*` so the literal `.ts` import extensions resolve. A site is assembled from `markdown/source`, then `livemark/source` over it, then the project's `.livemark/` escapes; no path exists in both packages.
 
 ### Local commands
 
@@ -74,7 +78,7 @@ Both `source/` and `build/` ship in the npm package: Node loads `build/*.js`, wh
 | ------------------ | ------------------------------------------- |
 | `pnpm start`       | Run the dev server against this repo's docs |
 | `pnpm build:docs`  | Production build of the docs site           |
-| `pnpm build`       | Compile `source/` → `build/` (`tsgo`)       |
+| `pnpm build`       | Compile each package's `source/` → `build/` |
 | `pnpm check:types` | Type-check (no emit)                        |
 | `pnpm check:lint`  | Format check + lint via vite-plus           |
 | `pnpm check`       | Lint + type                                 |
@@ -98,8 +102,8 @@ A change is ready to push when `pnpm test` is green and `pnpm build:docs` succee
 1. **Open an issue first** for anything bigger than a typo or a small bug. It's much easier to align on direction before code.
 2. **Branch from `main`** with a short descriptive name (e.g. `fix-mobile-toc`, `feat-yaml-frontmatter`).
 3. **Write a focused commit history**. Livemark uses [Conventional Commits](https://www.conventionalcommits.org/) — the prefix drives release-please:
-   - `fix:` — bug fix in the published package → patch release
-   - `feat:` — new feature in the published package → minor release
+   - `fix:` — bug fix in a published package (`livemark/` or `markdown/`) → patch release
+   - `feat:` — new feature in a published package → minor release
    - `chore:`, `docs:`, `refactor:`, `test:` — no release; use these for CI, tooling, dependencies, the docs site and anything else an installer never sees
    - never mark a commit breaking (`!` or a `BREAKING CHANGE:` footer) without a maintainer agreeing to a major release
 4. **Run `pnpm test` and `pnpm build:docs`** before pushing.

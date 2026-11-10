@@ -1,14 +1,14 @@
 # livemark
 
-TypeScript package and CLI that turns a folder of Markdown into a static documentation site, built on TanStack Start, Vite and textlane. This repo also hosts Livemark's own docs site, built with Livemark.
+TypeScript packages and CLI that turn a folder of Markdown into a static documentation site, built on TanStack Start, Vite and textlane: `livemark/` (the CLI and site), `vite/` (`@livemark/vite`, a Vite plugin rendering Markdown with Livemark's components in any app) and `markdown/` (`@livemark/markdown`, the internal pipeline and components both build on), released together at one version. This repo also hosts Livemark's own docs site, built with Livemark.
 
 ## Terminology
 
-- **package** — what `npm install livemark` gets: `build/`, `source/` and `skills/`
+- **package** — `livemark` (`livemark/`: `build/`, `source/`, `shims/`, `skills/`) `@livemark/vite` (`vite/`) or `@livemark/markdown` (`markdown/`), each with `build/` and `source/`; the first two depend on `@livemark/markdown`, which has no public API of its own
 - **project** — a consumer's site that uses the package, configured by its `livemark.config.ts`
 - **docs site** — this repo's own `docs/` and `blog/`, built by `pnpm build:docs` and deployed to livemark.dev
-- **component** — Livemark UI in `source/components/` (PascalCase files)
-- **element** — a shadcn-style primitive in `source/elements/` (kebab-case files)
+- **component** — Livemark UI in `<package>/source/components/` (PascalCase files): the site's in `livemark/`, the ones articles render in `markdown/`
+- **element** — a shadcn-style primitive in `<package>/source/elements/` (kebab-case files)
 - **escape** — a project shadowing a package file by putting a same-named file under `.livemark/`
 
 ## Rules
@@ -22,8 +22,8 @@ TypeScript package and CLI that turns a folder of Markdown into a static documen
 - When resolving a TODO, follow its instructions literally. Prefer LSP capabilities where available.
 - Start a plan from a summary of the new or changed API (models and signatures) and the hardest points.
 - **Every plan ends by asking how to work it** (`AskUserQuestion`, before finalising): **the current branch** or **a `.worktrees/<name>` branch** (**`worktree-workflow`**).
-- **The escape contract is public API.** `ESCAPABLE_FOLDERS` and `ESCAPABLE_FILES` in `source/settings.ts` name what a project may shadow under `.livemark/`; renaming or moving a file there silently drops a project's override. Treat it like an export change (**`change-review`**).
-- Use full relative import paths with the `.ts` / `.tsx` extension. No barrel re-export files — `source/index.ts` is the one public façade.
+- **The escape contract is public API.** `ESCAPABLE_FOLDERS` and `ESCAPABLE_FILES` in `livemark/source/settings.ts` name what a project may shadow under `.livemark/`; renaming or moving a file there silently drops a project's override. Treat it like an export change (**`change-review`**).
+- Use full relative import paths with the `.ts` / `.tsx` extension. No barrel re-export files — `livemark/source/index.ts` is the one public façade; the one-line `livemark/shims/` keep `livemark/components/*` paths of files that moved into `markdown/`.
 - Each `actions/<entity>/<verb>.ts` holds one action, named after its verb (`actions/config/load.ts` exports `loadConfig`); a new action gets its own file.
 - Don't destructure props in the function signature — use `props.x`. Put higher-level items above the ones they compose, public before private.
 - **Comments must not outnumber code**, and one is at most ~3 lines. The bar is: **name the specific mistake this prevents** — if you cannot, delete it. A file with none is normal. Rationale and history belong in git; only a non-obvious invariant (an ordering types cannot express, a failure that looks like success, a deliberate deviation from a rule here) earns lines.
@@ -46,7 +46,7 @@ Repo skills live in `.agents/skills/` (reached by Claude Code through the `.clau
 | `issue-resolution`    | taking one issue or bug report to one tested commit in a worktree       |
 | `worktree-workflow`   | starting, running and landing a `.worktrees/<name>` branch              |
 
-Shipped skills live in `skills/` and are published in the package for people who install Livemark. Read the matching one before changing the behaviour it describes, and update it in the same commit:
+Shipped skills live in `livemark/skills/` and are published in the package for people who install Livemark. Read the matching one before changing the behaviour it describes, and update it in the same commit:
 
 | skill                    | when                                                      |
 | ------------------------ | --------------------------------------------------------- |
@@ -62,7 +62,7 @@ Shipped skills live in `skills/` and are published in the package for people who
 
 - `pnpm install` — dependencies, lefthook and the `.claude/skills` symlink
 - `pnpm start` — the dev server over this repo's docs site · `pnpm build:docs` — its production build into `.livemark/build/`
-- `pnpm build` — compile `source/` into `build/` with `tsgo`
+- `pnpm build` — compile each package's `source/` into its `build/` with `tsgo` (`markdown/` first)
 - `pnpm test` — full gate: lint + type + unit · `pnpm check` — lint + type
 - `pnpm check:lint` — `vp fmt --check && vp lint` · `pnpm format` — `vp fmt` · `pnpm check:types` — `tsgo --noEmit`
 - `pnpm test:unit` — `vp test`. Single test: `vp test path/to/file.unit.ts` or `vp test -t "name"`. While iterating, verify the slice the diff reaches, not the full gate (**`change-verification`**)
@@ -74,15 +74,17 @@ Shipped skills live in `skills/` and are published in the package for people who
 
 ## Code structure
 
-Everything the package runs is under `source/`; Node loads `build/*.js`, while Vite bundles the raw TypeScript from `source/` in a project.
+Each package's code is under its `source/`; Node loads `build/*.js`, while Vite bundles the raw TypeScript from `source/` in a project. A site's target is `markdown/source`, then `livemark/source` over it, then the project's escapes; no path may exist in both packages (`livemark/source/helpers/source-roots.unit.ts`). `livemark` imports moved files as `@livemark/markdown/<path>` (`.ts` paths keep the extension): `vite-livemark` points those at the target copy so escapes apply, Node loads their `build/`, and this repo runs them from TypeScript with `--conditions=source`. `livemark` declares every dependency of `@livemark/markdown` at the same version, because a target resolves packages from `livemark`'s alone. The folders below exist in either package:
 
-- `actions/<entity>/<verb>.ts` — build-time **operations** (load and define config, build the per-language sites, prepare and load articles, build the changelog, prepare the target)
+- `actions/<entity>/<verb>.ts` — build-time **operations** (load and define config, build the per-language sites, prepare and load articles, build the changelog, prepare the target; in `markdown/`, compile Markdown)
 - `commands/<command>.ts` — one per `livemark <command>`, wired in `program.ts` and started from `entrypoints/main.ts`
 - `components/` — Livemark UI, escapable · `elements/` — shadcn-style primitives, escapable · `styles/` — base CSS, escapable
-- `routes/` — TanStack Start routes, escapable · `plugins/` — Vite plugins and the twoslash stage · `actions/processor/` — the textlane pipeline
+- `routes/` — TanStack Start routes, escapable · `plugins/` — Vite plugins (`markdown/`: the twoslash stage) · `actions/processor/` — the textlane pipeline, in `markdown/`
 - `models/<entity>.ts` — zod schemas plus derived types · `content/` — derivations over the loaded articles
 - `messages/<code>.ts` — bundled UI strings per language; English is the defaults of `models/message.ts`
 - `helpers/<name>.ts` — internal utilities · `hooks/` — React hooks exposed through `exports`
+- `<name>.site.ts` twins — a helper listed in `SITE_MODULES` (`livemark/source/helpers/site-modules.ts`) is clean in `markdown/` for apps using `@livemark/vite`; `vite-livemark` swaps in its `.site` twin in `livemark/`, which reads `livemark:*`, for every importer in a site. Nothing in `markdown/` or `vite/` may import `livemark` or a `livemark:` module (`markdown/source/components/Markdown.unit.ts`)
+- `vite/source/` — the public `@livemark/vite`: the plugin (`index.ts`) and one-line re-exports for apps (`react.ts` for the providers, `styles.css`, `env.d.ts`). Under pnpm's strict layout an app resolves only `@livemark/vite`, so neither it nor the code the plugin emits may name `@livemark/markdown`; the plugin resolves that itself
 - Root files are single-concern: `settings.ts`, `program.ts`, `client.tsx`, `server.ts`, `router.tsx`, `head.ts`, `vite.config.ts`, `index.ts`. `routeTree.gen.ts` is generated
 - Unit tests sit beside their module as `<module>.unit.ts`; snapshots land in a sibling `fixtures/generated/`
 
@@ -91,7 +93,7 @@ Non-package code: `scripts/` repo tooling and repo-wide guards, and the dot-dire
 ## Conventions
 
 - pnpm `^11`, Node `^24`, ES Modules; vite-plus format and lint (2-space, LF, UTF-8, no semicolons, 90 columns)
-- A directive renders the component named after it (`card` → `components/Card.tsx`, its group `Cards`), which htmlpress mirrors as `<htmlpress-card>`; a clash with an element or layout component is resolved by an import alias or renaming the non-authoring side, never a prefix. `source/actions/article/compile.unit.ts` asserts the mapping. Its attributes become that tag's attributes, so none may be a global HTML attribute (`id`, `class`, `title`, `style`) — `::video` takes `url`, not `id`
+- A directive renders the component named after it (`card` → `components/Card.tsx`, its group `Cards`), which htmlpress mirrors as `<htmlpress-card>`; a clash with an element or layout component is resolved by an import alias or renaming the non-authoring side, never a prefix. `livemark/source/actions/article/compile.unit.ts` asserts the mapping. Its attributes become that tag's attributes, so none may be a global HTML attribute (`id`, `class`, `title`, `style`) — `::video` takes `url`, not `id`
 - A `.tsx` module exports only components — a hook or value beside them makes Vite drop Fast Refresh for the file; put it in a `.ts` under `helpers/` or `hooks/`
 - Strict TypeScript with null checks; no explicit return types. Never use `any`, an `as` cast or `!` without permission
 - PascalCase types, interfaces and components; camelCase values. Function names are **verbNoun** (`resolveAssetPath`), never a bare verb or noun; factories are `create*` / `build*` / `make*`
@@ -103,7 +105,7 @@ Non-package code: `scripts/` repo tooling and repo-wide guards, and the dot-dire
 
 Conventional Commits drive [release-please](https://github.com/googleapis/release-please): a `feat` or `fix` landing on `main` opens a Release PR, and merging that PR cuts the version, tags it and publishes. Merging is the gate — nothing ships without it.
 
-- **IMPORTANT: only changes to the published package use `feat` or `fix`** — `source/`, the `exports` and `files` in `package.json`, and the shipped `skills/`. Everything else MUST be `chore` or `docs`: CI and workflows, release config, dependencies, tooling, `AGENTS.md`, `.agents/skills/`, the README, the docs site
+- **IMPORTANT: only changes to a published package use `feat` or `fix`** — `livemark/`, `vite/` or `markdown/`: their `source/`, `livemark/shims/`, the `exports`, `files` and `dependencies` in their `package.json`, and the shipped `livemark/skills/`. Everything else MUST be `chore` or `docs`: CI and workflows, release config, dependencies, tooling, `AGENTS.md`, `.agents/skills/`, the README, the docs site
 - This is not a style preference. release-please reads the commit type: a `fix:` on a workflow file cuts a release and burns a version number on a change no consumer can observe. Version numbers can never be reused
 - When in doubt, ask whether the change alters what someone installing the package gets. If it does not, it is `chore`
-- Release config lives in `.release/config.json` and `.release/manifest.json`. The manifest holds the current version and release-please maintains it — never hand-edit it
+- Release config lives in `.release/config.json` and `.release/manifest.json`. The manifest holds the current version and release-please maintains it — never hand-edit it. The root `package.json` carries the version; both packages follow it through `extra-files`

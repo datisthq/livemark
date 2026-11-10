@@ -1,0 +1,252 @@
+import { createHash } from "node:crypto"
+import { access, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises"
+import { dirname, join, resolve } from "node:path"
+import slugify from "@sindresorhus/slugify"
+import type { Root, RootContent } from "mdast"
+import { textlane } from "textlane"
+import * as md from "textlane/md"
+import type { Config } from "../../models/config.ts"
+import type { ChangelogSection } from "../../models/section.ts"
+import { isGitHubUrl, parseGitHubRepo } from "../../helpers/changelog-source.ts"
+import { readNodeText } from "@livemark/markdown/helpers/node-text.ts"
+import { cacheDirFor } from "../../helpers/target-dir.ts"
+
+interface Release {
+  tag_name: string
+  name?: string | null
+  published_at?: string | null
+  body?: string | null
+  html_url?: string | null
+}
+
+interface CacheMeta {
+  etag: string
+  fetchedAt: string
+}
+
+interface ChangelogEntry {
+  slug: string
+  title: string
+  date?: string
+  body: string
+  sourceUrl?: string
+}
+
+const parser = textlane().use(md.parse()).freeze()
+const STRINGIFY_OPTIONS = { bullet: "-", fences: true, emphasis: "_" } as const
+const stringifier = textlane().use(md.stringify(STRINGIFY_OPTIONS)).freeze()
+const bodyWriter = textlane()
+  .use(md.shiftHeading({ shift: -1 }))
+  .use(md.stringify(STRINGIFY_OPTIONS))
+  .freeze()
+
+/** Glob (absolute path) covering the cached changelog markdown files of
+ *  one changelog section, which the article scan includes. */
+export function cacheIncludeGlob(section: ChangelogSection, config: Config) {
+  return join(changelogCacheDir(section, config), "*.md")
+}
+
+/** Directory holding one changelog section's cache state: the rendered
+ *  `.md` entries plus a `meta.json` holding the etag for conditional
+ *  GETs. Each section gets its own subdirectory of `.livemark/.cache/changelog/`,
+ *  keyed by its prefix's slug plus a hash of the raw prefix
+ *  (`/python/changelog/` → `python-changelog-<hash>`), so several
+ *  changelogs never overwrite each other's entries even when their
+ *  prefixes slugify alike. */
+export function changelogCacheDir(section: ChangelogSection, config: Config) {
+  const slug = slugify(section.prefix) || "index"
+  const hash = createHash("sha256").update(section.prefix).digest("hex").slice(0, 8)
+  return join(cacheDirFor(config.configPath), "changelog", `${slug}-${hash}`)
+}
+
+/** Build the per-version changelog cache files of one changelog section
+ *  into its own cache directory. On refresh we wipe only that
+ *  directory's `.md` files, leaving meta intact. */
+export async function buildChangelog(section: ChangelogSection, config: Config) {
+  const cacheDir = changelogCacheDir(section, config)
+  const metaPath = join(cacheDir, "meta.json")
+
+  const entries = isGitHubUrl(section.source)
+    ? await buildFromGitHub(section.source, metaPath, cacheDir)
+    : await buildFromLocal(section.source, config.root)
+
+  if (entries === undefined) return
+
+  await mkdir(cacheDir, { recursive: true })
+  await writeFile(join(cacheDirFor(config.configPath), ".gitignore"), "*\n")
+  for (const f of await readdir(cacheDir).catch(() => [])) {
+    if (f.endsWith(".md")) await rm(join(cacheDir, f), { force: true })
+  }
+
+  for (const entry of entries) {
+    const markdown = wrapFrontmatter(entry, section)
+    await writeFile(join(cacheDir, `${entry.slug}.md`), markdown, "utf-8")
+  }
+}
+
+async function buildFromLocal(source: string, root: string) {
+  const filePath = resolve(root, source)
+  const body = await readFile(filePath, "utf-8")
+  return splitLocalChangelog(body)
+}
+
+/** Parse CHANGELOG.md into per-version entries using mdast */
+export function splitLocalChangelog(body: string): ChangelogEntry[] {
+  const tree = parser.parse(body)
+  const entries: ChangelogEntry[] = []
+  let current: { heading: string; children: RootContent[] } | undefined
+
+  for (const child of tree.children) {
+    if (child.type === "heading" && child.depth === 2) {
+      if (current) entries.push(finalizeEntry(current))
+      current = { heading: readNodeText(child), children: [] }
+    } else if (current) {
+      current.children.push(child)
+    }
+  }
+  if (current) entries.push(finalizeEntry(current))
+  return entries
+}
+
+function finalizeEntry(input: {
+  heading: string
+  children: RootContent[]
+}): ChangelogEntry {
+  const versionMatch = input.heading.match(/^\[?([^\]\s]+)\]?/)
+  const version = versionMatch?.[1] ?? input.heading
+  const dateMatch = input.heading.match(/\d{4}-\d{2}-\d{2}/)
+  const body = renderEntryBody(input.children)
+  return {
+    slug: slugify(version),
+    title: version,
+    date: dateMatch?.[0],
+    body,
+  }
+}
+
+/** Serialize an entry's mdast children back to markdown */
+function renderEntryBody(children: RootContent[]) {
+  const root: Root = { type: "root", children }
+  return stringifier.stringify(root).trimEnd()
+}
+
+/** Drop the body's leading title (conventional-changelog's `# 0.7.2 (2026-04-25)` or
+ * release-please's `## [0.7.2](…)`, which duplicates the article's), shift h2–h6 up by
+ * one, and escape stray `<` outside code so MDX doesn't mistake them for JSX. */
+function processBody(body: string) {
+  const tree = parser.parse(body)
+  // An h2 counts too: shifted, it would be the h1 that repeats the article's title
+  const [first] = tree.children
+  if (first?.type === "heading" && first.depth <= 2) tree.children.shift()
+  return escapeMdxAngles(bodyWriter.stringify(bodyWriter.runSync(tree)).trimEnd())
+}
+
+/** Escape `<` to `&lt;` outside fenced code blocks and inline backtick spans
+ * so commit messages with placeholders like `<subdir>` don't get parsed as
+ * JSX by MDX or as an HTML tag by Markdown. The entity is used rather than a `\<`
+ * backslash escape because MDX's JSX-aware parser does not honour the backslash
+ * and still reads `\<name>` as an unclosed tag. */
+export function escapeMdxAngles(markdown: string) {
+  let inFence = false
+  return markdown
+    .split("\n")
+    .map(line => {
+      if (line.startsWith("```")) {
+        inFence = !inFence
+        return line
+      }
+      if (inFence) return line
+      return line.replace(/`[^`]*`|</g, match => (match === "<" ? "&lt;" : match))
+    })
+    .join("\n")
+}
+
+async function buildFromGitHub(
+  source: string,
+  metaPath: string,
+  cacheDir: string,
+): Promise<ChangelogEntry[] | undefined> {
+  const parsed = parseGitHubRepo(source)
+  if (!parsed) {
+    throw new Error(`Could not parse GitHub repo from source: ${source}`)
+  }
+
+  const url = `https://api.github.com/repos/${parsed.owner}/${parsed.repo}/releases?per_page=100`
+  const headers: Record<string, string> = {
+    Accept: "application/vnd.github+json",
+    "X-GitHub-Api-Version": "2022-11-28",
+  }
+
+  const token = process.env.GITHUB_TOKEN
+  if (token) headers.Authorization = `Bearer ${token}`
+
+  const meta = await readMeta(metaPath)
+  const hasCache = await exists(cacheDir)
+  if (meta && hasCache) headers["If-None-Match"] = meta.etag
+
+  const res = await fetch(url, { headers })
+
+  if (res.status === 304) return undefined
+
+  if (!res.ok) {
+    const remaining = res.headers.get("x-ratelimit-remaining")
+    const reset = res.headers.get("x-ratelimit-reset")
+    const msg = `GitHub API ${res.status} ${res.statusText} (rate-limit remaining: ${remaining ?? "?"}, reset: ${reset ?? "?"})`
+    if (hasCache) {
+      console.warn(`${msg} — falling back to cached changelog`)
+      return undefined
+    }
+    throw new Error(msg)
+  }
+
+  const releases = (await res.json()) as Release[]
+  const etag = res.headers.get("etag")
+  if (etag) {
+    await mkdir(dirname(metaPath), { recursive: true })
+    await writeFile(
+      metaPath,
+      JSON.stringify(
+        { etag, fetchedAt: new Date().toISOString() } satisfies CacheMeta,
+        null,
+        2,
+      ),
+      "utf-8",
+    )
+  }
+
+  return releases.map(release => ({
+    slug: slugify(release.tag_name),
+    title: release.tag_name,
+    date: release.published_at ?? undefined,
+    body: (release.body ?? "").trim(),
+    sourceUrl: release.html_url ?? undefined,
+  }))
+}
+
+function wrapFrontmatter(entry: ChangelogEntry, section: ChangelogSection) {
+  const lines = ["---", `title: ${entry.title}`, `path: ${section.prefix}${entry.slug}/`]
+  if (entry.date) lines.push(`date: ${entry.date}`)
+  if (entry.sourceUrl) {
+    lines.push(`sourceUrl: ${entry.sourceUrl}`, "sourceAction: view")
+  }
+  lines.push("---", "", `# ${entry.title}`, "", processBody(entry.body))
+  return lines.join("\n")
+}
+
+async function readMeta(metaPath: string): Promise<CacheMeta | undefined> {
+  try {
+    const raw = await readFile(metaPath, "utf-8")
+    return JSON.parse(raw) as CacheMeta
+  } catch {
+    return undefined
+  }
+}
+
+async function exists(path: string) {
+  try {
+    await access(path)
+    return true
+  } catch {
+    return false
+  }
+}

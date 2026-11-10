@@ -2,7 +2,24 @@
   "packages": {
     ".": {
       "release-type": "node",
-      "include-component-in-tag": false
+      "include-component-in-tag": false,
+      "extra-files": [
+        {
+          "type": "json",
+          "path": "livemark/package.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": "markdown/package.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": "vite/package.json",
+          "jsonpath": "$.version"
+        }
+      ]
     }
   }
 }

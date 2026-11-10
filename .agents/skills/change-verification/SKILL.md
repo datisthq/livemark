@@ -46,9 +46,9 @@ Pick the **highest** rung the diff reaches, and run everything that rung lists.
    slice does not show that a callout is the right colour.
 3. **Logic** — an action, helper, model or plugin. Add `vp test related <files> --run`. A new or
    changed test runs on its own first (`vp test <file>`), and fails before the fix.
-4. **Build-shaped** — `source/vite.config.ts`, `program.ts`, a command,
+4. **Build-shaped** — `livemark/source/vite.config.ts`, `program.ts`, a command,
    the escape settings, dependencies, `vite.config.ts`, a `tsconfig`. Run `pnpm test`, then
-   `pnpm build:docs`; add `pnpm build` when `tsconfig.build.json` or the `exports` map changed.
+   `pnpm build:docs`; add `pnpm build` when a package's `tsconfig.build.json` or `exports` map changed.
    No cherry-picking here.
 
 ## Guards `related` cannot see
@@ -59,12 +59,12 @@ Pick the **highest** rung the diff reaches, and run everything that rung lists.
 
 ## Worked example
 
-The diff is `source/components/Callout.tsx` and `source/styles/general.css` (warning callouts
+The diff is `markdown/source/components/Callout.tsx` and `markdown/source/styles/general.css` (warning callouts
 recoloured):
 
 ```sh
-vp fmt --check source/components/Callout.tsx source/styles/general.css
-vp lint source/components/Callout.tsx
+vp fmt --check markdown/source/components/Callout.tsx markdown/source/styles/general.css
+vp lint markdown/source/components/Callout.tsx
 pnpm check:types
 ```
 
@@ -90,9 +90,17 @@ gate** once, at the end: `pnpm check` always, then a unit half **you choose**.
 
 - **The slice fails somewhere unexpected.** The diff reaches further than you thought. Go up a
   rung; do not narrow the slice until it passes.
-- **Generated artefacts.** A route change needs `source/routeTree.gen.ts` regenerated; slice
+- **Generated artefacts.** A route change needs `livemark/source/routeTree.gen.ts` regenerated; slice
   after regenerating, not before. `pnpm build:docs` writes only `.livemark/.build/routeTree.gen.ts`
-  — copy it over, pointing each `./routes/` import of an escaped route at `./../.livemark/routes/`.
-- **A change meant to alter no output** — a build speed-up or refactor. Copy
-  `.livemark/build/client` aside before it, `pnpm build:docs` after, and diff the HTML with
-  `/assets/` hashes masked. The gate stays green when a code block quietly loses highlighting.
+  — copy it over, pointing each `./routes/` import of an escaped route at `./../../.livemark/routes/`.
+- **A change to what `@livemark/vite` emits or exports.** The repo's own `node_modules` resolves
+  any specifier, so a module naming `livemark` or `@livemark/markdown` from an app's side passes
+  every unit test. `pnpm build`, `pnpm pack` in `markdown/` and `vite/`, install the vite tarball
+  into a temp app with pnpm (its strict layout hides `@livemark/markdown`; point an `overrides`
+  entry in that app's `pnpm-workspace.yaml` at the markdown tarball) beside React and Vite, and
+  `vite build` an import of a `.md` file.
+- **A change meant to alter no output** — a build speed-up, a refactor, an export for use
+  outside a site. Build `main` in a detached worktree and the branch, and diff the HTML with
+  `/assets/` hashes and the `u:<13 digits>` timestamps masked. The gate stays green when a code
+  block quietly loses highlighting. Compare the client JS bytes too: a runtime import of a zod
+  model leaves the HTML identical but adds ~180 KB. `sitemap.xml` order varies between runs.

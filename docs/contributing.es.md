@@ -19,34 +19,37 @@ pnpm install
 pnpm start
 ```
 
-`pnpm start` arranca el servidor de desarrollo sobre el propio `docs/` de este repositorio, para que puedas iterar sobre Livemark mientras ves el resultado en tu navegador. Los cambios en `source/` o `docs/` se recargan automáticamente.
+`pnpm start` arranca el servidor de desarrollo sobre el propio `docs/` de este repositorio, para que puedas iterar sobre Livemark mientras ves el resultado en tu navegador. Los cambios en `livemark/source/`, `markdown/source/` o `docs/` se recargan automáticamente.
 
 ## Estructura del repositorio {#repository-layout}
 
 ```
-livemark/
-├── source/             # all package code (compiles into build/)
-│   ├── actions/        # build-time orchestration (config, changelog)
-│   ├── commands/       # `livemark <cmd>` CLI entrypoints
-│   ├── components/     # React components (overridable via .livemark/)
-│   ├── elements/       # shadcn-style primitives (overridable)
-│   ├── styles/         # base CSS (overridable)
-│   ├── helpers/        # internal utilities (private)
-│   ├── hooks/          # public React hooks
-│   ├── utils/          # public utilities (e.g. cn)
-│   ├── plugins/        # Vite plugins and the twoslash stage
-│   ├── routes/         # TanStack Start routes
-│   ├── models/         # Zod schemas
-│   ├── content/        # derivations over the loaded articles
-│   └── vite.config.ts  # the Vite config consumers run against
-├── build/              # compiled JS, used by Node CLI
-├── skills/             # agent skills shipped to people who install Livemark
-├── docs/               # this site's content
-├── blog/               # this site's blog posts
-└── livemark.config.ts  # this site's livemark config
+├── livemark/               # the `livemark` package: CLI, site and escapable UI
+│   ├── source/             # its code (compiles into build/)
+│   │   ├── actions/        # build-time orchestration (config, articles, changelog)
+│   │   ├── commands/       # `livemark <cmd>` CLI entrypoints
+│   │   ├── components/     # site React components (overridable via .livemark/)
+│   │   ├── elements/       # shadcn-style primitives (overridable)
+│   │   ├── helpers/        # internal utilities (private)
+│   │   ├── hooks/          # public React hooks
+│   │   ├── plugins/        # the site's Vite plugins
+│   │   ├── routes/         # TanStack Start routes
+│   │   ├── models/         # Zod schemas
+│   │   ├── content/        # derivations over the loaded articles
+│   │   └── vite.config.ts  # the Vite config consumers run against
+│   ├── shims/              # `livemark/components/*` etc. for files that live in markdown/
+│   └── skills/             # agent skills shipped to people who install Livemark
+├── markdown/               # the internal `@livemark/markdown` package
+│   └── source/             # the Markdown pipeline, and the components, elements and
+│                           # styles articles render with (overridable too)
+├── vite/                   # the public `@livemark/vite` package
+│   └── source/             # the Vite plugin and what apps import beside it
+├── docs/                   # this site's content
+├── blog/                   # this site's blog posts
+└── livemark.config.ts      # this site's livemark config
 ```
 
-Tanto `source/` como `build/` se incluyen en el paquete de npm: Node carga `build/*.js`, mientras que Vite empaqueta el TS sin compilar de `source/*` para que se resuelvan las extensiones `.ts` literales de los imports.
+Cada paquete incluye `source/` y `build/`: Node carga `build/*.js`, mientras que Vite empaqueta el TS sin compilar de `source/*` para que se resuelvan las extensiones `.ts` literales de los imports. Un sitio se ensambla con `markdown/source`, luego `livemark/source` encima y por último los escapes `.livemark/` del proyecto; ninguna ruta existe en ambos paquetes.
 
 ## Comandos locales {#local-commands}
 
@@ -54,7 +57,7 @@ Tanto `source/` como `build/` se incluyen en el paquete de npm: Node carga `buil
 | ------------------ | ------------------------------------------------------------------------ |
 | `pnpm start`       | Ejecuta el servidor de desarrollo sobre la documentación del repositorio |
 | `pnpm build:docs`  | Compilación de producción del sitio de documentación                     |
-| `pnpm build`       | Compila `source/` → `build/` (`tsgo`)                                    |
+| `pnpm build`       | Compila el `source/` de cada paquete → `build/`                          |
 | `pnpm check:types` | Comprobación de tipos (sin emitir)                                       |
 | `pnpm check:lint`  | Comprobación de formato + lint con vite-plus                             |
 | `pnpm check`       | Lint + tipos                                                             |

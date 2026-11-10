@@ -1,0 +1,118 @@
+import { existsSync } from "node:fs"
+import { basename, dirname, resolve } from "node:path"
+import { runnerImport } from "vite"
+import { ZodError, prettifyError } from "zod"
+import type { Config, UserConfig } from "../../models/config.ts"
+import { resolveBase } from "../../helpers/resolve-base.ts"
+import { defineConfig } from "./define.ts"
+
+/** Map livemark CLI verbs to the Vite-equivalent `command` string used by
+ *  `resolveBase()`. `preview` serves the production build's artifacts so
+ *  it uses the build-mode base. Default to `"build"` for safety when no
+ *  recognised verb is in argv (the common path is `livemark <verb> ...`). */
+const COMMAND_BY_VERB: Record<string, "build" | "serve"> = {
+  start: "serve",
+  build: "build",
+  preview: "build",
+}
+
+function detectCommand() {
+  for (const arg of process.argv.slice(2)) {
+    if (arg in COMMAND_BY_VERB) return COMMAND_BY_VERB[arg]!
+  }
+  return "build" as const
+}
+
+/**
+ * Load and validate a config file, checking the argument, then `LIVEMARK_CONFIG`
+ * (which `--config`/`-c` sets), then cwd.
+ *
+ * If a path is provided explicitly (argument or `LIVEMARK_CONFIG`) and the
+ * file is missing, throws — the user asked for a specific config and
+ * it isn't there. If no path is provided and no `livemark.config.ts`
+ * exists in cwd, falls back to the default config with a synthesized
+ * `configPath = <cwd>/livemark.config.ts` so downstream code (target
+ * hash, watcher) still has a stable per-project key.
+ */
+export async function loadConfig(path?: string): Promise<Config> {
+  const explicit = path ?? process.env.LIVEMARK_CONFIG
+  const resolved = resolveConfigPath(path)
+  let input: UserConfig = {}
+  let configDependencies: string[] = []
+  if (existsSync(resolved)) {
+    // Not `import()`: Node caches the files a config imports for the process lifetime,
+    // so a dev-server restart would keep their old contents.
+    // A config calling `defineConfig()` throws its ZodError from inside the import
+    const result = await importPreservingNodeEnv(resolved).catch((error: unknown) => {
+      throw explainConfigError(error, resolved)
+    })
+    input = result.module.default ?? {}
+    // Vite ids use `/` even on Windows, where the watcher reports `\` paths.
+    configDependencies = result.dependencies.map(dependency => resolve(dependency))
+  } else if (explicit) {
+    throw new Error(`Config file not found: ${resolved}`)
+  }
+  const validated = validateConfig(input, resolved)
+  // Resolve the function form of `base` once, here, using the livemark
+  // CLI verb. Downstream consumers (Vite plugins, article loading,
+  // runtime) get a plain string|undefined and never see the function.
+  const base = resolveBase(validated.base, detectCommand())
+  return {
+    ...validated,
+    base,
+    root: dirname(resolved),
+    configPath: resolved,
+    configDependencies,
+  }
+}
+
+/** The config file `loadConfig()` reads, without reading it. */
+export function resolveConfigPath(path?: string) {
+  return resolve(path ?? process.env.LIVEMARK_CONFIG ?? "livemark.config.ts")
+}
+
+// `runnerImport` resolves a dev-mode Vite config, which sets `NODE_ENV=development`;
+// a later `vite build` keeps an already-set value and bundles React's dev builds
+async function importPreservingNodeEnv(path: string) {
+  const nodeEnv = process.env.NODE_ENV
+  try {
+    return await runnerImport<{ default?: UserConfig }>(path, readSourceConditions())
+  } finally {
+    if (nodeEnv === undefined) delete process.env.NODE_ENV
+    else process.env.NODE_ENV = nodeEnv
+  }
+}
+
+function validateConfig(input: UserConfig, path: string) {
+  try {
+    return defineConfig(input)
+  } catch (error) {
+    throw explainConfigError(error, path)
+  }
+}
+
+// By shape, not `instanceof`: one from the config's import comes from another zod copy
+function explainConfigError(error: unknown, path: string) {
+  if (!(error instanceof ZodError) && !isZodLike(error)) return error
+  return new Error(`Invalid ${basename(path)}:\n${prettifyError(error)}`, {
+    cause: error,
+  })
+}
+
+function isZodLike(error: unknown): error is ZodError {
+  return error instanceof Error && error.name === "ZodError" && "issues" in error
+}
+
+// This repo runs the CLI from TypeScript with `--conditions=source`; the config runner
+// must load @livemark/markdown's TypeScript too, or it looks for an unbuilt `build/`
+const MARKDOWN = [/^@livemark\/markdown\//]
+
+function readSourceConditions() {
+  const flags = [...process.execArgv, ...(process.env.NODE_OPTIONS ?? "").split(/\s+/)]
+  if (!flags.includes("--conditions=source")) return undefined
+  return {
+    environments: {
+      inline: { resolve: { conditions: ["source"], noExternal: MARKDOWN } },
+    },
+  }
+}

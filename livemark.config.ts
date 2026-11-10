@@ -1,4 +1,4 @@
-import { defineConfig } from "./source/index.ts"
+import { defineConfig } from "./livemark/source/index.ts"
 
 export default defineConfig({
   site: "https://livemark.dev",
@@ -11,7 +11,7 @@ export default defineConfig({
   },
   favicon: "/logo.png",
   include: ["docs/**/*.md", "blog/**/*.md", "CONTRIBUTING.md"],
-  skills: "skills/*/SKILL.md",
+  skills: "livemark/skills/*/SKILL.md",
   exclude: ["docs/**/includes/**"],
   languages: [
     { code: "en", label: "English" },

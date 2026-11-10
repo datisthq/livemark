@@ -96,7 +96,7 @@ languages: [
 ]
 ```
 
-An unknown key fails the config check, so a typo cannot silently keep the English text. For a language Livemark does not bundle, set every string you want translated in `messages`. The full key list is the `Messages` schema in `source/models/message.ts`.
+An unknown key fails the config check, so a typo cannot silently keep the English text. For a language Livemark does not bundle, set every string you want translated in `messages`. The full key list is the `Messages` schema in `markdown/source/models/message.ts`.
 
 A component you shadow under `.livemark/` reads the same strings with the `useMessages` hook:
 

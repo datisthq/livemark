@@ -54,3 +54,7 @@ Sobrescribe cualquier componente, elemento u hoja de estilos de Livemark mediant
 :::card{title="Agentes de IA" href="/es/customization/ai-agents/" icon="bot"}
 Gemelos en Markdown, `llms.txt`, señales de contenido y skills para agentes de IA.
 :::
+
+:::card{title="Markdown independiente" href="/es/customization/standalone/" icon="package"}
+Renderiza Markdown con el pipeline y los componentes de Livemark en tu propia app de Vite.
+:::
