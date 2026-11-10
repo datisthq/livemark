@@ -1,5 +1,5 @@
 import { writeFile } from "node:fs/promises"
-import { join } from "node:path"
+import { join, posix } from "node:path"
 import { pathToFileURL } from "node:url"
 import type { ComponentType } from "react"
 import { temporaryDirectoryTask } from "tempy"
@@ -38,7 +38,8 @@ export async function transformMarkdown(props: {
   }
   const warnings: string[] = []
   const context = { warn: (message: string) => warnings.push(message) }
-  const id = join("/posts", props.name ?? "post.md")
+  // Vite ids use "/" on every platform
+  const id = posix.join("/posts", props.name ?? "post.md")
   const result: unknown = await Reflect.apply(transform.handler, context, [
     props.source,
     id,
