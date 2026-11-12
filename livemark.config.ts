@@ -2,6 +2,15 @@ import { defineConfig } from "./livemark/source/index.ts"
 
 export default defineConfig({
   site: "https://livemark.dev",
+  head: {
+    scripts: [
+      {
+        src: "https://counter.datist.io/api/script.js",
+        "data-site-id": "5",
+        defer: "true",
+      },
+    ],
+  },
   logo: "/logo.svg",
   title: "Livemark",
   description: {
