@@ -6,7 +6,7 @@ const rich = (...segments: RichSegment[]) => segments
 const en = {
   hero: {
     eyebrow: "Open source · MIT License",
-    titleLines: ["Markdown", "site generator"],
+    titleLines: ["Markdown", "static site generator"],
     titleHighlight: "without limits.",
     description:
       "Organise your Markdown however you like, then customise as far as you want: swap in your own React components, restyle with Tailwind and add TanStack Start pages. Docs, a blog and a changelog come built in.",
@@ -247,7 +247,7 @@ export type LandingCopy = typeof en
 const es: LandingCopy = {
   hero: {
     eyebrow: "Código abierto · Licencia MIT",
-    titleLines: ["Generador de sitios", "Markdown"],
+    titleLines: ["Generador de sitios", "estáticos Markdown"],
     titleHighlight: "sin límites.",
     description:
       "Organiza tu Markdown como quieras y personaliza todo lo que necesites: usa tus propios componentes de React, cambia el estilo con Tailwind y añade páginas de TanStack Start. Documentación, blog y changelog incluidos.",
@@ -496,7 +496,7 @@ const es: LandingCopy = {
 const zh: LandingCopy = {
   hero: {
     eyebrow: "开源 · MIT 许可证",
-    titleLines: ["Markdown", "站点生成器，"],
+    titleLines: ["Markdown", "静态站点生成器，"],
     titleHighlight: "无拘无束。",
     description:
       "按你喜欢的方式组织 Markdown，再随心定制：替换为你自己的 React 组件，用 Tailwind 重新设计样式，添加 TanStack Start 页面。文档、博客和更新日志开箱即用。",

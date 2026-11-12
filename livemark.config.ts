@@ -14,9 +14,9 @@ export default defineConfig({
   logo: "/logo.svg",
   title: "Livemark",
   description: {
-    en: "Markdown site generator",
-    es: "Generador de sitios Markdown",
-    zh: "Markdown 站点生成器",
+    en: "Static site generator",
+    es: "Generador de sitios estáticos",
+    zh: "静态站点生成器",
   },
   favicon: "/logo.png",
   include: ["livemark/docs/**/*.md", "livemark/blog/**/*.md", "CONTRIBUTING.md"],
