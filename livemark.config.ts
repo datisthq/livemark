@@ -5,7 +5,7 @@ export default defineConfig({
   head: {
     scripts: [
       {
-        src: "https://counter.datist.io/api/script.js",
+        src: "https://analytics.datist.io/api/script.js",
         "data-site-id": "5",
         defer: "true",
       },
